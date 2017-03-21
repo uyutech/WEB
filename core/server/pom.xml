@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.zhuanquan.core</groupId>
+		<artifactId>zhuanquan-core</artifactId>
+        <version>0.0.25</version>
+	</parent>
+
+    <groupId>com.zhuanquan.core</groupId>
+    <artifactId>zhuanquan-core-server-test</artifactId>
+    <name>zhuanquan-core-server-test</name>
+    <url>http://maven.apache.org</url>
+
+    <dependencies>
+
+        <dependency>
+                <groupId>com.zhuanquan.core</groupId>
+                <artifactId>zhuanquan-core-web</artifactId>
+        </dependency>
+
+
+        <dependency>
+                <groupId>org.codehaus.janino</groupId>
+                <artifactId>janino</artifactId>
+        </dependency>
+
+
+        <dependency>
+                <groupId>com.zhuanquan.core</groupId>
+                <artifactId>zhuanquan-core-message</artifactId>
+        </dependency>
+
+
+
+    </dependencies>
+</project>
