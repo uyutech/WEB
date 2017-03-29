@@ -344,18 +344,18 @@
 		<module>error</module>
 		<module>common</module>
 
-        <!--
+        
 		<module>dal</module>
-		-->
+		
 		<module>alarm</module>
 		<module>cache</module>
 		<module>zookeeper</module>
 		<module>message</module>
 
+        <!--
 		<module>web</module>
-		<!-- server is used to test -->
 		<module>server</module>
-
+        -->
 
 	</modules>
 

@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.framework.core.error.exception.BizException;
+
+
 import com.zhuanquan.app.common.exception.BizErrorCode;
 import com.zhuanquan.app.dal.model.user.UserProfile;
 import com.zhuanquan.app.server.service.LoginService;
@@ -20,6 +22,8 @@ import com.zhuanquan.app.server.view.user.LoginRequestVo;
 import com.zhuanquan.app.server.view.user.LoginResponseVo;
 import com.zhuanquan.app.server.view.user.RegisterRequestVo;
 import com.zhuanquan.app.server.view.user.RegisterResponseVo;
+
+//http://www.codesky.net/article/201306/181880.html
 
 @Controller
 @RequestMapping(value = "/user")

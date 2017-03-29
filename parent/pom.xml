@@ -386,14 +386,15 @@
 
 
 
-			<!-- jdbc driver -->
+			<!-- jdbc driver 
 
-			<!--
+			
 			<dependency>
 				<groupId>proxool</groupId>
 				<artifactId>proxool-cglib</artifactId>
 				<version>0.8.3</version>
 			</dependency>
+			-->
 			<dependency>
 				<groupId>proxool</groupId>
 				<artifactId>proxool</artifactId>
@@ -401,7 +402,7 @@
 				<type>jar</type>
 				<scope>compile</scope>
 			</dependency>
-
+<!--
 			<dependency>
 				<groupId>postgresql</groupId>
 				<artifactId>postgresql</artifactId>
