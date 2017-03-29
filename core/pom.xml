@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.zhuanquan</groupId>
 		<artifactId>parent</artifactId>
-		<version>0.0.8</version>
+		<version>0.0.9</version>
 	</parent>
 
 
@@ -344,7 +344,9 @@
 		<module>error</module>
 		<module>common</module>
 
+        <!--
 		<module>dal</module>
+		-->
 		<module>alarm</module>
 		<module>cache</module>
 		<module>zookeeper</module>

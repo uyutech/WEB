@@ -6,7 +6,7 @@
 	<artifactId>parent</artifactId>
 	<packaging>pom</packaging>
 	<name>zhuanquan-parent</name>
-	<version>0.0.8</version>
+	<version>0.0.9</version>
 	<url>http://maven.apache.org</url>
 
 
@@ -387,15 +387,17 @@
 
 
 			<!-- jdbc driver -->
+
+			<!--
 			<dependency>
 				<groupId>proxool</groupId>
 				<artifactId>proxool-cglib</artifactId>
-				<version>0.9.1</version>
+				<version>0.8.3</version>
 			</dependency>
 			<dependency>
 				<groupId>proxool</groupId>
 				<artifactId>proxool</artifactId>
-				<version>0.9.1</version>
+				<version>0.8.3</version>
 				<type>jar</type>
 				<scope>compile</scope>
 			</dependency>
@@ -405,7 +407,7 @@
 				<artifactId>postgresql</artifactId>
 				<version>9.1-901.jdbc4</version>
 			</dependency>
-
+             -->
 
 			<!-- 用于控制日志输出 -->
 			<dependency>
