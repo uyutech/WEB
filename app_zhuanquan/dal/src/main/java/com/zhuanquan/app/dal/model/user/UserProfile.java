@@ -8,6 +8,28 @@ import java.util.Date;
  *
  */
 public class UserProfile {
+	
+	//删除状态，比如第三方登录之后，绑定手机，如果手机原来已经注册了，用户需要决定舍弃一个账号做合并
+	public static final int DELETE_STATUS_DELETE = 0;
+	
+	//正常状态
+	public static final int DELETE_STATUS_NOT_DELETE = 1;
+
+	
+	
+	//正常
+	public static final int STATUS_NORMAL = 1;
+	
+	//黑名单
+	public static final int STATUS_BLACKLIST = 2;
+	
+	//允许被关注
+	public static final int ALLOW_ATTATION = 1;
+	
+	//不允许被关注
+	public static final int NOT_ALLOW_ATTATION = 0;
+
+	
 
 	/**
 	 * 用户id
@@ -25,25 +47,16 @@ public class UserProfile {
 	private String password;
 
 	/**
-	 * 状态 正常，封号，黑名单等等
+	 * 状态 1-正常  2-黑名单
 	 */
 	private Integer status;
 
-	/**
-	 * 头像url
-	 */
-	private String headUrl;
-
-	/**
-	 * 昵称
-	 */
-	private String nickName;
-
-	/**
-	 * 性别
-	 */
-	private Integer gender;
-
+    /**
+     * 手机号
+     */
+    private String mobile;
+	
+	
 	/**
 	 * 是否允许关注
 	 */
@@ -60,6 +73,12 @@ public class UserProfile {
 	 * 修改时间
 	 */
 	private Date modifyTime;
+	
+	/**
+	 * 是否删除  1-未删除   0-删除
+	 */
+	private int isDelete;
+
 
 	public Long getUid() {
 		return uid;
@@ -93,28 +112,14 @@ public class UserProfile {
 		this.status = status;
 	}
 
-	public String getHeadUrl() {
-		return headUrl;
+    
+
+	public String getMobile() {
+		return mobile;
 	}
 
-	public void setHeadUrl(String headUrl) {
-		this.headUrl = headUrl;
-	}
-
-	public String getNickName() {
-		return nickName;
-	}
-
-	public void setNickName(String nickName) {
-		this.nickName = nickName;
-	}
-
-	public Integer getGender() {
-		return gender;
-	}
-
-	public void setGender(Integer gender) {
-		this.gender = gender;
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
 	}
 
 	public Integer getAllowAttation() {
@@ -140,6 +145,15 @@ public class UserProfile {
 	public void setModifyTime(Date modifyTime) {
 		this.modifyTime = modifyTime;
 	}
+
+	public int getIsDelete() {
+		return isDelete;
+	}
+
+	public void setIsDelete(int isDelete) {
+		this.isDelete = isDelete;
+	}
+
 
 
 

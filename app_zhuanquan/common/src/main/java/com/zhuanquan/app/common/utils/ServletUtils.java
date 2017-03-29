@@ -1,6 +1,5 @@
 package com.zhuanquan.app.common.utils;
 
-import com.google.common.collect.Lists;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Enumeration;
@@ -14,16 +13,7 @@ import java.util.Map;
 public class ServletUtils {
 
 
-    public final static String getServiceName(HttpServletRequest request) {
-        //如果直接请求/gateway 或者/，则取method请求参数作为method
-        final List<String> CONTEXTS = Lists.newArrayList("/", "/gateway", "/gateway/");
-        String requestUrl = request.getRequestURI();
-        String service = requestUrl;
-        if (CONTEXTS.contains(service)) {
-            service = request.getParameter("method");
-        }
-        return service;
-    }
+    
 
     public final static Map<String, String> getRequestParams(HttpServletRequest httpServletRequest) {
             Map<String, String> map = new HashMap<>();

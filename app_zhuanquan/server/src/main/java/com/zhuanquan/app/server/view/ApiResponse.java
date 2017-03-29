@@ -8,11 +8,11 @@ import com.framework.core.error.exception.code.impl.BaseCode;
 /**
  * 
  * 
- * 支付结果
+ * 
  * @author zhangjun
  *
  */
-public class ResponseResult implements Serializable{
+public class ApiResponse implements Serializable{
     
     /**
      * 
@@ -42,25 +42,25 @@ public class ResponseResult implements Serializable{
      */
     private int errorCode= BaseCode.EX_SYSTEM_SUCCESS.getCode();
 
-    private ResponseResult(int result, Object data, String message) {
+    private ApiResponse(int result, Object data, String message) {
         
         this.result = result;
         this.message = message;
         this.data = data;
     }
     
-    private ResponseResult(int result, Object data, String message,int errorcode) {
+    private ApiResponse(int result, Object data, String message,int errorcode) {
         this.result = result;
         this.message = message;
         this.data = data;
         this.errorCode = errorcode;
     }
 
-    
-    public int getResult() {
-    
-        return result;
-    }
+//    
+//    public int getResult() {
+//    
+//        return result;
+//    }
 
 
     public int getErrorCode() {
@@ -81,37 +81,37 @@ public class ResponseResult implements Serializable{
         return CODE_SUCCESS == result;
     }
 
-    public static final ResponseResult success() {
-        return new ResponseResult(CODE_SUCCESS, null, null);
+    public static final ApiResponse success() {
+        return new ApiResponse(CODE_SUCCESS, null, null);
     }
 
-    public static final ResponseResult success(Object data) {
-        return new ResponseResult(CODE_SUCCESS, data, null);
+    public static final ApiResponse success(Object data) {
+        return new ApiResponse(CODE_SUCCESS, data, null);
     }
 
-    public static final ResponseResult success(Object data, String message) {
-        return new ResponseResult(CODE_SUCCESS, data, message);
+    public static final ApiResponse success(Object data, String message) {
+        return new ApiResponse(CODE_SUCCESS, data, message);
     }
 
-    public static final ResponseResult failed() {
-        return new ResponseResult(CODE_FAILED, null, null);
+    public static final ApiResponse failed() {
+        return new ApiResponse(CODE_FAILED, null, null);
     }
 
-    public static final ResponseResult failed(String message) {
-        return new ResponseResult(CODE_FAILED, null, message);
+    public static final ApiResponse failed(String message) {
+        return new ApiResponse(CODE_FAILED, null, message);
     }
 
-    public static final ResponseResult failed(Object data, String message) {
-        return new ResponseResult(CODE_FAILED, data, message);
+    public static final ApiResponse failed(Object data, String message) {
+        return new ApiResponse(CODE_FAILED, data, message);
     }
 
     
-    public static final ResponseResult failed(Object obj, String message, int errorcode) {
-        return new ResponseResult(CODE_FAILED, obj, message,errorcode);
+    public static final ApiResponse failed(Object obj, String message, int errorcode) {
+        return new ApiResponse(CODE_FAILED, obj, message,errorcode);
     }
     
-    public static final ResponseResult failed(BizException e) {
-        return new ResponseResult(CODE_FAILED, null, e.getMessage(),e.getErrorCode());
+    public static final ApiResponse failed(BizException e) {
+        return new ApiResponse(CODE_FAILED, null, e.getMessage(),e.getErrorCode());
     }
     
 

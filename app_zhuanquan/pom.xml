@@ -20,6 +20,7 @@
   <properties>
     <framework.core.version>0.0.25</framework.core.version>
 
+    <json-version>2.8.5</json-version>
 
   </properties>
 
@@ -38,7 +39,7 @@
 
       <dependency>
         <groupId>com.zhuanquan.core</groupId>
-        <artifactId>zhuanquan-core-web</artifactId>
+        <artifactId>zhuanquan-core-cache</artifactId>
         <version>${framework.core.version}</version>
       </dependency>
 
@@ -84,7 +85,29 @@
     </dependency>
 
 
+      <!-- https://mvnrepository.com/artifact/com.alibaba/druid -->
+      <dependency>
+        <groupId>com.alibaba</groupId>
+        <artifactId>druid</artifactId>
+        <version>1.0.27</version>
+      </dependency>
 
+  <!-- Spring自动处理JSON -->
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-core</artifactId>
+      <version>${json-version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-annotations</artifactId>
+      <version>${json-version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>${json-version}</version>
+    </dependency>
 
 
     </dependencies>

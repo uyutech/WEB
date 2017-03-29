@@ -75,7 +75,7 @@
 
 		<dependency>
 			<groupId>com.zhuanquan.core</groupId>
-			<artifactId>zhuanquan-core-web</artifactId>
+			<artifactId>zhuanquan-core-cache</artifactId>
 
 		</dependency>
 
@@ -123,6 +123,26 @@
 			<groupId>cglib</groupId>
 			<artifactId>cglib</artifactId>
 		</dependency>
+
+
+        <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid</artifactId>
+        </dependency>
+
+
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-annotations</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+    </dependency>
 
 	</dependencies>
 

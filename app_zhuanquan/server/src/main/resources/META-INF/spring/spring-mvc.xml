@@ -167,15 +167,18 @@
         </property>
     </bean>
 
+<!--  ********************  interceptors  ********************  -->
+	<bean id="sessionInterceptor" class="com.zhuanquan.app.server.base.interceptor.SessionInterceptor">
+
+	</bean>
 
 	<bean id="localIpInterceptor" class="com.zhuanquan.app.server.base.interceptor.RemoteIPInterceptor" />
 
 	
-	<!--Spring mvc 拦截器 -->
 	<mvc:interceptors>
-		<ref bean="localIpInterceptor" />
-		<ref bean="securityInterceptor" />
-		<ref bean="accessStatistics"/>
+		<!--<ref bean="localIpInterceptor" />-->
+		<ref bean="sessionInterceptor" />
+		<!--<ref bean="accessStatistics"/>-->
 	</mvc:interceptors>
 	
 </beans>
