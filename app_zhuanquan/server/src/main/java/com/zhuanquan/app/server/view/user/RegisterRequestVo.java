@@ -76,10 +76,10 @@ public class RegisterRequestVo implements Serializable {
 		// profile.setUid(uid);
 
 		Date now = new Date();
-		profile.setUserName(this.profile);
+//		profile.setUserName(this.profile);
 		profile.setStatus(UserProfile.STATUS_NORMAL);
 
-		profile.setPassword(MD5.md5(password));
+//		profile.setPassword(MD5.md5(password));
 		profile.setModifyTime(now);
 
 		profile.setCreateTime(now);

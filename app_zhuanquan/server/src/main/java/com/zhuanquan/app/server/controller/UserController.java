@@ -127,7 +127,6 @@ public class UserController extends BaseController {
 	@ResponseBody
 	public ApiResponse loginByOpenId(LoginByOpenIdRequestVo request) {
 
-		// LoginResponseVo response = loginService.loginByPwd(request);
 
 		return null;
 

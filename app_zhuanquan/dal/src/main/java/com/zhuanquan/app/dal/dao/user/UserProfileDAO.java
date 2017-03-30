@@ -20,19 +20,19 @@ public interface UserProfileDAO {
 	 */
 	long insertRecord(UserProfile profile);
 	
+//	
+//	/**
+//	 * 根据用户名查询
+//	 * @param userName
+//	 * @return
+//	 */
+//	UserProfile queryByUserName(String userName);
 	
-	/**
-	 * 根据用户名查询
-	 * @param userName
-	 * @return
-	 */
-	UserProfile queryByUserName(String userName);
-	
-	
-	/**
-	 * 绑定手机号
-	 * @param uid
-	 * @param mobile
-	 */
-	void bindMobile(long uid,String mobile);
+//	
+//	/**
+//	 * 绑定手机号
+//	 * @param uid
+//	 * @param mobile
+//	 */
+//	void bindMobile(long uid,String mobile);
 }

@@ -3,41 +3,46 @@ package com.zhuanquan.app.dal.model.user;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.framework.core.common.utils.MD5;
+import com.zhuanquan.app.common.constants.ChannelType;
+
 public class UserOpenAccount implements Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -6711050830921914903L;
-	
-	
-	
+
 	/**
 	 * 
 	 */
 	private String openId;
-	
+
 	/**
 	 * 用户id
 	 */
 	private long uid;
-	
+
 	/**
 	 * 昵称
 	 */
 	private String nickName;
-	
-	
+
+	/**
+	 * token 信息
+	 */
+	private String token;
+
 	/**
 	 * 渠道类型
 	 */
 	private int channelType;
-	
+
 	/**
 	 * 创建时间
 	 */
 	private Date createTime;
-	
+
 	/**
 	 * 修改时间
 	 */
@@ -91,7 +96,40 @@ public class UserOpenAccount implements Serializable {
 		this.nickName = nickName;
 	}
 
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}
+
 	
-	
-	
+	/**
+	 * 创建mobile 账户
+	 * @param mobile
+	 * @param password
+	 * @param uid
+	 * @return
+	 */
+	public static UserOpenAccount createMobileAccount(String mobile, String password, long uid) {
+
+		Date now = new Date();
+
+		UserOpenAccount account = new UserOpenAccount();
+
+		account.setChannelType(ChannelType.CHANNEL_MOBILE);
+		account.setCreateTime(now);
+		account.setModifyTime(now);
+		account.setNickName(mobile);
+
+		account.setOpenId(mobile);
+
+		// 设置密码
+		account.setToken(MD5.md5(password));
+		account.setUid(uid);
+		
+		return account;
+	}
+
 }

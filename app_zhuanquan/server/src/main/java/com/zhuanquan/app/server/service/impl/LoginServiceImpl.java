@@ -10,15 +10,19 @@ import org.springframework.stereotype.Service;
 import com.framework.core.cache.redis.utils.RedisHelper;
 import com.framework.core.common.utils.MD5;
 import com.framework.core.error.exception.BizException;
+import com.zhuanquan.app.common.constants.ChannelType;
 import com.zhuanquan.app.common.exception.BizErrorCode;
 import com.zhuanquan.app.common.utils.CommonUtil;
 import com.zhuanquan.app.common.utils.IpUtils;
+import com.zhuanquan.app.dal.dao.user.UserOpenAccountDAO;
 import com.zhuanquan.app.dal.dao.user.UserProfileDAO;
+import com.zhuanquan.app.dal.model.user.UserOpenAccount;
 import com.zhuanquan.app.dal.model.user.UserProfile;
 import com.zhuanquan.app.server.base.interceptor.RemoteIPInterceptor;
 import com.zhuanquan.app.server.base.sesssion.SessionHolder;
 import com.zhuanquan.app.server.cache.RedisKeyBuilder;
 import com.zhuanquan.app.server.service.LoginService;
+import com.zhuanquan.app.server.view.user.LoginByOpenIdRequestVo;
 import com.zhuanquan.app.server.view.user.LoginRequestVo;
 import com.zhuanquan.app.server.view.user.LoginResponseVo;
 
@@ -33,6 +37,9 @@ public class LoginServiceImpl implements LoginService {
 	
 	@Resource
 	private SessionHolder sessionHolder;
+	
+	@Resource
+	private UserOpenAccountDAO userOpenAccountDAO;
 
 
 	@Override
@@ -44,32 +51,54 @@ public class LoginServiceImpl implements LoginService {
 		// 是否被限制
 		validateIsLimited(request);
 
-		UserProfile profile = userProfileDAO.queryByUserName(request.getUserName());
+		UserOpenAccount account = userOpenAccountDAO.queryByOpenId(request.getUserName(), ChannelType.CHANNEL_MOBILE);
+		
+		//如果account为null
+		if(account == null) {
+			throw new BizException(BizErrorCode.EX_UID_NOT_EXSIT.getCode());
+		}
 
+		// md5之后和原来的不一样
+		if (!account.getToken().equals(MD5.md5(request.getPassword()))) {
+			throw new BizException(BizErrorCode.EX_LOGIN_PWD_ERR.getCode());
+		}
+		
+		
+		
+		UserProfile profile = userProfileDAO.queryById(account.getUid());
+		
+		if(profile == null) {
+			throw new BizException(BizErrorCode.EX_UID_NOT_EXSIT.getCode());
+		}
+		
 		// 非正常状态禁止登录
 		if (profile.getStatus() != UserProfile.STATUS_NORMAL) {
 			throw new BizException(BizErrorCode.EX_LOGIN_FORBIDDEN.getCode());
 		}
 
-		// md5之后和原来的不一样
-		if (!profile.getPassword().equals(MD5.md5(request.getPassword()))) {
-			throw new BizException(BizErrorCode.EX_LOGIN_PWD_ERR.getCode());
-		}
 
+
+		return sessionCreate(profile, request.getLoginType());
+	}
+
+	
+	private LoginResponseVo sessionCreate(UserProfile profile,int loginType) {
+		
 		LoginResponseVo response = new LoginResponseVo();
 
 		response.setUid(profile.getUid());
 		response.setMobile(profile.getMobile());
-		response.setUserName(profile.getUserName());
+//		response.setUserName(profile.getUserName());
 		response.setAllowAttation(profile.getAllowAttation());
 
-
+        //创建session
 		long createIp = IpUtils.ip2Long(RemoteIPInterceptor.getRemoteIP());
-		sessionHolder.createOrUpdateSession(profile.getUid(), createIp,request.getLoginType());
-
+		sessionHolder.createOrUpdateSession(profile.getUid(), createIp,loginType);
+		
 		return response;
 	}
-
+	
+	
 	/**
 	 * 检测参数是否合法
 	 * 
@@ -128,6 +157,43 @@ public class LoginServiceImpl implements LoginService {
 		//失败次数校验
 
 		
+	}
+
+	@Override
+	public LoginResponseVo loginByOpenId(LoginByOpenIdRequestVo request) {
+		
+		//基本校验
+		request.validat();
+		
+		UserOpenAccount account = userOpenAccountDAO.queryByOpenId(request.getOpenId(), request.getChannelType());
+		
+		//如果记录存在
+		if(account != null) {
+			
+			//如果token不一样，更新token
+			if(!account.getToken().equals(request.getToken())) {
+				userOpenAccountDAO.updateAccountToken(account.getOpenId(), account.getChannelType(), request.getToken());
+			}
+			
+			long uid = account.getUid();
+			
+			UserProfile profile = userProfileDAO.queryById(uid);
+			
+			// 非正常状态禁止登录
+			if (profile.getStatus() != UserProfile.STATUS_NORMAL) {
+				throw new BizException(BizErrorCode.EX_LOGIN_FORBIDDEN.getCode());
+			}
+
+			return sessionCreate(profile, request.getLoginType());
+		}
+		
+		
+		
+		
+		
+		
+		
+		return null;
 	}
 
 }

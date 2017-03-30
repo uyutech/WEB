@@ -13,7 +13,12 @@ public class LoginResponseVo implements Serializable {
 	/**
 	 * 用户名
 	 */
-	private String userName;
+	private String openId;
+	
+	/**
+	 * 渠道类型
+	 */
+	private int channelType;
 	
 	/**
 	 * uid
@@ -42,18 +47,29 @@ public class LoginResponseVo implements Serializable {
 	 */
 	private String nickName;
 
-	public String getUserName() {
-		return userName;
-	}
-
-
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-
 
 	public long getUid() {
 		return uid;
+	}
+
+
+	public String getOpenId() {
+		return openId;
+	}
+
+
+	public void setOpenId(String openId) {
+		this.openId = openId;
+	}
+
+
+	public int getChannelType() {
+		return channelType;
+	}
+
+
+	public void setChannelType(int channelType) {
+		this.channelType = channelType;
 	}
 
 

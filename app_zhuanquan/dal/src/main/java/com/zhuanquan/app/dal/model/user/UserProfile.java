@@ -1,6 +1,11 @@
 package com.zhuanquan.app.dal.model.user;
 
 import java.util.Date;
+import java.util.UUID;
+
+import com.framework.core.common.utils.MD5;
+
+
 
 /**
  * 用户基本信息
@@ -36,15 +41,15 @@ public class UserProfile {
 	 */
 	private Long uid;
 
-	/**
-	 * 用户名
-	 */
-	private String userName;
-
-	/**
-	 * 密码
-	 */
-	private String password;
+//	/**
+//	 * 用户名
+//	 */
+//	private String userName;
+//
+//	/**
+//	 * 密码
+//	 */
+//	private String password;
 
 	/**
 	 * 状态 1-正常  2-黑名单
@@ -88,21 +93,21 @@ public class UserProfile {
 		this.uid = uid;
 	}
 
-	public String getUserName() {
-		return userName;
-	}
-
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
+//	public String getUserName() {
+//		return userName;
+//	}
+//
+//	public void setUserName(String userName) {
+//		this.userName = userName;
+//	}
+//
+//	public String getPassword() {
+//		return password;
+//	}
+//
+//	public void setPassword(String password) {
+//		this.password = password;
+//	}
 
 	public Integer getStatus() {
 		return status;
@@ -154,7 +159,33 @@ public class UserProfile {
 		this.isDelete = isDelete;
 	}
 
+	
+	/**
+	 * 第三方登录创建个 虚拟的用户
+	 * @return
+	 */
+	public static UserProfile registerThirdLoginUser() {
 
+		UserProfile profile = new UserProfile();
+		// profile.setUid(uid);
+
+		Date now = new Date();
+		
+		String randomProfile = UUID.randomUUID().toString();
+		
+//		profile.setUserName(randomProfile);
+		profile.setStatus(UserProfile.STATUS_NORMAL);
+		profile.setMobile("");
+		
+//		profile.setPassword(MD5.md5(randomProfile));
+		profile.setModifyTime(now);
+
+		profile.setCreateTime(now);
+		profile.setAllowAttation(UserProfile.ALLOW_ATTATION);
+
+		return profile;
+	}
+	
 
 
 }

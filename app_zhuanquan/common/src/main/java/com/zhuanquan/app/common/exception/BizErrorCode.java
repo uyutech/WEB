@@ -7,10 +7,10 @@ public enum BizErrorCode implements ErrorCode {
 
 
 	//系统异常
-	 EX_PAY_SYSTEM_ERROR (1001), 
+	 EX_SYSTEM_ERROR (1001), 
 	 
      //非法请求参数
-	 EX_PAY_ILLEGLE_REQUEST_PARM (1002), 
+	 EX_ILLEGLE_REQUEST_PARM (1002), 
 	 
 	 //非预期异常
 	 EX_PAY_UNEXPECTED_ERROR (1003), 
