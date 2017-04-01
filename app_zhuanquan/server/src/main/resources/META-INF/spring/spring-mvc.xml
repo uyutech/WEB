@@ -168,15 +168,15 @@
     </bean>
 
 <!--  ********************  interceptors  ********************  -->
-	<bean id="sessionInterceptor" class="com.zhuanquan.app.server.base.interceptor.SessionInterceptor">
+	<bean id="sessionInterceptor" class="com.zhuanquan.app.common.component.interceptor.SessionInterceptor">
 
 	</bean>
 
-	<bean id="localIpInterceptor" class="com.zhuanquan.app.server.base.interceptor.RemoteIPInterceptor" />
+	<bean id="localIpInterceptor" class="com.zhuanquan.app.common.component.interceptor.RemoteIPInterceptor" />
 
 	
 	<mvc:interceptors>
-		<!--<ref bean="localIpInterceptor" />-->
+		<ref bean="localIpInterceptor" />
 		<ref bean="sessionInterceptor" />
 		<!--<ref bean="accessStatistics"/>-->
 	</mvc:interceptors>
