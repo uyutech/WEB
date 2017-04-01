@@ -26,6 +26,8 @@ import com.zhuanquan.app.dal.dao.user.UserOpenAccountDAO;
 import com.zhuanquan.app.dal.dao.user.UserProfileDAO;
 
 import com.zhuanquan.app.server.service.LoginService;
+import com.zhuanquan.app.server.service.OpenApiService;
+import com.zhuanquan.app.server.service.TransactionService;
 
 @Service
 public class LoginServiceImpl implements LoginService {
@@ -41,7 +43,12 @@ public class LoginServiceImpl implements LoginService {
 	
 	@Resource
 	private UserOpenAccountDAO userOpenAccountDAO;
-
+	
+	@Resource
+	private TransactionService transactionService;
+	
+    @Resource
+    private OpenApiService openApiService;
 
 	@Override
 	public LoginResponseVo loginByPwd(LoginRequestVo request) {
@@ -93,6 +100,8 @@ public class LoginServiceImpl implements LoginService {
 		response.setHeadUrl(profile.getHeadUrl());
 		response.setNickName(profile.getNickName());
 		response.setOpenId(openId);
+		
+		//设置登录后注册的状态，需要根据状态决定是否跳转到注册引导页面
 		response.setRegStat(profile.getRegisterStat());
 		
 		sessionHolder.createOrUpdateSession(profile.getUid(), loginType,openId,channelType);
@@ -174,6 +183,10 @@ public class LoginServiceImpl implements LoginService {
 			
 			//如果token不一样，更新token
 			if(!account.getToken().equals(request.getToken())) {
+
+				//先检测token是否合法
+				openApiService.checkToken(request.getToken(), request.getOpenId(), ChannelType.CHANNEL_WEIBO);
+				
 				userOpenAccountDAO.updateAccountToken(account.getOpenId(), account.getChannelType(), request.getToken());
 			}
 			
@@ -190,12 +203,16 @@ public class LoginServiceImpl implements LoginService {
 		}
 		
 		
+		//先检测token是否合法
+		openApiService.checkToken(request.getToken(), request.getOpenId(), ChannelType.CHANNEL_WEIBO);
+
+		
+		//第三方登录注册		
+		UserProfile profile = transactionService.openAccountRegister(request);
 		
 		
+		return sessionCreate(profile, request.getLoginType(), request.getOpenId(), request.getChannelType());
 		
-		
-		
-		return null;
 	}
 
 }

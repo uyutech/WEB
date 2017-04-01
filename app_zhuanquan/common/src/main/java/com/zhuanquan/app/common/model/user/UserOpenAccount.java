@@ -23,10 +23,7 @@ public class UserOpenAccount implements Serializable {
 	 */
 	private long uid;
 
-	/**
-	 * 昵称
-	 */
-	private String nickName;
+
 
 	/**
 	 * token 信息
@@ -88,14 +85,6 @@ public class UserOpenAccount implements Serializable {
 		this.modifyTime = modifyTime;
 	}
 
-	public String getNickName() {
-		return nickName;
-	}
-
-	public void setNickName(String nickName) {
-		this.nickName = nickName;
-	}
-
 	public String getToken() {
 		return token;
 	}
@@ -121,12 +110,41 @@ public class UserOpenAccount implements Serializable {
 		account.setChannelType(ChannelType.CHANNEL_MOBILE);
 		account.setCreateTime(now);
 		account.setModifyTime(now);
-		account.setNickName(mobile);
 
 		account.setOpenId(mobile);
 
 		// 设置密码
 		account.setToken(MD5.md5(password));
+		account.setUid(uid);
+		
+		return account;
+	}
+	
+	
+	
+	/**
+	 * 创建第三方登录账户
+	 * @param mobile
+	 * @param password
+	 * @param uid
+	 * @return
+	 */
+	public static UserOpenAccount createOpenAccount(String openId, String token, long uid) {
+
+		Date now = new Date();
+
+		UserOpenAccount account = new UserOpenAccount();
+
+		account.setChannelType(ChannelType.CHANNEL_MOBILE);
+		account.setCreateTime(now);
+		account.setModifyTime(now);
+	
+		
+		account.setOpenId(openId);
+
+		// 设置token
+		account.setToken(token);
+		
 		account.setUid(uid);
 		
 		return account;

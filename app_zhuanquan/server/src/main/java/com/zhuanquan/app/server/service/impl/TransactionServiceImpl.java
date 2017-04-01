@@ -11,6 +11,7 @@ import com.zhuanquan.app.common.constants.ChannelType;
 import com.zhuanquan.app.common.exception.BizErrorCode;
 import com.zhuanquan.app.common.model.user.UserOpenAccount;
 import com.zhuanquan.app.common.model.user.UserProfile;
+import com.zhuanquan.app.common.view.vo.user.LoginByOpenIdRequestVo;
 import com.zhuanquan.app.common.view.vo.user.RegisterRequestVo;
 import com.zhuanquan.app.common.view.vo.user.RegisterResponseVo;
 import com.zhuanquan.app.dal.dao.user.UserOpenAccountDAO;
@@ -56,11 +57,24 @@ public class TransactionServiceImpl implements TransactionService {
 		RegisterResponseVo response = new RegisterResponseVo();
 
 		response.setUid(uid);
-//		response.setMobile(profile.getMobile());
-//		response.setUserName(vo.getProfile());
-//		response.setAllowAttation(profile.getAllowAttation());
 
 		return response;
+	}
+
+
+	@Override
+	public UserProfile openAccountRegister(LoginByOpenIdRequestVo vo) {
+
+		
+		UserProfile profile = UserProfile.registerThirdLoginUser();
+		
+		long uid = userProfileDAO.insertRecord(profile);
+
+		
+		UserOpenAccount openAccount = UserOpenAccount.createOpenAccount(vo.getOpenId(), vo.getToken(), uid);
+		userOpenAccountDAO.insertUserOpenAccount(openAccount);
+
+		return profile;
 	}
 	
 }

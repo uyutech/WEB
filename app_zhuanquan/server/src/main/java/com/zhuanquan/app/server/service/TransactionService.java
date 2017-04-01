@@ -1,5 +1,7 @@
 package com.zhuanquan.app.server.service;
 
+import com.zhuanquan.app.common.model.user.UserProfile;
+import com.zhuanquan.app.common.view.vo.user.LoginByOpenIdRequestVo;
 import com.zhuanquan.app.common.view.vo.user.RegisterRequestVo;
 import com.zhuanquan.app.common.view.vo.user.RegisterResponseVo;
 
@@ -17,4 +19,9 @@ public interface TransactionService {
 	 */
 	RegisterResponseVo registerMobile(RegisterRequestVo vo) ;
 	
+	/**
+	 * 第三方账户注册
+	 * @return
+	 */
+	UserProfile openAccountRegister(LoginByOpenIdRequestVo vo);
 }
