@@ -10,21 +10,22 @@ import org.springframework.stereotype.Service;
 import com.framework.core.cache.redis.utils.RedisHelper;
 import com.framework.core.common.utils.MD5;
 import com.framework.core.error.exception.BizException;
+import com.zhuanquan.app.common.component.cache.RedisKeyBuilder;
+import com.zhuanquan.app.common.component.interceptor.RemoteIPInterceptor;
+import com.zhuanquan.app.common.component.sesssion.SessionHolder;
 import com.zhuanquan.app.common.constants.ChannelType;
 import com.zhuanquan.app.common.exception.BizErrorCode;
+import com.zhuanquan.app.common.model.user.UserOpenAccount;
+import com.zhuanquan.app.common.model.user.UserProfile;
 import com.zhuanquan.app.common.utils.CommonUtil;
 import com.zhuanquan.app.common.utils.IpUtils;
+import com.zhuanquan.app.common.view.vo.user.LoginByOpenIdRequestVo;
+import com.zhuanquan.app.common.view.vo.user.LoginRequestVo;
+import com.zhuanquan.app.common.view.vo.user.LoginResponseVo;
 import com.zhuanquan.app.dal.dao.user.UserOpenAccountDAO;
 import com.zhuanquan.app.dal.dao.user.UserProfileDAO;
-import com.zhuanquan.app.dal.model.user.UserOpenAccount;
-import com.zhuanquan.app.dal.model.user.UserProfile;
-import com.zhuanquan.app.server.base.interceptor.RemoteIPInterceptor;
-import com.zhuanquan.app.server.base.sesssion.SessionHolder;
-import com.zhuanquan.app.server.cache.RedisKeyBuilder;
+
 import com.zhuanquan.app.server.service.LoginService;
-import com.zhuanquan.app.server.view.user.LoginByOpenIdRequestVo;
-import com.zhuanquan.app.server.view.user.LoginRequestVo;
-import com.zhuanquan.app.server.view.user.LoginResponseVo;
 
 @Service
 public class LoginServiceImpl implements LoginService {
@@ -63,8 +64,7 @@ public class LoginServiceImpl implements LoginService {
 			throw new BizException(BizErrorCode.EX_LOGIN_PWD_ERR.getCode());
 		}
 		
-		
-		
+
 		UserProfile profile = userProfileDAO.queryById(account.getUid());
 		
 		if(profile == null) {
@@ -78,22 +78,24 @@ public class LoginServiceImpl implements LoginService {
 
 
 
-		return sessionCreate(profile, request.getLoginType());
+		return sessionCreate(profile, request.getLoginType(),request.getUserName(),ChannelType.CHANNEL_MOBILE);
 	}
 
 	
-	private LoginResponseVo sessionCreate(UserProfile profile,int loginType) {
+	private LoginResponseVo sessionCreate(UserProfile profile,int loginType,String openId,int channelType) {
 		
 		LoginResponseVo response = new LoginResponseVo();
 
 		response.setUid(profile.getUid());
-		response.setMobile(profile.getMobile());
-//		response.setUserName(profile.getUserName());
 		response.setAllowAttation(profile.getAllowAttation());
-
-        //创建session
-		long createIp = IpUtils.ip2Long(RemoteIPInterceptor.getRemoteIP());
-		sessionHolder.createOrUpdateSession(profile.getUid(), createIp,loginType);
+		response.setAllowAttation(profile.getAllowAttation());
+		response.setChannelType(channelType);
+		response.setHeadUrl(profile.getHeadUrl());
+		response.setNickName(profile.getNickName());
+		response.setOpenId(openId);
+		response.setRegStat(profile.getRegisterStat());
+		
+		sessionHolder.createOrUpdateSession(profile.getUid(), loginType,openId,channelType);
 		
 		return response;
 	}
@@ -184,7 +186,7 @@ public class LoginServiceImpl implements LoginService {
 				throw new BizException(BizErrorCode.EX_LOGIN_FORBIDDEN.getCode());
 			}
 
-			return sessionCreate(profile, request.getLoginType());
+			return sessionCreate(profile, request.getLoginType(),request.getOpenId(),request.getChannelType());
 		}
 		
 		

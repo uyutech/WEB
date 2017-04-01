@@ -6,7 +6,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.zhuanquan.app.server.view.ApiResponse;
+import com.zhuanquan.app.common.view.ApiResponse;
+
 
 @Controller
 @RequestMapping(value="/message")

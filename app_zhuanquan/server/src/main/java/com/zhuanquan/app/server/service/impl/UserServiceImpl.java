@@ -4,8 +4,8 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.zhuanquan.app.common.model.user.UserProfile;
 import com.zhuanquan.app.dal.dao.user.UserProfileDAO;
-import com.zhuanquan.app.dal.model.user.UserProfile;
 import com.zhuanquan.app.server.service.UserService;
 
 /**
@@ -27,12 +27,12 @@ public class UserServiceImpl implements  UserService{
 	}
 
 
-	@Override
-	public UserProfile queryUserProfileByMobile(String mobile) {
-		
-        
-		return userProfileDAO.queryByUserName(mobile);
-	}
+//	@Override
+//	public UserProfile queryUserProfileByMobile(String mobile) {
+//		
+//        
+//		return userProfileDAO.queryByUserName(mobile);
+//	}
 	
 	
 	

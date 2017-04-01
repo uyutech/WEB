@@ -1,8 +1,8 @@
 package com.zhuanquan.app.server.service;
 
-import com.zhuanquan.app.server.view.user.LoginByOpenIdRequestVo;
-import com.zhuanquan.app.server.view.user.LoginRequestVo;
-import com.zhuanquan.app.server.view.user.LoginResponseVo;
+import com.zhuanquan.app.common.view.vo.user.LoginByOpenIdRequestVo;
+import com.zhuanquan.app.common.view.vo.user.LoginRequestVo;
+import com.zhuanquan.app.common.view.vo.user.LoginResponseVo;
 
 /**
  * 登录

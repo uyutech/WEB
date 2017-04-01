@@ -1,8 +1,8 @@
 package com.zhuanquan.app.server.service;
 
-import com.zhuanquan.app.server.view.ApiResponse;
-import com.zhuanquan.app.server.view.user.RegisterRequestVo;
-import com.zhuanquan.app.server.view.user.RegisterResponseVo;
+import com.zhuanquan.app.common.view.vo.user.OpenApiRegisterRequestVo;
+import com.zhuanquan.app.common.view.vo.user.RegisterRequestVo;
+import com.zhuanquan.app.common.view.vo.user.RegisterResponseVo;
 
 /**
  * 注册
@@ -15,11 +15,19 @@ public interface RegisterService {
 	
 	
 	/**
-	 * 注册
+	 * 手机注册
 	 * @param vo
 	 * @return
 	 */
-	RegisterResponseVo register(RegisterRequestVo vo); 
+	RegisterResponseVo mobileRegister(RegisterRequestVo vo); 
+	
+	
+	/**
+	 * 第三方注册
+	 * @param vo
+	 * @return
+	 */
+	RegisterResponseVo openIdRegister(OpenApiRegisterRequestVo vo);
 	
 	
 	/**
@@ -35,13 +43,12 @@ public interface RegisterService {
 	
 	/**
 	 * 如果手机号已经被注册过，用户需要选择当前保留哪个账号的数据.
-	 * @param openId 第三方openid
-	 * @param channelType 第三方渠道类型
+	 * @param uid 登录的uid
 	 * @param mobile 手机号
 	 * @param verifycode 手机验证码
 	 * @param persistMobileAccount 是否保留手机账号的数据 1-保留 0-不保留
 	 */
-	void mergeMobileAccount(String openId,int channelType, String mobile, String verifycode,
+	void mergeMobileAccount(long uid, String mobile, String verifycode,
 			boolean persistMobileAccount);
 
 	

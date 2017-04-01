@@ -1,6 +1,6 @@
 package com.zhuanquan.app.dal.dao.user;
 
-import com.zhuanquan.app.dal.model.user.UserProfile;
+import com.zhuanquan.app.common.model.user.UserProfile;
 
 public interface UserProfileDAO {
 	

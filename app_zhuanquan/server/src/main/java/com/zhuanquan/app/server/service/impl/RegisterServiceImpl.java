@@ -8,24 +8,26 @@ import org.springframework.stereotype.Service;
 
 import com.framework.core.cache.redis.utils.RedisHelper;
 import com.framework.core.error.exception.BizException;
+import com.zhuanquan.app.common.component.cache.RedisKeyBuilder;
+import com.zhuanquan.app.common.component.interceptor.RemoteIPInterceptor;
+import com.zhuanquan.app.common.component.sesssion.SessionHolder;
+import com.zhuanquan.app.common.component.sesssion.UserSession;
 import com.zhuanquan.app.common.constants.ChannelType;
+import com.zhuanquan.app.common.constants.LoginTypeEnum;
 import com.zhuanquan.app.common.exception.BizErrorCode;
+import com.zhuanquan.app.common.model.user.UserOpenAccount;
 import com.zhuanquan.app.common.utils.CommonUtil;
 import com.zhuanquan.app.common.utils.IpUtils;
 import com.zhuanquan.app.common.utils.PhoneValidateUtils;
+import com.zhuanquan.app.common.view.vo.user.OpenApiRegisterRequestVo;
+import com.zhuanquan.app.common.view.vo.user.RegisterRequestVo;
+import com.zhuanquan.app.common.view.vo.user.RegisterResponseVo;
 import com.zhuanquan.app.dal.dao.user.UserOpenAccountDAO;
 import com.zhuanquan.app.dal.dao.user.UserProfileDAO;
-import com.zhuanquan.app.dal.model.user.UserOpenAccount;
-import com.zhuanquan.app.dal.model.user.UserProfile;
-import com.zhuanquan.app.server.base.interceptor.RemoteIPInterceptor;
-import com.zhuanquan.app.server.base.sesssion.SessionHolder;
-import com.zhuanquan.app.server.base.sesssion.view.UserSession;
-import com.zhuanquan.app.server.cache.RedisKeyBuilder;
-import com.zhuanquan.app.server.constants.user.LoginTypeEnum;
+
 import com.zhuanquan.app.server.service.RegisterService;
 import com.zhuanquan.app.server.service.TransactionService;
-import com.zhuanquan.app.server.view.user.RegisterRequestVo;
-import com.zhuanquan.app.server.view.user.RegisterResponseVo;
+
 
 @Service
 public class RegisterServiceImpl implements RegisterService {
@@ -46,7 +48,7 @@ public class RegisterServiceImpl implements RegisterService {
 	private UserOpenAccountDAO userOpenAccountDAO;
 
 	@Override
-	public RegisterResponseVo register(RegisterRequestVo vo) {
+	public RegisterResponseVo mobileRegister(RegisterRequestVo vo) {
 
 		// 基本参数校验
 		validateBaseParam(vo);
@@ -56,9 +58,8 @@ public class RegisterServiceImpl implements RegisterService {
 
 		RegisterResponseVo response = transactionService.registerMobile(vo);
 
-		long createIp = IpUtils.ip2Long(RemoteIPInterceptor.getRemoteIP());
 
-		sessionHolder.createOrUpdateSession(response.getUid(), createIp, vo.getLoginType());
+		sessionHolder.createOrUpdateSession(response.getUid(), vo.getLoginType(),vo.getProfile(),ChannelType.CHANNEL_MOBILE);
 
 		return response;
 	}
@@ -161,7 +162,7 @@ public class RegisterServiceImpl implements RegisterService {
 	}
 
 	@Override
-	public void mergeMobileAccount(String openId, int channelType, String mobile, String verifycode,
+	public void mergeMobileAccount(long uid, String mobile, String verifycode,
 			boolean persistMobileAccount) {
 
 		
@@ -178,24 +179,28 @@ public class RegisterServiceImpl implements RegisterService {
 		// 校验短信验证码是否正确
 		validateBindSmsCode(mobile, verifycode);
 
-		
-		UserOpenAccount nowAccount = userOpenAccountDAO.queryByOpenId(openId, channelType);
+
+		UserSession session = SessionHolder.getCurrentLoginUserSession();
+
+//		long currentLoginUid = SessionHolder.getCurrentLoginUid();
+
+		// 判断传入账户的uid与当前登录的用户uid是否一致
+		if (session == null || uid != session.getUid()) {
+			throw new BizException(BizErrorCode.EX_UID_NOT_CURRENT_LOGIN_USER.getCode());
+		}
+
+
+			
+		//
+		UserOpenAccount nowAccount = userOpenAccountDAO.queryByOpenId(session.getOpenId(), session.getChannelType());
 
 		//如果当前账户不存在
 		if(nowAccount == null) {
 			throw new BizException(BizErrorCode.EX_ILLEGLE_REQUEST_PARM.getCode());
 		}
 		
-
-		long currentLoginUid = SessionHolder.getCurrentLoginUid();
-
-		// 判断传入账户的uid与当前登录的用户uid是否一致
-		if (nowAccount.getUid() != currentLoginUid) {
-			throw new BizException(BizErrorCode.EX_UID_NOT_CURRENT_LOGIN_USER.getCode());
-		}
-
-
-
+		
+		
 		UserOpenAccount mobileAccount = userOpenAccountDAO.queryByOpenId(mobile, ChannelType.CHANNEL_MOBILE);
 
 		// 手机没有被注册直接报错
@@ -207,14 +212,11 @@ public class RegisterServiceImpl implements RegisterService {
 		if (persistMobileAccount) {
 
 			// 修改第三方绑定账号的uid为mobile的uid
-			userOpenAccountDAO.updateToBindUid(openId, channelType, mobileAccount.getUid());
+			userOpenAccountDAO.updateToBindUid(session.getOpenId(), session.getChannelType(), mobileAccount.getUid());
 
-			//需要重建session会话
 
-			long createIp = IpUtils.ip2Long(RemoteIPInterceptor.getRemoteIP());
-
-			//重建会话
-			sessionHolder.createOrUpdateSession(mobileAccount.getUid(), createIp, LoginTypeEnum.SOURCE_TYPE_CLIENT.getCode());
+			//重建会话,  用手机的uid创建会话
+			sessionHolder.createOrUpdateSession(mobileAccount.getUid(), LoginTypeEnum.SOURCE_TYPE_CLIENT.getCode(),session.getOpenId(), session.getChannelType());
 			
 			
 		} else {
@@ -223,6 +225,15 @@ public class RegisterServiceImpl implements RegisterService {
 			userOpenAccountDAO.updateToBindUid(mobile, ChannelType.CHANNEL_MOBILE, nowAccount.getUid());
 		}
 
+	}
+
+	@Override
+	public RegisterResponseVo openIdRegister(OpenApiRegisterRequestVo vo) {
+		
+		
+		
+		
+		return null;
 	}
 
 }

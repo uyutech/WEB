@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSON;
 import com.framework.core.error.exception.BizException;
 import com.zhuanquan.app.common.exception.BizErrorCode;
-import com.zhuanquan.app.server.view.ApiResponse;
+import com.zhuanquan.app.common.view.ApiResponse;
 
 //基类，统一处理所有的异常
 public class BaseController {

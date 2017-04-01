@@ -1,6 +1,6 @@
 package com.zhuanquan.app.dal.dao.user;
 
-import com.zhuanquan.app.dal.model.user.UserOpenAccount;
+import com.zhuanquan.app.common.model.user.UserOpenAccount;
 
 /**
  * 

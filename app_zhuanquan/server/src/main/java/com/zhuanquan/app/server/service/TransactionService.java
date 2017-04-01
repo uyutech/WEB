@@ -1,7 +1,7 @@
 package com.zhuanquan.app.server.service;
 
-import com.zhuanquan.app.server.view.user.RegisterRequestVo;
-import com.zhuanquan.app.server.view.user.RegisterResponseVo;
+import com.zhuanquan.app.common.view.vo.user.RegisterRequestVo;
+import com.zhuanquan.app.common.view.vo.user.RegisterResponseVo;
 
 /**
  * 事务处理的service

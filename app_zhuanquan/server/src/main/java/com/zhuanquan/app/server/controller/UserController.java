@@ -8,20 +8,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.framework.core.error.exception.BizException;
-
-
+import com.zhuanquan.app.common.constants.ChannelType;
 import com.zhuanquan.app.common.exception.BizErrorCode;
-import com.zhuanquan.app.dal.model.user.UserProfile;
+import com.zhuanquan.app.common.model.user.UserOpenAccount;
+import com.zhuanquan.app.common.model.user.UserProfile;
+import com.zhuanquan.app.common.view.ApiResponse;
+import com.zhuanquan.app.common.view.vo.user.BindAndChoosePersistRequestVo;
+import com.zhuanquan.app.common.view.vo.user.LoginByOpenIdRequestVo;
+import com.zhuanquan.app.common.view.vo.user.LoginRequestVo;
+import com.zhuanquan.app.common.view.vo.user.LoginResponseVo;
+import com.zhuanquan.app.common.view.vo.user.RegisterRequestVo;
+import com.zhuanquan.app.common.view.vo.user.RegisterResponseVo;
+import com.zhuanquan.app.dal.dao.user.UserOpenAccountDAO;
 import com.zhuanquan.app.server.service.LoginService;
 import com.zhuanquan.app.server.service.RegisterService;
 import com.zhuanquan.app.server.service.UserService;
-import com.zhuanquan.app.server.view.ApiResponse;
-import com.zhuanquan.app.server.view.user.BindAndChoosePersistRequestVo;
-import com.zhuanquan.app.server.view.user.LoginByOpenIdRequestVo;
-import com.zhuanquan.app.server.view.user.LoginRequestVo;
-import com.zhuanquan.app.server.view.user.LoginResponseVo;
-import com.zhuanquan.app.server.view.user.RegisterRequestVo;
-import com.zhuanquan.app.server.view.user.RegisterResponseVo;
 
 //http://www.codesky.net/article/201306/181880.html
 
@@ -37,12 +38,16 @@ public class UserController extends BaseController {
 
 	@Resource
 	private UserService userService;
+	
+	@Resource
+	private UserOpenAccountDAO userOpenAccountDAO;
+	
 
 	@RequestMapping(value = "/registerByMobile")
 	@ResponseBody
 	public ApiResponse registerByMobile(RegisterRequestVo vo) {
 
-		RegisterResponseVo response = registerService.register(vo);
+		RegisterResponseVo response = registerService.mobileRegister(vo);
 
 		return ApiResponse.success(response);
 
@@ -75,9 +80,9 @@ public class UserController extends BaseController {
 	@ResponseBody
 	public ApiResponse beforeBindCheck(String mobile) {
 
-		UserProfile profile = userService.queryUserProfileByMobile(mobile);
+		UserOpenAccount account = userOpenAccountDAO.queryByOpenId(mobile, ChannelType.CHANNEL_MOBILE);
 
-		if (profile != null) {
+		if (account != null) {
 			throw new BizException(BizErrorCode.EX_BIND_MOBILE_HAS_BIND.getCode());
 		}
 
@@ -97,10 +102,10 @@ public class UserController extends BaseController {
 	 */
 	@RequestMapping(value = "/bindUnregisterMobile")
 	@ResponseBody
-	public ApiResponse bindUnregisterMobile(long uid, String mobile, String verifycode) {
-
-		registerService.bindUnregisterMobile(uid, mobile, verifycode);
-
+	public ApiResponse bindUnregisterMobile(long uid, String mobile, String password,String verifycode) {
+		
+		registerService.bindUnregisterMobile(uid, mobile, password, verifycode);
+		
 		return ApiResponse.success();
 	}
 
@@ -111,7 +116,7 @@ public class UserController extends BaseController {
 	 */
 	public ApiResponse bindMobileAndChoosePersistAccount(BindAndChoosePersistRequestVo vo) {
 
-		registerService.bindMobileAndChoosePersistAccount(vo.getUid(), vo.getMobile(), vo.getVerifycode(),
+		registerService.mergeMobileAccount(vo.getUid(), vo.getMobile(), vo.getVerifycode(),
 				vo.getPersistMobileAccount() == 1);
 
 		return ApiResponse.success();

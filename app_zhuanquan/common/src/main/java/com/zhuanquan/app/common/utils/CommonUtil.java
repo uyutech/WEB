@@ -254,7 +254,7 @@ public class CommonUtil {
 	public static void assertNotNull(String key, String propretyName) {
 
 		if (StringUtils.isEmpty(key)) {
-			throw new BizException(BizErrorCode.EX_PAY_ILLEGLE_REQUEST_PARM.getCode(),
+			throw new BizException(BizErrorCode.EX_ILLEGLE_REQUEST_PARM.getCode(),
 					propretyName + " can not be null!");
 		}
 

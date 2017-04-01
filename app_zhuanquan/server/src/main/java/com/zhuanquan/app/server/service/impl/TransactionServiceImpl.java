@@ -9,13 +9,14 @@ import org.springframework.transaction.annotation.Transactional;
 import com.framework.core.error.exception.BizException;
 import com.zhuanquan.app.common.constants.ChannelType;
 import com.zhuanquan.app.common.exception.BizErrorCode;
+import com.zhuanquan.app.common.model.user.UserOpenAccount;
+import com.zhuanquan.app.common.model.user.UserProfile;
+import com.zhuanquan.app.common.view.vo.user.RegisterRequestVo;
+import com.zhuanquan.app.common.view.vo.user.RegisterResponseVo;
 import com.zhuanquan.app.dal.dao.user.UserOpenAccountDAO;
 import com.zhuanquan.app.dal.dao.user.UserProfileDAO;
-import com.zhuanquan.app.dal.model.user.UserOpenAccount;
-import com.zhuanquan.app.dal.model.user.UserProfile;
 import com.zhuanquan.app.server.service.TransactionService;
-import com.zhuanquan.app.server.view.user.RegisterRequestVo;
-import com.zhuanquan.app.server.view.user.RegisterResponseVo;
+
 
 
 @Service
@@ -40,11 +41,10 @@ public class TransactionServiceImpl implements TransactionService {
 		if(account != null) {
 			throw new BizException(BizErrorCode.EX_BIND_MOBILE_HAS_BIND.getCode());
 		}
-		
-		
+
 		
 		//uid创建
-		UserProfile profile = vo.convertToUserProfile();
+		UserProfile profile = UserProfile.createMobileRegisterRecord(vo);
 		long uid = userProfileDAO.insertRecord(profile);
 
 		//account创建
@@ -56,9 +56,9 @@ public class TransactionServiceImpl implements TransactionService {
 		RegisterResponseVo response = new RegisterResponseVo();
 
 		response.setUid(uid);
-		response.setMobile(profile.getMobile());
-		response.setUserName(vo.getProfile());
-		response.setAllowAttation(profile.getAllowAttation());
+//		response.setMobile(profile.getMobile());
+//		response.setUserName(vo.getProfile());
+//		response.setAllowAttation(profile.getAllowAttation());
 
 		return response;
 	}
