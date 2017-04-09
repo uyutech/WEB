@@ -1,5 +1,8 @@
 package com.zhuanquan.app.server.service;
 
+import java.util.List;
+
+import com.zhuanquan.app.common.component.sesssion.UserSession;
 import com.zhuanquan.app.common.view.vo.user.OpenApiRegisterRequestVo;
 import com.zhuanquan.app.common.view.vo.user.RegisterRequestVo;
 import com.zhuanquan.app.common.view.vo.user.RegisterResponseVo;
@@ -29,6 +32,7 @@ public interface RegisterService {
 	 */
 	RegisterResponseVo openIdRegister(OpenApiRegisterRequestVo vo);
 	
+
 	
 	/**
 	 * 如果手机号没有被注册过，给用户绑定手机号
@@ -50,6 +54,33 @@ public interface RegisterService {
 	 */
 	void mergeMobileAccount(long uid, String mobile, String verifycode,
 			boolean persistMobileAccount);
+
+	
+	
+	/**
+	 * 注册引导第一步设置昵称
+	 * 
+	 * @param uid
+	 * @param nickName
+	 */
+	void setNickNameOnRegisterStep1(UserSession session, String nickName);
+	
+	
+	/**
+	 * 设置关注的话题标签 以及 作品的分类
+	 * @param uid 用户id
+	 * @param topicTags 话题标签
+	 * @param workCategries 作品分类
+	 */
+	void setFollowTagOnRegisterStep2(UserSession session,List<Long> topicTags,List<Long> workCategries);
+	
+	
+	/**
+	 * 设置关注的作者
+	 * @param uid
+	 * @param authors
+	 */
+	void setFollowAuthorsOnRegisterStep3(UserSession session,List<Long> authors);
 
 	
 	

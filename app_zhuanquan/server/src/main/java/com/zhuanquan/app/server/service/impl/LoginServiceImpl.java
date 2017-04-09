@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.framework.core.cache.redis.utils.RedisHelper;
@@ -18,7 +20,6 @@ import com.zhuanquan.app.common.exception.BizErrorCode;
 import com.zhuanquan.app.common.model.user.UserOpenAccount;
 import com.zhuanquan.app.common.model.user.UserProfile;
 import com.zhuanquan.app.common.utils.CommonUtil;
-import com.zhuanquan.app.common.utils.IpUtils;
 import com.zhuanquan.app.common.view.vo.user.LoginByOpenIdRequestVo;
 import com.zhuanquan.app.common.view.vo.user.LoginRequestVo;
 import com.zhuanquan.app.common.view.vo.user.LoginResponseVo;
@@ -32,23 +33,25 @@ import com.zhuanquan.app.server.service.TransactionService;
 @Service
 public class LoginServiceImpl implements LoginService {
 
+	protected final Logger logger = LoggerFactory.getLogger(this.getClass());
+
 	@Resource
 	private RedisHelper redisHelper;
 
 	@Resource
 	private UserProfileDAO userProfileDAO;
-	
+
 	@Resource
 	private SessionHolder sessionHolder;
-	
+
 	@Resource
 	private UserOpenAccountDAO userOpenAccountDAO;
-	
+
 	@Resource
 	private TransactionService transactionService;
-	
-    @Resource
-    private OpenApiService openApiService;
+
+	@Resource
+	private OpenApiService openApiService;
 
 	@Override
 	public LoginResponseVo loginByPwd(LoginRequestVo request) {
@@ -60,9 +63,9 @@ public class LoginServiceImpl implements LoginService {
 		validateIsLimited(request);
 
 		UserOpenAccount account = userOpenAccountDAO.queryByOpenId(request.getUserName(), ChannelType.CHANNEL_MOBILE);
-		
-		//如果account为null
-		if(account == null) {
+
+		// 如果account为null
+		if (account == null) {
 			throw new BizException(BizErrorCode.EX_UID_NOT_EXSIT.getCode());
 		}
 
@@ -70,27 +73,39 @@ public class LoginServiceImpl implements LoginService {
 		if (!account.getToken().equals(MD5.md5(request.getPassword()))) {
 			throw new BizException(BizErrorCode.EX_LOGIN_PWD_ERR.getCode());
 		}
-		
 
 		UserProfile profile = userProfileDAO.queryById(account.getUid());
-		
-		if(profile == null) {
+
+		if (profile == null) {
 			throw new BizException(BizErrorCode.EX_UID_NOT_EXSIT.getCode());
 		}
-		
+
 		// 非正常状态禁止登录
 		if (profile.getStatus() != UserProfile.STATUS_NORMAL) {
 			throw new BizException(BizErrorCode.EX_LOGIN_FORBIDDEN.getCode());
 		}
 
-
-
-		return sessionCreate(profile, request.getLoginType(),request.getUserName(),ChannelType.CHANNEL_MOBILE);
+		return sessionCreate(profile, request.getLoginType(), request.getUserName(), ChannelType.CHANNEL_MOBILE,
+				account.getIsVip());
 	}
 
-	
-	private LoginResponseVo sessionCreate(UserProfile profile,int loginType,String openId,int channelType) {
-		
+	/**
+	 * 创建会话
+	 * 
+	 * @param profile
+	 * @param loginType
+	 *            登录方式，web还是client端
+	 * @param openId
+	 *            openid
+	 * @param channelType
+	 *            登录渠道类型
+	 * @param isVip
+	 *            是否知名大v
+	 * @return
+	 */
+	private LoginResponseVo sessionCreate(UserProfile profile, int loginType, String openId, int channelType,
+			int isVip) {
+
 		LoginResponseVo response = new LoginResponseVo();
 
 		response.setUid(profile.getUid());
@@ -100,16 +115,17 @@ public class LoginServiceImpl implements LoginService {
 		response.setHeadUrl(profile.getHeadUrl());
 		response.setNickName(profile.getNickName());
 		response.setOpenId(openId);
-		
-		//设置登录后注册的状态，需要根据状态决定是否跳转到注册引导页面
+
+		// 设置登录后注册的状态，需要根据状态决定是否跳转到注册引导页面
 		response.setRegStat(profile.getRegisterStat());
-		
-		sessionHolder.createOrUpdateSession(profile.getUid(), loginType,openId,channelType);
-		
+
+		response.setIsVip(isVip);
+
+		sessionHolder.createOrUpdateSession(profile.getUid(), loginType, openId, channelType,isVip);
+
 		return response;
 	}
-	
-	
+
 	/**
 	 * 检测参数是否合法
 	 * 
@@ -130,15 +146,11 @@ public class LoginServiceImpl implements LoginService {
 
 		// 是否ip限制
 
-		
-		List<String> keyList= new ArrayList<String>();
-		
-		
+		List<String> keyList = new ArrayList<String>();
 
 		// 短信验证码key
 		String smsVerifyCode = RedisKeyBuilder.getLoginVerifyCodeKey(request.getUserName());
-		
-		
+
 		String ipLimitKey = RedisKeyBuilder.getLoginIpLimitKey(RemoteIPInterceptor.getRemoteIP());
 
 		String failTimesLimitKey = RedisKeyBuilder.getLoginFailTimesKey(request.getUserName());
@@ -147,72 +159,75 @@ public class LoginServiceImpl implements LoginService {
 		keyList.add(ipLimitKey);
 		keyList.add(failTimesLimitKey);
 
-
 		List<String> valueList = redisHelper.valueMultiGet(keyList);
-		
+
 		String smsValue = valueList.get(0);
-		
+
 		String ipLimitValue = valueList.get(1);
-		
+
 		String failTimesLimitValue = valueList.get(2);
 
-		//短信验证码校验
-		if(smsValue!=null&& !smsValue.equals(request.getVerifyCode())) {
+		// 短信验证码校验
+		if (smsValue != null && !smsValue.equals(request.getVerifyCode())) {
 			throw new BizException(BizErrorCode.EX_LOGIN_VERIFY_CODE_ERR.getCode());
 		}
-		
-		
-		//ip限制校验
-		
-		
-		//失败次数校验
 
-		
+		// ip限制校验
+
+		// 失败次数校验
+
 	}
 
 	@Override
 	public LoginResponseVo loginByOpenId(LoginByOpenIdRequestVo request) {
-		
-		//基本校验
+
+		// 基本校验
 		request.validat();
-		
+
 		UserOpenAccount account = userOpenAccountDAO.queryByOpenId(request.getOpenId(), request.getChannelType());
-		
-		//如果记录存在
-		if(account != null) {
-			
-			//如果token不一样，更新token
-			if(!account.getToken().equals(request.getToken())) {
 
-				//先检测token是否合法
-				openApiService.checkToken(request.getToken(), request.getOpenId(), ChannelType.CHANNEL_WEIBO);
-				
-				userOpenAccountDAO.updateAccountToken(account.getOpenId(), account.getChannelType(), request.getToken());
-			}
-			
-			long uid = account.getUid();
-			
-			UserProfile profile = userProfileDAO.queryById(uid);
-			
-			// 非正常状态禁止登录
-			if (profile.getStatus() != UserProfile.STATUS_NORMAL) {
-				throw new BizException(BizErrorCode.EX_LOGIN_FORBIDDEN.getCode());
-			}
+		// 如果account为null，那么不可能是知名大V，因为知名大v我们都是预先注册好账号的
+		if (account == null) {
 
-			return sessionCreate(profile, request.getLoginType(),request.getOpenId(),request.getChannelType());
+			// 先检测第三方的token是否合法
+			openApiService.checkToken(request.getToken(), request.getOpenId(), request.getChannelType());
+
+			// 第三方登录注册
+			UserProfile profile = transactionService.normalOpenAccountRegister(request);
+
+			// 普通第三方账户注册，非大v
+			return sessionCreate(profile, request.getLoginType(), request.getOpenId(), request.getChannelType(),
+					UserOpenAccount.NORMAL_ACCOUNT);
 		}
-		
-		
-		//先检测token是否合法
-		openApiService.checkToken(request.getToken(), request.getOpenId(), ChannelType.CHANNEL_WEIBO);
 
-		
-		//第三方登录注册		
-		UserProfile profile = transactionService.openAccountRegister(request);
-		
-		
-		return sessionCreate(profile, request.getLoginType(), request.getOpenId(), request.getChannelType());
-		
+		// 如果记录存在
+		// 如果token不一样，更新token
+		if (!account.getToken().equals(request.getToken())) {
+
+			// 先检测token是否合法
+			openApiService.checkToken(request.getToken(), request.getOpenId(), request.getChannelType());
+
+			// 如果状态为 unactive，那么必然是 预先生成的vip账号，那么先激活这个账号
+			if (account.getStatus() == UserOpenAccount.STATS_UNACTIVE) {
+				// 更新到激活状态
+				userOpenAccountDAO.updateToActiveStat(account.getOpenId(), account.getChannelType());
+			}
+
+			userOpenAccountDAO.updateAccountToken(account.getOpenId(), account.getChannelType(), request.getToken());
+		}
+
+		long uid = account.getUid();
+
+		UserProfile profile = userProfileDAO.queryById(uid);
+
+		// 非正常状态禁止登录
+		if (profile.getStatus() != UserProfile.STATUS_NORMAL) {
+			throw new BizException(BizErrorCode.EX_LOGIN_FORBIDDEN.getCode());
+		}
+
+		return sessionCreate(profile, request.getLoginType(), request.getOpenId(), request.getChannelType(),
+				account.getIsVip());
+
 	}
 
 }

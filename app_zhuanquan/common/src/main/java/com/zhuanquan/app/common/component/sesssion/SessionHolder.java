@@ -41,9 +41,10 @@ public class SessionHolder  {
 	 * @param loginType 登录类型 web还是client
 	 * @param openId openid
 	 * @param channelType 账户频道类型
+	 * @param isVip 是否大v用户
 	 * @return
 	 */
-	public  UserSession createOrUpdateSession(long uid, int loginType,String openId, int channelType) {
+	public  UserSession createOrUpdateSession(long uid, int loginType,String openId, int channelType, int isVip) {
 		
 		String sessionKey = MD5.md5(CommonUtil.getRandomString(23));
 		
@@ -53,6 +54,7 @@ public class SessionHolder  {
 		
 		userSession.setChannelType(channelType);
 		userSession.setOpenId(openId);
+		userSession.setIsVip(isVip);
 
 		SESSION_LOCAL.set(userSession);
 

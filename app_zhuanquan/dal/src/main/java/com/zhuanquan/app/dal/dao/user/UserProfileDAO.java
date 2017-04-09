@@ -20,19 +20,28 @@ public interface UserProfileDAO {
 	 */
 	long insertRecord(UserProfile profile);
 	
-//	
-//	/**
-//	 * 根据用户名查询
-//	 * @param userName
-//	 * @return
-//	 */
-//	UserProfile queryByUserName(String userName);
 	
-//	
-//	/**
-//	 * 绑定手机号
-//	 * @param uid
-//	 * @param mobile
-//	 */
-//	void bindMobile(long uid,String mobile);
+	/**
+	 * 查询昵称的数量
+	 * @param nickName
+	 * @return
+	 */
+	int queryCountByNickName(String nickName);
+	
+    /**
+     * 修改nick name 在step1，同时更新profile的register状态
+     * @param uid
+     * @param nickName
+     * @return
+     */
+	int updateNickNameOnStep1(long uid,String nickName);
+	
+	/**
+	 * 更新注册的状态
+	 * @param uid 用户id
+	 * @param registerStatus 注册状态
+	 * @return
+	 */
+	int updateRegisterStatus(long uid,int registerStatus);
+	
 }

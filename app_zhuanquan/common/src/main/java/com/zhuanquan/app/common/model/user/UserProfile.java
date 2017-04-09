@@ -60,7 +60,6 @@ public class UserProfile {
 	 */
 	private Integer status;
 
-
 	
 	
 	/**
@@ -82,7 +81,7 @@ public class UserProfile {
 	/**
 	 * 注册状态  3-正常状态(注册引导完成) 0-注册第一步未完成 1-注册第二步未完成  2-注册第三步未完成
 	 */
-	private int registerStat;
+	private Integer registerStat;
 	
 	
 	
@@ -123,11 +122,11 @@ public class UserProfile {
     
 
 
-	public int getRegisterStat() {
+	public Integer getRegisterStat() {
 		return registerStat;
 	}
 
-	public void setRegisterStat(int registerStat) {
+	public void setRegisterStat(Integer registerStat) {
 		this.registerStat = registerStat;
 	}
 
@@ -201,6 +200,7 @@ public class UserProfile {
 		
 		profile.setModifyTime(now);
 
+	   //设置注册状态为 注册引导第一步
 		profile.setRegisterStat(UserProfile.REG_STAT_BEFORE_STEP1);
 		
 		profile.setCreateTime(now);

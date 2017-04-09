@@ -47,6 +47,21 @@ public class LoginResponseVo implements Serializable {
 	 */
 	private int regStat;
 
+    /**
+     * 是否知名大v
+     */
+	private int isVip;
+	
+
+	public int getIsVip() {
+		return isVip;
+	}
+
+
+	public void setIsVip(int isVip) {
+		this.isVip = isVip;
+	}
+
 
 	public long getUid() {
 		return uid;

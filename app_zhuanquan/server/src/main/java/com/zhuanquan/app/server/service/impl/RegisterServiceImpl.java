@@ -1,11 +1,17 @@
 package com.zhuanquan.app.server.service.impl;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSON;
 import com.framework.core.cache.redis.utils.RedisHelper;
 import com.framework.core.error.exception.BizException;
 import com.zhuanquan.app.common.component.cache.RedisKeyBuilder;
@@ -15,13 +21,17 @@ import com.zhuanquan.app.common.component.sesssion.UserSession;
 import com.zhuanquan.app.common.constants.ChannelType;
 import com.zhuanquan.app.common.constants.LoginTypeEnum;
 import com.zhuanquan.app.common.exception.BizErrorCode;
+import com.zhuanquan.app.common.model.author.AuthorBase;
 import com.zhuanquan.app.common.model.user.UserOpenAccount;
+import com.zhuanquan.app.common.model.user.UserProfile;
 import com.zhuanquan.app.common.utils.CommonUtil;
 import com.zhuanquan.app.common.utils.IpUtils;
 import com.zhuanquan.app.common.utils.PhoneValidateUtils;
 import com.zhuanquan.app.common.view.vo.user.OpenApiRegisterRequestVo;
 import com.zhuanquan.app.common.view.vo.user.RegisterRequestVo;
 import com.zhuanquan.app.common.view.vo.user.RegisterResponseVo;
+import com.zhuanquan.app.dal.dao.author.AuthorBaseDAO;
+import com.zhuanquan.app.dal.dao.user.UserFollowAuthorDAO;
 import com.zhuanquan.app.dal.dao.user.UserOpenAccountDAO;
 import com.zhuanquan.app.dal.dao.user.UserProfileDAO;
 
@@ -32,6 +42,9 @@ import com.zhuanquan.app.server.service.TransactionService;
 @Service
 public class RegisterServiceImpl implements RegisterService {
 
+	protected final Logger logger = LoggerFactory.getLogger(this.getClass());
+
+	
 	@Resource
 	private UserProfileDAO userProfileDAO;
 
@@ -46,6 +59,12 @@ public class RegisterServiceImpl implements RegisterService {
 
 	@Resource
 	private UserOpenAccountDAO userOpenAccountDAO;
+	
+	@Resource
+	private AuthorBaseDAO authorBaseDAO;
+	
+	@Resource
+	private UserFollowAuthorDAO userFollowAuthorDAO;
 
 	@Override
 	public RegisterResponseVo mobileRegister(RegisterRequestVo vo) {
@@ -59,7 +78,7 @@ public class RegisterServiceImpl implements RegisterService {
 		RegisterResponseVo response = transactionService.registerMobile(vo);
 
 
-		sessionHolder.createOrUpdateSession(response.getUid(), vo.getLoginType(),vo.getProfile(),ChannelType.CHANNEL_MOBILE);
+		sessionHolder.createOrUpdateSession(response.getUid(), vo.getLoginType(),vo.getProfile(),ChannelType.CHANNEL_MOBILE,UserOpenAccount.NORMAL_ACCOUNT);
 
 		return response;
 	}
@@ -182,8 +201,6 @@ public class RegisterServiceImpl implements RegisterService {
 
 		UserSession session = SessionHolder.getCurrentLoginUserSession();
 
-//		long currentLoginUid = SessionHolder.getCurrentLoginUid();
-
 		// 判断传入账户的uid与当前登录的用户uid是否一致
 		if (session == null || uid != session.getUid()) {
 			throw new BizException(BizErrorCode.EX_UID_NOT_CURRENT_LOGIN_USER.getCode());
@@ -216,7 +233,7 @@ public class RegisterServiceImpl implements RegisterService {
 
 
 			//重建会话,  用手机的uid创建会话
-			sessionHolder.createOrUpdateSession(mobileAccount.getUid(), LoginTypeEnum.SOURCE_TYPE_CLIENT.getCode(),session.getOpenId(), session.getChannelType());
+			sessionHolder.createOrUpdateSession(mobileAccount.getUid(), LoginTypeEnum.SOURCE_TYPE_CLIENT.getCode(),session.getOpenId(), session.getChannelType(),mobileAccount.getIsVip());
 			
 			
 		} else {
@@ -229,11 +246,94 @@ public class RegisterServiceImpl implements RegisterService {
 
 	@Override
 	public RegisterResponseVo openIdRegister(OpenApiRegisterRequestVo vo) {
-		
-		
-		
+
 		
 		return null;
+	}
+
+	@Override
+	public void setNickNameOnRegisterStep1(UserSession session, String nickName) {
+		
+		if(StringUtils.isEmpty(nickName)) {
+			throw new BizException(BizErrorCode.EX_UID_NICK_NAME_CAN_NOT_BE_NULL.getCode());
+		}
+		
+		UserProfile profile = userProfileDAO.queryById(session.getUid());
+		
+		if(profile == null || profile.getRegisterStat()!=UserProfile.REG_STAT_BEFORE_STEP1) {			
+			logger.info("setNickNameOnRegisterStep1:[uid]="+session.getUid()+",[nickName]="+nickName+",[profile]:"+profile==null?"null":JSON.toJSONString(profile));
+			throw new BizException(BizErrorCode.EX_ILLEGLE_REQUEST_PARM.getCode());
+		}
+		
+		//check nickname 如果和当前的一致，忽略
+		if(profile.getNickName().equals(nickName.trim())) {
+			return;
+		}
+		
+		//
+		AuthorBase base = authorBaseDAO.queryByUid(session.getUid());
+		
+		//如果是大v用户，并且设置的nickname和作者的名字一样的，那么不做校验默认允许重复
+		if(base!=null && base.getAuthorName().equals(nickName)) {
+			//更新昵称
+			userProfileDAO.updateNickNameOnStep1(session.getUid(), nickName);
+			return;
+		}
+		
+		
+		
+		int count = userProfileDAO.queryCountByNickName(nickName);
+		//不允许和其他普通用户重复
+		if(count>0) {
+			throw new BizException(BizErrorCode.EX_UID_NICK_NAME_CAN_NOT_BE_DUPLICATE_WITH_PROFILE.getCode());
+		}
+		
+		
+		List<AuthorBase> list = authorBaseDAO.queryByAuthorName(nickName);
+		//不允许设置成和作者名一样的昵称
+		if(CollectionUtils.isNotEmpty(list)) {
+			throw new BizException(BizErrorCode.EX_UID_NICK_NAME_CAN_NOT_BE_DUPLICATE_WITH_AUTHORNAME.getCode());
+
+		}
+
+		//更新昵称
+		userProfileDAO.updateNickNameOnStep1(session.getUid(), nickName);
+		
+	}
+
+	@Override
+	public void setFollowTagOnRegisterStep2(UserSession session, List<Long> topicTags, List<Long> workCategries) {
+		
+		UserProfile profile = userProfileDAO.queryById(session.getUid());
+		
+		if(profile == null || profile.getRegisterStat()!=UserProfile.REG_STAT_BEFORE_STEP2) {			
+			logger.info("setFollowTagOnRegisterStep2:[uid]="+session.getUid()+",[topicTags]="+JSON.toJSONString(topicTags)+",[workCategries]:"+JSON.toJSONString(workCategries)+",[profile]:"+profile==null?"null":JSON.toJSONString(profile));
+			throw new BizException(BizErrorCode.EX_ILLEGLE_REQUEST_PARM.getCode());
+		}
+		
+		//
+		
+		
+		//完成第二步，设置状态为第三步等待执行
+		userProfileDAO.updateRegisterStatus(session.getUid(), UserProfile.REG_STAT_BEFORE_STEP3);
+
+	}
+
+	@Override
+	public void setFollowAuthorsOnRegisterStep3(UserSession session, List<Long> authorIds) {
+		
+		
+		UserProfile profile = userProfileDAO.queryById(session.getUid());
+		
+		if(profile == null || profile.getRegisterStat()!=UserProfile.REG_STAT_BEFORE_STEP3) {			
+			logger.info("setFollowTagOnRegisterStep3:[uid]="+session.getUid()+",[authorIds]="+JSON.toJSONString(authorIds)+",[profile]:"+profile==null?"null":JSON.toJSONString(profile));
+			throw new BizException(BizErrorCode.EX_ILLEGLE_REQUEST_PARM.getCode());
+		}
+		
+		//第三步注册完了，设置状态为normal
+		transactionService.setFollowAuthorsOnRegisterStep3(session.getUid(), authorIds);
+
+		
 	}
 
 }

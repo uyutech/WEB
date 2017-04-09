@@ -25,6 +25,7 @@ public class UserBaseInfo {
 	 */
 	private String mobile;
 
+
 	public String getHeadUrl() {
 		return headUrl;
 	}
@@ -47,6 +48,14 @@ public class UserBaseInfo {
 
 	public void setGender(Integer gender) {
 		this.gender = gender;
+	}
+
+	public String getMobile() {
+		return mobile;
+	}
+
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
 	}
 	
 	

@@ -1,5 +1,8 @@
 package com.zhuanquan.app.server.service;
 
+import java.util.List;
+
+import com.zhuanquan.app.common.model.author.Tag;
 import com.zhuanquan.app.common.model.user.UserProfile;
 
 /**
@@ -16,11 +19,13 @@ public interface UserService {
 	 */
 	UserProfile queryUserProfileByUid(long uid);
 	
-//	/**
-//	 * 根据手机号查询，手机是否被注册了
-//	 * @param mobile
-//	 * @return
-//	 */
-//	UserProfile queryUserProfileByMobile(String mobile);
+    /**
+     * 设置用户关注的标签
+     * 
+     * @param uid 用户id
+     * @param tagIds 标签id
+     * @param isInRegister 是否在注册流程
+     */
+	void setUserFollowTags(long uid,List<Long> tagIds,boolean isInRegister);
 	
 }

@@ -44,6 +44,16 @@ public enum BizErrorCode implements ErrorCode {
 
 	 //用户不存在
 	 EX_UID_NOT_EXSIT (100002008), 
+	 
+	 //昵称不能为空
+	 EX_UID_NICK_NAME_CAN_NOT_BE_NULL (100002009), 
+	 
+	 //昵称不允许重复
+	 EX_UID_NICK_NAME_CAN_NOT_BE_DUPLICATE_WITH_PROFILE (100002010), 
+	 
+	 //不允许和作者名重复
+	 EX_UID_NICK_NAME_CAN_NOT_BE_DUPLICATE_WITH_AUTHORNAME (100002011), 
+
   
 	;
 

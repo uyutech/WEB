@@ -70,9 +70,7 @@ public class LoginByOpenIdRequestVo implements Serializable {
 	}
 	
 	
-	
-	
-	
+
 	public int getLoginType() {
 		return loginType;
 	}
@@ -87,6 +85,11 @@ public class LoginByOpenIdRequestVo implements Serializable {
 	public void validat() {
 		
 		if(StringUtils.isEmpty(token) || StringUtils.isEmpty(openId) ||StringUtils.isEmpty(sign)){
+			throw new BizException(BizErrorCode.EX_ILLEGLE_REQUEST_PARM.getCode());
+		}
+		
+		//-1是 vip账号初始化的默认值
+		if("-1".equals(token)) {
 			throw new BizException(BizErrorCode.EX_ILLEGLE_REQUEST_PARM.getCode());
 		}
 		

@@ -38,6 +38,11 @@ public class UserSession  implements Serializable{
 	 * openid
 	 */
 	private String openId;
+	
+	/**
+	 * 是否是大v用户
+	 */
+	private int isVip;
 
 
 	public int getLoginType() {
@@ -70,6 +75,14 @@ public class UserSession  implements Serializable{
 
 	public void setOpenId(String openId) {
 		this.openId = openId;
+	}
+
+	public int getIsVip() {
+		return isVip;
+	}
+
+	public void setIsVip(int isVip) {
+		this.isVip = isVip;
 	} 
 
 	

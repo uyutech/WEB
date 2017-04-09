@@ -44,4 +44,13 @@ public interface UserOpenAccountDAO {
 	int updateToBindUid(String userOpenId,int channelType,long newUid);
 	
 	
+	/**
+	 * 更新到active状态 
+	 * @param userOpenId
+	 * @param channelType
+	 * @return
+	 */
+	int updateToActiveStat(String userOpenId,int channelType);
+	
+	
 }

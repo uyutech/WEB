@@ -29,6 +29,7 @@ import com.zhuanquan.app.server.service.UserService;
 @Controller
 @RequestMapping(value = "/user")
 public class UserController extends BaseController {
+	
 
 	@Resource
 	private RegisterService registerService;
