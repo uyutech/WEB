@@ -44,25 +44,6 @@ public class UserController extends BaseController {
 	private UserOpenAccountDAO userOpenAccountDAO;
 	
 
-	@RequestMapping(value = "/registerByMobile")
-	@ResponseBody
-	public ApiResponse registerByMobile(RegisterRequestVo vo) {
-
-		RegisterResponseVo response = registerService.mobileRegister(vo);
-
-		return ApiResponse.success(response);
-
-	}
-
-	@RequestMapping(value = "/login")
-	@ResponseBody
-	public ApiResponse login(LoginRequestVo request) {
-
-		LoginResponseVo response = loginService.loginByPwd(request);
-
-		return ApiResponse.success(response);
-
-	}
 
 	@RequestMapping(value = "/queryProfileByUid")
 	@ResponseBody
@@ -71,71 +52,7 @@ public class UserController extends BaseController {
 		return ApiResponse.success();
 	}
 
-	/**
-	 * 检查手机是否已经被别人绑定了
-	 * 
-	 * @param mobile
-	 * @return
-	 */
-	@RequestMapping(value = "/beforeBindCheck")
-	@ResponseBody
-	public ApiResponse beforeBindCheck(String mobile) {
-
-		UserOpenAccount account = userOpenAccountDAO.queryByOpenId(mobile, ChannelType.CHANNEL_MOBILE);
-
-		if (account != null) {
-			throw new BizException(BizErrorCode.EX_BIND_MOBILE_HAS_BIND.getCode());
-		}
-
-		return ApiResponse.success();
-	}
-
-	/**
-	 * 绑定未注册过的手机号
-	 * 
-	 * @param uid
-	 *            原来账号的uid
-	 * @param mobile
-	 *            手机号
-	 * @param verifycode
-	 *            验证码
-	 * @return
-	 */
-	@RequestMapping(value = "/bindUnregisterMobile")
-	@ResponseBody
-	public ApiResponse bindUnregisterMobile(long uid, String mobile, String password,String verifycode) {
-		
-		registerService.bindUnregisterMobile(uid, mobile, password, verifycode);
-		
-		return ApiResponse.success();
-	}
-
-	/**
-	 * 如果手机号已经注册了，那么用户需要选择，当前保留哪一个账号
-	 * 
-	 * @param vo
-	 */
-	public ApiResponse bindMobileAndChoosePersistAccount(BindAndChoosePersistRequestVo vo) {
-
-		registerService.mergeMobileAccount(vo.getUid(), vo.getMobile(), vo.getVerifycode(),
-				vo.getPersistMobileAccount() == 1);
-
-		return ApiResponse.success();
-	}
-
-	/**
-	 * 第三方登录
-	 * 
-	 * @param request
-	 * @return
-	 */
-	@RequestMapping(value = "/loginByOpenId")
-	@ResponseBody
-	public ApiResponse loginByOpenId(LoginByOpenIdRequestVo request) {
 
 
-		return null;
-
-	}
 
 }

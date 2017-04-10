@@ -204,11 +204,7 @@ public class RegisterServiceImpl implements RegisterService {
 
 	}
 
-	@Override
-	public RegisterResponseVo openIdRegister(OpenApiRegisterRequestVo vo) {
 
-		return null;
-	}
 
 	@Override
 	public void setNickNameOnRegisterStep1(UserSession session, String nickName) {
@@ -368,6 +364,17 @@ public class RegisterServiceImpl implements RegisterService {
 			throw new BizException(BizErrorCode.EX_VERIFY_CODE_ERR.getCode());
 		}
 
+	}
+
+	@Override
+	public int beforeBindCheck(String mobile) {
+		
+		//检查手机是否合法
+		PhoneValidateUtils.isPhoneLegal(mobile);
+		
+		UserOpenAccount account = userOpenAccountDAO.queryByOpenId(mobile, ChannelType.CHANNEL_MOBILE);
+		
+		return account == null?0:1;
 	}
 
 }

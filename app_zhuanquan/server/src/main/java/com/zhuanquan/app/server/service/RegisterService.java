@@ -25,12 +25,12 @@ public interface RegisterService {
 	RegisterResponseVo mobileRegister(RegisterRequestVo vo); 
 	
 	
-	/**
-	 * 第三方注册
-	 * @param vo
-	 * @return
-	 */
-	RegisterResponseVo openIdRegister(OpenApiRegisterRequestVo vo);
+//	/**
+//	 * 第三方注册
+//	 * @param vo
+//	 * @return
+//	 */
+//	RegisterResponseVo openIdRegister(OpenApiRegisterRequestVo vo);
 	
 
 	
@@ -96,6 +96,13 @@ public interface RegisterService {
 	 * @param newPwd 新密码
 	 */
 	void modifyPassword(String verifyCode,String newPwd);
+	
+	/**
+	 * 检查手机是否被绑定过了
+	 * @param mobile
+	 * @return
+	 */
+	int beforeBindCheck(String mobile);
 	
 	
 	

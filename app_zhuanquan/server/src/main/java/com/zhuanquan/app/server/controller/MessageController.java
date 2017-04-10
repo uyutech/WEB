@@ -21,4 +21,30 @@ public class MessageController extends BaseController {
 		return ApiResponse.success();
 	}
 	
+	
+	@RequestMapping(value="/sendBindVerifyCode")
+	@ResponseBody
+	public ApiResponse sendBindVerifyCode(String mobile) {
+		
+		return ApiResponse.success();
+	}
+	
+	
+	
+	@RequestMapping(value="/sendForgetPwdVerifyCode")
+	@ResponseBody
+	public ApiResponse sendForgetPwdVerifyCode(String mobile) {
+		
+		return ApiResponse.success();
+	}
+	
+	
+	
+	@RequestMapping(value="/sendModifyPwdVerifyCode")
+	@ResponseBody
+	public ApiResponse sendModifyPwdVerifyCode(String mobile) {
+		
+		return ApiResponse.success();
+	}
+	
 }

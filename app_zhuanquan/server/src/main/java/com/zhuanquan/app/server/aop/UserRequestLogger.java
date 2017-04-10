@@ -15,6 +15,8 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.alibaba.fastjson.JSON;
+import com.zhuanquan.app.common.component.sesssion.SessionHolder;
+import com.zhuanquan.app.common.component.sesssion.UserSession;
 import com.zhuanquan.app.common.utils.IpUtils;
 import com.zhuanquan.app.server.controller.BaseController;
 
@@ -37,12 +39,13 @@ public class UserRequestLogger extends BaseController {
             if (request == null) {
                 return retVal;
             }
-
-            String sessionId = null;
-            HttpSession session = request.getSession(false);
-            if (session != null) {
-                sessionId = session.getId();
-            }
+//
+//            String sessionId = null;
+//            
+//            HttpSession session = request.getSession(false);
+//            if (session != null) {
+//                sessionId = session.getId();
+//            }
 
             //此方法返回的是一个数组，数组中包括request以及ActionCofig等类对象
             Object[] args = joinPoint.getArgs();
@@ -114,6 +117,16 @@ public class UserRequestLogger extends BaseController {
             
             logStr.append(classUrl).append("|").append(classvalue).append("|returnValie=")
             	.append(returnValue).append("|time=").append(clock.getTotalTimeMillis());
+            
+            UserSession session = SessionHolder.getCurrentLoginUserSession();
+            
+            if(session == null) {
+            	logStr.append("|").append("session is null");
+            } else {
+            	logStr.append("|uid=").append(session.getUid()).append("|openId=").append(session.getOpenId()).append("|channel=")
+            	.append(session.getChannelType());
+            }
+            
             logger.info(logStr.toString());
             return retVal;
         } catch (Exception e) {
