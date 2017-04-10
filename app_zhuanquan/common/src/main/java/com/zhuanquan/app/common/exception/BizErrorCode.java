@@ -17,8 +17,8 @@ public enum BizErrorCode implements ErrorCode {
 
 	 
 	 
-	 //注册短信验证码校验失败
-	 EX_REGISTER_VERIFY_CODE_ERR (100001001), 
+	 //短信验证码校验失败
+	 EX_VERIFY_CODE_ERR (100001001), 
 
 	 //登录验证码错误
 	 EX_LOGIN_VERIFY_CODE_ERR (100002001), 
@@ -54,7 +54,18 @@ public enum BizErrorCode implements ErrorCode {
 	 //不允许和作者名重复
 	 EX_UID_NICK_NAME_CAN_NOT_BE_DUPLICATE_WITH_AUTHORNAME (100002011), 
 
-  
+     //其他渠道登录的不允许修改手机登录的密码
+	 EX_PWD_NOT_PERMIT_TO_MODIFY (100002012), 
+	 
+	 //密码不能为空
+	 EX_PWD_NOT_BE_EMPTY (100002013), 
+	 
+	 //密码不合法
+	 EX_PWD_IS_NOT_ILLEGLE (100002014), 
+
+
+
+	 
 	;
 
 	

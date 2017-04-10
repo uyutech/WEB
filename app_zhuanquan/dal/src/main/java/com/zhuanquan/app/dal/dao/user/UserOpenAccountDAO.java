@@ -53,4 +53,22 @@ public interface UserOpenAccountDAO {
 	int updateToActiveStat(String userOpenId,int channelType);
 	
 	
+	/**
+	 * 修改手机登录密码
+	 * @param mobile 手机号
+	 * @param password 新密码
+	 */
+	void modifyPassword(String mobile,String password);
+	
+	
+	/**
+	 * 根据uid和channelType查询
+	 * @param uid
+	 * @param channelType
+	 * @return
+	 */
+	UserOpenAccount queryByUidAndChannelType(long uid,int channelType);
+
+	
+	
 }

@@ -82,6 +82,21 @@ public interface RegisterService {
 	 */
 	void setFollowAuthorsOnRegisterStep3(UserSession session,List<Long> authors);
 
+	/**
+	 *  忘记密码，重置密码
+	 * @param mobile 手机号
+	 * @param verifyCode 短信验证码
+	 * @param password  密码
+	 */
+	void forgetPassword(String mobile, String verifyCode,String password);
+	
+	/**
+	 * 修改密码
+	 * @param verifyCode 验证码
+	 * @param newPwd 新密码
+	 */
+	void modifyPassword(String verifyCode,String newPwd);
+	
 	
 	
 }

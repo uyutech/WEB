@@ -66,11 +66,34 @@ public class RedisKeyBuilder {
 	 * @param mobile
 	 * @return
 	 */
-	public static String getBindMobileSmsVerfiyCodeKey(String mobile) {
+	public static String getBindMobileSmsVerifyCodeKey(String mobile) {
 		
 		return "gw:bind:mobile:"+mobile;
 	}
 	
+	
+	/**
+	 *  忘记密码时的 短信验证码的key
+	 * @param mobile
+	 * @return
+	 */
+	public static String getForgetPwdSmsVerifyCodeKey(String mobile) {
+		
+		return "gw:forgetpwd:mobile:"+mobile;
+
+	}
+	
+	
+	/**
+	 *  修改密码时的 短信验证码的key
+	 * @param mobile
+	 * @return
+	 */
+	public static String getModifyPwdSmsVerifyCodeKey(String mobile) {
+		
+		return "gw:modifypwd:mobile:"+mobile;
+
+	}
 	
 	
 }
