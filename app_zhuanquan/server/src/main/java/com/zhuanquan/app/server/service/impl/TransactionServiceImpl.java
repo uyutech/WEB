@@ -67,7 +67,6 @@ public class TransactionServiceImpl implements TransactionService {
 	public RegisterResponseVo registerMobile(RegisterRequestVo vo) {
 		
 		//
-		
 		UserOpenAccount account = userOpenAccountCache.queryByOpenId(vo.getProfile(), ChannelType.CHANNEL_MOBILE);
 		
 		//手机号已注册

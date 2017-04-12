@@ -4,15 +4,13 @@
 	namespace="com.zhuanquan.app.dal.dao.user.impl.UserProfileDAOImpl">
 
 	<resultMap id="BaseResultMap"
-		type="com.zhuanquan.app.dal.model.user.UserProfile">	
+		type="com.zhuanquan.app.common.model.user.UserProfile">	
 		<id column="uid" property="uid" jdbcType="BIGINT" />
-		<result column="user_name" property="userName" jdbcType="VARCHAR" />
-		<result column="nick_name" property="nickName" jdbcType="VARCHAR" />
-		<result column="password" property="password" jdbcType="VARCHAR" />
 		<result column="status" property="status" jdbcType="INTEGER" />
-		<result column="headUrl" property="headUrl" jdbcType="VARCHAR" />
-		<result column="gender" property="gender" jdbcType="INTEGER" />
 		<result column="allow_attation" property="allowAttation" jdbcType="INTEGER" />
+		<result column="register_stat" property="registerStat" jdbcType="INTEGER" />
+		<result column="head_url" property="headUrl" jdbcType="VARCHAR" />
+		<result column="nick_Name" property="nickName" jdbcType="VARCHAR" />
 		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
 		<result column="MODIFY_TIME" property="modifyTime" jdbcType="TIMESTAMP" />
 	</resultMap>
