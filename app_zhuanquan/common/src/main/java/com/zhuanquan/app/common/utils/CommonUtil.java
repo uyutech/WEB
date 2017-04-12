@@ -13,8 +13,8 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.framework.core.error.exception.BizException;
 import com.zhuanquan.app.common.exception.BizErrorCode;
+import com.zhuanquan.app.common.exception.BizException;
 
 /**
  * 

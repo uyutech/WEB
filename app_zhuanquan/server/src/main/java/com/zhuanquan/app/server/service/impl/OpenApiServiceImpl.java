@@ -11,9 +11,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONObject;
-import com.framework.core.error.exception.BizException;
 import com.zhuanquan.app.common.constants.ChannelType;
 import com.zhuanquan.app.common.exception.BizErrorCode;
+import com.zhuanquan.app.common.exception.BizException;
 import com.zhuanquan.app.common.utils.ApiConnector;
 import com.zhuanquan.app.server.service.OpenApiService;
 

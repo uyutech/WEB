@@ -15,9 +15,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.framework.core.error.exception.BizException;
 import com.zhuanquan.app.common.constants.ChannelType;
 import com.zhuanquan.app.common.exception.BizErrorCode;
+import com.zhuanquan.app.common.exception.BizException;
 import com.zhuanquan.app.common.model.author.Tag;
 import com.zhuanquan.app.common.model.user.UserFollowTagsMapping;
 import com.zhuanquan.app.common.model.user.UserOpenAccount;
@@ -30,6 +30,7 @@ import com.zhuanquan.app.dal.dao.user.UserFollowAuthorDAO;
 import com.zhuanquan.app.dal.dao.user.UserFollowTagsMappingDAO;
 import com.zhuanquan.app.dal.dao.user.UserOpenAccountDAO;
 import com.zhuanquan.app.dal.dao.user.UserProfileDAO;
+import com.zhuanquan.app.server.cache.UserOpenAccountCache;
 import com.zhuanquan.app.server.service.TransactionService;
 
 
@@ -57,13 +58,17 @@ public class TransactionServiceImpl implements TransactionService {
 	@Resource
 	private UserFollowTagsMappingDAO userFollowTagsMappingDAO;
 	
+	@Resource
+	private UserOpenAccountCache userOpenAccountCache;
+	
 	
 	@Override
     @Transactional(rollbackFor = Exception.class)
 	public RegisterResponseVo registerMobile(RegisterRequestVo vo) {
 		
 		//
-		UserOpenAccount account = userOpenAccountDAO.queryByOpenId(vo.getProfile(), ChannelType.CHANNEL_MOBILE);
+		
+		UserOpenAccount account = userOpenAccountCache.queryByOpenId(vo.getProfile(), ChannelType.CHANNEL_MOBILE);
 		
 		//手机号已注册
 		if(account != null) {
@@ -78,8 +83,7 @@ public class TransactionServiceImpl implements TransactionService {
 		//account创建
 		account = UserOpenAccount.createMobileAccount(vo.getProfile(), vo.getPassword(), uid);
 		userOpenAccountDAO.insertUserOpenAccount(account);
-		
-		
+
 		
 		RegisterResponseVo response = new RegisterResponseVo();
 
@@ -158,9 +162,7 @@ public class TransactionServiceImpl implements TransactionService {
 		
 		//刚注册，数据是干净的，直接插入；否则可能要考虑某些要做update操作
 		if(isInRegister) {	
-			
-			
-			
+
 			userFollowTagsMappingDAO.insertBatchToFollowTags(uid, transferToUserFollowTags(uid, tags));
 			return;
 		}

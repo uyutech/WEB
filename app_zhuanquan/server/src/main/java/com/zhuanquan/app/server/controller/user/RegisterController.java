@@ -1,4 +1,4 @@
-package com.zhuanquan.app.server.controller;
+package com.zhuanquan.app.server.controller.user;
 
 import javax.annotation.Resource;
 
@@ -6,13 +6,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.framework.core.error.exception.BizException;
 import com.zhuanquan.app.common.exception.BizErrorCode;
+import com.zhuanquan.app.common.exception.BizException;
 import com.zhuanquan.app.common.view.ApiResponse;
 import com.zhuanquan.app.common.view.vo.user.BindAndChoosePersistRequestVo;
 import com.zhuanquan.app.common.view.vo.user.RegisterRequestVo;
 import com.zhuanquan.app.common.view.vo.user.RegisterResponseVo;
-
+import com.zhuanquan.app.server.controller.common.BaseController;
 import com.zhuanquan.app.server.service.RegisterService;
 
 @Controller
@@ -57,6 +57,8 @@ public class RegisterController extends BaseController {
 	 * 
 	 * @param vo
 	 */
+	@RequestMapping(value = "/bindMobileAndChoosePersistAccount")
+	@ResponseBody
 	public ApiResponse bindMobileAndChoosePersistAccount(BindAndChoosePersistRequestVo vo) {
 
 		registerService.mergeMobileAccount(vo.getUid(), vo.getMobile(), vo.getVerifycode(),
@@ -92,6 +94,9 @@ public class RegisterController extends BaseController {
 	 * @param persistMobileAccount
 	 *            是否保留手机账号的数据 1-保留 0-不保留
 	 */
+	
+	@RequestMapping(value = "/mergeMobileAccount")
+	@ResponseBody
 	public ApiResponse mergeMobileAccount(long uid, String mobile, String verifycode, int persistMobileAccount) {
 		
 		boolean isPersistMobileAccount = true;

@@ -3,7 +3,6 @@ package com.zhuanquan.app.common.model.user;
 import java.util.Date;
 import java.util.UUID;
 
-import com.framework.core.common.utils.MD5;
 import com.zhuanquan.app.common.view.vo.user.RegisterRequestVo;
 
 

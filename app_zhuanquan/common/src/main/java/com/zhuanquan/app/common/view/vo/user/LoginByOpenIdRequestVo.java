@@ -5,10 +5,10 @@ import java.io.Serializable;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.framework.core.common.utils.MD5;
-import com.framework.core.error.exception.BizException;
 import com.zhuanquan.app.common.constants.ChannelType;
 import com.zhuanquan.app.common.exception.BizErrorCode;
+import com.zhuanquan.app.common.exception.BizException;
+import com.zhuanquan.app.common.utils.MD5;
 
 public class LoginByOpenIdRequestVo implements Serializable {
 

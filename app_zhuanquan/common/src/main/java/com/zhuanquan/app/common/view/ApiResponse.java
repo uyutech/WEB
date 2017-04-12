@@ -2,8 +2,8 @@ package com.zhuanquan.app.common.view;
 
 import java.io.Serializable;
 
-import com.framework.core.error.exception.BizException;
-import com.framework.core.error.exception.code.impl.BaseCode;
+import com.zhuanquan.app.common.exception.BizException;
+import com.zhuanquan.app.common.exception.code.impl.BaseCode;
 
 /**
  * 

@@ -1,7 +1,7 @@
 package com.zhuanquan.app.common.exception;
 
-import com.framework.core.error.exception.code.ErrorCode;
-import com.framework.core.error.exception.internel.ErrorCodeLoader;
+import com.zhuanquan.app.common.exception.code.ErrorCode;
+import com.zhuanquan.app.common.exception.internel.ErrorCodeLoader;
 
 public enum BizErrorCode implements ErrorCode {
 

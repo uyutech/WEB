@@ -38,12 +38,6 @@
 
 
       <dependency>
-        <groupId>com.zhuanquan.core</groupId>
-        <artifactId>zhuanquan-core-cache</artifactId>
-        <version>${framework.core.version}</version>
-      </dependency>
-
-      <dependency>
         <groupId>com.zhuanquan.app</groupId>
         <artifactId>app-common</artifactId>
         <version>${project.version}</version>

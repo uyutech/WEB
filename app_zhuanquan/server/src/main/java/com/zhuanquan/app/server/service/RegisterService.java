@@ -3,7 +3,6 @@ package com.zhuanquan.app.server.service;
 import java.util.List;
 
 import com.zhuanquan.app.common.component.sesssion.UserSession;
-import com.zhuanquan.app.common.view.vo.user.OpenApiRegisterRequestVo;
 import com.zhuanquan.app.common.view.vo.user.RegisterRequestVo;
 import com.zhuanquan.app.common.view.vo.user.RegisterResponseVo;
 
@@ -24,13 +23,6 @@ public interface RegisterService {
 	 */
 	RegisterResponseVo mobileRegister(RegisterRequestVo vo); 
 	
-	
-//	/**
-//	 * 第三方注册
-//	 * @param vo
-//	 * @return
-//	 */
-//	RegisterResponseVo openIdRegister(OpenApiRegisterRequestVo vo);
 	
 
 	

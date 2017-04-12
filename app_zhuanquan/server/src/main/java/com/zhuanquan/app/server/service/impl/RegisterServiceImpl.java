@@ -8,15 +8,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSON;
-import com.framework.core.cache.redis.utils.RedisHelper;
-import com.framework.core.common.utils.MD5;
-import com.framework.core.error.exception.BizException;
+
 import com.zhuanquan.app.common.component.cache.RedisKeyBuilder;
+import com.zhuanquan.app.common.component.cache.redis.utils.RedisHelper;
 import com.zhuanquan.app.common.component.sesssion.SessionHolder;
 import com.zhuanquan.app.common.component.sesssion.UserSession;
 import com.zhuanquan.app.common.constants.ChannelType;
 import com.zhuanquan.app.common.constants.LoginTypeEnum;
 import com.zhuanquan.app.common.exception.BizErrorCode;
+import com.zhuanquan.app.common.exception.BizException;
 import com.zhuanquan.app.common.model.author.AuthorBase;
 import com.zhuanquan.app.common.model.user.UserOpenAccount;
 import com.zhuanquan.app.common.model.user.UserProfile;
@@ -29,6 +29,7 @@ import com.zhuanquan.app.dal.dao.author.AuthorBaseDAO;
 import com.zhuanquan.app.dal.dao.user.UserFollowAuthorDAO;
 import com.zhuanquan.app.dal.dao.user.UserOpenAccountDAO;
 import com.zhuanquan.app.dal.dao.user.UserProfileDAO;
+import com.zhuanquan.app.server.cache.UserOpenAccountCache;
 import com.zhuanquan.app.server.service.RegisterService;
 import com.zhuanquan.app.server.service.TransactionService;
 
@@ -57,6 +58,9 @@ public class RegisterServiceImpl implements RegisterService {
 
 	@Resource
 	private UserFollowAuthorDAO userFollowAuthorDAO;
+	
+	@Resource
+	private UserOpenAccountCache userOpenAccountCache;
 
 	@Override
 	public RegisterResponseVo mobileRegister(RegisterRequestVo vo) {
@@ -136,7 +140,7 @@ public class RegisterServiceImpl implements RegisterService {
 		// 校验短信验证码是否正确
 		validateVerifyCode(mobile, verifycode, RedisKeyBuilder.getBindMobileSmsVerifyCodeKey(mobile));
 
-		UserOpenAccount account = userOpenAccountDAO.queryByOpenId(mobile, ChannelType.CHANNEL_MOBILE);
+		UserOpenAccount account = userOpenAccountCache.queryByOpenId(mobile, ChannelType.CHANNEL_MOBILE);
 
 		// 已经被注册了直接报异常
 		if (account != null) {
@@ -189,6 +193,9 @@ public class RegisterServiceImpl implements RegisterService {
 		// 如果保留手机账号
 		if (persistMobileAccount) {
 
+			//清理第三方的缓存
+			userOpenAccountCache.clearUserOpenAccountCache(session.getOpenId(), session.getChannelType());
+			
 			// 修改第三方绑定账号的uid为mobile的uid
 			userOpenAccountDAO.updateToBindUid(session.getOpenId(), session.getChannelType(), mobileAccount.getUid());
 
@@ -198,8 +205,14 @@ public class RegisterServiceImpl implements RegisterService {
 
 		} else {
 
+			//清理手机账户的缓存
+			userOpenAccountCache.clearUserOpenAccountCache(mobile, ChannelType.CHANNEL_MOBILE);
+
+			
 			// 修改mobile的uid为 原来登录的uid
 			userOpenAccountDAO.updateToBindUid(mobile, ChannelType.CHANNEL_MOBILE, nowAccount.getUid());
+			
+
 		}
 
 	}
@@ -268,8 +281,10 @@ public class RegisterServiceImpl implements RegisterService {
 
 		//
 
-		// 完成第二步，设置状态为第三步等待执行
-		userProfileDAO.updateRegisterStatus(session.getUid(), UserProfile.REG_STAT_BEFORE_STEP3);
+		transactionService.setFollowTagOnRegisterStep2(session.getUid(), topicTags, workCategries);
+//		
+//		// 完成第二步，设置状态为第三步等待执行
+//		userProfileDAO.updateRegisterStatus(session.getUid(), UserProfile.REG_STAT_BEFORE_STEP3);
 
 	}
 
@@ -296,7 +311,7 @@ public class RegisterServiceImpl implements RegisterService {
 		// 短信验证码
 		validateVerifyCode(mobile, verifyCode, RedisKeyBuilder.getForgetPwdSmsVerifyCodeKey(mobile));
 
-		UserOpenAccount account = userOpenAccountDAO.queryByOpenId(mobile, ChannelType.CHANNEL_MOBILE);
+		UserOpenAccount account = userOpenAccountCache.queryByOpenId(mobile, ChannelType.CHANNEL_MOBILE);
 
 		// 手机没有绑定注册
 		if (account == null) {
@@ -372,7 +387,7 @@ public class RegisterServiceImpl implements RegisterService {
 		//检查手机是否合法
 		PhoneValidateUtils.isPhoneLegal(mobile);
 		
-		UserOpenAccount account = userOpenAccountDAO.queryByOpenId(mobile, ChannelType.CHANNEL_MOBILE);
+		UserOpenAccount account = userOpenAccountCache.queryByOpenId(mobile, ChannelType.CHANNEL_MOBILE);
 		
 		return account == null?0:1;
 	}

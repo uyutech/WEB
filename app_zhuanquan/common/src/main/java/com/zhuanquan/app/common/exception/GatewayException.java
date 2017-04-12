@@ -1,6 +1,5 @@
 package com.zhuanquan.app.common.exception;
 
-import com.framework.core.error.exception.BizException;
 
 /**
  *

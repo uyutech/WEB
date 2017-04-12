@@ -5,7 +5,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.slf4j.Logger;
@@ -18,7 +17,7 @@ import com.alibaba.fastjson.JSON;
 import com.zhuanquan.app.common.component.sesssion.SessionHolder;
 import com.zhuanquan.app.common.component.sesssion.UserSession;
 import com.zhuanquan.app.common.utils.IpUtils;
-import com.zhuanquan.app.server.controller.BaseController;
+import com.zhuanquan.app.server.controller.common.BaseController;
 
 /**
  * aop用户请求日志

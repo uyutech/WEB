@@ -9,23 +9,23 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import com.framework.core.cache.redis.utils.RedisHelper;
-import com.framework.core.common.utils.MD5;
-import com.framework.core.error.exception.BizException;
 import com.zhuanquan.app.common.component.cache.RedisKeyBuilder;
+import com.zhuanquan.app.common.component.cache.redis.utils.RedisHelper;
 import com.zhuanquan.app.common.component.interceptor.RemoteIPInterceptor;
 import com.zhuanquan.app.common.component.sesssion.SessionHolder;
 import com.zhuanquan.app.common.constants.ChannelType;
 import com.zhuanquan.app.common.exception.BizErrorCode;
+import com.zhuanquan.app.common.exception.BizException;
 import com.zhuanquan.app.common.model.user.UserOpenAccount;
 import com.zhuanquan.app.common.model.user.UserProfile;
 import com.zhuanquan.app.common.utils.CommonUtil;
+import com.zhuanquan.app.common.utils.MD5;
 import com.zhuanquan.app.common.view.vo.user.LoginByOpenIdRequestVo;
 import com.zhuanquan.app.common.view.vo.user.LoginRequestVo;
 import com.zhuanquan.app.common.view.vo.user.LoginResponseVo;
 import com.zhuanquan.app.dal.dao.user.UserOpenAccountDAO;
 import com.zhuanquan.app.dal.dao.user.UserProfileDAO;
-
+import com.zhuanquan.app.server.cache.UserOpenAccountCache;
 import com.zhuanquan.app.server.service.LoginService;
 import com.zhuanquan.app.server.service.OpenApiService;
 import com.zhuanquan.app.server.service.TransactionService;
@@ -52,6 +52,9 @@ public class LoginServiceImpl implements LoginService {
 
 	@Resource
 	private OpenApiService openApiService;
+	
+	@Resource
+	private UserOpenAccountCache userOpenAccountCache;
 
 	@Override
 	public LoginResponseVo loginByPwd(LoginRequestVo request) {
@@ -62,7 +65,7 @@ public class LoginServiceImpl implements LoginService {
 		// 是否被限制
 		validateIsLimited(request);
 
-		UserOpenAccount account = userOpenAccountDAO.queryByOpenId(request.getUserName(), ChannelType.CHANNEL_MOBILE);
+		UserOpenAccount account = userOpenAccountCache.queryByOpenId(request.getUserName(), ChannelType.CHANNEL_MOBILE);
 
 		// 如果account为null
 		if (account == null) {
