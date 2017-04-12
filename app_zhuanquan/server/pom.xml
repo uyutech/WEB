@@ -9,7 +9,7 @@
 	</parent>
 
 	<artifactId>app-server</artifactId>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 	<name>zhuanquan-app-server</name>
 	<url>http://maven.apache.org</url>
 
