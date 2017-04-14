@@ -1,11 +1,8 @@
 package com.zhuanquan.app.server.cache.impl;
 
 import java.util.concurrent.TimeUnit;
-
 import javax.annotation.Resource;
-
 import org.springframework.stereotype.Service;
-
 import com.zhuanquan.app.common.component.cache.RedisKeyBuilder;
 import com.zhuanquan.app.common.component.cache.redis.RedisSetOperations;
 import com.zhuanquan.app.common.component.cache.redis.RedisZSetOperations;
@@ -18,7 +15,6 @@ import com.zhuanquan.app.common.model.user.UserUpvoteWorkMapping;
 import com.zhuanquan.app.dal.dao.author.WorksDAO;
 import com.zhuanquan.app.dal.dao.user.UserUpvoteWorkMappingDAO;
 import com.zhuanquan.app.server.cache.UserUpvoteWorkMappingCache;
-import com.zhuanquan.app.server.cache.WorksCache;
 
 /**
  * 
@@ -207,7 +203,6 @@ public class UserUpvoteWorkMappingCacheImpl implements UserUpvoteWorkMappingCach
 
 	@Override
 	public long queryWorkUpvoteNum(long workId) {
-		
 		
 		String workUpvoteTotalNumKey = RedisKeyBuilder.getWorkUpvoteTotalNumKey(workId);
 

@@ -25,4 +25,10 @@ public interface UserOpenAccountCache {
 	 */
 	void clearUserOpenAccountCache(String openId,int channelType);
 	
+	
+	/**
+	 * 执行持久化到 点赞总数和
+	 */
+	void doPersistUpvoteNumTask();
+	
 }

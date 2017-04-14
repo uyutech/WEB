@@ -64,5 +64,13 @@ public class UserOpenAccountCacheImpl implements UserOpenAccountCache {
 		redisHelper.delete(key);
 		
 	}
+
+	@Override
+	public void doPersistUpvoteNumTask() {
+		
+		
+		
+		
+	}
 	
 }
