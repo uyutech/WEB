@@ -209,12 +209,59 @@ public class UserUpvoteWorkMappingCacheImpl implements UserUpvoteWorkMappingCach
 	public long queryWorkUpvoteNum(long workId) {
 		
 		
-		return 0;
+		String workUpvoteTotalNumKey = RedisKeyBuilder.getWorkUpvoteTotalNumKey(workId);
+
+		Double obj = redisZSetOperations.score(workUpvoteTotalNumKey, workId);
+		
+		if(obj!=null) {
+			return Math.round(obj);
+		}
+		
+		// 检查workid是否存在
+		Works work = worksDAO.queryWorkById(workId);
+
+		if (work == null) {
+			throw new BizException(BizErrorCode.EX_ILLEGLE_REQUEST_PARM.getCode());
+		}
+		
+		// 从数据查询回来之后，再查一把，防止并发更新了导致缓存值错误
+		obj = redisZSetOperations.score(workUpvoteTotalNumKey, workId);
+		
+		//
+		if(obj!=null) {
+			return Math.round(obj);
+		} else {
+
+			redisZSetOperations.add(workUpvoteTotalNumKey, workId + "", work.getUpvoteNum());
+			// 超时时间24小时
+			redisHelper.expire(workUpvoteTotalNumKey, 24, TimeUnit.HOURS);
+			return work.getUpvoteNum();
+		}
+		
+
 	}
 
 	@Override
 	public boolean hasUpvoteWork(long uid, long workId) {
-		return false;
+		
+		String upvoteWorkKey = RedisKeyBuilder.getUserUpvoteWorkKey(uid);
+
+		String obj = redisHelper.hashGet(upvoteWorkKey, workId + "");
+		
+		if(obj!=null) {
+			return obj.equals(UserUpvoteWorkMapping.STAT_ENABLE+"");
+		}
+		
+
+		UserUpvoteWorkMapping record = userUpvoteWorkMappingDAO.queryUserUpvoteWorkMapping(uid, workId);
+
+		// 是否已点赞
+		boolean isUpvote = (record != null && record.getStatus() == UserUpvoteWorkMapping.STAT_ENABLE);
+
+		redisHelper.hashSet(upvoteWorkKey, workId + "", record.getStatus()+"");
+		redisHelper.expire(upvoteWorkKey, 1, TimeUnit.HOURS);
+		
+		return isUpvote;
 	}
 
 }
