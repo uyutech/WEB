@@ -13,10 +13,12 @@ public class Works {
 	 */
 	private Long workId;
 
+
 	/**
-	 * 作者id
+	 * 作者信息，以逗号分割
 	 */
-	private Long authorId;
+	private String authorsInfo;
+	
 
 	/**
 	 * 作品名称
@@ -71,12 +73,14 @@ public class Works {
 		this.workId = workId;
 	}
 
-	public Long getAuthorId() {
-		return authorId;
+
+
+	public String getAuthorsInfo() {
+		return authorsInfo;
 	}
 
-	public void setAuthorId(Long authorId) {
-		this.authorId = authorId;
+	public void setAuthorsInfo(String authorsInfo) {
+		this.authorsInfo = authorsInfo;
 	}
 
 	public String getWorkName() {

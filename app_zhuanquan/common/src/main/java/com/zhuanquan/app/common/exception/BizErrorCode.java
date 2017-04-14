@@ -13,8 +13,10 @@ public enum BizErrorCode implements ErrorCode {
 	 EX_ILLEGLE_REQUEST_PARM (1002), 
 	 
 	 //非预期异常
-	 EX_PAY_UNEXPECTED_ERROR (1003), 
+	 EX_UNEXPECTED_ERROR (1003), 
 
+	 //不允许并发操作
+	 EX_NOT_ALLOW_CONCURRENT_OPER (1004), 
 	 
 	 
 	 //短信验证码校验失败

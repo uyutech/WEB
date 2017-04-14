@@ -10,6 +10,18 @@ import com.zhuanquan.app.common.model.author.Tag;
 public class UserFollowTagsMapping {
 	
 	/**
+	 * disable
+	 */
+	public static final int STAT_DISABLE = 0;
+	
+	
+	/**
+	 *  enable
+	 */
+	public static final int STAT_ENABLE = 1;
+
+	
+	/**
 	 * 用户id
 	 */
 	private Long uid;
@@ -26,7 +38,10 @@ public class UserFollowTagsMapping {
 	private int tagType;
 	
 	
-
+    /**
+     * 状态  0-disable  1-enable
+     */
+	private Integer status;
 
 
 	public Long getUid() {
@@ -60,9 +75,18 @@ public class UserFollowTagsMapping {
 
 
 
-	
+	public Integer getStatus() {
+		return status;
+	}
+
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+
+
 	/**
-	 * 
+	 *  
 	 * @param uid
 	 * @param tag
 	 * @return
@@ -74,6 +98,7 @@ public class UserFollowTagsMapping {
 		record.setTagId(tag.getTagId());
 		record.setTagType(tag.getTagType());
 		record.setUid(uid);
+		record.setStatus(STAT_ENABLE);
 		
 		return record;
 		

@@ -107,6 +107,52 @@ public class RedisKeyBuilder {
 		return "gw:openacc:"+openId+"_"+channelType;
 	}
 	
+	/**
+	 * 获取点赞的key
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	public static String getUserUpvoteWorkKey(long uid) {
+		
+		return "gw:upvotework:uid:"+uid;
+	}
+	
+	/**
+	 * 分布式锁 的key
+	 * @param uid
+	 * @param workId
+	 * @return
+	 */
+	public static String getUserUpvoteWorkLockKey(long uid,long workId) {
+		
+		return "gw:lock:upvotework:"+uid+"_"+workId;
+	}
+	
+	
+	/**
+	 * 点赞状态变动过的用户的uids的key
+	 * @param uid
+	 * @param workId
+	 * @return
+	 */
+	public static String getUpvoteWorkChangedUidsKey() {
+		
+		return "gw:upvotework:changed:uids";
+	}
+	
+	
+	
+	/**
+	 * 作品被点赞的总数
+	 * @param workId
+	 * @return
+	 */
+	public static String getWorkUpvoteTotalNumKey(long workId) {
+		
+		return "gw:workupvot:totalnum:workid"+workId;
+	}
+	
 }
 
 

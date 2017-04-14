@@ -8,7 +8,9 @@ import java.util.concurrent.TimeUnit;
 import com.zhuanquan.app.common.component.cache.redis.GracefulRedisTemplate;
 import com.zhuanquan.app.common.component.cache.redis.RedisHashOperations;
 import com.zhuanquan.app.common.component.cache.redis.RedisListOperations;
+import com.zhuanquan.app.common.component.cache.redis.RedisSetOperations;
 import com.zhuanquan.app.common.component.cache.redis.RedisValueOperations;
+import com.zhuanquan.app.common.component.cache.redis.RedisZSetOperations;
 import com.zhuanquan.app.common.component.cache.redis.exception.RedisErrorCode;
 import com.zhuanquan.app.common.exception.BizException;
 
@@ -26,6 +28,30 @@ public class RedisHelper {
 	private RedisHashOperations<String, String, String> redisHashOperations;
 
 	private RedisListOperations<String, String> redisListOperations;
+	
+	
+	private RedisSetOperations<String, String> redisSetOperations;
+	
+	private RedisZSetOperations<String, String> redisZSetOperations;
+
+
+	
+	
+	public RedisSetOperations<String, String> getRedisSetOperations() {
+		return redisSetOperations;
+	}
+
+	public void setRedisSetOperations(RedisSetOperations<String, String> redisSetOperations) {
+		this.redisSetOperations = redisSetOperations;
+	}
+
+	public RedisZSetOperations getRedisZSetOperations() {
+		return redisZSetOperations;
+	}
+
+	public void setRedisZSetOperations(RedisZSetOperations redisZSetOperations) {
+		this.redisZSetOperations = redisZSetOperations;
+	}
 
 	public RedisListOperations<String, String> getRedisListOperations() {
 		return redisListOperations;
@@ -566,4 +592,8 @@ public class RedisHelper {
 
 	}
 
+
+	
+	
+	
 }

@@ -10,25 +10,27 @@ package com.zhuanquan.app.common.model.author;
 public class AuthorTagMapping {
 	
 	
-	private Long tagId;
-	
 	/**
 	 * 作者id
 	 */
 	private Long authorId;
 	
-	
 	/**
-	 * 标签名
+	 * 
 	 */
-	private String tagName;
-	
+	private Long tagId;
+
+
 	
 	/**
-	 * 标签分类
+	 * 标签分类:
 	 */
 	private Integer tagType;
 
+	/**
+	 * 状态 0-disable 1-enable
+	 */
+	private Integer status;
 
 	public Long getAuthorId() {
 		return authorId;
@@ -49,15 +51,6 @@ public class AuthorTagMapping {
 		this.tagId = tagId;
 	}
 
-
-	public String getTagName() {
-		return tagName;
-	}
-
-
-	public void setTagName(String tagName) {
-		this.tagName = tagName;
-	}
 
 
 	public Integer getTagType() {

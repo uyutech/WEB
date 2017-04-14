@@ -32,6 +32,7 @@ public class Tag {
 	 * 父节点标签
 	 */
 	private Long fatherTagId;
+	
 
 	public Long getTagId() {
 		return tagId;
