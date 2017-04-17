@@ -4,7 +4,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
+import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.Cursor;
+import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.data.redis.core.ScanOptions;
 import org.springframework.data.redis.core.SetOperations;
@@ -148,6 +150,7 @@ public class RedisSetOperations<K, V> {
 	public Cursor<V> scan(K key, ScanOptions options) {
 		return null;
 	}
+
 
 
 }

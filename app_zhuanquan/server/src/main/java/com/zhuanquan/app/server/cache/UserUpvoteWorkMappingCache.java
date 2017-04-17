@@ -45,4 +45,11 @@ public interface UserUpvoteWorkMappingCache {
 	 */
 	boolean hasUpvoteWork(long uid,long workId);
 	
+	
+	
+	/**
+	 * 执行持久化到 点赞总数和
+	 */
+	void doPersistUpvoteNumTask();
+	
 }

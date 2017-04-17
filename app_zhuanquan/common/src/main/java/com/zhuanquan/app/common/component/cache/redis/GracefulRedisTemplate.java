@@ -5,7 +5,7 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
@@ -17,7 +17,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.TimeoutUtils;
 
 import com.zhuanquan.app.common.component.cache.redis.serializer.SerializationUtil;
-
 
 /**
  *
@@ -130,6 +129,49 @@ public class GracefulRedisTemplate<K, V> extends RedisTemplate<K, V> {
 	public void deleteWithoutSyncDelete(Collection<K> keys) {
 
 		super.delete(keys);
+	}
+
+	/**
+	 * set 结构的 批量 move key中的元素到另外个key理
+	 * @param key 原来的key
+	 * @param members 元素
+	 * @param destKey 迁移的key
+	 * @return
+	 */
+	public boolean batchMove(String key, final Set<String> members, String destKey) {
+
+		try {
+			final byte[] rawKey = key.getBytes("UTF-8");
+			final byte[] rawDestKey = destKey.getBytes("UTF-8");
+
+			// final byte[] rawValue = rawValue(value);
+
+			this.executePipelined(new RedisCallback() {
+
+				@Override
+				public List<Object> doInRedis(RedisConnection connection) throws DataAccessException {
+					
+					connection.openPipeline();
+					for (String item : members) {
+						try {
+							connection.sMove(rawKey, rawDestKey, item.getBytes("UTF-8"));
+						} catch (UnsupportedEncodingException e) {
+							e.printStackTrace();
+						}
+					}
+
+					return connection.closePipeline();
+				}
+			});
+
+		} catch (Exception e) {
+			logger.warn("unsupport this encoding :{}", e);
+
+			return false;
+		}
+
+		return true;
+
 	}
 
 }

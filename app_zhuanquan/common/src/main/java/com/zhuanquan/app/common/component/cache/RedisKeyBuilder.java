@@ -132,14 +132,43 @@ public class RedisKeyBuilder {
 	
 	/**
 	 * 点赞状态变动过的用户的uids的key
-	 * @param uid
-	 * @param workId
 	 * @return
 	 */
 	public static String getUpvoteWorkChangedUidsKey() {
 		
 		return "gw:upvotework:changed:uids";
 	}
+	
+	/**
+	 * 点赞状态变动过的用户ids，这个key是定时任务专用
+	 * @return
+	 */
+	public static String getUpvoteWorkChangedDstUidsKey() {
+		
+		return "gw:upvotework:changed:dst:uids";
+	}
+	
+	
+	/**
+	 * 点赞状态变动过的用户的work id的key
+	 * @return
+	 */
+	public static String getUpvoteWorkChangedWorkIdsKey() {
+		
+		return "gw:upvotework:changed:workids";
+	}
+	
+	
+	
+	/**
+	 * 点赞状态变动过的workid，这个key是定时任务专用
+	 * @return
+	 */
+	public static String getUpvoteWorkChangedWorkIdsDstKey() {
+		
+		return "gw:upvotework:changed:dst:workids";
+	}
+	
 	
 	
 	
@@ -151,6 +180,32 @@ public class RedisKeyBuilder {
 	public static String getWorkUpvoteTotalNumKey(long workId) {
 		
 		return "gw:workupvot:totalnum:workid"+workId;
+	}
+	
+	
+	
+	/**
+	 * 作品被点赞的总数
+	 * @param workId
+	 * @return
+	 */
+	public static String getWorkUpvoteTotalNumKey(String workId) {
+		
+		return "gw:workupvot:totalnum:workid"+workId;
+	}
+	
+	
+	
+	
+	/**
+	 * 执行点赞数异步更新的task job的key
+	 * @param workId
+	 * @return
+	 */
+	public static String getExecUpvoteTaskLock() {
+		
+		return "gw:lock:upvoteworktask:exec";
+
 	}
 	
 }

@@ -65,12 +65,5 @@ public class UserOpenAccountCacheImpl implements UserOpenAccountCache {
 		
 	}
 
-	@Override
-	public void doPersistUpvoteNumTask() {
-		
-		
-		
-		
-	}
 	
 }

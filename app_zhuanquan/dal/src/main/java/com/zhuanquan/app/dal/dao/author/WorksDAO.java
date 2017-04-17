@@ -1,6 +1,9 @@
 package com.zhuanquan.app.dal.dao.author;
 
+import java.util.List;
+
 import com.zhuanquan.app.common.model.author.Works;
+import com.zhuanquan.app.common.view.bo.BatchUpdateWorkUpvoteNumBo;
 
 public interface WorksDAO {
 	
@@ -10,5 +13,12 @@ public interface WorksDAO {
 	 * @return
 	 */
 	Works queryWorkById(long workId);
+	
+	
+	/**
+	 * 批量更新作品点赞数
+	 * @param list
+	 */
+	void updateBatchForWorkUpvoteNum(List<BatchUpdateWorkUpvoteNumBo> list);
 	
 }
