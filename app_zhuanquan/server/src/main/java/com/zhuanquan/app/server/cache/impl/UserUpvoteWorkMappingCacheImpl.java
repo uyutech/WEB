@@ -304,6 +304,7 @@ public class UserUpvoteWorkMappingCacheImpl implements UserUpvoteWorkMappingCach
 		} finally {
 
 			try {
+				//释放锁
 				redisSimpleLock.releaseLock(jobLockKey);
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -475,10 +476,15 @@ public class UserUpvoteWorkMappingCacheImpl implements UserUpvoteWorkMappingCach
 		int oneBatchMaxNum = 500;
 
 		List<BatchUpdateWorkUpvoteNumBo> updateList = new ArrayList<BatchUpdateWorkUpvoteNumBo>();
+		
+		
+		List<String> workIdList= new ArrayList<String>();
 
 		// 遍历
 		for (String workId : changedWorkIds) {
 
+			workIdList.add(workId);
+			
 			String workUpvoteTotalNumKey = RedisKeyBuilder.getWorkUpvoteTotalNumKey(workId);
 
 			Double obj = redisZSetOperations.score(workUpvoteTotalNumKey, workId);
@@ -506,8 +512,9 @@ public class UserUpvoteWorkMappingCacheImpl implements UserUpvoteWorkMappingCach
 				worksDAO.updateBatchForWorkUpvoteNum(updateList);
 
 				
-				redisSetOperations.remove(dstKey, uidTempList);
+				redisSetOperations.remove(dstKey, workIdList);
 
+				workIdList.clear();
 				
 				logger.info("real process persistWorkUpvoteTotalNumRecord : [batchNum]=" + batchNum + ",[updateList]="
 						+ JSON.toJSONString(updateList));
@@ -523,6 +530,11 @@ public class UserUpvoteWorkMappingCacheImpl implements UserUpvoteWorkMappingCach
 			// 批量更新点赞数
 			worksDAO.updateBatchForWorkUpvoteNum(updateList);
 
+			//删除拷贝的key
+			redisSetOperations.remove(dstKey, workIdList);
+
+			workIdList.clear();
+			
 			logger.info("real process persistWorkUpvoteTotalNumRecord : [batchNum]=" + batchNum + ",[updateList]="
 					+ JSON.toJSONString(updateList));
 

@@ -44,7 +44,7 @@ public class BaseController {
 			logger.error(request.getRequestURI() + " trigger unexpected exception,[parm]=" + JSON.toJSONString(map)
 					+ ",[message]:" + ex.getMessage(), ex);
 
-			return JSON.toJSONString(ApiResponse.failed(BizErrorCode.EX_PAY_UNEXPECTED_ERROR.getCode(), "非预期异常"));
+			return JSON.toJSONString(ApiResponse.failed(BizErrorCode.EX_UNEXPECTED_ERROR.getCode(), "非预期异常"));
 		}
 
 	}
