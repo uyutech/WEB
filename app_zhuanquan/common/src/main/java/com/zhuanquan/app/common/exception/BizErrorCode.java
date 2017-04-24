@@ -18,12 +18,15 @@ public enum BizErrorCode implements ErrorCode {
 	 //不允许并发操作
 	 EX_NOT_ALLOW_CONCURRENT_OPER (1004), 
 	 
+//***************短信验证码****************************************	 
 	 
 	 //短信验证码校验失败
 	 EX_VERIFY_CODE_ERR (100001001), 
 
 	 //登录验证码错误
 	 EX_LOGIN_VERIFY_CODE_ERR (100002001), 
+	 
+//***************登录注册****************************************	 
 	 
 	 //登录密码错误
 	 EX_LOGIN_PWD_ERR (100002002), 
@@ -66,6 +69,10 @@ public enum BizErrorCode implements ErrorCode {
 	 EX_PWD_IS_NOT_ILLEGLE (100002014), 
 
 
+	//***************用户收藏****************************************	 
+
+	 //收藏状态不对
+	 EX_FAV_ILLEGLE_FAV_STATUS(100003001), 
 
 	 
 	;

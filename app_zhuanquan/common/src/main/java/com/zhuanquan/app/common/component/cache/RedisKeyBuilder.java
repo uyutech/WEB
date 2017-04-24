@@ -179,7 +179,7 @@ public class RedisKeyBuilder {
 	 */
 	public static String getWorkUpvoteTotalNumKey(long workId) {
 		
-		return "gw:workupvot:totalnum:workid"+workId;
+		return "gw:workupvot:totalnum:workid:"+workId;
 	}
 	
 	
@@ -191,7 +191,7 @@ public class RedisKeyBuilder {
 	 */
 	public static String getWorkUpvoteTotalNumKey(String workId) {
 		
-		return "gw:workupvot:totalnum:workid"+workId;
+		return "gw:workupvot:totalnum:workid:"+workId;
 	}
 	
 	
@@ -208,6 +208,18 @@ public class RedisKeyBuilder {
 
 	}
 	
+	
+	
+	/**
+	 * 用户收藏的 作品的 redis  key
+	 * @param workId
+	 * @return
+	 */
+	public static String getUserFavKey(long uid) {
+		
+		return "gw:fav:all:uid:"+uid;
+
+	}
 }
 
 

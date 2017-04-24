@@ -10,6 +10,22 @@ import java.util.Date;
  */
 public class UserFavourite {
 	
+	/**
+	 * 收藏状态
+	 */
+	public static final int STAT_FAV = 1;
+	
+	/**
+	 * 取消收藏状态
+	 */
+	public static final int STAT_DIS_FAV = 0;
+
+	
+	/**
+	 * 默认分组
+	 */
+	public static final long DEFAULT_GROUP_ID = -1;
+	
 	
 	/**
 	 * 冗余 useri的内容
@@ -91,6 +107,31 @@ public class UserFavourite {
 		this.modifyTime = modifyTime;
 	}
 
-
+    /**
+     * 添加到默认的收藏分组
+     * @param uid
+     * @param workId
+     * @return
+     */
+	public static UserFavourite createDefaultGroupRecord(long uid,long workId) {
+		
+		UserFavourite record = new UserFavourite();
+		
+		Date now = new Date();
+		
+		
+		record.setUserId(uid);
+		record.setWorkId(workId);
+		record.setStatus(STAT_FAV);
+		record.setFavGroupId(DEFAULT_GROUP_ID);
+		record.setCreateTime(now);
+		record.setModifyTime(now);
+		
+		return record;
+		
+		
+	}
+	
+	
 	
 }
