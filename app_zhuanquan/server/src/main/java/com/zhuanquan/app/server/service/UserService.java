@@ -2,7 +2,6 @@ package com.zhuanquan.app.server.service;
 
 import java.util.List;
 
-import com.zhuanquan.app.common.model.author.Tag;
 import com.zhuanquan.app.common.model.user.UserProfile;
 
 /**

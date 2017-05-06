@@ -1,14 +1,12 @@
-package com.zhuanquan.app.common.model.author;
-
-
+package com.zhuanquan.app.common.model.common;
 
 
 /**
- * 作品和tag 的映射表
+ *  标签表
  * @author zhangjun
  *
  */
-public class WorkTagMapping {
+public class Tag {
 	
 	/**
 	 * 标签id
@@ -16,20 +14,25 @@ public class WorkTagMapping {
 	private Long tagId;
 	
 	/**
-	 * 作品id
-	 */
-	private Long workId;
-	
-	/**
 	 * 标签名
 	 */
 	private String tagName;
 	
+	/**
+	 * 标签引用次数
+	 */
+	private Long citedNum;
 	
 	/**
-	 * 标签分类
+	 * tag 类型
 	 */
 	private Integer tagType;
+	
+	/**
+	 * 父节点标签
+	 */
+	private Long fatherTagId;
+	
 
 	public Long getTagId() {
 		return tagId;
@@ -37,14 +40,6 @@ public class WorkTagMapping {
 
 	public void setTagId(Long tagId) {
 		this.tagId = tagId;
-	}
-
-	public Long getWorkId() {
-		return workId;
-	}
-
-	public void setWorkId(Long workId) {
-		this.workId = workId;
 	}
 
 	public String getTagName() {
@@ -55,6 +50,14 @@ public class WorkTagMapping {
 		this.tagName = tagName;
 	}
 
+	public Long getCitedNum() {
+		return citedNum;
+	}
+
+	public void setCitedNum(Long citedNum) {
+		this.citedNum = citedNum;
+	}
+
 	public Integer getTagType() {
 		return tagType;
 	}
@@ -62,9 +65,15 @@ public class WorkTagMapping {
 	public void setTagType(Integer tagType) {
 		this.tagType = tagType;
 	}
+
+	public Long getFatherTagId() {
+		return fatherTagId;
+	}
+
+	public void setFatherTagId(Long fatherTagId) {
+		this.fatherTagId = fatherTagId;
+	}
 	
-	
-	
-	
+
 	
 }

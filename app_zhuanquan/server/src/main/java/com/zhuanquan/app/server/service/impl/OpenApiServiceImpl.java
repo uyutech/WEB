@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONObject;
-import com.zhuanquan.app.common.constants.ChannelType;
+import com.zhuanquan.app.common.constants.LoginType;
 import com.zhuanquan.app.common.exception.BizErrorCode;
 import com.zhuanquan.app.common.exception.BizException;
 import com.zhuanquan.app.common.utils.ApiConnector;
@@ -29,7 +29,7 @@ public class OpenApiServiceImpl implements OpenApiService {
 	public void checkToken(String accessToken, String openId, int channelType) {
 
 		switch (channelType) {
-		case ChannelType.CHANNEL_WEIBO:
+		case LoginType.CHANNEL_WEIBO:
 
 			checkWeiboToken(accessToken, openId);
 			return;

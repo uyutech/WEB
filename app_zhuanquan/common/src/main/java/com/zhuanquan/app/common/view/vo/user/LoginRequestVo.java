@@ -2,7 +2,7 @@ package com.zhuanquan.app.common.view.vo.user;
 
 import java.io.Serializable;
 
-import com.zhuanquan.app.common.constants.LoginTypeEnum;
+import com.zhuanquan.app.common.constants.LoginType;
 
 
 public class LoginRequestVo implements Serializable {
@@ -24,7 +24,7 @@ public class LoginRequestVo implements Serializable {
 	private String verifyCode;
 	
 	//登录方式
-    private int loginType = LoginTypeEnum.SOURCE_TYPE_CLIENT.getCode();
+    private int loginType = LoginType.CHANNEL_MOBILE;
 
 
     

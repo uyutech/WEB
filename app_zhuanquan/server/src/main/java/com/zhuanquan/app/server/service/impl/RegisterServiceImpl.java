@@ -13,8 +13,7 @@ import com.zhuanquan.app.common.component.cache.RedisKeyBuilder;
 import com.zhuanquan.app.common.component.cache.redis.utils.RedisHelper;
 import com.zhuanquan.app.common.component.sesssion.SessionHolder;
 import com.zhuanquan.app.common.component.sesssion.UserSession;
-import com.zhuanquan.app.common.constants.ChannelType;
-import com.zhuanquan.app.common.constants.LoginTypeEnum;
+import com.zhuanquan.app.common.constants.LoginType;
 import com.zhuanquan.app.common.exception.BizErrorCode;
 import com.zhuanquan.app.common.exception.BizException;
 import com.zhuanquan.app.common.model.author.AuthorBase;
@@ -74,7 +73,7 @@ public class RegisterServiceImpl implements RegisterService {
 		RegisterResponseVo response = transactionService.registerMobile(vo);
 
 		sessionHolder.createOrUpdateSession(response.getUid(), vo.getLoginType(), vo.getProfile(),
-				ChannelType.CHANNEL_MOBILE, UserOpenAccount.NORMAL_ACCOUNT);
+				LoginType.CHANNEL_MOBILE, UserOpenAccount.NORMAL_ACCOUNT);
 
 		return response;
 	}
@@ -139,7 +138,7 @@ public class RegisterServiceImpl implements RegisterService {
 		// 校验短信验证码是否正确
 		validateVerifyCode(mobile, verifycode, RedisKeyBuilder.getBindMobileSmsVerifyCodeKey(mobile));
 
-		UserOpenAccount account = userOpenAccountCache.queryByOpenId(mobile, ChannelType.CHANNEL_MOBILE);
+		UserOpenAccount account = userOpenAccountCache.queryByOpenId(mobile, LoginType.CHANNEL_MOBILE);
 
 		// 已经被注册了直接报异常
 		if (account != null) {
@@ -182,7 +181,7 @@ public class RegisterServiceImpl implements RegisterService {
 			throw new BizException(BizErrorCode.EX_ILLEGLE_REQUEST_PARM.getCode());
 		}
 
-		UserOpenAccount mobileAccount = userOpenAccountDAO.queryByOpenId(mobile, ChannelType.CHANNEL_MOBILE);
+		UserOpenAccount mobileAccount = userOpenAccountDAO.queryByOpenId(mobile, LoginType.CHANNEL_MOBILE);
 
 		// 手机没有被注册直接报错
 		if (mobileAccount == null) {
@@ -199,17 +198,17 @@ public class RegisterServiceImpl implements RegisterService {
 			userOpenAccountDAO.updateToBindUid(session.getOpenId(), session.getChannelType(), mobileAccount.getUid());
 
 			// 重建会话, 用手机的uid创建会话
-			sessionHolder.createOrUpdateSession(mobileAccount.getUid(), LoginTypeEnum.SOURCE_TYPE_CLIENT.getCode(),
+			sessionHolder.createOrUpdateSession(mobileAccount.getUid(), LoginType.CHANNEL_MOBILE,
 					session.getOpenId(), session.getChannelType(), mobileAccount.getIsVip());
 
 		} else {
 
 			//清理手机账户的缓存
-			userOpenAccountCache.clearUserOpenAccountCache(mobile, ChannelType.CHANNEL_MOBILE);
+			userOpenAccountCache.clearUserOpenAccountCache(mobile, LoginType.CHANNEL_MOBILE);
 
 			
 			// 修改mobile的uid为 原来登录的uid
-			userOpenAccountDAO.updateToBindUid(mobile, ChannelType.CHANNEL_MOBILE, nowAccount.getUid());
+			userOpenAccountDAO.updateToBindUid(mobile, LoginType.CHANNEL_MOBILE, nowAccount.getUid());
 			
 
 		}
@@ -310,7 +309,7 @@ public class RegisterServiceImpl implements RegisterService {
 		// 短信验证码
 		validateVerifyCode(mobile, verifyCode, RedisKeyBuilder.getForgetPwdSmsVerifyCodeKey(mobile));
 
-		UserOpenAccount account = userOpenAccountCache.queryByOpenId(mobile, ChannelType.CHANNEL_MOBILE);
+		UserOpenAccount account = userOpenAccountCache.queryByOpenId(mobile, LoginType.CHANNEL_MOBILE);
 
 		// 手机没有绑定注册
 		if (account == null) {
@@ -332,12 +331,12 @@ public class RegisterServiceImpl implements RegisterService {
 		String mobile = null;
 
 		// 查看当前的登录方式不是手机登录的，手机登录才允许修改手机登录的密码
-		if (session.getChannelType() == ChannelType.CHANNEL_MOBILE) {
+		if (session.getChannelType() == LoginType.CHANNEL_MOBILE) {
 			mobile = session.getOpenId();
 		} else {
 
 			UserOpenAccount account = userOpenAccountDAO.queryByUidAndChannelType(session.getUid(),
-					ChannelType.CHANNEL_MOBILE);
+					LoginType.CHANNEL_MOBILE);
 
 			// 手机没有绑定注册
 			if (account == null) {
@@ -386,7 +385,7 @@ public class RegisterServiceImpl implements RegisterService {
 		//检查手机是否合法
 		PhoneValidateUtils.isPhoneLegal(mobile);
 		
-		UserOpenAccount account = userOpenAccountCache.queryByOpenId(mobile, ChannelType.CHANNEL_MOBILE);
+		UserOpenAccount account = userOpenAccountCache.queryByOpenId(mobile, LoginType.CHANNEL_MOBILE);
 		
 		return account == null?0:1;
 	}

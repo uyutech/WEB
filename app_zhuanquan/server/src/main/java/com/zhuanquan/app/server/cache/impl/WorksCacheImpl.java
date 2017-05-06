@@ -1,10 +1,9 @@
 package com.zhuanquan.app.server.cache.impl;
 
-import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import com.zhuanquan.app.common.model.author.Works;
+import com.zhuanquan.app.common.model.work.Works;
 import com.zhuanquan.app.server.cache.WorksCache;
 
 

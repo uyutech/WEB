@@ -2,7 +2,7 @@ package com.zhuanquan.app.dal.dao.author;
 
 import java.util.List;
 
-import com.zhuanquan.app.common.model.author.Works;
+import com.zhuanquan.app.common.model.work.Works;
 import com.zhuanquan.app.common.view.bo.BatchUpdateWorkUpvoteNumBo;
 
 public interface WorksDAO {

@@ -3,7 +3,7 @@ package com.zhuanquan.app.common.model.user;
 import java.io.Serializable;
 import java.util.Date;
 
-import com.zhuanquan.app.common.constants.ChannelType;
+import com.zhuanquan.app.common.constants.LoginType;
 import com.zhuanquan.app.common.utils.MD5;
 
 public class UserOpenAccount implements Serializable {
@@ -196,7 +196,7 @@ public class UserOpenAccount implements Serializable {
 
 		UserOpenAccount account = new UserOpenAccount();
 
-		account.setChannelType(ChannelType.CHANNEL_MOBILE);
+		account.setChannelType(LoginType.CHANNEL_MOBILE);
 		account.setCreateTime(now);
 		account.setModifyTime(now);
 

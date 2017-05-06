@@ -6,7 +6,7 @@ package com.zhuanquan.app.common.constants;
  * @author zhangjun
  *
  */
-public class ChannelType {
+public class LoginType {
 	
 	
 	/**

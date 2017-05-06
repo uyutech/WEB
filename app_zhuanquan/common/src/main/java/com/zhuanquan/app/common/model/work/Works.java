@@ -1,4 +1,4 @@
-package com.zhuanquan.app.common.model.author;
+package com.zhuanquan.app.common.model.work;
 
 /**
  * 作者作品信息
@@ -13,9 +13,14 @@ public class Works {
 	 */
 	private Long workId;
 
-
+    /**
+     * 作品分类
+     */
+	private Integer category;
+	
+	
 	/**
-	 * 作者信息，以逗号分割
+	 * 作者信息，以逗号分割，格式为 作者名A(作者A id),作者名B(作者B的id)
 	 */
 	private String authorsInfo;
 	
@@ -153,6 +158,14 @@ public class Works {
 
 	public void setWorkTags(String workTags) {
 		this.workTags = workTags;
+	}
+
+	public Integer getCategory() {
+		return category;
+	}
+
+	public void setCategory(Integer category) {
+		this.category = category;
 	}
 
 	

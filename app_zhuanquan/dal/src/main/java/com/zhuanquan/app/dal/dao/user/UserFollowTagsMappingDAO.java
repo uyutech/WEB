@@ -3,7 +3,6 @@ package com.zhuanquan.app.dal.dao.user;
 import java.util.List;
 import java.util.Map;
 
-import com.zhuanquan.app.common.model.author.Tag;
 import com.zhuanquan.app.common.model.user.UserFollowTagsMapping;
 
 /**

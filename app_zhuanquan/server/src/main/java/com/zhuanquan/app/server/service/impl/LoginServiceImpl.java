@@ -13,7 +13,7 @@ import com.zhuanquan.app.common.component.cache.RedisKeyBuilder;
 import com.zhuanquan.app.common.component.cache.redis.utils.RedisHelper;
 import com.zhuanquan.app.common.component.interceptor.RemoteIPInterceptor;
 import com.zhuanquan.app.common.component.sesssion.SessionHolder;
-import com.zhuanquan.app.common.constants.ChannelType;
+import com.zhuanquan.app.common.constants.LoginType;
 import com.zhuanquan.app.common.exception.BizErrorCode;
 import com.zhuanquan.app.common.exception.BizException;
 import com.zhuanquan.app.common.model.user.UserOpenAccount;
@@ -65,7 +65,7 @@ public class LoginServiceImpl implements LoginService {
 		// 是否被限制
 		validateIsLimited(request);
 
-		UserOpenAccount account = userOpenAccountCache.queryByOpenId(request.getUserName(), ChannelType.CHANNEL_MOBILE);
+		UserOpenAccount account = userOpenAccountCache.queryByOpenId(request.getUserName(), LoginType.CHANNEL_MOBILE);
 
 		// 如果account为null
 		if (account == null) {
@@ -88,7 +88,7 @@ public class LoginServiceImpl implements LoginService {
 			throw new BizException(BizErrorCode.EX_LOGIN_FORBIDDEN.getCode());
 		}
 
-		return sessionCreate(profile, request.getLoginType(), request.getUserName(), ChannelType.CHANNEL_MOBILE,
+		return sessionCreate(profile, request.getLoginType(), request.getUserName(), LoginType.CHANNEL_MOBILE,
 				account.getIsVip());
 	}
 

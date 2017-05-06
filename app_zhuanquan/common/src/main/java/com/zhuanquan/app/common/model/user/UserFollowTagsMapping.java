@@ -1,6 +1,6 @@
 package com.zhuanquan.app.common.model.user;
 
-import com.zhuanquan.app.common.model.author.Tag;
+import com.zhuanquan.app.common.model.common.Tag;
 
 /**
  * 用户关注的标签

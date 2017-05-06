@@ -2,7 +2,8 @@ package com.zhuanquan.app.dal.dao.author;
 
 import java.util.List;
 
-import com.zhuanquan.app.common.model.author.Tag;
+import com.zhuanquan.app.common.model.common.Tag;
+
 
 public interface TagDAO {
 	

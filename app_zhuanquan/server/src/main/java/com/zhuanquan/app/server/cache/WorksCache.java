@@ -1,6 +1,6 @@
 package com.zhuanquan.app.server.cache;
 
-import com.zhuanquan.app.common.model.author.Works;
+import com.zhuanquan.app.common.model.work.Works;
 
 public interface WorksCache {
 	

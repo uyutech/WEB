@@ -2,7 +2,6 @@ package com.zhuanquan.app.server.service.impl;
 
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,10 +14,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.zhuanquan.app.common.constants.ChannelType;
+import com.zhuanquan.app.common.constants.LoginType;
 import com.zhuanquan.app.common.exception.BizErrorCode;
 import com.zhuanquan.app.common.exception.BizException;
-import com.zhuanquan.app.common.model.author.Tag;
+import com.zhuanquan.app.common.model.common.Tag;
 import com.zhuanquan.app.common.model.user.UserFollowTagsMapping;
 import com.zhuanquan.app.common.model.user.UserOpenAccount;
 import com.zhuanquan.app.common.model.user.UserProfile;
@@ -67,7 +66,7 @@ public class TransactionServiceImpl implements TransactionService {
 	public RegisterResponseVo registerMobile(RegisterRequestVo vo) {
 		
 		//
-		UserOpenAccount account = userOpenAccountCache.queryByOpenId(vo.getProfile(), ChannelType.CHANNEL_MOBILE);
+		UserOpenAccount account = userOpenAccountCache.queryByOpenId(vo.getProfile(), LoginType.CHANNEL_MOBILE);
 		
 		//手机号已注册
 		if(account != null) {

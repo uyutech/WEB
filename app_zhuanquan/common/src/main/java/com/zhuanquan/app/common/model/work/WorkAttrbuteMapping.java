@@ -1,4 +1,4 @@
-package com.zhuanquan.app.common.model.author;
+package com.zhuanquan.app.common.model.work;
 
 
 /**
@@ -19,14 +19,14 @@ public class WorkAttrbuteMapping {
 	
 
 	/**
-	 * 属性类型  0-作者 
+	 * 属性类型
 	 */
 	private Integer attrType;
 	
 	/**
-	 * 创作者id 
+	 * 作品属性值 
 	 */
-	private Long authorId;
+	private String value;
 	
 	/**
 	 * 排名
@@ -38,7 +38,7 @@ public class WorkAttrbuteMapping {
 	 */
 	private int status;
 	
-	
+
 
 	public Long getWorkId() {
 		return workId;
@@ -56,12 +56,14 @@ public class WorkAttrbuteMapping {
 		this.attrType = attrType;
 	}
 
-	public Long getAuthorId() {
-		return authorId;
+
+
+	public String getValue() {
+		return value;
 	}
 
-	public void setAuthorId(Long authorId) {
-		this.authorId = authorId;
+	public void setValue(String value) {
+		this.value = value;
 	}
 
 	public int getOrder() {

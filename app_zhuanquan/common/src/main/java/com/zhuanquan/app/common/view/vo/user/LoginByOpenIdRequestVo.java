@@ -5,7 +5,7 @@ import java.io.Serializable;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.zhuanquan.app.common.constants.ChannelType;
+import com.zhuanquan.app.common.constants.LoginType;
 import com.zhuanquan.app.common.exception.BizErrorCode;
 import com.zhuanquan.app.common.exception.BizException;
 import com.zhuanquan.app.common.utils.MD5;
@@ -94,7 +94,7 @@ public class LoginByOpenIdRequestVo implements Serializable {
 		}
 		
 		
-		if(channelType!=ChannelType.CHANNEL_WEIBO) {
+		if(channelType!=LoginType.CHANNEL_WEIBO) {
 			throw new BizException(BizErrorCode.EX_ILLEGLE_REQUEST_PARM.getCode());
 		}
 

@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
-import com.zhuanquan.app.common.model.author.Tag;
+import com.zhuanquan.app.common.model.common.Tag;
 import com.zhuanquan.app.dal.dao.BaseDao;
 import com.zhuanquan.app.dal.dao.author.TagDAO;
 
