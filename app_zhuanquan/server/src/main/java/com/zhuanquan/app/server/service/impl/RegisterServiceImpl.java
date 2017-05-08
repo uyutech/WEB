@@ -238,8 +238,9 @@ public class RegisterServiceImpl implements RegisterService {
 		}
 
 		//
-		AuthorBase base = authorBaseDAO.queryByUid(session.getUid());
-
+		
+		AuthorBase base = authorBaseDAO.queryByAuthorId(profile.getAuthorId());
+		
 		// 如果是大v用户，并且设置的nickname和作者的名字一样的，那么不做校验默认允许重复
 		if (base != null && base.getAuthorName().equals(nickName)) {
 			// 更新昵称

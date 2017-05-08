@@ -51,7 +51,7 @@ public class RedisKeyBuilder {
 	
 	
 	/**
-	 * 登录的短信验证码
+	 * 登录的图片验证码
 	 * @param mobile
 	 * @return
 	 */

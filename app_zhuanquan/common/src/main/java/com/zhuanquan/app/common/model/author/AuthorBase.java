@@ -10,11 +10,7 @@ public class AuthorBase {
 	 * 作者id
 	 */
 	private Long authorId;
-	
-	/**
-	 * 用户id
-	 */
-	private Long uid;
+
 	
 	
 	/**
@@ -38,15 +34,6 @@ public class AuthorBase {
 		this.authorId = authorId;
 	}
 
-
-	public Long getUid() {
-		return uid;
-	}
-
-
-	public void setUid(Long uid) {
-		this.uid = uid;
-	}
 
 
 	public String getAuthorName() {

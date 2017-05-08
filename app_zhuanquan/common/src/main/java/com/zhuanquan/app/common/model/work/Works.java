@@ -20,9 +20,16 @@ public class Works {
 	
 	
 	/**
-	 * 作者信息，以逗号分割，格式为 作者名A(作者A id),作者名B(作者B的id)
+	 * 策划信息，以逗号分割，格式为 作者名A(作者A id),作者名B(作者B的id)
 	 */
-	private String authorsInfo;
+	private String editors;
+	
+	
+	
+	/**
+	 * 出品人信息，以逗号分割，格式为 作者名A(作者A id),作者名B(作者B的id)
+	 */
+	private String producters;
 	
 
 	/**
@@ -80,12 +87,22 @@ public class Works {
 
 
 
-	public String getAuthorsInfo() {
-		return authorsInfo;
+
+
+	public String getEditors() {
+		return editors;
 	}
 
-	public void setAuthorsInfo(String authorsInfo) {
-		this.authorsInfo = authorsInfo;
+	public void setEditors(String editors) {
+		this.editors = editors;
+	}
+
+	public String getProducters() {
+		return producters;
+	}
+
+	public void setProducters(String producters) {
+		this.producters = producters;
 	}
 
 	public String getWorkName() {

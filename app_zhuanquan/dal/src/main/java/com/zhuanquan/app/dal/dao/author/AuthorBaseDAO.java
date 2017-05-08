@@ -13,15 +13,7 @@ public interface AuthorBaseDAO {
 	 * @return
 	 */
 	AuthorBase queryByAuthorId(long authorId);
-	
-	
-	/**
-	 * 根据uid查询
-	 * @param uid
-	 * @return
-	 */
-	AuthorBase queryByUid(long uid);
-	
+
 	
 	/**
 	 * 根据作者名查询

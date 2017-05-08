@@ -33,7 +33,6 @@ import com.zhuanquan.app.server.cache.UserOpenAccountCache;
 import com.zhuanquan.app.server.service.TransactionService;
 
 
-
 @Service
 public class TransactionServiceImpl implements TransactionService {
 

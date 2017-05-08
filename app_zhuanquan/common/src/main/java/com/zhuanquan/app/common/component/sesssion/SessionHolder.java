@@ -26,15 +26,7 @@ public class SessionHolder  {
 	
 	private static final ThreadLocal<UserSession> SESSION_LOCAL = new ThreadLocal<UserSession>();
 
-	
-	/**
-	 * 
-	 * @param uid
-	 * @param createIp
-	 * @param loginType 登录方式
-	 * @return
-	 */
-	
+
 	
 	/**
 	 * 创建会话

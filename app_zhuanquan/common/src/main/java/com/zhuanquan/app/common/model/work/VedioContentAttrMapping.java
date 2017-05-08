@@ -1,6 +1,3 @@
-
-
-
 package com.zhuanquan.app.common.model.work;
 
 
@@ -18,6 +15,11 @@ public class VedioContentAttrMapping {
 	private Long workContentId;
 	
 	/**
+	 * 作品id冗余字段
+	 */
+	private Long workId;
+	
+	/**
 	 * 视频资源的属性类型
 	 */
 	private Integer attrType;
@@ -33,7 +35,11 @@ public class VedioContentAttrMapping {
 	 */
 	private Integer order;
 
-
+	
+	/**
+	 * 如果入驻平台了，在平台内的关联authorid
+	 */
+	private Long referAuthorId;
 
 	public Long getWorkContentId() {
 		return workContentId;
@@ -73,8 +79,28 @@ public class VedioContentAttrMapping {
 	public void setOrder(Integer order) {
 		this.order = order;
 	}
+
+
+	public Long getReferAuthorId() {
+		return referAuthorId;
+	}
+
+
+	public void setReferAuthorId(Long referAuthorId) {
+		this.referAuthorId = referAuthorId;
+	}
+
+
+	public Long getWorkId() {
+		return workId;
+	}
+
+
+	public void setWorkId(Long workId) {
+		this.workId = workId;
+	}
 	
-	
+
 	
 	
 }

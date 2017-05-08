@@ -81,7 +81,7 @@ public class UserUpvoteController {
 	 * @param workId
 	 * @return
 	 */
-	@RequestMapping(value = "/queryWorkUpvoteNum")
+	@RequestMapping(value = "/hasUpvoteWork")
 	@ResponseBody
 	public ApiResponse hasUpvoteWork(long uid,long workId) {
 		

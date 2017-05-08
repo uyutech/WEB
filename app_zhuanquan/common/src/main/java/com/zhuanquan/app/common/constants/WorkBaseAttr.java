@@ -30,13 +30,13 @@ public class WorkBaseAttr {
 	/**
 	 * 策划
 	 */
-	public static final int WORK_ATTR_SUB_EDITER = 4;
+	public static final int WORK_ATTR_EDITER = 4;
 
 	
 	/**
 	 * 出品人
 	 */
-	public static final int WORK_ATTR_SUB_PRODUCTED_BY = 5;
+	public static final int WORK_ATTR_PRODUCTER = 5;
 	
 	/**
 	 * 音频资源id

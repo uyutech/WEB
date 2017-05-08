@@ -16,6 +16,12 @@ public class AudioContentAttrMapping {
 
 	
 	/**
+	 * 作品id冗余字段
+	 */
+	private Long workId;
+	
+	
+	/**
 	 * 音频资源的属性类型
 	 */
 	private Integer attrType;
@@ -24,6 +30,12 @@ public class AudioContentAttrMapping {
 	 *  属性的值
 	 */
 	private String value;
+	
+	
+	/**
+	 * 如果入驻平台了，在平台内的关联authorid
+	 */
+	private Long referAuthorId;
 	
 	
 	/**
@@ -87,6 +99,26 @@ public class AudioContentAttrMapping {
 
 	public void setWorkContentId(Long workContentId) {
 		this.workContentId = workContentId;
+	}
+
+
+	public Long getReferAuthorId() {
+		return referAuthorId;
+	}
+
+
+	public void setReferAuthorId(Long referAuthorId) {
+		this.referAuthorId = referAuthorId;
+	}
+
+
+	public Long getWorkId() {
+		return workId;
+	}
+
+
+	public void setWorkId(Long workId) {
+		this.workId = workId;
 	}
 
 	

@@ -21,7 +21,6 @@ public class AuthorTagMapping {
 	private Long tagId;
 
 
-	
 	/**
 	 * 标签分类:
 	 */

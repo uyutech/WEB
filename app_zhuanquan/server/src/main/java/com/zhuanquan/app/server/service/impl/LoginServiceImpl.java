@@ -130,20 +130,20 @@ public class LoginServiceImpl implements LoginService {
 	}
 
 	/**
-	 * 检测参数是否合法
+	 * 检测基本参数是否合法
 	 * 
 	 * @param request
 	 */
 	private void validateBaseParam(LoginRequestVo request) {
 
-		CommonUtil.assertNotNull(request.getPassword(), "password");
-
 		CommonUtil.assertNotNull(request.getUserName(), "username");
+
+		CommonUtil.assertNotNull(request.getPassword(), "password");
 
 	}
 
 	/**
-	 * 检测用户是否被限制了
+	 * 检测用户是否被限制登录
 	 */
 	private void validateIsLimited(LoginRequestVo request) {
 
@@ -151,27 +151,34 @@ public class LoginServiceImpl implements LoginService {
 
 		List<String> keyList = new ArrayList<String>();
 
-		// 短信验证码key
-		String smsVerifyCode = RedisKeyBuilder.getLoginVerifyCodeKey(request.getUserName());
+		// 图片验证码key
+		String picVerifyCode = RedisKeyBuilder.getLoginVerifyCodeKey(request.getUserName());
 
 		String ipLimitKey = RedisKeyBuilder.getLoginIpLimitKey(RemoteIPInterceptor.getRemoteIP());
 
 		String failTimesLimitKey = RedisKeyBuilder.getLoginFailTimesKey(request.getUserName());
 
-		keyList.add(smsVerifyCode);
+		keyList.add(picVerifyCode);
 		keyList.add(ipLimitKey);
 		keyList.add(failTimesLimitKey);
 
 		List<String> valueList = redisHelper.valueMultiGet(keyList);
 
-		String smsValue = valueList.get(0);
+		//redis中图片验证码
+		String picValue = valueList.get(0);
 
+		/**
+		 * ip限制
+		 */
 		String ipLimitValue = valueList.get(1);
 
+		/**
+		 * 失败次数限制
+		 */
 		String failTimesLimitValue = valueList.get(2);
 
-		// 短信验证码校验
-		if (smsValue != null && !smsValue.equals(request.getVerifyCode())) {
+		// 图片验证码校验
+		if (picValue != null && !picValue.equals(request.getVerifyCode())) {
 			throw new BizException(BizErrorCode.EX_LOGIN_VERIFY_CODE_ERR.getCode());
 		}
 

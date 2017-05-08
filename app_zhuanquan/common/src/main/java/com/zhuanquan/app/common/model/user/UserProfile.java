@@ -93,12 +93,26 @@ public class UserProfile {
 	 * 昵称
 	 */
 	private String nickName;
+	
+	
+	/**
+	 * 对应作者账号id
+	 */
+	private Long authorId;
 
 //	/**
 //	 * 性别
 //	 */
 //	private Integer gender;
+	public Long getAuthorId() {
+		return authorId;
+	}
 
+	public void setAuthorId(Long authorId) {
+		this.authorId = authorId;
+	}
+	
+	
 
 	public Long getUid() {
 		return uid;
@@ -246,8 +260,8 @@ public class UserProfile {
 		
 		return profile;
 	}
-	
-	
+
+
 
 
 }

@@ -7,7 +7,7 @@ import java.util.Date;
  * @author zhangjun
  *
  */
-public class WorkMedisDetail {
+public class WorkMediaDetail {
 	
 	/**
 	 * 内容详情id
@@ -43,9 +43,6 @@ public class WorkMedisDetail {
 	 * 修改时间
 	 */
 	private Date modifyTime;
-	
-	
-	
 	
 	
 	

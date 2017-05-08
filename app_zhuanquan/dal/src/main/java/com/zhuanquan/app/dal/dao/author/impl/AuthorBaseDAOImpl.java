@@ -19,12 +19,6 @@ public class AuthorBaseDAOImpl extends BaseDao implements AuthorBaseDAO {
 	}
 
 	@Override
-	public AuthorBase queryByUid(long uid) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public List<AuthorBase> queryByAuthorName(String authorName) {
 		// TODO Auto-generated method stub
 		return null;
