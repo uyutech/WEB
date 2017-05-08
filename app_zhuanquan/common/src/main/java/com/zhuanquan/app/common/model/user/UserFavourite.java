@@ -30,7 +30,7 @@ public class UserFavourite {
 	/**
 	 * 冗余 useri的内容
 	 */
-	private Long userId;
+	private Long uid;
 	
 	
 	/**
@@ -59,12 +59,14 @@ public class UserFavourite {
 	 */
 	private Date modifyTime;
 
-	public Long getUserId() {
-		return userId;
+
+
+	public Long getUid() {
+		return uid;
 	}
 
-	public void setUserId(Long userId) {
-		this.userId = userId;
+	public void setUid(Long uid) {
+		this.uid = uid;
 	}
 
 	public Long getFavGroupId() {
@@ -120,7 +122,7 @@ public class UserFavourite {
 		Date now = new Date();
 		
 		
-		record.setUserId(uid);
+		record.setUid(uid);
 		record.setWorkId(workId);
 		record.setStatus(STAT_FAV);
 		record.setFavGroupId(DEFAULT_GROUP_ID);

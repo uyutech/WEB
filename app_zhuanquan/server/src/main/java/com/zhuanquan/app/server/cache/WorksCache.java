@@ -1,6 +1,6 @@
 package com.zhuanquan.app.server.cache;
 
-import com.zhuanquan.app.common.model.work.Works;
+import com.zhuanquan.app.common.model.work.WorkBase;
 
 public interface WorksCache {
 	
@@ -10,7 +10,7 @@ public interface WorksCache {
 	 * @param workId
 	 * @return
 	 */
-	Works queryWorkById(long workId);
+	WorkBase queryWorkById(long workId);
 	
 	
 }

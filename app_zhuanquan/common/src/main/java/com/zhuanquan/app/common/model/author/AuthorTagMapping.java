@@ -1,25 +1,22 @@
 package com.zhuanquan.app.common.model.author;
 
-
-
 /**
- *  作者和标签的映射表
+ * 作者和标签的映射表
+ * 
  * @author zhangjun
  *
  */
 public class AuthorTagMapping {
-	
-	
+
 	/**
 	 * 作者id
 	 */
 	private Long authorId;
-	
+
 	/**
 	 * 
 	 */
 	private Long tagId;
-
 
 	/**
 	 * 标签分类:
@@ -35,31 +32,32 @@ public class AuthorTagMapping {
 		return authorId;
 	}
 
-
 	public void setAuthorId(Long authorId) {
 		this.authorId = authorId;
 	}
-
 
 	public Long getTagId() {
 		return tagId;
 	}
 
-
 	public void setTagId(Long tagId) {
 		this.tagId = tagId;
 	}
-
-
 
 	public Integer getTagType() {
 		return tagType;
 	}
 
-
 	public void setTagType(Integer tagType) {
 		this.tagType = tagType;
 	}
 
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
 
 }

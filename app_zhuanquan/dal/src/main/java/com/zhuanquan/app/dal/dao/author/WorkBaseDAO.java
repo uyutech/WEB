@@ -2,17 +2,17 @@ package com.zhuanquan.app.dal.dao.author;
 
 import java.util.List;
 
-import com.zhuanquan.app.common.model.work.Works;
+import com.zhuanquan.app.common.model.work.WorkBase;
 import com.zhuanquan.app.common.view.bo.BatchUpdateWorkUpvoteNumBo;
 
-public interface WorksDAO {
+public interface WorkBaseDAO {
 	
 	/**
 	 * 根据id查询
 	 * @param workId
 	 * @return
 	 */
-	Works queryWorkById(long workId);
+	WorkBase queryWorkById(long workId);
 	
 	
 	/**

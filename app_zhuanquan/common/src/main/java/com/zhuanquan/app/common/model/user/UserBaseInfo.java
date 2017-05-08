@@ -5,6 +5,8 @@ package com.zhuanquan.app.common.model.user;
 
 public class UserBaseInfo {
 	
+	private Long uid;
+	
 	/**
 	 * 头像url
 	 */
@@ -56,6 +58,14 @@ public class UserBaseInfo {
 
 	public void setMobile(String mobile) {
 		this.mobile = mobile;
+	}
+
+	public Long getUid() {
+		return uid;
+	}
+
+	public void setUid(Long uid) {
+		this.uid = uid;
 	}
 	
 	

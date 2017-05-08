@@ -6,7 +6,7 @@ package com.zhuanquan.app.common.model.work;
  * @author zhangjun
  *
  */
-public class Works {
+public class WorkBase {
 
 	/**
 	 * 作品id
@@ -33,9 +33,9 @@ public class Works {
 	
 
 	/**
-	 * 作品名称
+	 * 作品简介
 	 */
-	private String workName;
+	private String summary;
 
 	/**
 	 * 作品标题
@@ -105,12 +105,14 @@ public class Works {
 		this.producters = producters;
 	}
 
-	public String getWorkName() {
-		return workName;
+
+
+	public String getSummary() {
+		return summary;
 	}
 
-	public void setWorkName(String workName) {
-		this.workName = workName;
+	public void setSummary(String summary) {
+		this.summary = summary;
 	}
 
 	public String getSubject() {

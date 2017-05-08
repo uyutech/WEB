@@ -64,7 +64,7 @@ public class UserProfile {
 	/**
 	 * 是否允许关注
 	 */
-	private Integer allowAttation;
+	private Integer allowFollow;
 	
 	
 	/**
@@ -143,12 +143,14 @@ public class UserProfile {
 		this.registerStat = registerStat;
 	}
 
-	public Integer getAllowAttation() {
-		return allowAttation;
+
+
+	public Integer getAllowFollow() {
+		return allowFollow;
 	}
 
-	public void setAllowAttation(Integer allowAttation) {
-		this.allowAttation = allowAttation;
+	public void setAllowFollow(Integer allowFollow) {
+		this.allowFollow = allowFollow;
 	}
 
 	public Date getCreateTime() {
@@ -218,7 +220,7 @@ public class UserProfile {
 		
 		profile.setCreateTime(now);
 		
-		profile.setAllowAttation(UserProfile.ALLOW_ATTATION);
+		profile.setAllowFollow(UserProfile.ALLOW_ATTATION);
 		
 		
 		profile.setNickName(randomProfile);
@@ -251,8 +253,9 @@ public class UserProfile {
 		profile.setRegisterStat(UserProfile.REG_STAT_BEFORE_STEP1);
 		
 		profile.setCreateTime(now);
-		profile.setAllowAttation(UserProfile.ALLOW_ATTATION);
 		
+		profile.setAllowFollow(UserProfile.ALLOW_ATTATION);
+				
 		
 		profile.setNickName(randomProfile);
 		profile.setHeadUrl(DEFAULT_HEAD_URL);

@@ -24,9 +24,9 @@ import com.zhuanquan.app.common.component.cache.redis.utils.RedisHelper;
 import com.zhuanquan.app.common.exception.BizErrorCode;
 import com.zhuanquan.app.common.exception.BizException;
 import com.zhuanquan.app.common.model.user.UserUpvoteWorkMapping;
-import com.zhuanquan.app.common.model.work.Works;
+import com.zhuanquan.app.common.model.work.WorkBase;
 import com.zhuanquan.app.common.view.bo.BatchUpdateWorkUpvoteNumBo;
-import com.zhuanquan.app.dal.dao.author.WorksDAO;
+import com.zhuanquan.app.dal.dao.author.WorkBaseDAO;
 import com.zhuanquan.app.dal.dao.user.UserUpvoteWorkMappingDAO;
 import com.zhuanquan.app.server.cache.UserUpvoteWorkMappingCache;
 
@@ -41,7 +41,7 @@ public class UserUpvoteWorkMappingCacheImpl implements UserUpvoteWorkMappingCach
 	protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@Resource
-	private WorksDAO worksDAO;
+	private WorkBaseDAO worksDAO;
 
 	@Resource
 	private RedisHelper redisHelper;
@@ -144,7 +144,7 @@ public class UserUpvoteWorkMappingCacheImpl implements UserUpvoteWorkMappingCach
 		}
 
 		// 检查workid是否存在
-		Works work = worksDAO.queryWorkById(workId);
+		WorkBase work = worksDAO.queryWorkById(workId);
 
 		if (work == null) {
 			throw new BizException(BizErrorCode.EX_ILLEGLE_REQUEST_PARM.getCode());
@@ -193,7 +193,7 @@ public class UserUpvoteWorkMappingCacheImpl implements UserUpvoteWorkMappingCach
 		}
 
 		// 检查workid是否存在
-		Works work = worksDAO.queryWorkById(workId);
+		WorkBase work = worksDAO.queryWorkById(workId);
 
 		if (work == null) {
 			throw new BizException(BizErrorCode.EX_ILLEGLE_REQUEST_PARM.getCode());
@@ -237,7 +237,7 @@ public class UserUpvoteWorkMappingCacheImpl implements UserUpvoteWorkMappingCach
 		}
 
 		// 检查workid是否存在
-		Works work = worksDAO.queryWorkById(workId);
+		WorkBase work = worksDAO.queryWorkById(workId);
 
 		if (work == null) {
 			throw new BizException(BizErrorCode.EX_ILLEGLE_REQUEST_PARM.getCode());

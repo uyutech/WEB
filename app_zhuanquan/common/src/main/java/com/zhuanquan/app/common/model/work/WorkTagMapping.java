@@ -1,7 +1,6 @@
 package com.zhuanquan.app.common.model.work;
 
-
-
+import java.util.Date;
 
 /**
  * 作品和tag 的映射表
@@ -20,10 +19,7 @@ public class WorkTagMapping {
 	 */
 	private Long workId;
 	
-	/**
-	 * 标签名
-	 */
-	private String tagName;
+
 	
 	 
 	/**
@@ -32,6 +28,40 @@ public class WorkTagMapping {
 	private Integer tagType;
 	
 	
+    private Integer status;
+    
+    
+    
+    private Date createTime;
+    
+    
+    private Date modifyTime;
+
+	
+	
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+
+	public Date getModifyTime() {
+		return modifyTime;
+	}
+
+	public void setModifyTime(Date modifyTime) {
+		this.modifyTime = modifyTime;
+	}
 
 	public Long getTagId() {
 		return tagId;
@@ -49,13 +79,6 @@ public class WorkTagMapping {
 		this.workId = workId;
 	}
 
-	public String getTagName() {
-		return tagName;
-	}
-
-	public void setTagName(String tagName) {
-		this.tagName = tagName;
-	}
 
 	public Integer getTagType() {
 		return tagType;

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import com.zhuanquan.app.common.exception.BizErrorCode;
 import com.zhuanquan.app.common.exception.BizException;
 import com.zhuanquan.app.common.model.user.UserFavourite;
-import com.zhuanquan.app.common.model.work.Works;
+import com.zhuanquan.app.common.model.work.WorkBase;
 import com.zhuanquan.app.dal.dao.user.UserFavouriteDAO;
 import com.zhuanquan.app.dal.dao.user.UserFavouriteGroupDAO;
 import com.zhuanquan.app.server.cache.WorksCache;
@@ -50,7 +50,7 @@ public class FavouriteServiceImpl implements FavouriteService {
 	 */
 	private void doFavOrCancel(long uid, long workId, boolean isFav) {
 
-		Works obj = worksCache.queryWorkById(workId);
+		WorkBase obj = worksCache.queryWorkById(workId);
 
 		if (obj == null) {
 			throw new BizException(BizErrorCode.EX_ILLEGLE_REQUEST_PARM.getCode());

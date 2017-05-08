@@ -112,8 +112,7 @@ public class LoginServiceImpl implements LoginService {
 		LoginResponseVo response = new LoginResponseVo();
 
 		response.setUid(profile.getUid());
-		response.setAllowAttation(profile.getAllowAttation());
-		response.setAllowAttation(profile.getAllowAttation());
+		response.setAllowAttation(profile.getAllowFollow());
 		response.setChannelType(channelType);
 		response.setHeadUrl(profile.getHeadUrl());
 		response.setNickName(profile.getNickName());

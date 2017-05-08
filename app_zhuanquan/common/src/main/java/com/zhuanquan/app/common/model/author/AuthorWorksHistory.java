@@ -21,14 +21,36 @@ public class AuthorWorksHistory {
 	private Long workId;
 
 	/**
-	 * 担当的角色类型
+	 * 担当的角色id
 	 */
-	private Integer roleType;
+	private Integer roleId;
+
+	
+	
+	/**
+	 * 关联记录id
+	 */
+	private Long referId;
+	
+	
+	/**
+	 * 指明关联id 是来自于哪的
+	 */
+	private Integer referType;
+	
+	
 
 	/**
-	 * 描述信息： 比如 XX于2017.5.1参与了xx作品的创作，担任了xx角色之类的
+	 * 描述信息
 	 */
-	private String desc;
+	private String summary;
+	
+	
+
+	/**
+	 * 状态 0-删除 1-正常
+	 */
+	private Integer status;
 
 	/**
 	 * 创建时间
@@ -40,10 +62,23 @@ public class AuthorWorksHistory {
 	 */
 	private Date modifyTime;
 
-	/**
-	 * 状态 0-删除 1-正常
-	 */
-	private Integer status;
+
+
+	public Long getReferId() {
+		return referId;
+	}
+
+	public void setReferId(Long referId) {
+		this.referId = referId;
+	}
+
+	public Integer getReferType() {
+		return referType;
+	}
+
+	public void setReferType(Integer referType) {
+		this.referType = referType;
+	}
 
 	public Long getAuthorId() {
 		return authorId;
@@ -61,20 +96,24 @@ public class AuthorWorksHistory {
 		this.workId = workId;
 	}
 
-	public Integer getRoleType() {
-		return roleType;
+
+
+	public Integer getRoleId() {
+		return roleId;
 	}
 
-	public void setRoleType(Integer roleType) {
-		this.roleType = roleType;
+	public void setRoleId(Integer roleId) {
+		this.roleId = roleId;
 	}
 
-	public String getDesc() {
-		return desc;
+
+
+	public String getSummary() {
+		return summary;
 	}
 
-	public void setDesc(String desc) {
-		this.desc = desc;
+	public void setSummary(String summary) {
+		this.summary = summary;
 	}
 
 	public Date getCreateTime() {

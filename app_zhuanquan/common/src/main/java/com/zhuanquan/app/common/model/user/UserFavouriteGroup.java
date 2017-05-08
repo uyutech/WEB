@@ -22,7 +22,7 @@ public class UserFavouriteGroup {
 	/**
 	 * 所属用户id
 	 */
-	private Long userId;
+	private Long uid;
 
 	 
 	/**
@@ -57,12 +57,14 @@ public class UserFavouriteGroup {
 		this.groupName = groupName;
 	}
 
-	public Long getUserId() {
-		return userId;
+
+
+	public Long getUid() {
+		return uid;
 	}
 
-	public void setUserId(Long userId) {
-		this.userId = userId;
+	public void setUid(Long uid) {
+		this.uid = uid;
 	}
 
 	public Date getCreateTime() {
