@@ -3,7 +3,7 @@ package com.zhuanquan.app.common.view.vo.user;
 
 import java.io.Serializable;
 
-import org.apache.commons.lang3.StringUtils;
+import org.springframework.util.StringUtils;
 
 import com.zhuanquan.app.common.constants.LoginType;
 import com.zhuanquan.app.common.exception.BizErrorCode;
