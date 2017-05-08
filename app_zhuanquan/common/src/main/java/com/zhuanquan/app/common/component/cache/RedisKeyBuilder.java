@@ -22,7 +22,7 @@ public class RedisKeyBuilder {
 	 */
 	public static String getRegisterSmsVerfiyCodeKey(String mobile) {
 		
-		return "gw:register:mobile:"+mobile;
+		return "gw:register:mobile:sms:"+mobile;
 	}
 	
 	
@@ -34,7 +34,7 @@ public class RedisKeyBuilder {
 	 */
 	public static String getLoginIpLimitKey(String ip) {
 		
-		return "gw:login:ipLimit:"+ip;
+		return "gw:login:iplimit:"+ip;
 	}
 	
 	

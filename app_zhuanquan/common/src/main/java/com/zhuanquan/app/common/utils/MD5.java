@@ -1,5 +1,7 @@
 package com.zhuanquan.app.common.utils;
 
+
+
 import org.apache.commons.codec.Charsets;
 import org.apache.commons.codec.binary.Hex;
 import org.slf4j.Logger;

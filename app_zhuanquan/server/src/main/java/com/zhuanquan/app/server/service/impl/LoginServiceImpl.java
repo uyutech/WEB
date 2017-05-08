@@ -73,7 +73,7 @@ public class LoginServiceImpl implements LoginService {
 		}
 
 		// md5之后和原来的不一样
-		if (!account.getToken().equals(MD5.md5(request.getPassword()))) {
+		if (!account.getToken().equals(CommonUtil.makeEncriptPassword(request.getPassword()))) {
 			throw new BizException(BizErrorCode.EX_LOGIN_PWD_ERR.getCode());
 		}
 
@@ -119,7 +119,7 @@ public class LoginServiceImpl implements LoginService {
 		response.setOpenId(openId);
 
 		// 设置登录后注册的状态，需要根据状态决定是否跳转到注册引导页面
-		response.setRegStat(profile.getRegisterStat());
+		response.setRegStat(profile.getRegStat());
 
 		response.setIsVip(isVip);
 

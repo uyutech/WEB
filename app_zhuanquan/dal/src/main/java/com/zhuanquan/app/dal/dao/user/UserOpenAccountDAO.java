@@ -58,7 +58,7 @@ public interface UserOpenAccountDAO {
 	 * @param mobile 手机号
 	 * @param password 新密码
 	 */
-	void modifyPassword(String mobile,String password);
+	void updateMobilePassword(String mobile,String password);
 	
 	
 	/**

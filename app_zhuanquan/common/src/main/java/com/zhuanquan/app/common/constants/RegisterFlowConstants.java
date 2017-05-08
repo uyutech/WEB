@@ -29,6 +29,12 @@ public class RegisterFlowConstants {
 	 * 注册状态：设置关注的作者
 	 */
 	public static final int REG_STEP_CHOOSE_FOLLOW_AUTHOR = 3;
+	
+	/**
+	 * 注册状态:设置昵称
+	 */
+	public static final int REG_STEP_CHOOSE_NICK_NAME = 4;
+
 
     /**
      * 注册完成

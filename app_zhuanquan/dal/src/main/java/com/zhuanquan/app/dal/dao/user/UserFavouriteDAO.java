@@ -26,14 +26,14 @@ public interface UserFavouriteDAO {
 	 * @param stat 1-收藏  0-取消收藏
 	 * @return
 	 */
-	int updateUserFavouriteRecord(long uid,long workId,int stat);
+	int updateUserFavouriteRecordStat(long uid,long workId,int stat);
 	
 	/**
 	 * 插入记录
 	 * @param record
 	 * @return
 	 */
-	void insertUserFavRecord(UserFavourite record);
+	void insertOrUpdateUserFavRecord(UserFavourite record);
 	
 	
 	/**

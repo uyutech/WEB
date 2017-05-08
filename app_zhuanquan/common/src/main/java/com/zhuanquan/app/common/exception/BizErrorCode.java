@@ -18,6 +18,10 @@ public enum BizErrorCode implements ErrorCode {
 	 //不允许并发操作
 	 EX_NOT_ALLOW_CONCURRENT_OPER (1004), 
 	 
+	 //脏数据，需要修复
+	 EX_DIRTY_DATA (1005), 
+
+	 
 //***************短信验证码****************************************	 
 	 
 	 //短信验证码校验失败

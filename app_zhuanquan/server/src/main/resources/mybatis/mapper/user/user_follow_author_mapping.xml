@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="com.zhuanquan.app.dal.dao.user.impl.UserFollowAuthorDAOImpl">
+
+	<resultMap id="BaseResultMap"
+		type="com.zhuanquan.app.common.model.user.UserFollowAuthor">	
+		<id column="uid" property="uid" jdbcType="INTEGER" />
+		<result column="follow_author_id" property="followAuthorId" jdbcType="INTEGER" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="MODIFY_TIME" property="modifyTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+
+
+  <insert id="insertOrUpdateToFollowAuthor" parameterType="com.zhuanquan.app.common.model.user.UserFollowAuthor" >
+    insert into user_follow_author (uid, follow_author_id, status,CREATE_TIME, MODIFY_TIME)
+    values(#{uid}, #{followAuthorId}, #{status},
+    #{createTime}, #{modifyTime})
+    on duplicate key update status =  #{status}, update_time = #{updateTime}
+  </insert>
+
+
+
+
+	<update id="updateFollowAuthorStat" parameterType="java.util.Map">
+		update user_follow_author
+		<set>
+			status = #{status} ,
+			MODIFY_TIME = now() 
+		</set>
+		where uid = #{uid} and follow_author_id = #{followAuthorId};
+		
+	</update>	
+
+
+
+    <!--关注的作者数量  -->
+
+	<select id="queryUserFollowAuthorCount" resultMap="java.lang.Long"
+		parameterType="java.lang.Long">
+		select count(1)  from user_follow_author where uid = #{uid} and status = 1 ;
+	</select>
+
+
+    <!--作者的粉丝数量  -->
+
+	<select id="queryAuthorFollowersCount" resultMap="java.lang.Long"
+		parameterType="java.lang.Long">
+		select count(1)  from user_follow_author where follow_author_id = #{followAuthorId} and status = 1 ;
+	</select>
+
+
+    <!--关注了哪些作者  -->
+	<select id="queryUserFollowAuthorIds" resultType="java.lang.Long"
+		parameterType="java.lang.Long">
+		select follow_author_id from user_follow_author where uid = #{uid}  and status = 1 ;
+	</select>
+
+    <!-- 作者有哪些fans -->
+	<select id="queryAuthorFollowersIds" resultType="java.lang.Long"
+		parameterType="java.lang.Long">
+		select follow_author_id from user_follow_author where uid = #{uid}  and status = 1 ;
+	</select>
+
+
+
+  <insert id="insertOrUpdateBatchFollowAuthorIds" parameterType="java.util.List" >
+    insert into user_follow_author (uid, follow_author_id, status,CREATE_TIME, MODIFY_TIME)
+    values
+    <foreach collection="list" item="item" index="index" separator="," >      
+    (#{item.uid}, #{item.followAuthorId}, #{item.status},#{item.createTime}, #{item.modifyTime})
+    on duplicate key update status =  #{item.status}, update_time = #{item.updateTime}
+    </foreach>  
+    
+  </insert>
+
+
+</mapper>		
+
+

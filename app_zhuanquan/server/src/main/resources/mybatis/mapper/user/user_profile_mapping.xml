@@ -5,23 +5,67 @@
 
 	<resultMap id="BaseResultMap"
 		type="com.zhuanquan.app.common.model.user.UserProfile">	
-		<id column="uid" property="uid" jdbcType="BIGINT" />
+		<id column="uid" property="uid" jdbcType="INTEGER" />
 		<result column="status" property="status" jdbcType="INTEGER" />
-		<result column="allow_attation" property="allowAttation" jdbcType="INTEGER" />
-		<result column="register_stat" property="registerStat" jdbcType="INTEGER" />
+		<result column="allow_follow" property="allowFollow" jdbcType="INTEGER" />
+		<result column="reg_Stat" property="regStat" jdbcType="INTEGER" />
 		<result column="head_url" property="headUrl" jdbcType="VARCHAR" />
-		<result column="nick_Name" property="nickName" jdbcType="VARCHAR" />
+		<result column="nick_name" property="nickName" jdbcType="VARCHAR" />
+		<result column="gender" property="gender" jdbcType="INTEGER" />
+		<result column="author_id" property="authorId" jdbcType="INTEGER" />
+		
+		
 		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
 		<result column="MODIFY_TIME" property="modifyTime" jdbcType="TIMESTAMP" />
 	</resultMap>
-
-
 
 
 	<select id="queryById" resultMap="BaseResultMap"
 		parameterType="java.lang.Long">
 		select * from user_profile where uid = #{uid} ;
 	</select>
+
+	<select id="queryByAuthorId" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select * from user_profile where author_id = #{authorId} ;
+	</select>
+
+
+		
+	<insert id="insertRecord" parameterType="com.zhuanquan.app.common.model.user.UserProfile" >
+		insert into user_profile (status,allow_follow,reg_Stat,head_url,nick_name,gender,author_id,CREATE_TIME,MODIFY_TIME)
+		values(#{status},#{allowFollow},#{regStat},#{headUrl},#{nickName},#{gender},#{authorId},#{createTime},#{modifyTime})	
+	</insert>	
+	  	
+
+	<select id="queryByNickNameLimit1" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select * from user_profile where nick_name = #{nickName} limit 1 ;
+	</select>
+
+
+	<update id="updateRegisterStatus" parameterType="java.util.Map">
+		update user_profile
+		<set>
+			reg_Stat = #{regStat} ,
+			MODIFY_TIME = now() 
+		</set>
+		where uid = #{uid} ;
+		
+	</update>	
+
+
+	<update id="updateNickName" parameterType="java.util.Map">
+		update user_profile
+		<set>
+			nick_name = #{nickName} ,
+			MODIFY_TIME = now() 
+		</set>
+		where uid = #{uid} ;
+		
+	</update>	
+
+
 
 
 

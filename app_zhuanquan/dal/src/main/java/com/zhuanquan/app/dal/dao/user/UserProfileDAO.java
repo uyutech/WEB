@@ -13,6 +13,16 @@ public interface UserProfileDAO {
 	UserProfile queryById(long uid);
 	
 	
+	
+	/**
+	 * 根据authorid查询
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	UserProfile queryByAuthorId(long authorId);
+	
+	
 	/**
 	 * 插入记录
 	 * @param profile
@@ -22,11 +32,11 @@ public interface UserProfileDAO {
 	
 	
 	/**
-	 * 查询昵称的数量
+	 * 查询昵称是否被使用了
 	 * @param nickName
 	 * @return
 	 */
-	int queryCountByNickName(String nickName);
+	boolean queryNickNameHasBeenUsed(String nickName);
 	
     /**
      * 修改nick name 在step1，同时更新profile的register状态
@@ -34,7 +44,7 @@ public interface UserProfileDAO {
      * @param nickName
      * @return
      */
-	int updateNickNameOnStep1(long uid,String nickName);
+	int updateNickName(long uid,String nickName);
 	
 	/**
 	 * 更新注册的状态

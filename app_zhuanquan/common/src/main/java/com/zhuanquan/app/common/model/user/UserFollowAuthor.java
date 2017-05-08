@@ -10,6 +10,11 @@ import java.util.Date;
 public class UserFollowAuthor {
 	
 	
+	public static final int STAT_ENABLE = 1;
+	
+	public static final int STAT_DISABLE = 0;
+
+	
 	/**
 	 *  用户id
 	 */
@@ -87,7 +92,26 @@ public class UserFollowAuthor {
 		this.modifyTime = modifyTime;
 	}
 	
-	
-	
+	/**
+	 * 创建记录
+	 * @param uid
+	 * @param authorId
+	 * @return
+	 */
+	public static UserFollowAuthor createFollowRecord(long uid,long authorId) {
+		
+		UserFollowAuthor record = new UserFollowAuthor();
+		
+		record.setFollowAuthorId(authorId);
+		record.setStatus(STAT_ENABLE);
+		record.setUid(uid);
+		
+		Date now = new Date();
+		
+		record.setCreateTime(now);
+		record.setModifyTime(now);
+		
+		return record;
+	}
 	
 }

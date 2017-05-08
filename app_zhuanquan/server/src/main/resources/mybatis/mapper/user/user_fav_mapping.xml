@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="com.zhuanquan.app.dal.dao.user.impl.UserFavouriteDAOImpl">
+
+	<resultMap id="BaseResultMap"
+		type="com.zhuanquan.app.common.model.user.UserFavourite">	
+		<id column="uid" property="uid" jdbcType="INTEGER" />
+		<result column="fav_group_id" property="favGroupId" jdbcType="INTEGER" />
+		<result column="work_id" property="workId" jdbcType="INTEGER" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="MODIFY_TIME" property="modifyTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+
+	<select id="queryUserFavouriteRecord" resultMap="BaseResultMap"
+		parameterType="java.util.Map">
+		select * from user_fav where uid = #{uid} and work_id = #{workId} ;
+	</select>
+
+
+
+  <insert id="insertOrUpdateUserFavRecord" parameterType="com.zhuanquan.app.common.model.user.UserFavourite" >
+    insert into user_fav (uid, fav_group_id, work_id,status,create_time, MODIFY_TIME)
+    values(#{uid}, #{favGroupId}, #{workId},#{status},
+    #{createTime}, #{modifyTime})
+    on duplicate key update fav_group_id = #{favGroupId},status =  #{status}, update_time = #{updateTime}
+  </insert>
+
+
+	<select id="queryAllFavWork" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select * from user_fav where uid = #{uid} ;
+	</select>
+
+
+</mapper>		
+
+

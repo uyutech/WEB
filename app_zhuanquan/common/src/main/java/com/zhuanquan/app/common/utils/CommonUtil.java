@@ -261,4 +261,18 @@ public class CommonUtil {
 	}
 
 
+	/**
+	 * 获取 原密码加密之后的字符串
+	 * @param ordPassword
+	 * @return
+	 */
+	public static String makeEncriptPassword(String ordPassword) {
+		
+		
+		return MD5.md5(ordPassword);
+		
+		
+	}
+	
+	
 }

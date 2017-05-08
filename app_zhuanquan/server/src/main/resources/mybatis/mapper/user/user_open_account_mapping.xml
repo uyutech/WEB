@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="com.zhuanquan.app.dal.dao.user.impl.UserOpenAccountDAOImpl">
+
+	<resultMap id="BaseResultMap"
+		type="com.zhuanquan.app.common.model.user.UserOpenAccount">	
+		<id column="open_id" property="openId" jdbcType="VARCHAR" />
+		<result column="token" property="token" jdbcType="VARCHAR" />
+		<result column="uid" property="uid" jdbcType="INTEGER" />
+		<result column="channel_type" property="channelType" jdbcType="INTEGER" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+		<result column="is_vip" property="isVip" jdbcType="INTEGER" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="MODIFY_TIME" property="modifyTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+
+
+	<select id="queryByOpenId" resultMap="BaseResultMap"
+		parameterType="java.util.Map">
+		select * from user_open_account where open_Id = #{openId} and channel_type = #{channelType} ;
+	</select>
+
+	<update id="updateAccountToken" parameterType="java.util.Map">
+		update user_open_account
+		<set>
+			token = #{token} ,
+			MODIFY_TIME = now() 
+		</set>
+		where open_Id = #{openId} and channel_type = #{channelType};
+		
+	</update>	
+
+	<insert id="insertUserOpenAccount" parameterType="com.zhuanquan.app.common.model.user.UserOpenAccount" >
+		insert into user_open_account (open_id,token,uid,channel_type,status,is_vip,CREATE_TIME,MODIFY_TIME)
+		values(#{openId},#{token},#{uid},#{channelType},#{status},#{isVip},#{createTime},#{modifyTime})	
+	</insert>	
+	
+	
+	<update id="updateToBindUid" parameterType="java.util.Map">
+		update user_open_account
+		<set>
+			uid = #{uid} ,
+			MODIFY_TIME = now() 
+		</set>
+		where open_Id = #{openId} and channel_type = #{channelType};
+		
+	</update>		
+	  	
+	<update id="updateAccountStat" parameterType="java.util.Map">
+		update user_open_account
+		<set>
+			status = #{status} ,
+			MODIFY_TIME = now() 
+		</set>
+		where open_Id = #{openId} and channel_type = #{channelType};
+		
+	</update>	
+
+
+	<update id=modifyTokenForOpenId parameterType="java.util.Map">
+		update user_open_account
+		<set>
+			token = #{token} ,
+			MODIFY_TIME = now() 
+		</set>
+		where open_Id = #{openId} and channel_type = #{channelType};
+		
+	</update>	
+
+	<select id="queryByUidAndChannelType" resultMap="BaseResultMap"
+		parameterType="java.util.Map">
+		select * from user_open_account where uid = #{uid} and channel_type = #{channelType} ;
+	</select>
+	
+
+
+</mapper>		
+
+

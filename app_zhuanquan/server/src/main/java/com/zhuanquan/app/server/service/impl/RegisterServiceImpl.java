@@ -14,6 +14,7 @@ import com.zhuanquan.app.common.component.cache.redis.utils.RedisHelper;
 import com.zhuanquan.app.common.component.sesssion.SessionHolder;
 import com.zhuanquan.app.common.component.sesssion.UserSession;
 import com.zhuanquan.app.common.constants.LoginType;
+import com.zhuanquan.app.common.constants.RegisterFlowConstants;
 import com.zhuanquan.app.common.exception.BizErrorCode;
 import com.zhuanquan.app.common.exception.BizException;
 import com.zhuanquan.app.common.model.author.AuthorBase;
@@ -226,7 +227,7 @@ public class RegisterServiceImpl implements RegisterService {
 
 		UserProfile profile = userProfileDAO.queryById(session.getUid());
 
-		if (profile == null || profile.getRegisterStat() != UserProfile.REG_STAT_BEFORE_STEP1) {
+		if (profile == null || profile.getRegStat() != RegisterFlowConstants.REG_STEP_CHOOSE_NICK_NAME) {
 			logger.info("setNickNameOnRegisterStep1:[uid]=" + session.getUid() + ",[nickName]=" + nickName
 					+ ",[profile]:" + profile == null ? "null" : JSON.toJSONString(profile));
 			throw new BizException(BizErrorCode.EX_ILLEGLE_REQUEST_PARM.getCode());
@@ -244,13 +245,13 @@ public class RegisterServiceImpl implements RegisterService {
 		// 如果是大v用户，并且设置的nickname和作者的名字一样的，那么不做校验默认允许重复
 		if (base != null && base.getAuthorName().equals(nickName)) {
 			// 更新昵称
-			userProfileDAO.updateNickNameOnStep1(session.getUid(), nickName);
+			userProfileDAO.updateNickName(session.getUid(), nickName);
 			return;
 		}
 
-		int count = userProfileDAO.queryCountByNickName(nickName);
+		boolean hasUsed = userProfileDAO.queryNickNameHasBeenUsed(nickName);
 		// 不允许和其他普通用户重复
-		if (count > 0) {
+		if (hasUsed) {
 			throw new BizException(BizErrorCode.EX_UID_NICK_NAME_CAN_NOT_BE_DUPLICATE_WITH_PROFILE.getCode());
 		}
 
@@ -262,7 +263,7 @@ public class RegisterServiceImpl implements RegisterService {
 		}
 
 		// 更新昵称
-		userProfileDAO.updateNickNameOnStep1(session.getUid(), nickName);
+		userProfileDAO.updateNickName(session.getUid(), nickName);
 
 	}
 
@@ -271,7 +272,7 @@ public class RegisterServiceImpl implements RegisterService {
 
 		UserProfile profile = userProfileDAO.queryById(session.getUid());
 
-		if (profile == null || profile.getRegisterStat() != UserProfile.REG_STAT_BEFORE_STEP2) {
+		if (profile == null || profile.getRegStat() != RegisterFlowConstants.REG_STEP_CHOOSE_TAG) {
 			logger.info("setFollowTagOnRegisterStep2:[uid]=" + session.getUid() + ",[topicTags]="
 					+ JSON.toJSONString(topicTags) + ",[workCategries]:" + JSON.toJSONString(workCategries)
 					+ ",[profile]:" + profile == null ? "null" : JSON.toJSONString(profile));
@@ -292,7 +293,7 @@ public class RegisterServiceImpl implements RegisterService {
 
 		UserProfile profile = userProfileDAO.queryById(session.getUid());
 
-		if (profile == null || profile.getRegisterStat() != UserProfile.REG_STAT_BEFORE_STEP3) {
+		if (profile == null || profile.getRegStat() != RegisterFlowConstants.REG_STEP_CHOOSE_FOLLOW_AUTHOR) {
 			logger.info("setFollowTagOnRegisterStep3:[uid]=" + session.getUid() + ",[authorIds]="
 					+ JSON.toJSONString(authorIds) + ",[profile]:" + profile == null ? "null"
 							: JSON.toJSONString(profile));
