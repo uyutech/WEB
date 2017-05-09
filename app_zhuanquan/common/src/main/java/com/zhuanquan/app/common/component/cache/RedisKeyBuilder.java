@@ -104,8 +104,21 @@ public class RedisKeyBuilder {
 	 */
 	public static String buildUserOpenAccountKey(String openId,int channelType) {
 				
+		return buildUserOpenAccountKey(openId,channelType+"");
+	}
+	
+	
+	/**
+	 * 构建 openaccount的key
+	 * @param openId
+	 * @param channelType
+	 * @return
+	 */
+	public static String buildUserOpenAccountKey(String openId,String channelType) {
+				
 		return "gw:openacc:"+openId+"_"+channelType;
 	}
+	
 	
 	/**
 	 * 获取点赞的key

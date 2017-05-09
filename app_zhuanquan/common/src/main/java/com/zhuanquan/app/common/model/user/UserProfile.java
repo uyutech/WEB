@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.UUID;
 
 import com.zhuanquan.app.common.constants.RegisterFlowConstants;
-import com.zhuanquan.app.common.view.vo.user.RegisterRequestVo;
+import com.zhuanquan.app.common.view.vo.user.MobileRegisterRequestVo;
 
 /**
  * 用户基本信息
@@ -38,6 +38,9 @@ public class UserProfile {
 
 	private static final String DEFAULT_HEAD_URL = "";
 
+	
+	private static final long DEFAULT_AUTHORID = -1;
+	
 	/**
 	 * 用户id
 	 */
@@ -209,6 +212,9 @@ public class UserProfile {
 		profile.setHeadUrl(DEFAULT_HEAD_URL);
 
 		profile.setGender(GENDER_MALE);
+		
+		profile.setAuthorId(DEFAULT_AUTHORID);
+
 
 		return profile;
 	}
@@ -218,7 +224,7 @@ public class UserProfile {
 	 * @param vo
 	 * @return
 	 */
-	public static UserProfile createMobileRegisterRecord(RegisterRequestVo vo) {
+	public static UserProfile createMobileRegisterRecord(MobileRegisterRequestVo vo) {
 
 		UserProfile profile = new UserProfile();
 		// profile.setUid(uid);
@@ -241,6 +247,8 @@ public class UserProfile {
 		profile.setHeadUrl(DEFAULT_HEAD_URL);
 
 		profile.setGender(GENDER_MALE);
+		
+		profile.setAuthorId(DEFAULT_AUTHORID);
 
 		return profile;
 	}

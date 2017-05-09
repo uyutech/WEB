@@ -4,6 +4,7 @@
 
 	<resultMap id="BaseResultMap"
 		type="com.zhuanquan.app.common.model.user.UserFavouriteGroup">	
+
 		<id column="group_id" property="groupId" jdbcType="INTEGER" />
 		<result column="group_name" property="groupName" jdbcType="VARCHAR" />
 		<result column="uid" property="uid" jdbcType="INTEGER" />

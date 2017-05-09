@@ -1,10 +1,15 @@
 package com.zhuanquan.app.dal.dao;
 
 
+import java.util.Map;
+
 import javax.annotation.Resource;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Component;
+
+import com.zhuanquan.app.common.component.event.redis.RedisCacheCleanManager;
+import com.zhuanquan.app.common.component.event.redis.RedisCacheEnum;
 
 /**
  * 基础Dao接口实现类，实现改类的子类必须设置泛型类型
@@ -15,6 +20,9 @@ public abstract class BaseDao
 {
 	@Resource
 	protected SqlSession sqlSessionTemplate;
+	
+	@Resource
+	protected RedisCacheCleanManager redisCacheCleanManager;
 
 	public static final String SQLNAME_SEPARATOR = ".";
 
@@ -70,5 +78,21 @@ public abstract class BaseDao
 	}
 
 
+	/**
+	 * 通知清理缓存
+	 * @param cache
+	 * @param parmMap
+	 */
+	protected void notifyCacheClean(RedisCacheEnum cache,Map<String,String> parmMap) {
+		
+		try {
+			redisCacheCleanManager.sendCleanEvent(cache, parmMap);
+			
+		} catch(Exception e) {
+			
+			e.printStackTrace();
+		}
+		
+	}
 
 }

@@ -4,14 +4,36 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
+import org.apache.commons.lang3.StringUtils;
+
+import com.zhuanquan.app.common.exception.BizErrorCode;
+import com.zhuanquan.app.common.exception.BizException;
+
 //手机号检测
 public class PhoneValidateUtils {
 
 	/**
 	 * 大陆号码或香港号码均可
 	 */
-	public static boolean isPhoneLegal(String str) throws PatternSyntaxException {
-		return isChinaPhoneLegal(str) || isHKPhoneLegal(str);
+	public static void isPhoneLegal(String str) throws BizException {
+
+		//
+		if (StringUtils.isEmpty(str)) {
+			throw new BizException(BizErrorCode.EX_ILLEGLE_REQUEST_PARM.getCode());
+		}
+
+		try {
+			boolean isValid = isChinaPhoneLegal(str) || isHKPhoneLegal(str);
+
+			if (!isValid) {
+				throw new BizException(BizErrorCode.EX_ILLEGLE_REQUEST_PARM.getCode());
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new BizException(BizErrorCode.EX_ILLEGLE_REQUEST_PARM.getCode());
+		}
+
 	}
 
 	/**

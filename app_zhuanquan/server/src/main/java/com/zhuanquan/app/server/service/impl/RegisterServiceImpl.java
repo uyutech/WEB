@@ -2,6 +2,8 @@ package com.zhuanquan.app.server.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+
 import javax.annotation.Resource;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -25,7 +27,7 @@ import com.zhuanquan.app.common.model.user.UserOpenAccount;
 import com.zhuanquan.app.common.model.user.UserProfile;
 import com.zhuanquan.app.common.utils.CommonUtil;
 import com.zhuanquan.app.common.utils.PhoneValidateUtils;
-import com.zhuanquan.app.common.view.vo.user.RegisterRequestVo;
+import com.zhuanquan.app.common.view.vo.user.MobileRegisterRequestVo;
 import com.zhuanquan.app.common.view.vo.user.RegisterResponseVo;
 import com.zhuanquan.app.dal.dao.author.AuthorBaseDAO;
 import com.zhuanquan.app.dal.dao.author.TagDAO;
@@ -73,18 +75,18 @@ public class RegisterServiceImpl implements RegisterService {
 	private TagDAO tagDAO;
 
 	@Override
-	public RegisterResponseVo mobileRegister(RegisterRequestVo vo) {
+	public RegisterResponseVo mobileRegister(MobileRegisterRequestVo vo) {
 
 		// 基本参数校验
 		validateBaseParam(vo);
 
 		// 短信验证码校验
-		validateVerifyCode(vo.getProfile(), vo.getVerifyCode(),
-				RedisKeyBuilder.getRegisterSmsVerfiyCodeKey(vo.getProfile()));
+		validateVerifyCode(vo.getMobile(), vo.getVerifyCode(),
+				RedisKeyBuilder.getRegisterSmsVerfiyCodeKey(vo.getMobile()));
 
 		RegisterResponseVo response = transactionService.registerMobile(vo);
 
-		sessionHolder.createOrUpdateSession(response.getUid(), vo.getLoginType(), vo.getProfile(),
+		sessionHolder.createOrUpdateSession(response.getUid(), vo.getLoginType(), vo.getMobile(),
 				LoginType.CHANNEL_MOBILE, UserOpenAccount.NORMAL_ACCOUNT);
 
 		return response;
@@ -95,39 +97,21 @@ public class RegisterServiceImpl implements RegisterService {
 	 * 
 	 * @param vo
 	 */
-	private void validateBaseParam(RegisterRequestVo vo) {
+	private void validateBaseParam(MobileRegisterRequestVo vo) {
 
 		CommonUtil.assertNotNull(vo.getPassword(), "password");
-		CommonUtil.assertNotNull(vo.getProfile(), "profile");
+		CommonUtil.assertNotNull(vo.getMobile(), "profile");
 		CommonUtil.assertNotNull(vo.getVerifyCode(), "verifyCode");
 
 		// 校验手机号码是否合法
-		PhoneValidateUtils.isPhoneLegal(vo.getProfile());
+		PhoneValidateUtils.isPhoneLegal(vo.getMobile());
 
 		// 校验密码长度等
-		validateMobilePassword(vo.getPassword());
+		CommonUtil.validateMobilePassword(vo.getPassword());
 
 	}
 
-	/**
-	 * 验证密码是否合法
-	 * 
-	 * @param password
-	 */
-	private void validateMobilePassword(String password) {
-		// 密码不能为空
-		if (StringUtils.isBlank(password)) {
-			throw new BizException(BizErrorCode.EX_PWD_NOT_BE_EMPTY.getCode());
-		}
 
-		String reg = "^[a-zA-Z0-9~!@#$%^&*()-_+=<,>./?;:\"'{\\[}\\]\\|]{6,20}$";
-
-		boolean success = password.matches(reg);
-
-		if (!success) {
-			throw new BizException(BizErrorCode.EX_PWD_IS_NOT_ILLEGLE.getCode());
-		}
-	}
 
 	@Override
 	public void bindUnregisterMobile(long uid, String mobile, String password, String verifycode) {
@@ -304,7 +288,7 @@ public class RegisterServiceImpl implements RegisterService {
 	@Override
 	public void modifyPassword(String verifyCode, String newPwd) {
 		// 新密码是否合法
-		validateMobilePassword(newPwd);
+		CommonUtil.validateMobilePassword(newPwd);
 
 		// session
 		UserSession session = SessionHolder.getCurrentLoginUserSession();
@@ -357,6 +341,9 @@ public class RegisterServiceImpl implements RegisterService {
 					+ ",while code from redis is:" + code);
 			throw new BizException(BizErrorCode.EX_VERIFY_CODE_ERR.getCode());
 		}
+		
+		//通过了之后，需要删除这个key
+		redisHelper.delete(redisKey);
 
 	}
 
@@ -464,6 +451,25 @@ public class RegisterServiceImpl implements RegisterService {
 
 		// 第三步注册完了，设置状态为normal，
 		userProfileDAO.updateRegisterStatus(uid, RegisterFlowConstants.REG_STEP_COMPLATE);
+
+	}
+
+	@Override
+	public void sendRegisterSms(String mobile) {
+		
+		
+		// 校验手机号码是否合法
+		PhoneValidateUtils.isPhoneLegal(mobile);
+		
+		String cacheKey = RedisKeyBuilder.getRegisterSmsVerfiyCodeKey(mobile);
+		
+		String verifycode = CommonUtil.getSixRandomVerifyCode();
+		
+		//放到redis 三分钟过期
+		redisHelper.valueSet(cacheKey, verifycode, 3, TimeUnit.MINUTES);
+		
+		System.out.println("sendRegisterSms ------------[mobile]="+mobile+",[verifycode]="+verifycode);
+		//TODO  发送短信
 
 	}
 

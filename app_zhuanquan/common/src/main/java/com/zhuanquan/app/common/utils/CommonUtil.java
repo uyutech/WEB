@@ -275,4 +275,45 @@ public class CommonUtil {
 	}
 	
 	
+	
+	
+	/**
+	 * 验证密码是否合法
+	 * 
+	 * @param password
+	 */
+	public static void validateMobilePassword(String password) {
+		// 密码不能为空
+		if (StringUtils.isBlank(password)) {
+			throw new BizException(BizErrorCode.EX_PWD_NOT_BE_EMPTY.getCode());
+		}
+
+//		String reg = "^[a-zA-Z0-9~!@#$%^&*()-_+=<,>./?;:\"'{\\[}\\]\\|]{6,20}$";
+		
+		String reg = "(?!^\\d+$)(?!^[a-zA-Z]+$)(?!^[_#@]+$).{7,}";
+
+		boolean success = password.matches(reg);
+
+		if (!success) {
+			throw new BizException(BizErrorCode.EX_PWD_IS_NOT_ILLEGLE.getCode());
+		}
+	}
+	
+	
+	
+	/** 
+     * 产生随机的六位数 短信验证码
+     * @return 
+     */  
+    public static String getSixRandomVerifyCode(){  
+    	
+        Random rad=new Random();  
+          
+        String result  = rad.nextInt(1000000) +"";  
+          
+        if(result.length()!=6){  
+            return getSixRandomVerifyCode();  
+        }  
+        return result;  
+    }  
 }

@@ -210,7 +210,6 @@ public class UserOpenAccount implements Serializable {
 		account.setStatus(STATS_ACTIVE);
 		account.setIsVip(NORMAL_ACCOUNT);
 		
-		
 		return account;
 	}
 	

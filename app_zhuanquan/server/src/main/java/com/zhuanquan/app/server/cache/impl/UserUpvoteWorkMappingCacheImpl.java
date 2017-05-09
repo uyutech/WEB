@@ -21,6 +21,9 @@ import com.zhuanquan.app.common.component.cache.redis.RedisSetOperations;
 import com.zhuanquan.app.common.component.cache.redis.RedisZSetOperations;
 import com.zhuanquan.app.common.component.cache.redis.lock.RedisSimpleLock;
 import com.zhuanquan.app.common.component.cache.redis.utils.RedisHelper;
+import com.zhuanquan.app.common.component.event.redis.CacheChangedListener;
+import com.zhuanquan.app.common.component.event.redis.CacheClearEvent;
+import com.zhuanquan.app.common.component.event.redis.RedisCacheEnum;
 import com.zhuanquan.app.common.exception.BizErrorCode;
 import com.zhuanquan.app.common.exception.BizException;
 import com.zhuanquan.app.common.model.user.UserUpvoteWorkMapping;
@@ -36,7 +39,7 @@ import com.zhuanquan.app.server.cache.UserUpvoteWorkMappingCache;
  *
  */
 @Service
-public class UserUpvoteWorkMappingCacheImpl implements UserUpvoteWorkMappingCache {
+public class UserUpvoteWorkMappingCacheImpl  extends CacheChangedListener  implements UserUpvoteWorkMappingCache {
 
 	protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -542,6 +545,18 @@ public class UserUpvoteWorkMappingCacheImpl implements UserUpvoteWorkMappingCach
 
 		logger.info("end to persistWorkUpvoteTotalNumRecord, job exec finished------------->");
 
+	}
+
+	@Override
+	public List<RedisCacheEnum> getMonitorRedisCache() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void doProcessCacheCleanEvent(CacheClearEvent event) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

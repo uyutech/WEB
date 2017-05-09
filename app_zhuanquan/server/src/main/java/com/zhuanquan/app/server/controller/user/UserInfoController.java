@@ -9,13 +9,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.zhuanquan.app.common.view.ApiResponse;
 
-import com.zhuanquan.app.dal.dao.user.UserOpenAccountDAO;
 import com.zhuanquan.app.server.controller.common.BaseController;
 import com.zhuanquan.app.server.service.LoginService;
 import com.zhuanquan.app.server.service.RegisterService;
 import com.zhuanquan.app.server.service.UserService;
 
-//http://www.codesky.net/article/201306/181880.html
+//
 
 @Controller
 @RequestMapping(value = "/user")

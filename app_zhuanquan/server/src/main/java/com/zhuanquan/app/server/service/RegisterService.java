@@ -2,7 +2,7 @@ package com.zhuanquan.app.server.service;
 
 import java.util.List;
 
-import com.zhuanquan.app.common.view.vo.user.RegisterRequestVo;
+import com.zhuanquan.app.common.view.vo.user.MobileRegisterRequestVo;
 import com.zhuanquan.app.common.view.vo.user.RegisterResponseVo;
 
 /**
@@ -20,7 +20,7 @@ public interface RegisterService {
 	 * @param vo
 	 * @return
 	 */
-	RegisterResponseVo mobileRegister(RegisterRequestVo vo); 
+	RegisterResponseVo mobileRegister(MobileRegisterRequestVo vo); 
 	
 	
 
@@ -104,6 +104,13 @@ public interface RegisterService {
 	 * @return
 	 */
 	int beforeBindCheck(String mobile);
+	
+	
+	/**
+	 * 发送注册短信
+	 * @param mobile
+	 */
+	void sendRegisterSms(String mobile) ;
 	
 	
 	

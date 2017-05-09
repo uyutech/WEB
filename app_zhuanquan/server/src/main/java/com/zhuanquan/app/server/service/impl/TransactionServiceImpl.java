@@ -14,7 +14,7 @@ import com.zhuanquan.app.common.exception.BizException;
 import com.zhuanquan.app.common.model.user.UserOpenAccount;
 import com.zhuanquan.app.common.model.user.UserProfile;
 import com.zhuanquan.app.common.view.vo.user.LoginByOpenIdRequestVo;
-import com.zhuanquan.app.common.view.vo.user.RegisterRequestVo;
+import com.zhuanquan.app.common.view.vo.user.MobileRegisterRequestVo;
 import com.zhuanquan.app.common.view.vo.user.RegisterResponseVo;
 import com.zhuanquan.app.dal.dao.author.TagDAO;
 import com.zhuanquan.app.dal.dao.user.UserFollowAuthorDAO;
@@ -49,10 +49,10 @@ public class TransactionServiceImpl implements TransactionService {
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public RegisterResponseVo registerMobile(RegisterRequestVo vo) {
+	public RegisterResponseVo registerMobile(MobileRegisterRequestVo vo) {
 
 		//
-		UserOpenAccount account = userOpenAccountCache.queryByOpenId(vo.getProfile(), LoginType.CHANNEL_MOBILE);
+		UserOpenAccount account = userOpenAccountCache.queryByOpenId(vo.getMobile(), LoginType.CHANNEL_MOBILE);
 
 		// 手机号已注册
 		if (account != null) {
@@ -64,7 +64,7 @@ public class TransactionServiceImpl implements TransactionService {
 		long uid = userProfileDAO.insertRecord(profile);
 
 		// account创建
-		account = UserOpenAccount.createMobileAccount(vo.getProfile(), vo.getPassword(), uid);
+		account = UserOpenAccount.createMobileAccount(vo.getMobile(), vo.getPassword(), uid);
 		userOpenAccountDAO.insertUserOpenAccount(account);
 
 		RegisterResponseVo response = new RegisterResponseVo();

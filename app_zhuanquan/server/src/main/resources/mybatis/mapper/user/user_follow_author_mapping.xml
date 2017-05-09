@@ -38,7 +38,7 @@
 
     <!--关注的作者数量  -->
 
-	<select id="queryUserFollowAuthorCount" resultMap="java.lang.Long"
+	<select id="queryUserFollowAuthorCount" resultType="java.lang.Long"
 		parameterType="java.lang.Long">
 		select count(1)  from user_follow_author where uid = #{uid} and status = 1 ;
 	</select>
@@ -46,7 +46,7 @@
 
     <!--作者的粉丝数量  -->
 
-	<select id="queryAuthorFollowersCount" resultMap="java.lang.Long"
+	<select id="queryAuthorFollowersCount" resultType="java.lang.Long"
 		parameterType="java.lang.Long">
 		select count(1)  from user_follow_author where follow_author_id = #{followAuthorId} and status = 1 ;
 	</select>

@@ -30,7 +30,10 @@ public class UserProfileDAOImpl extends BaseDao implements UserProfileDAO {
 
 	@Override
 	public long insertRecord(UserProfile profile) {
-		return sqlSessionTemplate.insert(getSqlName("insertRecord"), profile);
+		
+		sqlSessionTemplate.insert(getSqlName("insertRecord"), profile);
+		
+		return profile.getUid();
 	}
 
 	@Override

@@ -9,7 +9,7 @@
 
     <appender name="rolling"
               class="ch.qos.logback.core.FileAppender">
-        <file>${catalina.base}/logs/pay_app.log</file>
+        <file>${catalina.base}/logs/app.log</file>
         <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss} [%-5level] [%logger.%M:%L] |%msg%n</pattern>
         </encoder>
@@ -35,7 +35,7 @@
 	<!--aop用户请求日志 -->
 	<appender name="USERREQUEST"
 		class="ch.qos.logback.core.FileAppender">
-		<file>${catalina.base}/logs/pay_app_user_request.log</file>
+		<file>${catalina.base}/logs/app_user_request.log</file>
 		<append>true</append>
 		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
 			<pattern>%d{yyyy-MM-dd HH:mm:ss} [%-5level] [%logger.%M:%L] |%msg%n
@@ -45,73 +45,10 @@
 	</appender>
 	
 	<!--aop用户请求日志 -->
-	<logger name="com.waiqin365.pay.core.helper.UserRequestLogger"
+	<logger name="com.zhuanquan.app.server.aop.UserRequestLogger"
 		additivity="false" level="info">
 		<appender-ref ref="USERREQUEST" />
 	</logger>
-
-
-
-	<!--微信请求日志 -->
-	<appender name="WEB_CHAT_LOG"
-		class="ch.qos.logback.core.FileAppender">
-		<file>${catalina.base}/logs/thirdpay_webchat.log</file>
-		<append>true</append>
-		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-			<pattern>%d{yyyy-MM-dd HH:mm:ss} [%-5level] [%logger.%M:%L] |%msg%n
-			</pattern>
-			<charset>utf-8</charset>
-		</encoder>
-	</appender>
-	
-	<!--微信请求日志 -->
-	<logger name="com.waiqin365.pay.thirdpay.internel.webchat"
-		additivity="false" level="info">
-		<appender-ref ref="WEB_CHAT_LOG" />
-	</logger>
-
-	<!--a支付宝请求日志 -->
-	<appender name="Alipay_LOG"
-		class="ch.qos.logback.core.FileAppender">
-		<file>${catalina.base}/logs/thirdpay_alipay.log</file>
-		<append>true</append>
-		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-			<pattern>%d{yyyy-MM-dd HH:mm:ss} [%-5level] [%logger.%M:%L] |%msg%n
-			</pattern>
-			<charset>utf-8</charset>
-		</encoder>
-	</appender>
-	
-	<!--支付宝请求日志 -->
-	<logger name="com.waiqin365.pay.thirdpay.internel.alipay"
-		additivity="false" level="info">
-		<appender-ref ref="Alipay_LOG" />
-	</logger>
-
-
-	<!--async notify日志 -->
-	<appender name="ASYNC_NOTIFY_LOG"
-		class="ch.qos.logback.core.FileAppender">
-		<file>${catalina.base}/logs/pay_async_notify.log</file>
-		<append>true</append>
-		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-			<pattern>%d{yyyy-MM-dd HH:mm:ss} [%-5level] [%logger.%M:%L] |%msg%n
-			</pattern>
-			<charset>utf-8</charset>
-		</encoder>
-	</appender>
-	
-	<!--async notify日志 -->
-	<logger name="com.waiqin365.pay.core.asyncnotify"
-		additivity="false" level="info">
-		<appender-ref ref="ASYNC_NOTIFY_LOG" />
-	</logger>
-
-
-
-
-
-
 
 
     <logger name="com.ibatis" level="ERROR"/>

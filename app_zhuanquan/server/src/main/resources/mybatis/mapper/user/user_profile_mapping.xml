@@ -33,6 +33,11 @@
 
 		
 	<insert id="insertRecord" parameterType="com.zhuanquan.app.common.model.user.UserProfile" >
+	
+		<selectKey resultType="java.lang.Long" order="AFTER" keyProperty="uid">
+			SELECT LAST_INSERT_ID() AS uid
+		</selectKey>
+		
 		insert into user_profile (status,allow_follow,reg_Stat,head_url,nick_name,gender,author_id,CREATE_TIME,MODIFY_TIME)
 		values(#{status},#{allowFollow},#{regStat},#{headUrl},#{nickName},#{gender},#{authorId},#{createTime},#{modifyTime})	
 	</insert>	

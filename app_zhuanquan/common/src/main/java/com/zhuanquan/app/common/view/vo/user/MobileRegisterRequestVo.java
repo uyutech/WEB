@@ -8,7 +8,7 @@ import java.io.Serializable;
  * @author zhangjun
  *
  */
-public class RegisterRequestVo implements Serializable {
+public class MobileRegisterRequestVo implements Serializable {
 
 	/**
 	 * 
@@ -20,7 +20,7 @@ public class RegisterRequestVo implements Serializable {
 	private String password;
 
 	// 手机号
-	private String profile;
+	private String mobile;
 	
 	//短信验证码
 	private String verifyCode;
@@ -51,15 +51,16 @@ public class RegisterRequestVo implements Serializable {
 		this.regType = regType;
 	}
 
-	public String getProfile() {
-		return profile;
+
+
+
+	public String getMobile() {
+		return mobile;
 	}
 
-	public void setProfile(String profile) {
-		this.profile = profile;
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
 	}
-
-
 
 	public String getVerifyCode() {
 		return verifyCode;

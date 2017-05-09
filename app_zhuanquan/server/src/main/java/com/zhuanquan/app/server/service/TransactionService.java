@@ -2,7 +2,7 @@ package com.zhuanquan.app.server.service;
 
 import com.zhuanquan.app.common.model.user.UserProfile;
 import com.zhuanquan.app.common.view.vo.user.LoginByOpenIdRequestVo;
-import com.zhuanquan.app.common.view.vo.user.RegisterRequestVo;
+import com.zhuanquan.app.common.view.vo.user.MobileRegisterRequestVo;
 import com.zhuanquan.app.common.view.vo.user.RegisterResponseVo;
 
 /**
@@ -19,7 +19,7 @@ public interface TransactionService {
 	 * @param vo
 	 * @return
 	 */
-	RegisterResponseVo registerMobile(RegisterRequestVo vo);
+	RegisterResponseVo registerMobile(MobileRegisterRequestVo vo);
 
 	/**
 	 * 第三方普通账户注册，非大v注册，大v都是预先注册好的

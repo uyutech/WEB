@@ -10,7 +10,7 @@ import com.zhuanquan.app.common.exception.BizErrorCode;
 import com.zhuanquan.app.common.exception.BizException;
 import com.zhuanquan.app.common.view.ApiResponse;
 import com.zhuanquan.app.common.view.vo.user.BindAndChoosePersistRequestVo;
-import com.zhuanquan.app.common.view.vo.user.RegisterRequestVo;
+import com.zhuanquan.app.common.view.vo.user.MobileRegisterRequestVo;
 import com.zhuanquan.app.common.view.vo.user.RegisterResponseVo;
 import com.zhuanquan.app.server.controller.common.BaseController;
 import com.zhuanquan.app.server.service.RegisterService;
@@ -24,7 +24,7 @@ public class RegisterController extends BaseController {
 
 	@RequestMapping(value = "/registerByMobile")
 	@ResponseBody
-	public ApiResponse registerByMobile(RegisterRequestVo vo) {
+	public ApiResponse registerByMobile(MobileRegisterRequestVo vo) {
 
 		RegisterResponseVo response = registerService.mobileRegister(vo);
 
@@ -113,6 +113,17 @@ public class RegisterController extends BaseController {
 
 		return ApiResponse.success();
 
+	}
+	
+	
+	
+	@RequestMapping(value = "/sendRegSms")
+	@ResponseBody
+	public ApiResponse sendRegSms(String mobile) {
+		
+		registerService.sendRegisterSms(mobile);
+		
+		return ApiResponse.success();
 	}
 
 }
