@@ -43,7 +43,7 @@
 
 
 
-	<update id=updateUserFavouriteRecord parameterType="java.util.Map">
+	<update id="updateUserFavouriteRecord" parameterType="java.util.Map">
 		update user_fav
 		<set>
 			status = #{status} ,
@@ -56,7 +56,6 @@
 
 
 
-updateUserFavouriteRecord
 </mapper>		
 
 

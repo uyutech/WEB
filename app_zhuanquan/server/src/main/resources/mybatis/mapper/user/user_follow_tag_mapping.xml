@@ -32,7 +32,7 @@
   </insert>
 
 
-	<update id=updateTagStatus parameterType="java.util.Map">
+	<update id="updateTagStatus" parameterType="java.util.Map">
 		update user_follow_tag
 		<set>
 			status = #{status} 

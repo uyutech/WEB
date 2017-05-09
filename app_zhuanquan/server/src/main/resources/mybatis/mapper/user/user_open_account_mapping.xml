@@ -59,7 +59,7 @@
 	</update>	
 
 
-	<update id=modifyTokenForOpenId parameterType="java.util.Map">
+	<update id="modifyTokenForOpenId" parameterType="java.util.Map">
 		update user_open_account
 		<set>
 			token = #{token} ,
