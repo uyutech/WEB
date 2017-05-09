@@ -606,7 +606,7 @@ public final class ApiConnector {
     
     
 	public static void main(String[] args) {
-		post("http://www.baidu.com", null);
+		post("https://www.baidu.com", null);
 	}
     
 }
