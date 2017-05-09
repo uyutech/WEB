@@ -6,10 +6,19 @@ package com.zhuanquan.app.common.utils;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.nio.charset.Charset;
 import java.nio.charset.CodingErrorAction;
+import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLException;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.SSLSocket;
+import javax.security.cert.CertificateException;
+import javax.security.cert.X509Certificate;
 
 import org.apache.http.Consts;
 import org.apache.http.Header;
@@ -30,6 +39,10 @@ import org.apache.http.config.RegistryBuilder;
 import org.apache.http.config.SocketConfig;
 import org.apache.http.conn.socket.ConnectionSocketFactory;
 import org.apache.http.conn.socket.PlainConnectionSocketFactory;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.conn.ssl.SSLContextBuilder;
+import org.apache.http.conn.ssl.TrustStrategy;
+import org.apache.http.conn.ssl.X509HostnameVerifier;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.DefaultConnectionReuseStrategy;
@@ -55,7 +68,7 @@ public final class ApiConnector {
     private static CloseableHttpClient httpclient = null;
 
     private static Header DEFAULT_HEADER = new BasicHeader(
-            HttpHeaders.USER_AGENT, "unifypay");
+            HttpHeaders.USER_AGENT, "zhuanquan");
 
     /**
      * 最大连接数
@@ -590,5 +603,10 @@ public final class ApiConnector {
         return responseContent;
 
     }
-
+    
+    
+	public static void main(String[] args) {
+		post("http://www.baidu.com", null);
+	}
+    
 }

@@ -30,6 +30,7 @@ public class LoginByOpenIdRequestVo implements Serializable {
 	
 	/**
 	 * 频道类型   1-微博
+	 * @see com.zhuanquan.app.common.constants.LoginType
 	 */
 	private int channelType;
 	
@@ -84,7 +85,7 @@ public class LoginByOpenIdRequestVo implements Serializable {
 	 */
 	public void validat() {
 		
-		if(StringUtils.isEmpty(token) || StringUtils.isEmpty(openId) ||StringUtils.isEmpty(sign)){
+		if(StringUtils.isEmpty(token) || StringUtils.isEmpty(openId) ){
 			throw new BizException(BizErrorCode.EX_ILLEGLE_REQUEST_PARM.getCode());
 		}
 		
@@ -99,13 +100,13 @@ public class LoginByOpenIdRequestVo implements Serializable {
 		}
 
 
-		//验证签名
-		String msg = openId+"_"+token+"_"+channelType;
-		String msgSign = MD5.md5(msg);
-		
-		if(!sign.equals(msgSign)) {
-			throw new BizException(BizErrorCode.EX_ILLEGLE_REQUEST_PARM.getCode());
-		}
+//		//验证签名
+//		String msg = openId+"_"+token+"_"+channelType;
+//		String msgSign = MD5.md5(msg);
+//		
+//		if(!sign.equals(msgSign)) {
+//			throw new BizException(BizErrorCode.EX_ILLEGLE_REQUEST_PARM.getCode());
+//		}
 
 		
 	}
