@@ -3,7 +3,7 @@ package com.zhuanquan.app.dal.dao.user;
 import java.util.List;
 import java.util.Map;
 
-import com.zhuanquan.app.common.model.user.UserFollowTagsMapping;
+import com.zhuanquan.app.common.model.user.UserFollowTag;
 
 /**
  * 用户关注的标签映射表
@@ -19,23 +19,42 @@ public interface UserFollowTagsMappingDAO {
 	 * @param uid
 	 * @param tagMappings
 	 */
-	void insertBatchToFollowTags(long uid,List<UserFollowTagsMapping> tagMappings);
+	void insertOrUpdateBatchToFollowTags(long uid,List<UserFollowTag> tagMappings);
+	
 	
 	/**
-	 * 批量update 来关注tag
+	 * 插入或者更新一条的关注tag
 	 * @param uid
-	 * @param tagIds
+	 * @param record
 	 */
-	void updateBatchToFollowTags(long uid,List<Long> tagIds);
+	void insertOrUpdateToFollowTag(long uid,UserFollowTag record);
+	
 	
 	
 	/**
-	 * 根据uid和tag id查询
-	 * 
+	 * 取消关注
 	 * @param uid
-	 * @param tags
+	 * @param tagId
+	 */
+	void updateToCancelTag(long uid,long tagId);
+	
+	/**
+	 * 查询uid关注的tag
+	 * @param uid
 	 * @return
 	 */
-	Map<String,String> queryByTagIds(long uid,List<Long> tagIds);
+	List<UserFollowTag> queryUserFollowTag(long uid);
+	
+	
+	/**
+	 * 查询是否关注了tag
+	 * @param uid
+	 * @param tagId
+	 * @return
+	 */
+	boolean queryHasFollowedTag(long uid,long tagId);
+	
+
+
 	
 }

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="com.zhuanquan.app.dal.dao.user.impl.UserFollowTagsMappingDAOImpl">
+
+	<resultMap id="BaseResultMap"
+		type="com.zhuanquan.app.common.model.user.UserFollowTag">	
+		<id column="uid" property="uid" jdbcType="INTEGER" />
+		<result column="tag_id" property="tagId" jdbcType="BIGINT" />
+		<result column="tag_type" property="workId" jdbcType="INTEGER" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+	</resultMap>
+
+
+  <insert id="insertOrUpdateToFollowTag" parameterType="com.zhuanquan.app.common.model.user.UserFollowTag" >
+    insert into user_follow_tag (uid, tag_id, tag_type,status)
+    values(#{uid}, #{tagId}, #{tagType},#{status})
+    on duplicate key update tag_type = #{tagType},status =  #{status}
+  </insert>
+
+
+
+
+  <insert id="insertOrUpdateBatchFollowAuthorIds" parameterType="java.util.List" >
+    insert into user_follow_tag (uid, tag_id, tag_type,status)
+    values
+    <foreach collection="list" item="item" index="index" separator="," >      
+    (#{item.uid}, #{item.tagId}, #{item.tagType},#{item.status})
+    on duplicate key update status =  #{item.status}, tag_type = #{item.tagType}
+    </foreach>  
+    
+  </insert>
+
+
+	<update id=updateTagStatus parameterType="java.util.Map">
+		update user_follow_tag
+		<set>
+			status = #{status} 
+		</set>
+		where uid = #{uid} and tag_id = #{tagId};
+		
+	</update>	
+
+
+
+	<select id="queryUserFollowTag" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select * from user_follow_tag where uid = #{uid} ;
+	</select>
+
+
+ 
+	<select id="queryByUidAndTagId" resultMap="BaseResultMap"
+		parameterType="java.util.Map">
+		select * from user_follow_tag where uid = #{uid} and tag_id = #{tagId};
+	</select>
+
+
+
+
+
+</mapper>		
+
+

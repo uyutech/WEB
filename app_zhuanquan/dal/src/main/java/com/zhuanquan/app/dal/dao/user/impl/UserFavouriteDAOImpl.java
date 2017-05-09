@@ -49,4 +49,12 @@ public class UserFavouriteDAOImpl extends BaseDao implements UserFavouriteDAO {
 		return sqlSessionTemplate.selectList(getSqlName("queryAllFavWork"), uid);
 	}
 	
+	
+	
+
+	@Override
+	public List<Long> queryAllFavWorkIds(long uid) {
+		
+		return sqlSessionTemplate.selectList(getSqlName("queryAllFavWorkIds"), uid);
+	}
 }

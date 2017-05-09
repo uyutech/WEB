@@ -66,7 +66,7 @@
 
 
 
-  <insert id="insertOrUpdateBatchFollowAuthorIds" parameterType="java.util.List" >
+  <insert id="insertOrUpdateBatchFollowAuthorIds" parameterType="java.util.List">
     insert into user_follow_author (uid, follow_author_id, status,CREATE_TIME, MODIFY_TIME)
     values
     <foreach collection="list" item="item" index="index" separator="," >      

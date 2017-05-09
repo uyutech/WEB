@@ -43,4 +43,14 @@ public interface UserFavouriteDAO {
 	 */
 	List<UserFavourite> queryAllFavWork(long uid);
 	
+	/**
+	 * 查询收藏的work ids
+	 * @param uid
+	 * @return
+	 */
+	List<Long> queryAllFavWorkIds(long uid);
+	
+	
+	
+	
 }

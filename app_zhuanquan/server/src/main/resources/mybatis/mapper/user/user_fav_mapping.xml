@@ -35,6 +35,28 @@
 	</select>
 
 
+
+	<select id="queryAllFavWorkIds" resultType="java.lang.Long"
+		parameterType="java.lang.Long">
+		select work_id from user_fav where uid = #{uid} ;
+	</select>
+
+
+
+	<update id=updateUserFavouriteRecord parameterType="java.util.Map">
+		update user_fav
+		<set>
+			status = #{status} ,
+			MODIFY_TIME = now() 
+		</set>
+		where uid = #{uid} and work_id = #{workId};
+		
+	</update>	
+
+
+
+
+updateUserFavouriteRecord
 </mapper>		
 
 

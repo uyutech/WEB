@@ -56,44 +56,26 @@ public class FavouriteServiceImpl implements FavouriteService {
 			throw new BizException(BizErrorCode.EX_ILLEGLE_REQUEST_PARM.getCode());
 		}
 
-		UserFavourite record = userFavouriteDAO.queryUserFavouriteRecord(uid, workId);
-
-		// 原记录不存在
-		if (record == null) {
-
-			// 原纪录不存在的化，不支持取消收藏
-			if (!isFav) {
-				throw new BizException(BizErrorCode.EX_ILLEGLE_REQUEST_PARM.getCode());
-			}
-
-			record = UserFavourite.createDefaultGroupRecord(uid, workId);
-
-			userFavouriteDAO.insertUserFavRecord(record);
-
-			return;
+		
+		//如果是取消收藏的
+		if(!isFav) {
+			userFavouriteDAO.updateUserFavouriteRecordStat(uid, workId, UserFavourite.STAT_DIS_FAV);
 			
-		} else {
+			return;
+		} 
+		
+		
+		UserFavourite record = UserFavourite.createDefaultGroupRecord(uid, workId);
 
-			// 原纪录存在
-			int targetStat = isFav ? UserFavourite.STAT_FAV : UserFavourite.STAT_DIS_FAV;
+		userFavouriteDAO.insertOrUpdateUserFavRecord(record);
 
-			if (record.getStatus() == targetStat) {
-				throw new BizException(BizErrorCode.EX_FAV_ILLEGLE_FAV_STATUS.getCode());
-			}
-
-			// 更新到预期到状态
-			userFavouriteDAO.updateUserFavouriteRecord(uid, workId, targetStat);
-
-		}
 	}
 
 	@Override
 	public List<Long> queryAllFavouriteWorks(long uid) {
 		
-		List<UserFavourite> list = userFavouriteDAO.queryAllFavWork(uid);
-		
+		return userFavouriteDAO.queryAllFavWorkIds(uid);
 
-		return null;
 	}
 
 	@Override

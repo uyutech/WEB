@@ -2,7 +2,6 @@ package com.zhuanquan.app.server.service;
 
 import java.util.List;
 
-import com.zhuanquan.app.common.component.sesssion.UserSession;
 import com.zhuanquan.app.common.view.vo.user.RegisterRequestVo;
 import com.zhuanquan.app.common.view.vo.user.RegisterResponseVo;
 
@@ -50,29 +49,39 @@ public interface RegisterService {
 	
 	
 	/**
-	 * 注册引导第一步设置昵称
+	 * 注册引导:设置昵称
 	 * 
 	 * @param uid
 	 * @param nickName
 	 */
-	void setNickNameOnRegisterStep1(UserSession session, String nickName);
+	void setNickNameOnRegister(long uid,String nickName);
+	
 	
 	
 	/**
-	 * 设置关注的话题标签 以及 作品的分类
-	 * @param uid 用户id
-	 * @param topicTags 话题标签
-	 * @param workCategries 作品分类
+	 *  注册引导:设置关注tag标签
+	 * @param uid
+	 * @param tagIds
 	 */
-	void setFollowTagOnRegisterStep2(UserSession session,List<Long> topicTags,List<Long> workCategries);
+	void setFollowTagsOnRegister(long uid,List<Long> tagIds);
 	
+	
+	/**
+	 * 注册引导:设置关注的tag的领域
+	 * @param uid
+	 * @param tagIds
+	 */
+	void setFollowTagsFiledOnRegister(long uid,List<Long> tagIds);
+	
+	
+
 	
 	/**
 	 * 设置关注的作者
 	 * @param uid
 	 * @param authors
 	 */
-	void setFollowAuthorsOnRegisterStep3(UserSession session,List<Long> authors);
+	void setFollowAuthorsOnRegister(long uid,List<Long> authorIds);
 
 	/**
 	 *  忘记密码，重置密码

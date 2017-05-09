@@ -7,7 +7,7 @@ import com.zhuanquan.app.common.model.common.Tag;
  * @author zhangjun
  *
  */
-public class UserFollowTagsMapping {
+public class UserFollowTag {
 	
 	/**
 	 * disable
@@ -91,9 +91,9 @@ public class UserFollowTagsMapping {
 	 * @param tag
 	 * @return
 	 */
-	public static UserFollowTagsMapping transferToMapping(long uid,Tag tag) {
+	public static UserFollowTag transferToMapping(long uid,Tag tag) {
 		
-		UserFollowTagsMapping record = new UserFollowTagsMapping();
+		UserFollowTag record = new UserFollowTag();
 		
 		record.setTagId(tag.getTagId());
 		record.setTagType(tag.getTagType());
