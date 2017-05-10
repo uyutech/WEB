@@ -1,0 +1,10 @@
+﻿session_validate_exclude:
+   rule_whole_path:
+      - /register/sendRegSms.htm
+      - /register/registerByMobile.htm
+
+   rule_package_match:
+      servers:
+      - /test/
+      - /openapi/
+

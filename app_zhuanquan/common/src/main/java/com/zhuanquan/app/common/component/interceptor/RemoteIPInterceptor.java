@@ -17,7 +17,6 @@ public class RemoteIPInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
-//        String ip = httpServletRequest.getHeader("X-Real-IP");
         
         String ip = getRealIp(httpServletRequest);
         

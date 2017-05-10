@@ -169,12 +169,12 @@
 
 <!--  ********************  interceptors  ********************  -->
 	<bean id="sessionInterceptor" class="com.zhuanquan.app.common.component.interceptor.SessionInterceptor">
-
+		<property name="redisHelper" ref="redisHelper" />
+		<property name="sessionExcludeLoader" ref="sessionExcludeLoader" />
 	</bean>
 
 	<bean id="localIpInterceptor" class="com.zhuanquan.app.common.component.interceptor.RemoteIPInterceptor" />
 
-	
 	<mvc:interceptors>
 		<ref bean="localIpInterceptor" />
 		<ref bean="sessionInterceptor" />

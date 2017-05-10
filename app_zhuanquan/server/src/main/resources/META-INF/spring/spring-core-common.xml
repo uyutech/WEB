@@ -8,7 +8,7 @@
         http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
     <!--  错误码 -->
-    <bean id="errorMap" class="com.zhuanquan.app.common.exception.internel.yml.MyYamlMapFactoryBean">
+    <bean id="errorMap" class="org.springframework.beans.factory.config.YamlMapFactoryBean">
         <property name="resources">
             <list>
                 <value>classpath*:META-INF/errorcode/system-error-base.yml</value>
@@ -23,5 +23,18 @@
        <property name="bizErrorMap" ref="errorMap"/>
    </bean>
     
+    
+    <bean id="excludeValidateMap" class="org.springframework.beans.factory.config.YamlMapFactoryBean">
+        <property name="resources">
+            <list>
+                <value>classpath*:META-INF/exclude/session_validate_exclude.yml</value>
+            </list>
+        </property>
+    </bean>    
+    
+     <bean id="sessionExcludeLoader" class="com.zhuanquan.app.common.component.interceptor.SessionExcludeLoader" init-method="init" >
+
+        <property name="excludeValidateMap" ref="excludeValidateMap"/>
+    </bean>
     
 </beans>
