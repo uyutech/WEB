@@ -2,6 +2,9 @@
    rule_whole_path:
       - /register/sendRegSms.htm
       - /register/registerByMobile.htm
+      - /login/loginByMobile.htm
+      - /login/loginByOpenId.htm
+
 
    rule_package_match:
       - /test/
