@@ -50,7 +50,7 @@
 		<appender-ref ref="USERREQUEST" />
 	</logger>
 
-
+    <!--  
     <logger name="com.ibatis" level="ERROR"/>
     <logger name="org.springframework" level="ERROR"/>
     <logger name="com.ibatis.sqlmap.engine.impl.SqlMapClientDelegate" level="ERROR"/>
@@ -62,5 +62,5 @@
     <logger name="com.ibatis.common.jdbc.ScriptRunner" level="ERROR"/>
     <logger name="java.sql.Connection" level="ERROR"/>
     <logger name="java.sql.PreparedStatement" level="ERROR"/>
-
+    -->
 </configuration>

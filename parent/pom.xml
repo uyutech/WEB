@@ -6,7 +6,7 @@
 	<artifactId>parent</artifactId>
 	<packaging>pom</packaging>
 	<name>zhuanquan-parent</name>
-	<version>0.0.9</version>
+	<version>0.0.10</version>
 	<url>http://maven.apache.org</url>
 
 
@@ -187,6 +187,19 @@
 
 
 
+
+
+
+
+
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>log4j-over-slf4j</artifactId>
+			<version>${slf4j.version}</version>
+		</dependency>
+
+
 			<!-- 日志文件管理包 -->
 			<!-- 格式化对象，方便输出日志 -->
 			<dependency>
@@ -204,6 +217,15 @@
 				<artifactId>logback-classic</artifactId>
 				<version>${logback.version}</version>
 			</dependency>
+
+
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-core</artifactId>
+			<version>${logback.version}</version>
+		</dependency>
+
+
 			<!-- 映入JSON -->
 			<dependency>
 				<groupId>com.alibaba</groupId>
@@ -241,6 +263,7 @@
 				<groupId>commons-collections</groupId>
 				<artifactId>commons-collections</artifactId>
 				<version>3.2.1</version>
+
 			</dependency>
 			<dependency>
 				<groupId>commons-configuration</groupId>
@@ -535,6 +558,9 @@
                   <artifactId>mysql-connector-java</artifactId>
                    <version>5.1.41</version>
              </dependency>
+
+
+
 
 
 
