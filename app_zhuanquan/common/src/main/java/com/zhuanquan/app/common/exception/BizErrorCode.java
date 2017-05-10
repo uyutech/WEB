@@ -27,10 +27,12 @@ public enum BizErrorCode implements ErrorCode {
 	 //短信验证码校验失败
 	 EX_VERIFY_CODE_ERR (100001001), 
 
-	 //登录验证码错误
-	 EX_LOGIN_VERIFY_CODE_ERR (100002001), 
+
 	 
 //***************登录注册****************************************	 
+	 
+	 //登录验证码错误
+	 EX_LOGIN_VERIFY_CODE_ERR (100002001), 
 	 
 	 //登录密码错误
 	 EX_LOGIN_PWD_ERR (100002002), 
@@ -71,6 +73,10 @@ public enum BizErrorCode implements ErrorCode {
 	 
 	 //密码不合法
 	 EX_PWD_IS_NOT_ILLEGLE (100002014), 
+	 
+	 //第三方token鉴权失败
+	 EX_OPEN_ACCOUNT_TOKEN_VALIDATE_ERROR (100002015), 
+
 
 
 	//***************用户收藏****************************************	 

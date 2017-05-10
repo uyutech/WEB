@@ -1,7 +1,9 @@
 package com.zhuanquan.app.server.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.NameValuePair;
@@ -14,7 +16,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.zhuanquan.app.common.constants.LoginType;
 import com.zhuanquan.app.common.exception.BizErrorCode;
 import com.zhuanquan.app.common.exception.BizException;
-import com.zhuanquan.app.common.utils.ApiConnector;
+import com.zhuanquan.app.common.utils.HttpUtil;
 import com.zhuanquan.app.server.service.OpenApiService;
 
 @Service
@@ -59,16 +61,15 @@ public class OpenApiServiceImpl implements OpenApiService {
 
 		try {
 
-			List<NameValuePair> pairs = new ArrayList<NameValuePair>();
+			Map<String, String> parmMap = new HashMap<String, String>();
+			parmMap.put("access_token", accessToken);
 
-			pairs.add(new BasicNameValuePair("access_token", accessToken));
-
-			String str = ApiConnector.post(WEIBO_TOKEN_CHECK_URL, pairs);
+			String str = HttpUtil.sendPostSSLRequest(WEIBO_TOKEN_CHECK_URL, parmMap);
 
 			logger.info("OpenApiServiceImpl checkWeiboToken :str = " + (str == null ? "null" : str));
 
 			if (!StringUtils.isEmpty(str)) {
-				
+
 				JSONObject obj = JSONObject.parseObject(str);
 				if (obj != null) {
 					String uid = obj.getString("uid");
@@ -79,12 +80,11 @@ public class OpenApiServiceImpl implements OpenApiService {
 				}
 			}
 
-			throw new BizException(BizErrorCode.EX_ILLEGLE_REQUEST_PARM.getCode());
+			throw new BizException(BizErrorCode.EX_OPEN_ACCOUNT_TOKEN_VALIDATE_ERROR.getCode());
 
 		} catch (Exception e) {
-
 			logger.error(e.getMessage(), e);
-			throw new BizException(BizErrorCode.EX_SYSTEM_ERROR.getCode());
+			throw new BizException(BizErrorCode.EX_OPEN_ACCOUNT_TOKEN_VALIDATE_ERROR.getCode());
 		}
 
 	}
