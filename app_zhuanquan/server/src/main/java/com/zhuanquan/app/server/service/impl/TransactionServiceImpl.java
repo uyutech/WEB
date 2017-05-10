@@ -49,7 +49,7 @@ public class TransactionServiceImpl implements TransactionService {
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public RegisterResponseVo registerMobile(MobileRegisterRequestVo vo) {
+	public long registerMobile(MobileRegisterRequestVo vo) {
 
 		//
 		UserOpenAccount account = userOpenAccountCache.queryByOpenId(vo.getMobile(), LoginType.CHANNEL_MOBILE);
@@ -67,11 +67,7 @@ public class TransactionServiceImpl implements TransactionService {
 		account = UserOpenAccount.createMobileAccount(vo.getMobile(), vo.getPassword(), uid);
 		userOpenAccountDAO.insertUserOpenAccount(account);
 
-		RegisterResponseVo response = new RegisterResponseVo();
-
-		response.setUid(uid);
-
-		return response;
+		return uid;
 	}
 
 	@Override

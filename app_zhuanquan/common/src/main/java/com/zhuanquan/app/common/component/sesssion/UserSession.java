@@ -44,6 +44,20 @@ public class UserSession  implements Serializable{
 	 */
 	private int isVip;
 
+	/**
+	 * 会话id
+	 */
+	private String sessionId;
+	
+	
+
+	public String getSessionId() {
+		return sessionId;
+	}
+
+	public void setSessionId(String sessionId) {
+		this.sessionId = sessionId;
+	}
 
 	public int getLoginType() {
 		return loginType;

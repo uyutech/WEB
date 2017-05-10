@@ -19,7 +19,7 @@ public interface TransactionService {
 	 * @param vo
 	 * @return
 	 */
-	RegisterResponseVo registerMobile(MobileRegisterRequestVo vo);
+	long registerMobile(MobileRegisterRequestVo vo);
 
 	/**
 	 * 第三方普通账户注册，非大v注册，大v都是预先注册好的

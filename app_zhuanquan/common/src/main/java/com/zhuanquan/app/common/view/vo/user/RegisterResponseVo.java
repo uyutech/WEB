@@ -16,27 +16,19 @@ public class RegisterResponseVo implements Serializable {
 	 */
 	private long uid;
 
-//	/**
-//	 * 手机号
-//	 */
-//	private String mobile;
-//
-//	/**
-//	 * 是否允许关注
-//	 */
-//	private Integer allowAttation;
-//
-//	/**
-//	 * 头像url
-//	 */
-//	private String headUrl;
-//
-//	/**
-//	 * 昵称
-//	 */
-//	private String nickName;
-	
+    /**
+     * 会话id
+     */
+	private String sessionId;
 
+
+	public String getSessionId() {
+		return sessionId;
+	}
+
+	public void setSessionId(String sessionId) {
+		this.sessionId = sessionId;
+	}
 
 	public long getUid() {
 		return uid;
@@ -46,46 +38,10 @@ public class RegisterResponseVo implements Serializable {
 		this.uid = uid;
 	}
 
-//	public String getUserName() {
-//		return userName;
-//	}
-//
-//	public void setUserName(String userName) {
-//		this.userName = userName;
-//	}
-//
-//	public String getMobile() {
-//		return mobile;
-//	}
-//
-//	public void setMobile(String mobile) {
-//		this.mobile = mobile;
-//	}
-//
-//	public Integer getAllowAttation() {
-//		return allowAttation;
-//	}
-//
-//	public void setAllowAttation(Integer allowAttation) {
-//		this.allowAttation = allowAttation;
-//	}
-//
-//	public String getHeadUrl() {
-//		return headUrl;
-//	}
-//
-//	public void setHeadUrl(String headUrl) {
-//		this.headUrl = headUrl;
-//	}
-//
-//	public String getNickName() {
-//		return nickName;
-//	}
-//
-//	public void setNickName(String nickName) {
-//		this.nickName = nickName;
-//	}
-//
+    public RegisterResponseVo(long uid,String sessionId) {
+    	this.uid  = uid;
+    	this.sessionId = sessionId;
+    }
 
 	
 }

@@ -48,8 +48,11 @@ public class SessionHolder  {
 		userSession.setChannelType(channelType);
 		userSession.setOpenId(openId);
 		userSession.setIsVip(isVip);
+		userSession.setSessionId(sessionKey);
+
 
 		SESSION_LOCAL.set(userSession);
+		
 
 
 		HttpServletResponse response = SessionInterceptor.getResponse();
@@ -62,6 +65,7 @@ public class SessionHolder  {
 		}
 
 		String key = RedisKeyBuilder.getLoginSessionKey(sessionKey);
+		
 		redisHelper.valueSet(key, JSON.toJSONString(userSession), 7, TimeUnit.DAYS);
 		
 		return userSession;

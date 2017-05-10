@@ -84,12 +84,12 @@ public class RegisterServiceImpl implements RegisterService {
 		validateVerifyCode(vo.getMobile(), vo.getVerifyCode(),
 				RedisKeyBuilder.getRegisterSmsVerfiyCodeKey(vo.getMobile()));
 
-		RegisterResponseVo response = transactionService.registerMobile(vo);
+		long  uid = transactionService.registerMobile(vo);
 
-		sessionHolder.createOrUpdateSession(response.getUid(), vo.getLoginType(), vo.getMobile(),
+		UserSession session = sessionHolder.createOrUpdateSession(uid, vo.getLoginType(), vo.getMobile(),
 				LoginType.CHANNEL_MOBILE, UserOpenAccount.NORMAL_ACCOUNT);
 
-		return response;
+		return new RegisterResponseVo(uid,session.getSessionId());
 	}
 
 	/**

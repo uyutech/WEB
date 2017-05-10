@@ -13,6 +13,7 @@ import com.zhuanquan.app.common.component.cache.RedisKeyBuilder;
 import com.zhuanquan.app.common.component.cache.redis.utils.RedisHelper;
 import com.zhuanquan.app.common.component.interceptor.RemoteIPInterceptor;
 import com.zhuanquan.app.common.component.sesssion.SessionHolder;
+import com.zhuanquan.app.common.component.sesssion.UserSession;
 import com.zhuanquan.app.common.constants.LoginType;
 import com.zhuanquan.app.common.exception.BizErrorCode;
 import com.zhuanquan.app.common.exception.BizException;
@@ -122,9 +123,13 @@ public class LoginServiceImpl implements LoginService {
 		response.setRegStat(profile.getRegStat());
 
 		response.setIsVip(isVip);
+		
 
-		sessionHolder.createOrUpdateSession(profile.getUid(), loginType, openId, channelType,isVip);
+		UserSession session =  sessionHolder.createOrUpdateSession(profile.getUid(), loginType, openId, channelType,isVip);
 
+		response.setSessionId(session.getSessionId());
+
+		
 		return response;
 	}
 
