@@ -1,9 +1,12 @@
 package com.zhuanquan.app.server.controller.user;
 
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.zhuanquan.app.common.exception.BizErrorCode;
@@ -12,6 +15,8 @@ import com.zhuanquan.app.common.view.ApiResponse;
 import com.zhuanquan.app.common.view.vo.user.BindAndChoosePersistRequestVo;
 import com.zhuanquan.app.common.view.vo.user.MobileRegisterRequestVo;
 import com.zhuanquan.app.common.view.vo.user.RegisterResponseVo;
+import com.zhuanquan.app.common.view.vo.user.SelectFollowAuthorRequestVo;
+import com.zhuanquan.app.common.view.vo.user.SelectFollowTagsRequestVo;
 import com.zhuanquan.app.server.controller.common.BaseController;
 import com.zhuanquan.app.server.service.RegisterService;
 
@@ -116,14 +121,67 @@ public class RegisterController extends BaseController {
 	}
 	
 	
-	
+	/**
+	 * 发送注册的短信验证
+	 * @param mobile
+	 * @return
+	 */
 	@RequestMapping(value = "/sendRegSms")
 	@ResponseBody
-	public ApiResponse sendRegSms(String mobile) {
+	public ApiResponse sendRegSms(@RequestParam(value = "mobile", required = true) String mobile) {
 		
 		registerService.sendRegisterSms(mobile);
 		
 		return ApiResponse.success();
 	}
+	
+	
+	
+	/**
+	 * 注册设置昵称
+	 * @param uid
+	 * @param nickName
+	 * @return
+	 */
+	@RequestMapping(value = "/setNickNameOnRegister")
+	@ResponseBody
+	public ApiResponse setNickNameOnRegister(long uid,String nickName) {
+		
+		registerService.setNickNameOnRegister(uid,nickName);
+		
+		return ApiResponse.success();
+	}
+	
+	
+	/**
+	 * 注册设置关注的tag
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "/setFollowTagsOnRegister")
+	@ResponseBody
+	public ApiResponse setFollowTagsOnRegister(@RequestBody SelectFollowTagsRequestVo request) {
+		
+		registerService.setFollowTagsOnRegister(request.getUid(),request.getTagIds());
+		
+		return ApiResponse.success();
+	}	
+	
+	
+	/**
+	 * 注册设置关注的作者
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "/setFollowAuthorsOnRegister")
+	@ResponseBody
+	public ApiResponse setFollowAuthorsOnRegister(@RequestBody SelectFollowAuthorRequestVo request) {
+		
+		registerService.setFollowAuthorsOnRegister(request.getUid(),request.getAuthorIds());
+		
+		return ApiResponse.success();
+	}	
+	
+
 
 }

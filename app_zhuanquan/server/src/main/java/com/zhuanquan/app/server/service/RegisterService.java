@@ -65,15 +65,15 @@ public interface RegisterService {
 	 */
 	void setFollowTagsOnRegister(long uid,List<Long> tagIds);
 	
-	
-	/**
-	 * 注册引导:设置关注的tag的领域
-	 * @param uid
-	 * @param tagIds
-	 */
-	void setFollowTagsFiledOnRegister(long uid,List<Long> tagIds);
-	
-	
+//	
+//	/**
+//	 * 注册引导:设置关注的tag的领域
+//	 * @param uid
+//	 * @param tagIds
+//	 */
+//	void setFollowTagsFiledOnRegister(long uid,List<Long> tagIds);
+//	
+//	
 
 	
 	/**

@@ -6,7 +6,7 @@ package com.zhuanquan.app.common.view.vo.author;
  * @author zhangjun
  *
  */
-public class WorkDetailView {
+public class WorkDetailVo {
 	
 	
 	

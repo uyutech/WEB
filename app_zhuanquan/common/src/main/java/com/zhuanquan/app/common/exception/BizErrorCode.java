@@ -87,7 +87,6 @@ public enum BizErrorCode implements ErrorCode {
 	 
 	;
 
-	
 
     /**
      * 异常码

@@ -951,11 +951,22 @@ public final class HttpUtil
 	
 	
 	public static void main(String[] args) {
-	  	Map map = new HashMap<>();
-    	map.put("access_token", "12313123123213");
-    	
 		
-		String response = sendPostSSLRequest("https://api.weibo.com/oauth2/get_token_info", map);
+		
+		List<Long> list = new ArrayList<>();
+		list.add(1L);
+		list.add(2L);
+
+		
+		
+	  	Map map = new HashMap<>();
+
+    	map.put("authorIds", list);
+    	map.put("uid", "1111");
+
+    	
+    	
+		String response = sendPostSSLRequest("http://127.0.0.1:8080/register/bindUnregisterMobile.htm", map);
 		
 		System.out.println("response="+response);
 	}

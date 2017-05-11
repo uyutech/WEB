@@ -58,7 +58,7 @@ public class SessionInterceptor implements HandlerInterceptor {
 	}
 
 	// 是否启用
-	private boolean isDebugEnable = false;
+	private boolean isDebugEnable = true;
 
 	public void setIsDebugEnable(boolean isDebugEnable) {
 		this.isDebugEnable = isDebugEnable;

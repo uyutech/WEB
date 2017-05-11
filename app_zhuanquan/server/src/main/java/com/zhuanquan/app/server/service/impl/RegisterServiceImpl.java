@@ -362,17 +362,17 @@ public class RegisterServiceImpl implements RegisterService {
 	public void setFollowTagsOnRegister(long uid, List<Long> tagIds) {
 
 		doSetFollowTag(uid, tagIds, RegisterFlowConstants.REG_STEP_CHOOSE_TAG,
-				RegisterFlowConstants.REG_STEP_CHOOSE_FIELD);
-
-	}
-
-	@Override
-	public void setFollowTagsFiledOnRegister(long uid, List<Long> tagIds) {
-
-		doSetFollowTag(uid, tagIds, RegisterFlowConstants.REG_STEP_CHOOSE_FIELD,
 				RegisterFlowConstants.REG_STEP_CHOOSE_FOLLOW_AUTHOR);
 
 	}
+
+//	@Override
+//	public void setFollowTagsFiledOnRegister(long uid, List<Long> tagIds) {
+//
+//		doSetFollowTag(uid, tagIds, RegisterFlowConstants.REG_STEP_CHOOSE_FIELD,
+//				RegisterFlowConstants.REG_STEP_CHOOSE_FOLLOW_AUTHOR);
+//
+//	}
 
 	private void doSetFollowTag(long uid, List<Long> tagIds, int currentStep, int nextStep) {
 
