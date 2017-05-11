@@ -6,25 +6,18 @@ import com.zhuanquan.app.common.component.cache.RedisKeyBuilder;
 import com.zhuanquan.app.common.component.cache.redis.utils.RedisHelper;
 import com.zhuanquan.app.common.component.sesssion.SessionHolder;
 import com.zhuanquan.app.common.component.sesssion.UserSession;
-import com.zhuanquan.app.common.exception.RequestHeaderInvalidateException;
 import com.zhuanquan.app.common.exception.SessionExpireException;
-import com.zhuanquan.app.common.utils.MyStringUtils;
-import com.zhuanquan.app.common.utils.ServletUtils;
 
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
+
 import java.util.*;
 
 /**
