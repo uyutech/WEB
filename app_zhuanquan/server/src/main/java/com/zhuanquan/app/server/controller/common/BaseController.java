@@ -33,7 +33,7 @@ public class BaseController {
 	 */
 	public UserSession getLoginUserSession() {
 		
-		return SessionHolder.getCurrentLoginUserSession();
+		return SessionHolder.getCurrentLoginUserInfo();
 	}
 	
 	

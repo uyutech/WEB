@@ -3,6 +3,7 @@ package com.zhuanquan.app.dal.dao.user;
 import java.util.List;
 import java.util.Map;
 
+import com.zhuanquan.app.common.model.common.Tag;
 import com.zhuanquan.app.common.model.user.UserFollowTag;
 
 /**
@@ -55,6 +56,22 @@ public interface UserFollowTagsMappingDAO {
 	boolean queryHasFollowedTag(long uid,long tagId);
 	
 
+	/**
+	 * 分页查询
+	 * @param offset
+	 * @param pagSize
+	 * @param excludeIds
+	 * @return
+	 */
+	List<Long> queryHotTagsByPage(int offset,int pagSize,List<Long> excludeIds);
+	
+	
+	/**
+	 * 获取最近最火的标签
+	 * @param limit
+	 * @return
+	 */
+	public List<Long> queryHotTagsRecently(int limit) ;
 
 	
 }

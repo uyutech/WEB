@@ -128,6 +128,8 @@ create table user_follow_tag
    tag_id                 bigint(20) not null,
    tag_type               int(4) not null default 1,
    status                 tinyint(1) not null default 1,
+   create_time            datetime,
+   modify_time            datetime,
    primary key (uid,tag_id)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;
 

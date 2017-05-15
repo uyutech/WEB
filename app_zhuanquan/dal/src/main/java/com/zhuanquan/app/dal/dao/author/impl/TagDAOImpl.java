@@ -14,14 +14,12 @@ public class TagDAOImpl extends BaseDao implements TagDAO {
 
 	@Override
 	public List<Tag> queryTagsByIds(List<Long> tagIds) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Tag queryById(long tagId) {
-		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 }

@@ -3,6 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:task="http://www.springframework.org/schema/task"  
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/context
@@ -10,7 +11,11 @@
         http://www.springframework.org/schema/aop
         http://www.springframework.org/schema/aop/spring-aop.xsd
         http://www.springframework.org/schema/mvc
-        http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/task  
+        http://www.springframework.org/schema/task/spring-task-3.0.xsd
+        "
+        >
 
     <context:component-scan base-package="com.zhuanquan.app" />
 
@@ -180,5 +185,11 @@
 		<ref bean="sessionInterceptor" />
 		<!--<ref bean="accessStatistics"/>-->
 	</mvc:interceptors>
+	
+	<task:annotation-driven executor="executor" scheduler="scheduler" />
+    <task:executor id="executor" />  
+    <task:scheduler id="scheduler"/>  
+	
+	
 	
 </beans>

@@ -21,7 +21,5 @@ public interface TagDAO {
 	 */
 	Tag queryById(long tagId);
 	
-	
-	
-	
+
 }

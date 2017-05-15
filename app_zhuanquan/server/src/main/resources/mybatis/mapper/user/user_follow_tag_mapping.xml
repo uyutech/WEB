@@ -4,61 +4,86 @@
 	namespace="com.zhuanquan.app.dal.dao.user.impl.UserFollowTagsMappingDAOImpl">
 
 	<resultMap id="BaseResultMap"
-		type="com.zhuanquan.app.common.model.user.UserFollowTag">	
+		type="com.zhuanquan.app.common.model.user.UserFollowTag">
 		<id column="uid" property="uid" jdbcType="INTEGER" />
 		<result column="tag_id" property="tagId" jdbcType="BIGINT" />
 		<result column="tag_type" property="workId" jdbcType="INTEGER" />
 		<result column="status" property="status" jdbcType="INTEGER" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="MODIFY_TIME" property="modifyTime" jdbcType="TIMESTAMP" />
+
 	</resultMap>
 
 
-  <insert id="insertOrUpdateToFollowTag" parameterType="com.zhuanquan.app.common.model.user.UserFollowTag" >
-    insert into user_follow_tag (uid, tag_id, tag_type,status)
-    values(#{uid}, #{tagId}, #{tagType},#{status})
-    on duplicate key update tag_type = #{tagType},status =  #{status}
-  </insert>
+	<insert id="insertOrUpdateToFollowTag" parameterType="com.zhuanquan.app.common.model.user.UserFollowTag">
+		insert into user_follow_tag (uid, tag_id,
+		tag_type,status,CREATE_TIME,MODIFY_TIME)
+		values(#{uid}, #{tagId}, #{tagType},#{status},#{createTime},#{modifyTime})
+		on duplicate key update tag_type = #{tagType},status =
+		#{status},MODIFY_TIME = now()
+	</insert>
 
 
 
 
-  <insert id="insertOrUpdateBatchFollowAuthorIds" parameterType="java.util.List" >
-    insert into user_follow_tag (uid, tag_id, tag_type,status)
-    values
-    <foreach collection="list" item="item" index="index" separator="," >      
-    (#{item.uid}, #{item.tagId}, #{item.tagType},#{item.status})
-    on duplicate key update status =  #{item.status}, tag_type = #{item.tagType}
-    </foreach>  
-    
-  </insert>
+	<insert id="insertOrUpdateBatchFollowAuthorIds" parameterType="java.util.List">
+		insert into user_follow_tag (uid, tag_id,
+		tag_type,status,CREATE_TIME,MODIFY_TIME)
+		values
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(#{item.uid}, #{item.tagId},
+			#{item.tagType},#{item.status},#{createTime},#{modifyTime})
+			on duplicate key update status = #{item.status}, tag_type =
+			#{item.tagType},,MODIFY_TIME = now()
+		</foreach>
+
+	</insert>
 
 
 	<update id="updateTagStatus" parameterType="java.util.Map">
 		update user_follow_tag
 		<set>
-			status = #{status} 
+			status = #{status} ,
+			MODIFY_TIME = now()
 		</set>
 		where uid = #{uid} and tag_id = #{tagId};
-		
-	</update>	
+
+	</update>
 
 
 
 	<select id="queryUserFollowTag" resultMap="BaseResultMap"
 		parameterType="java.lang.Long">
-		select * from user_follow_tag where uid = #{uid} ;
+		select * from user_follow_tag where uid = #{uid} and
+		status =1;
 	</select>
 
 
- 
+
 	<select id="queryByUidAndTagId" resultMap="BaseResultMap"
 		parameterType="java.util.Map">
-		select * from user_follow_tag where uid = #{uid} and tag_id = #{tagId};
+		select * from user_follow_tag where uid = #{uid} and
+		tag_id = #{tagId};
 	</select>
 
+    <!--  
+	<select id="queryHotTagByPage" resultType="java.Lang.Long"
+		parameterType="java.util.Map">
+		select tag_id from user_follow_tag where status =1
+           <dynamic prepend = "">
+			<isNotEmpty prepend="and" property="compareTime">
+                <![CDATA[ create_time>= #{compareTime}   ]]>
+			</isNotEmpty>
 
+			<isNotEmpty prepend="and" property="ids">
+				tag_id not in ($ids$)
+			</isNotEmpty>
+           </dynamic>
 
-
+		group by tag_id order by count(uid) desc limit #{limit} offset
+		#{offset};
+	</select>
+   -->
 
 </mapper>		
-
-

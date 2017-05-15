@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.zhuanquan.app.common.view.ApiResponse;
-import com.zhuanquan.app.common.view.vo.author.SuggestAuthorVo;
 import com.zhuanquan.app.common.view.vo.author.SuggestTagVo;
 import com.zhuanquan.app.server.service.TagService;
 
@@ -35,10 +34,8 @@ public class TagController {
 	 */
 	@RequestMapping(value = "/getSuggestTags")
 	@ResponseBody
-	public ApiResponse getSuggestTags(long uid) {
-
-		List<SuggestTagVo> list = tagService.getSuggestTags(uid);
-		
+	public ApiResponse getSuggestTags(long uid,int pageNum,int pageSize) {
+		List<SuggestTagVo> list = tagService.getSuggestTags(uid,pageNum,pageSize);
 		return ApiResponse.success(list);
 	}
 

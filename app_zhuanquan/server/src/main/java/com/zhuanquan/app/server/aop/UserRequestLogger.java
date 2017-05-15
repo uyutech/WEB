@@ -117,7 +117,7 @@ public class UserRequestLogger extends BaseController {
             logStr.append(classUrl).append("|").append(classvalue).append("|returnValie=")
             	.append(returnValue).append("|time=").append(clock.getTotalTimeMillis());
             
-            UserSession session = SessionHolder.getCurrentLoginUserSession();
+            UserSession session = SessionHolder.getCurrentLoginUserInfo();
             
             if(session == null) {
             	logStr.append("|").append("session is null");

@@ -12,13 +12,14 @@ import com.zhuanquan.app.common.view.vo.author.SuggestTagVo;
  */
 public interface TagService {
 
+	
 	/**
 	 * 获取推荐的tag
-	 * 
 	 * @param uid
-	 * 
+	 * @param pageNum
+	 * @param pagesize
 	 * @return
 	 */
-	List<SuggestTagVo> getSuggestTags(long uid);
+	List<SuggestTagVo> getSuggestTags(long uid,int pageNum,int pagesize);
 
 }

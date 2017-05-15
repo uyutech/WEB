@@ -162,7 +162,7 @@ public class RegisterServiceImpl implements RegisterService {
 		// 校验短信验证码是否正确
 		validateVerifyCode(mobile, verifycode, RedisKeyBuilder.getBindMobileSmsVerifyCodeKey(mobile));
 
-		UserSession session = SessionHolder.getCurrentLoginUserSession();
+		UserSession session = SessionHolder.getCurrentLoginUserInfo();
 
 		// 判断传入账户的uid与当前登录的用户uid是否一致
 		if (session == null || uid != session.getUid()) {
@@ -291,7 +291,7 @@ public class RegisterServiceImpl implements RegisterService {
 		CommonUtil.validateMobilePassword(newPwd);
 
 		// session
-		UserSession session = SessionHolder.getCurrentLoginUserSession();
+		UserSession session = SessionHolder.getCurrentLoginUserInfo();
 
 		String mobile = null;
 

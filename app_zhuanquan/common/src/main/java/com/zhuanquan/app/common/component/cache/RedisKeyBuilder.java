@@ -233,6 +233,32 @@ public class RedisKeyBuilder {
 		return "gw:fav:all:uid:"+uid;
 
 	}
+	
+	
+	
+	
+	/**
+	 * 热点tag key推荐
+	 * @param mobile
+	 * @return
+	 */
+	public static String getHotTagsSuggestKey() {
+		
+		return "gw:tag:hot:suggest";
+	}
+	
+	
+	
+	
+	/**
+	 * 根据tagid批量查询
+	 * @param mobile
+	 * @return
+	 */
+	public static String getTagsIdsKey() {
+		
+		return "gw:tag:ids:query";
+	}
 }
 
 

@@ -3,6 +3,9 @@ package com.zhuanquan.app.common.component.event.redis;
 public enum RedisCacheEnum {
 
 	REDIS_CACHE_USER_OPEN_ACCOUNT("user_open_account"),
+	
+	REDIS_CACHE_TAG("p_tag"),
+
 
 	;
 

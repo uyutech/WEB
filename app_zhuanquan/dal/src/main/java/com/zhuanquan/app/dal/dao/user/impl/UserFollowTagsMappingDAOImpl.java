@@ -1,5 +1,6 @@
 package com.zhuanquan.app.dal.dao.user.impl;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,6 +9,8 @@ import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Repository;
 
 import com.zhuanquan.app.common.model.user.UserFollowTag;
+import com.zhuanquan.app.common.utils.DateUtil;
+import com.zhuanquan.app.common.utils.DateUtils;
 import com.zhuanquan.app.dal.dao.BaseDao;
 import com.zhuanquan.app.dal.dao.user.UserFollowTagsMappingDAO;
 
@@ -73,5 +76,72 @@ public class UserFollowTagsMappingDAOImpl extends BaseDao implements UserFollowT
 		
 		return  sqlSessionTemplate.selectOne(getSqlName("queryByUidAndTagId"), map);
 	}
+
+	@Override
+	public List<Long> queryHotTagsByPage(int offset, int pagSize,List<Long> excludeIds) {
+				
+		
+		return queryHotTagByPage(offset, pagSize, excludeIds, null);
+
+	}
+	
+	
+	/**
+	 * 获取最近最火的tag
+	 * @return
+	 */
+	@Override
+	public List<Long> queryHotTagsRecently(int limit) {
+
+		//从offset 0 开始，查询15条
+		return queryHotTagByPage(0, 15, null, 2);
+
+	}
+	
+	
+	/**
+	 * 
+	 * @param offset
+	 * @param pagSize
+	 * @param excludeIds
+	 * @param nDaysBefore
+	 * @return
+	 */
+	private List<Long> queryHotTagByPage(int offset, int pagSize,List<Long> excludeIds,Integer nDaysBefore) {
+		
+		Map map = new HashMap();
+		
+		map.put("offset", offset);
+		
+		map.put("limit", pagSize);
+		
+		map.put("ids", listToString(excludeIds));
+
+		map.put("compareTime", nDaysBefore == null?null:DateUtils.getNDaysBefore(nDaysBefore, new Date()));
+
+		return sqlSessionTemplate.selectList(getSqlName("queryHotTagByPage"), map);
+
+	}
+	
+	
+	
+	
+	//拼接in语句
+	private String listToString(List<Long> list)
+	{
+		
+		if(CollectionUtils.isEmpty(list)) {
+			return null;
+		}
+
+		StringBuffer sb = new StringBuffer();
+		for (int i = 0; i < list.size(); i++)
+		{
+			sb.append(list.get(i)).append(",");
+		}
+		String newStr = sb.toString().substring(0, sb.toString().length() - 1);
+		return newStr;
+	}
+
 
 }

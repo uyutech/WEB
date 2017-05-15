@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.zhuanquan.app.common.component.cache.RedisKeyBuilder;
 import com.zhuanquan.app.common.component.cache.redis.utils.RedisHelper;
 import com.zhuanquan.app.common.component.interceptor.RemoteIPInterceptor;
+import com.zhuanquan.app.common.component.sesssion.SessionAttrbute;
 import com.zhuanquan.app.common.component.sesssion.SessionHolder;
 import com.zhuanquan.app.common.component.sesssion.UserSession;
 import com.zhuanquan.app.common.constants.LoginType;
@@ -36,6 +38,9 @@ public class LoginServiceImpl implements LoginService {
 
 	protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 
+	// 失败次数
+	private static final long FAIL_TIMES_LIMIT = 3;
+
 	@Resource
 	private RedisHelper redisHelper;
 
@@ -53,7 +58,7 @@ public class LoginServiceImpl implements LoginService {
 
 	@Resource
 	private OpenApiService openApiService;
-	
+
 	@Resource
 	private UserOpenAccountCache userOpenAccountCache;
 
@@ -73,10 +78,8 @@ public class LoginServiceImpl implements LoginService {
 			throw new BizException(BizErrorCode.EX_UID_NOT_EXSIT.getCode());
 		}
 
-		// md5之后和原来的不一样
-		if (!account.getToken().equals(CommonUtil.makeEncriptPassword(request.getPassword()))) {
-			throw new BizException(BizErrorCode.EX_LOGIN_PWD_ERR.getCode());
-		}
+		// 校验密码
+		verifyPwd(account, request.getUserName(), request.getPassword());
 
 		UserProfile profile = userProfileDAO.queryById(account.getUid());
 
@@ -91,6 +94,47 @@ public class LoginServiceImpl implements LoginService {
 
 		return sessionCreate(profile, request.getLoginType(), request.getUserName(), LoginType.CHANNEL_MOBILE,
 				account.getIsVip());
+	}
+
+	/**
+	 * 校验密码
+	 * 
+	 * @param account
+	 * @param username
+	 * @param pwd
+	 */
+	private void verifyPwd(UserOpenAccount account, String username, String pwd) {
+
+		HttpSession session = SessionHolder.getGlobalSession();
+
+		// md5之后和原来的不一样
+		if (!account.getToken().equals(CommonUtil.makeEncriptPassword(pwd))) {
+
+			// 如果密码不一致，失败次数加1，次数为3那么直接设置flag
+			String failTimesLimitKey = RedisKeyBuilder.getLoginFailTimesKey(username);
+
+			long currentFailTimes = redisHelper.valueGetLong(failTimesLimitKey);
+
+			if (currentFailTimes < FAIL_TIMES_LIMIT - 1) {
+				redisHelper.increase(failTimesLimitKey, 1);
+
+			} else if (currentFailTimes == FAIL_TIMES_LIMIT - 1) {
+				redisHelper.increase(failTimesLimitKey, 1);
+				session.setAttribute(SessionAttrbute.VERIFY_CODE_FLAG, 1);
+			} else {
+				redisHelper.increase(failTimesLimitKey, 1);
+
+			}
+
+			throw new BizException(BizErrorCode.EX_LOGIN_PWD_ERR.getCode());
+		} else {
+			String failTimesLimitKey = RedisKeyBuilder.getLoginFailTimesKey(username);
+
+			// 密码校验对了，就清理掉这个flag和redis里的失败次数统计
+			session.removeAttribute(SessionAttrbute.VERIFY_CODE_FLAG);
+			redisHelper.delete(failTimesLimitKey);
+		}
+
 	}
 
 	/**
@@ -123,13 +167,12 @@ public class LoginServiceImpl implements LoginService {
 		response.setRegStat(profile.getRegStat());
 
 		response.setIsVip(isVip);
-		
 
-		UserSession session =  sessionHolder.createOrUpdateSession(profile.getUid(), loginType, openId, channelType,isVip);
+		UserSession session = sessionHolder.createOrUpdateSession(profile.getUid(), loginType, openId, channelType,
+				isVip);
 
 		response.setSessionId(session.getSessionId());
 
-		
 		return response;
 	}
 
@@ -153,42 +196,27 @@ public class LoginServiceImpl implements LoginService {
 
 		// 是否ip限制
 
-		List<String> keyList = new ArrayList<String>();
-
 		// 图片验证码key
 		String picVerifyCode = RedisKeyBuilder.getLoginVerifyCodeKey(request.getUserName());
 
-		String ipLimitKey = RedisKeyBuilder.getLoginIpLimitKey(RemoteIPInterceptor.getRemoteIP());
+		// String ipLimitKey =
+		// RedisKeyBuilder.getLoginIpLimitKey(RemoteIPInterceptor.getRemoteIP());
 
 		String failTimesLimitKey = RedisKeyBuilder.getLoginFailTimesKey(request.getUserName());
 
-		keyList.add(picVerifyCode);
-		keyList.add(ipLimitKey);
-		keyList.add(failTimesLimitKey);
+		// 失败次数
+		long failTimes = redisHelper.valueGetLong(failTimesLimitKey);
 
-		List<String> valueList = redisHelper.valueMultiGet(keyList);
+		// 失败次数大于等于3，需要校验验证码
+		if (failTimes >= FAIL_TIMES_LIMIT) {
 
-		//redis中图片验证码
-		String picValue = valueList.get(0);
+			String picValue = redisHelper.valueGet(picVerifyCode);
+			// 图片验证码校验
+			if (picValue != null && !picValue.equals(request.getVerifyCode())) {
+				throw new BizException(BizErrorCode.EX_LOGIN_VERIFY_CODE_ERR.getCode());
+			}
 
-		/**
-		 * ip限制
-		 */
-		String ipLimitValue = valueList.get(1);
-
-		/**
-		 * 失败次数限制
-		 */
-		String failTimesLimitValue = valueList.get(2);
-
-		// 图片验证码校验
-		if (picValue != null && !picValue.equals(request.getVerifyCode())) {
-			throw new BizException(BizErrorCode.EX_LOGIN_VERIFY_CODE_ERR.getCode());
 		}
-
-		// ip限制校验
-
-		// 失败次数校验
 
 	}
 

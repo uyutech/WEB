@@ -1,5 +1,7 @@
 package com.zhuanquan.app.common.model.user;
 
+import java.util.Date;
+
 import com.zhuanquan.app.common.model.common.Tag;
 
 /**
@@ -42,6 +44,36 @@ public class UserFollowTag {
      * 状态  0-disable  1-enable
      */
 	private Integer status;
+	
+	/**
+	 * 创建时间
+	 */
+	private Date createTime;
+
+	/**
+	 * 修改时间
+	 */
+	private Date modifyTime;
+	
+
+	public Date getModifyTime() {
+		return modifyTime;
+	}
+
+
+	public void setModifyTime(Date modifyTime) {
+		this.modifyTime = modifyTime;
+	}
+
+
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
 
 
 	public Long getUid() {
@@ -100,6 +132,10 @@ public class UserFollowTag {
 		record.setUid(uid);
 		record.setStatus(STAT_ENABLE);
 		
+		Date now = new Date();
+		
+		record.setCreateTime(now);
+		record.setModifyTime(now);
 		return record;
 		
 	}

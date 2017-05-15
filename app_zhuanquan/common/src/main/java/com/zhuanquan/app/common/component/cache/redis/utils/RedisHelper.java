@@ -140,6 +140,66 @@ public class RedisHelper {
 		}
 
 	}
+	
+	
+	/**
+	 * value结构，get操作
+	 * 
+	 * @param key
+	 * @param targetClass
+	 * @return
+	 */
+	public long valueGetLong(String key) {
+		try {
+			
+			Long obj = (Long) gracefulRedisTemplate.opsForValue().get(key);
+
+			return obj == null?0:obj;
+
+		} catch (Exception e) {
+			throw new BizException(RedisErrorCode.EX_SYS_REDIS_GET_FAIL.getCode(), e);
+
+		}
+
+	}
+	
+	
+	/**
+	 * 数值增加
+	 * @param key
+	 * @param delta
+	 */
+	public void increase(String key,long delta) {
+		try {
+			gracefulRedisTemplate.opsForValue().increment(key,delta);
+		} catch (Exception e) {
+			throw new BizException(RedisErrorCode.EX_SYS_REDIS_SET_FAIL.getCode(), e);
+
+		}
+
+	}
+	
+	
+	
+	/**
+	 * 数值减少
+	 * @param key
+	 * @param delta
+	 */
+	public void decrease(String key,long delta) {
+		try {
+			gracefulRedisTemplate.opsForValue().increment(key, -delta);
+		} catch (Exception e) {
+			throw new BizException(RedisErrorCode.EX_SYS_REDIS_SET_FAIL.getCode(), e);
+
+		}
+
+	}
+	
+	
+	
+	
+	
 
 	/**
 	 * value结构，可用作锁的场景。
@@ -593,6 +653,16 @@ public class RedisHelper {
 	}
 
 
+	
+    /**
+     * hash put all
+     * @param key
+     * @param map
+     */
+	public void hashPutAll(String key, Map<String, String> map) {
+
+		redisHashOperations.putAll(key, map);
+	}
 	
 	
 	
