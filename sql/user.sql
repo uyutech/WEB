@@ -14,7 +14,7 @@ create table user_profile
    nick_name              varchar(200) not null,
    head_url               varchar(500) not null,
    author_id              int(11) not null default 0  ,
-
+   gender                 tinyint(1) not null default 0,
    create_time            datetime,
    modify_time            datetime,
 

@@ -288,15 +288,20 @@ public class CommonUtil {
 			throw new BizException(BizErrorCode.EX_PWD_NOT_BE_EMPTY.getCode());
 		}
 
-//		String reg = "^[a-zA-Z0-9~!@#$%^&*()-_+=<,>./?;:\"'{\\[}\\]\\|]{6,20}$";
-		
-		String reg = "(?!^\\d+$)(?!^[a-zA-Z]+$)(?!^[_#@]+$).{7,}";
 
-		boolean success = password.matches(reg);
-
-		if (!success) {
+		//长度
+		if(password.length()<8){
 			throw new BizException(BizErrorCode.EX_PWD_IS_NOT_ILLEGLE.getCode());
+
 		}
+		
+//		String reg = "(?!^\\d+$)(?!^[a-zA-Z]+$)(?!^[_#@]+$).{7,}";
+//
+//		boolean success = password.matches(reg);
+//
+//		if (!success) {
+//			throw new BizException(BizErrorCode.EX_PWD_IS_NOT_ILLEGLE.getCode());
+//		}
 	}
 	
 	

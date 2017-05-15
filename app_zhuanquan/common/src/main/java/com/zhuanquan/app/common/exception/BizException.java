@@ -129,7 +129,8 @@ public class BizException extends RuntimeException {
 	 */
 	private static String generateMessageWithCodeAndMsg(int code, String message) {
 
-		return "[code:" + code + ",message:" + message + "]";
+		return message;
+//		return "[code:" + code + ",message:" + message + "]";
 
 	}
 
