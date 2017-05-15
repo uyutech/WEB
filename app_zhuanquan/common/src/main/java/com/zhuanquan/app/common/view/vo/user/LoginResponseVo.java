@@ -2,6 +2,9 @@ package com.zhuanquan.app.common.view.vo.user;
 
 import java.io.Serializable;
 
+import com.zhuanquan.app.common.component.sesssion.SessionAttrbute;
+import com.zhuanquan.app.common.component.sesssion.SessionHolder;
+
 
 public class LoginResponseVo implements Serializable {
 
@@ -56,6 +59,12 @@ public class LoginResponseVo implements Serializable {
 	 * 会话id
 	 */
 	private String sessionId;
+	
+	
+	/**
+	 * 1-开启验证码 0-不用开启
+	 */
+	private int verifycodeFlag;
 	
 
 	public String getSessionId() {
@@ -147,7 +156,19 @@ public class LoginResponseVo implements Serializable {
 	public void setRegStat(int regStat) {
 		this.regStat = regStat;
 	}
-	
+
+
+	public int getVerifycodeFlag() {
+		
+		String flag = (String) SessionHolder.getGlobalSession().getAttribute(SessionAttrbute.VERIFY_CODE_FLAG);
+		return flag == null?0:Integer.parseInt(flag);
+	}
+
+
+//	public void setVerifycodeFlag(int verifycodeFlag) {
+//		this.verifycodeFlag = verifycodeFlag;
+//	}
+//	
 	
 	
 }

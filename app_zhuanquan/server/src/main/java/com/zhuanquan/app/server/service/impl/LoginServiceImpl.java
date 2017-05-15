@@ -120,9 +120,9 @@ public class LoginServiceImpl implements LoginService {
 
 			} else if (currentFailTimes == FAIL_TIMES_LIMIT - 1) {
 				redisHelper.increase(failTimesLimitKey, 1);
-				session.setAttribute(SessionAttrbute.VERIFY_CODE_FLAG, 1);
+				session.setAttribute(SessionAttrbute.VERIFY_CODE_FLAG, "1");
 			} else {
-				redisHelper.increase(failTimesLimitKey, 1);
+				session.setAttribute(SessionAttrbute.VERIFY_CODE_FLAG, "1");
 
 			}
 
