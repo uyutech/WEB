@@ -2,6 +2,7 @@ package com.zhuanquan.app.server.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
@@ -113,25 +114,33 @@ public class LoginServiceImpl implements LoginService {
 			// 如果密码不一致，失败次数加1，次数为3那么直接设置flag
 			String failTimesLimitKey = RedisKeyBuilder.getLoginFailTimesKey(username);
 
-			long currentFailTimes = redisHelper.valueGetLong(failTimesLimitKey);
+//			long currentFailTimes = redisHelper.valueGetLong(failTimesLimitKey);
 
-			if (currentFailTimes < FAIL_TIMES_LIMIT - 1) {
-				redisHelper.increase(failTimesLimitKey, 1);
-
-			} else if (currentFailTimes == FAIL_TIMES_LIMIT - 1) {
-				redisHelper.increase(failTimesLimitKey, 1);
-				session.setAttribute(SessionAttrbute.VERIFY_CODE_FLAG, "1");
-			} else {
-				session.setAttribute(SessionAttrbute.VERIFY_CODE_FLAG, "1");
-
-			}
+			
+			redisHelper.increase(failTimesLimitKey, 1);
+			redisHelper.expire(failTimesLimitKey, 15, TimeUnit.MINUTES);
+//			
+//			if (currentFailTimes < FAIL_TIMES_LIMIT - 1) {
+//				redisHelper.increase(failTimesLimitKey, 1);
+//
+//				redisHelper.expire(failTimesLimitKey, 15, TimeUnit.MINUTES);
+//				
+//			} else if (currentFailTimes == FAIL_TIMES_LIMIT - 1) {
+//				redisHelper.increase(failTimesLimitKey, 1);
+//				redisHelper.expire(failTimesLimitKey, 15, TimeUnit.MINUTES);
+//
+//				session.setAttribute(SessionAttrbute.VERIFY_CODE_FLAG, "1");
+//			} else {
+//				session.setAttribute(SessionAttrbute.VERIFY_CODE_FLAG, "1");
+//
+//			}
 
 			throw new BizException(BizErrorCode.EX_LOGIN_PWD_ERR.getCode());
 		} else {
 			String failTimesLimitKey = RedisKeyBuilder.getLoginFailTimesKey(username);
 
-			// 密码校验对了，就清理掉这个flag和redis里的失败次数统计
-			session.removeAttribute(SessionAttrbute.VERIFY_CODE_FLAG);
+//			// 密码校验对了，就清理掉这个flag和redis里的失败次数统计
+//			session.removeAttribute(SessionAttrbute.VERIFY_CODE_FLAG);
 			redisHelper.delete(failTimesLimitKey);
 		}
 
