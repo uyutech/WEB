@@ -39,7 +39,7 @@ public interface UserProfileDAO {
 	boolean queryNickNameHasBeenUsed(String nickName);
 	
     /**
-     * 修改nick name 在step1，同时更新profile的register状态
+     * 修改nick name 在step1，
      * @param uid
      * @param nickName
      * @return
@@ -62,5 +62,14 @@ public interface UserProfileDAO {
      * @return
      */
 	int updateGender(long uid,int gender);
+	
+	
+    /**
+     * 修改nick name 在step1，同时更新profile的register状态
+     * @param uid
+     * @param nickName
+     * @return
+     */
+	int updateNickNameAndGenderOnRegister(long uid,String nickName,int gender,int registerStatus);
 	
 }

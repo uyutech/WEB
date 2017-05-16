@@ -83,7 +83,17 @@
 		
 	</update>	
 
-
+	<update id="updateNickNameAndGenderOnRegister" parameterType="java.util.Map">
+		update user_profile
+		<set>
+			gender = #{gender} ,
+			nick_name = #{nickName} ,
+			reg_Stat = #{regStat} ,
+			MODIFY_TIME = now() 
+		</set>
+		where uid = #{uid} ;
+		
+	</update>	
 
 </mapper>		
 

@@ -91,5 +91,18 @@ public class UserProfileDAOImpl extends BaseDao implements UserProfileDAO {
 		return sqlSessionTemplate.update(getSqlName("updateGender"), map);
 	}
 
+	@Override
+	public int updateNickNameAndGenderOnRegister(long uid, String nickName, int gender, int registerStatus) {
+		Map map = new HashMap();
+		map.put("uid", uid);
+		map.put("gender", gender);
+		map.put("nickName", nickName);
+		map.put("regStat", registerStatus);
+
+
+
+		return sqlSessionTemplate.update(getSqlName("updateNickNameAndGenderOnRegister"), map);	
+	}
+
 	
 }

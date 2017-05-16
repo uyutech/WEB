@@ -224,11 +224,7 @@ public class RegisterServiceImpl implements RegisterService {
 		
 		//昵称校验
 		CommonUtil.validateNickName(nickName);
-		
-		//更新性别
-		userProfileDAO.updateGender(uid, gender);
 
-		
 		
 		UserProfile profile = userProfileDAO.queryById(uid);
 
@@ -242,25 +238,19 @@ public class RegisterServiceImpl implements RegisterService {
 		// check nickname 如果和当前的一致，忽略
 		if (profile.getNickName().equals(nickName.trim())) {
 
-			// 这一步注册完了，设置状态为下一步的选择领域
-			userProfileDAO.updateRegisterStatus(uid, RegisterFlowConstants.REG_STEP_CHOOSE_TAG);
+			userProfileDAO.updateNickNameAndGenderOnRegister(uid, nickName, gender, RegisterFlowConstants.REG_STEP_CHOOSE_TAG);
+
 			return;
 		}
 
 		//
-		
-		
-		
 
 		AuthorBase base = authorBaseDAO.queryByAuthorId(profile.getAuthorId());
 
 		// 如果是设置成和自己的作者账号名字一致，这里就不做校验。理论上在这个注册阶段，只有大v用户才会预先生成好作者账号，并且有名字
 		if (base != null && base.getAuthorName().equals(nickName)) {
-			// 更新昵称
-			userProfileDAO.updateNickName(uid, nickName);
 
-			// 这一步注册完了，设置状态为下一步的选择领域
-			userProfileDAO.updateRegisterStatus(uid, RegisterFlowConstants.REG_STEP_CHOOSE_TAG);
+			userProfileDAO.updateNickNameAndGenderOnRegister(uid, nickName, gender, RegisterFlowConstants.REG_STEP_CHOOSE_TAG);
 			return;
 		}
 
@@ -277,11 +267,7 @@ public class RegisterServiceImpl implements RegisterService {
 
 		}
 
-		// 更新昵称
-		userProfileDAO.updateNickName(uid, nickName);
-
-		// 这一步注册完了，设置状态为下一步的选择领域
-		userProfileDAO.updateRegisterStatus(uid, RegisterFlowConstants.REG_STEP_CHOOSE_TAG);
+		userProfileDAO.updateNickNameAndGenderOnRegister(uid, nickName, gender, RegisterFlowConstants.REG_STEP_CHOOSE_TAG);
 
 	}
 
