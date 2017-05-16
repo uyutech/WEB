@@ -49,12 +49,22 @@ public interface RegisterService {
 	
 	
 	/**
-	 * 注册引导:设置昵称
+	 * 注册引导:设置性别
+	 * 
+	 * @param uid
+	 * @param gender 0-男 1-女
+	 */
+	void setGenderOnRegister(long uid,int gender );
+	
+	
+	/**
+	 * 注册引导:设置昵称/性别
 	 * 
 	 * @param uid
 	 * @param nickName
+	 * @param gender
 	 */
-	void setNickNameOnRegister(long uid,String nickName);
+	void setNickNameAndGenderOnRegister(long uid,String nickName,int gender);
 	
 	
 	

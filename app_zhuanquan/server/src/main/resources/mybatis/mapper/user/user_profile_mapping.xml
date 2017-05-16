@@ -14,6 +14,7 @@
 		<result column="gender" property="gender" jdbcType="INTEGER" />
 		<result column="author_id" property="authorId" jdbcType="INTEGER" />
 		
+		<result column="is_vip" property="isVip" jdbcType="INTEGER" />
 		
 		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
 		<result column="MODIFY_TIME" property="modifyTime" jdbcType="TIMESTAMP" />
@@ -38,8 +39,8 @@
 			SELECT LAST_INSERT_ID() AS uid
 		</selectKey>
 		
-		insert into user_profile (status,allow_follow,reg_Stat,head_url,nick_name,gender,author_id,CREATE_TIME,MODIFY_TIME)
-		values(#{status},#{allowFollow},#{regStat},#{headUrl},#{nickName},#{gender},#{authorId},#{createTime},#{modifyTime})	
+		insert into user_profile (status,allow_follow,reg_Stat,head_url,nick_name,gender,author_id,is_vip,CREATE_TIME,MODIFY_TIME)
+		values(#{status},#{allowFollow},#{regStat},#{headUrl},#{nickName},#{gender},#{authorId},#{isVip},#{createTime},#{modifyTime})	
 	</insert>	
 	  	
 
@@ -72,6 +73,15 @@
 
 
 
+	<update id="updateGender" parameterType="java.util.Map">
+		update user_profile
+		<set>
+			gender = #{gender} ,
+			MODIFY_TIME = now() 
+		</set>
+		where uid = #{uid} ;
+		
+	</update>	
 
 
 

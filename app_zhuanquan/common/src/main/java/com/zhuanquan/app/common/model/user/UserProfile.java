@@ -38,9 +38,8 @@ public class UserProfile {
 
 	private static final String DEFAULT_HEAD_URL = "";
 
-	
 	private static final long DEFAULT_AUTHORID = -1;
-	
+
 	/**
 	 * 用户id
 	 */
@@ -92,6 +91,11 @@ public class UserProfile {
 	 * 性别
 	 */
 	private Integer gender;
+
+	/**
+	 * 是否大v，0-非vip 1-vip
+	 */
+	private Integer isVip;
 
 	public Long getAuthorId() {
 		return authorId;
@@ -145,6 +149,14 @@ public class UserProfile {
 		return modifyTime;
 	}
 
+	public Integer getIsVip() {
+		return isVip;
+	}
+
+	public void setIsVip(Integer isVip) {
+		this.isVip = isVip;
+	}
+
 	public void setModifyTime(Date modifyTime) {
 		this.modifyTime = modifyTime;
 	}
@@ -188,7 +200,7 @@ public class UserProfile {
 	 * 
 	 * @return
 	 */
-	public static UserProfile registerThirdLoginUser() {
+	public static UserProfile registerNormalThirdLoginUser() {
 
 		UserProfile profile = new UserProfile();
 
@@ -201,7 +213,7 @@ public class UserProfile {
 		profile.setModifyTime(now);
 
 		// 设置注册状态为 注册引导第一步
-		profile.setRegStat(RegisterFlowConstants.REG_STEP_CHOOSE_GENDER);
+		profile.setRegStat(RegisterFlowConstants.REG_STEP_CHOOSE_GENDER_ADN_NICK_NAME);
 
 		profile.setCreateTime(now);
 
@@ -212,9 +224,10 @@ public class UserProfile {
 		profile.setHeadUrl(DEFAULT_HEAD_URL);
 
 		profile.setGender(GENDER_MALE);
-		
+
 		profile.setAuthorId(DEFAULT_AUTHORID);
 
+		profile.setIsVip(0);
 
 		return profile;
 	}
@@ -237,7 +250,7 @@ public class UserProfile {
 
 		profile.setModifyTime(now);
 
-		profile.setRegStat(RegisterFlowConstants.REG_STEP_CHOOSE_GENDER);
+		profile.setRegStat(RegisterFlowConstants.REG_STEP_CHOOSE_GENDER_ADN_NICK_NAME);
 
 		profile.setCreateTime(now);
 
@@ -247,8 +260,47 @@ public class UserProfile {
 		profile.setHeadUrl(DEFAULT_HEAD_URL);
 
 		profile.setGender(GENDER_MALE);
-		
+
 		profile.setAuthorId(DEFAULT_AUTHORID);
+
+		profile.setIsVip(0);
+
+		return profile;
+	}
+
+	/**
+	 * 第三方登录创建个vip用户
+	 * 
+	 * @return
+	 */
+	public static UserProfile registerVipThirdLoginUser(long authorId) {
+
+		UserProfile profile = new UserProfile();
+
+		Date now = new Date();
+
+		String randomProfile = UUID.randomUUID().toString();
+
+		profile.setStatus(UserProfile.STATUS_NORMAL);
+
+		profile.setModifyTime(now);
+
+		// 设置注册状态为 注册引导第一步
+		profile.setRegStat(RegisterFlowConstants.REG_STEP_VIP_AUTHOR_PROTOCOL);
+
+		profile.setCreateTime(now);
+
+		profile.setAllowFollow(UserProfile.ALLOW_ATTATION);
+
+		profile.setNickName(randomProfile);
+
+		profile.setHeadUrl(DEFAULT_HEAD_URL);
+
+		profile.setGender(GENDER_MALE);
+
+		profile.setAuthorId(authorId);
+
+		profile.setIsVip(1);
 
 		return profile;
 	}

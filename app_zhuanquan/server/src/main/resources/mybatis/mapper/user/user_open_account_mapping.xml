@@ -10,7 +10,6 @@
 		<result column="uid" property="uid" jdbcType="INTEGER" />
 		<result column="channel_type" property="channelType" jdbcType="INTEGER" />
 		<result column="status" property="status" jdbcType="INTEGER" />
-		<result column="is_vip" property="isVip" jdbcType="INTEGER" />
 		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
 		<result column="MODIFY_TIME" property="modifyTime" jdbcType="TIMESTAMP" />
 	</resultMap>
@@ -33,8 +32,8 @@
 	</update>	
 
 	<insert id="insertUserOpenAccount" parameterType="com.zhuanquan.app.common.model.user.UserOpenAccount" >
-		insert into user_open_account (open_id,token,uid,channel_type,status,is_vip,CREATE_TIME,MODIFY_TIME)
-		values(#{openId},#{token},#{uid},#{channelType},#{status},#{isVip},#{createTime},#{modifyTime})	
+		insert into user_open_account (open_id,token,uid,channel_type,status,CREATE_TIME,MODIFY_TIME)
+		values(#{openId},#{token},#{uid},#{channelType},#{status},#{createTime},#{modifyTime})	
 	</insert>	
 	
 	

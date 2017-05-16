@@ -194,8 +194,12 @@ public class RegisterServiceImpl implements RegisterService {
 			userOpenAccountDAO.updateToBindUid(session.getOpenId(), session.getChannelType(), mobileAccount.getUid());
 
 			// 重建会话, 用手机的uid创建会话
+			
+			//
+			UserProfile profile = userProfileDAO.queryById(mobileAccount.getUid());
+			
 			sessionHolder.createOrUpdateSession(mobileAccount.getUid(), LoginType.CHANNEL_MOBILE, session.getOpenId(),
-					session.getChannelType(), mobileAccount.getIsVip());
+					session.getChannelType(), profile.getIsVip());
 
 		} else {
 
@@ -209,16 +213,26 @@ public class RegisterServiceImpl implements RegisterService {
 
 	}
 
+	//注册引导不需要事务
 	@Override
-	public void setNickNameOnRegister(long uid, String nickName) {
+	public void setNickNameAndGenderOnRegister(long uid, String nickName,int gender) {
+		
 
 		if (StringUtils.isEmpty(nickName)) {
 			throw new BizException(BizErrorCode.EX_UID_NICK_NAME_CAN_NOT_BE_NULL.getCode());
 		}
+		
+		//昵称校验
+		CommonUtil.validateNickName(nickName);
+		
+		//更新性别
+		userProfileDAO.updateGender(uid, gender);
 
+		
+		
 		UserProfile profile = userProfileDAO.queryById(uid);
 
-		if (profile == null || profile.getRegStat() != RegisterFlowConstants.REG_STEP_CHOOSE_NICK_NAME) {
+		if (profile == null || profile.getRegStat() != RegisterFlowConstants.REG_STEP_CHOOSE_GENDER_ADN_NICK_NAME) {
 			logger.info(
 					"setNickNameOnRegister:[uid]=" + uid + ",[nickName]=" + nickName + ",[profile]:" + profile == null
 							? "null" : JSON.toJSONString(profile));
@@ -234,6 +248,9 @@ public class RegisterServiceImpl implements RegisterService {
 		}
 
 		//
+		
+		
+		
 
 		AuthorBase base = authorBaseDAO.queryByAuthorId(profile.getAuthorId());
 
@@ -471,6 +488,13 @@ public class RegisterServiceImpl implements RegisterService {
 		System.out.println("sendRegisterSms ------------[mobile]="+mobile+",[verifycode]="+verifycode);
 		//TODO  发送短信
 
+	}
+
+	@Override
+	public void setGenderOnRegister(long uid, int gender) {
+
+		userProfileDAO.updateGender(uid, gender);
+		
 	}
 
 }

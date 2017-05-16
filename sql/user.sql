@@ -15,6 +15,7 @@ create table user_profile
    head_url               varchar(500) not null,
    author_id              int(11) not null default 0  ,
    gender                 tinyint(1) not null default 0,
+   is_vip                 tinyint(1) not null default 0,
    create_time            datetime,
    modify_time            datetime,
 
@@ -36,7 +37,6 @@ create table user_open_account
    token                  varchar(200) not null,
    channel_type           tinyint(1) not null default 0,
    status                 tinyint(1) not null default 1,
-   is_vip                 tinyint(1) not null default 0,
    create_time            datetime,
    modify_time            datetime,
    primary key (open_Id,channel_type)

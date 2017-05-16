@@ -54,4 +54,13 @@ public interface UserProfileDAO {
 	 */
 	int updateRegisterStatus(long uid,int registerStatus);
 	
+	
+    /**
+     * 修改性别
+     * @param uid
+     * @param gender 性别 0-男 1-女
+     * @return
+     */
+	int updateGender(long uid,int gender);
+	
 }

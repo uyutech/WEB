@@ -79,10 +79,6 @@ public class CommonUtil {
 	}
 
 
-	public static void main(String[] args) {
-		System.out.println(checkMail("970474341@qq.com"));
-	}
-
 	/**
 	 * 如果有国际区位码，添加手机区位码
 	 * 
@@ -320,5 +316,35 @@ public class CommonUtil {
             return getSixRandomVerifyCode();  
         }  
         return result;  
-    }  
+    } 
+    
+    
+    
+    /**
+     * 校验昵称
+     * @param nickName
+     */
+    public static void validateNickName(String nickName) {
+    	
+    	
+    	//数字字母，中文，中划线，下划线，4到10位
+    	String regex = "^[-a-zA-Z0-9_\u4e00-\u9fa5]{4,10}+$";
+    	
+    	boolean result = nickName.matches(regex);
+    	
+    	
+    	System.out.println(result);
+    }
+    
+    
+
+	public static void main(String[] args) {
+		
+		
+		validateNickName("12as222你22");
+		
+//		System.out.println(checkMail("970474341@qq.com"));
+	}
+
+ 
 }

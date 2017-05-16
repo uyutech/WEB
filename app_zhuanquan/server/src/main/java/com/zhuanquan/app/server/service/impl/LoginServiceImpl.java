@@ -94,7 +94,7 @@ public class LoginServiceImpl implements LoginService {
 		}
 
 		return sessionCreate(profile, request.getLoginType(), request.getUserName(), LoginType.CHANNEL_MOBILE,
-				account.getIsVip());
+				profile.getIsVip());
 	}
 
 	/**
@@ -118,7 +118,7 @@ public class LoginServiceImpl implements LoginService {
 
 			
 			redisHelper.increase(failTimesLimitKey, 1);
-			redisHelper.expire(failTimesLimitKey, 15, TimeUnit.MINUTES);
+			redisHelper.expire(failTimesLimitKey, 5, TimeUnit.MINUTES);
 //			
 //			if (currentFailTimes < FAIL_TIMES_LIMIT - 1) {
 //				redisHelper.increase(failTimesLimitKey, 1);
@@ -238,7 +238,7 @@ public class LoginServiceImpl implements LoginService {
 
 		UserOpenAccount account = userOpenAccountDAO.queryByOpenId(request.getOpenId(), request.getChannelType());
 
-		// 如果account为null，那么不可能是知名大V，因为知名大v我们都是预先注册好账号的
+		// 如果account为null，那么去创建个记录
 		if (account == null) {
 
 			// 先检测第三方的token是否合法
@@ -278,7 +278,7 @@ public class LoginServiceImpl implements LoginService {
 		}
 
 		return sessionCreate(profile, request.getLoginType(), request.getOpenId(), request.getChannelType(),
-				account.getIsVip());
+				profile.getIsVip());
 
 	}
 

@@ -1,6 +1,5 @@
 package com.zhuanquan.app.server.controller.user;
 
-
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
@@ -52,6 +51,8 @@ public class RegisterController extends BaseController {
 	@ResponseBody
 	public ApiResponse bindUnregisterMobile(long uid, String mobile, String password, String verifycode) {
 
+		checkLoginUid(uid);
+
 		registerService.bindUnregisterMobile(uid, mobile, password, verifycode);
 
 		return ApiResponse.success();
@@ -65,6 +66,8 @@ public class RegisterController extends BaseController {
 	@RequestMapping(value = "/bindMobileAndChoosePersistAccount")
 	@ResponseBody
 	public ApiResponse bindMobileAndChoosePersistAccount(BindAndChoosePersistRequestVo vo) {
+
+		checkLoginUid(vo.getUid());
 
 		registerService.mergeMobileAccount(vo.getUid(), vo.getMobile(), vo.getVerifycode(),
 				vo.getPersistMobileAccount() == 1);
@@ -99,13 +102,15 @@ public class RegisterController extends BaseController {
 	 * @param persistMobileAccount
 	 *            是否保留手机账号的数据 1-保留 0-不保留
 	 */
-	
+
 	@RequestMapping(value = "/mergeMobileAccount")
 	@ResponseBody
 	public ApiResponse mergeMobileAccount(long uid, String mobile, String verifycode, int persistMobileAccount) {
-		
+
+		checkLoginUid(uid);
+
 		boolean isPersistMobileAccount = true;
-		
+
 		if (persistMobileAccount == 1) {
 			isPersistMobileAccount = true;
 		} else if (persistMobileAccount == 0) {
@@ -119,69 +124,88 @@ public class RegisterController extends BaseController {
 		return ApiResponse.success();
 
 	}
-	
-	
+
 	/**
 	 * 发送注册的短信验证
+	 * 
 	 * @param mobile
 	 * @return
 	 */
 	@RequestMapping(value = "/sendRegSms")
 	@ResponseBody
 	public ApiResponse sendRegSms(@RequestParam(value = "mobile", required = true) String mobile) {
-		
+
 		registerService.sendRegisterSms(mobile);
-		
+
 		return ApiResponse.success();
 	}
-	
-	
-	
+
+	/**
+	 * 注册设置性别
+	 * 
+	 * @param uid
+	 * @param gender
+	 *            0-男 1-女
+	 * @return
+	 */
+	@RequestMapping(value = "/setGenderOnRegister")
+	@ResponseBody
+	public ApiResponse setGenderOnRegister(long uid, int gender) {
+
+		checkLoginUid(uid);
+
+		registerService.setGenderOnRegister(uid, gender);
+
+		return ApiResponse.success();
+	}
+
 	/**
 	 * 注册设置昵称
+	 * 
 	 * @param uid
 	 * @param nickName
 	 * @return
 	 */
-	@RequestMapping(value = "/setNickNameOnRegister")
+	@RequestMapping(value = "/setNickNameAndGenderOnRegister")
 	@ResponseBody
-	public ApiResponse setNickNameOnRegister(long uid,String nickName) {
-		
-		registerService.setNickNameOnRegister(uid,nickName);
-		
+	public ApiResponse setNickNameOnRegister(long uid, String nickName,int gender) {
+		checkLoginUid(uid);
+
+		registerService.setNickNameAndGenderOnRegister(uid, nickName,gender);
+
 		return ApiResponse.success();
 	}
-	
-	
+
 	/**
 	 * 注册设置关注的tag
+	 * 
 	 * @param request
 	 * @return
 	 */
 	@RequestMapping(value = "/setFollowTagsOnRegister")
 	@ResponseBody
 	public ApiResponse setFollowTagsOnRegister(@RequestBody SelectFollowTagsRequestVo request) {
-		
-		registerService.setFollowTagsOnRegister(request.getUid(),request.getTagIds());
-		
+		checkLoginUid(request.getUid());
+
+		registerService.setFollowTagsOnRegister(request.getUid(), request.getTagIds());
+
 		return ApiResponse.success();
-	}	
-	
-	
+	}
+
 	/**
 	 * 注册设置关注的作者
+	 * 
 	 * @param request
 	 * @return
 	 */
 	@RequestMapping(value = "/setFollowAuthorsOnRegister")
 	@ResponseBody
 	public ApiResponse setFollowAuthorsOnRegister(@RequestBody SelectFollowAuthorRequestVo request) {
-		
-		registerService.setFollowAuthorsOnRegister(request.getUid(),request.getAuthorIds());
-		
-		return ApiResponse.success();
-	}	
-	
+		checkLoginUid(request.getUid());
 
+		registerService.setFollowAuthorsOnRegister(request.getUid(), request.getAuthorIds());
+
+		return ApiResponse.success();
+	}
 
 }

@@ -81,5 +81,15 @@ public class UserProfileDAOImpl extends BaseDao implements UserProfileDAO {
         return CollectionUtils.isEmpty(list)?null:list.get(0);
 	}
 
+	@Override
+	public int updateGender(long uid, int gender) {
+		
+		Map map = new HashMap();
+		map.put("uid", uid);
+		map.put("gender", gender);
+
+		return sqlSessionTemplate.update(getSqlName("updateGender"), map);
+	}
+
 	
 }

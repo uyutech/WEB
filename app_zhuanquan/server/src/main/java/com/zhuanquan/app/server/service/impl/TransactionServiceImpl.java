@@ -10,13 +10,13 @@ import org.springframework.transaction.annotation.Transactional;
 import com.zhuanquan.app.common.constants.LoginType;
 import com.zhuanquan.app.common.exception.BizErrorCode;
 import com.zhuanquan.app.common.exception.BizException;
-
+import com.zhuanquan.app.common.model.author.VipAuthorOpenAccountMapping;
 import com.zhuanquan.app.common.model.user.UserOpenAccount;
 import com.zhuanquan.app.common.model.user.UserProfile;
 import com.zhuanquan.app.common.view.vo.user.LoginByOpenIdRequestVo;
 import com.zhuanquan.app.common.view.vo.user.MobileRegisterRequestVo;
-import com.zhuanquan.app.common.view.vo.user.RegisterResponseVo;
 import com.zhuanquan.app.dal.dao.author.TagDAO;
+import com.zhuanquan.app.dal.dao.author.VipAuthorOpenAccountMappingDAO;
 import com.zhuanquan.app.dal.dao.user.UserFollowAuthorDAO;
 import com.zhuanquan.app.dal.dao.user.UserFollowTagsMappingDAO;
 import com.zhuanquan.app.dal.dao.user.UserOpenAccountDAO;
@@ -46,6 +46,9 @@ public class TransactionServiceImpl implements TransactionService {
 
 	@Resource
 	private UserOpenAccountCache userOpenAccountCache;
+	
+	@Resource
+	private VipAuthorOpenAccountMappingDAO vipAuthorOpenAccountMappingDAO;
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
@@ -74,8 +77,19 @@ public class TransactionServiceImpl implements TransactionService {
 	@Transactional(rollbackFor = Exception.class)
 	public UserProfile normalOpenAccountRegister(LoginByOpenIdRequestVo vo) {
 
-		// 创建normal account
-		UserProfile profile = UserProfile.registerThirdLoginUser();
+		
+		//vip校验
+		VipAuthorOpenAccountMapping record = vipAuthorOpenAccountMappingDAO.queryRecordByOpenId(vo.getOpenId(), vo.getChannelType());
+		
+		UserProfile profile = null;
+		//非大v用户/没有录入作者信息
+		if(record == null || record.getAuthorId() == null) {
+			
+			profile = UserProfile.registerNormalThirdLoginUser();
+			
+		} else {
+			profile = UserProfile.registerVipThirdLoginUser(record.getAuthorId());
+		}
 
 		long uid = userProfileDAO.insertRecord(profile);
 
