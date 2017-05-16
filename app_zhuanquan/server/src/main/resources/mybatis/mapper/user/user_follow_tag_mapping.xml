@@ -16,10 +16,13 @@
 
 
 	<insert id="insertOrUpdateToFollowTag" parameterType="com.zhuanquan.app.common.model.user.UserFollowTag">
-		insert into user_follow_tag (uid, tag_id,
+		insert into
+		user_follow_tag (uid, tag_id,
 		tag_type,status,CREATE_TIME,MODIFY_TIME)
-		values(#{uid}, #{tagId}, #{tagType},#{status},#{createTime},#{modifyTime})
-		on duplicate key update tag_type = #{tagType},status =
+		values(#{uid}, #{tagId},
+		#{tagType},#{status},#{createTime},#{modifyTime})
+		on duplicate key
+		update tag_type = #{tagType},status =
 		#{status},MODIFY_TIME = now()
 	</insert>
 
@@ -34,7 +37,8 @@
 			separator=",">
 			(#{item.uid}, #{item.tagId},
 			#{item.tagType},#{item.status},#{createTime},#{modifyTime})
-			on duplicate key update status = #{item.status}, tag_type =
+			on
+			duplicate key update status = #{item.status}, tag_type =
 			#{item.tagType},,MODIFY_TIME = now()
 		</foreach>
 
@@ -67,23 +71,21 @@
 		tag_id = #{tagId};
 	</select>
 
-    <!--  
-	<select id="queryHotTagByPage" resultType="java.Lang.Long"
+
+	<select id="queryHotTagByPage" resultType="java.lang.Long"
 		parameterType="java.util.Map">
 		select tag_id from user_follow_tag where status =1
-           <dynamic prepend = "">
-			<isNotEmpty prepend="and" property="compareTime">
-                <![CDATA[ create_time>= #{compareTime}   ]]>
-			</isNotEmpty>
+		<if test="compareTime != null">		
+                <![CDATA[ and create_time>= #{compareTime}   ]]>
+		</if>
 
-			<isNotEmpty prepend="and" property="ids">
-				tag_id not in ($ids$)
-			</isNotEmpty>
-           </dynamic>
+		<if test="ids != null">
+			and tag_id not in ($ids$)
+		</if>
 
 		group by tag_id order by count(uid) desc limit #{limit} offset
 		#{offset};
 	</select>
-   -->
+
 
 </mapper>		

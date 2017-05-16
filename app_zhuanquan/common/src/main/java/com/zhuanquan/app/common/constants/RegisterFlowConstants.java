@@ -36,6 +36,16 @@ public class RegisterFlowConstants {
      * 注册完成
      */
 	public static final int REG_STEP_COMPLATE = 4;
+	
+	
+	
+	/**
+	 * 注册推荐tag时的page size
+	 */
+	public static final int REG_SUGGEST_TAG_PAGE_SIZE = 30;
+	
+	public static final int REG_SUGGEST_TAG_RECENT_NUM_LIMIT = 15;
+	
 
 	
 }

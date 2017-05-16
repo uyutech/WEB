@@ -185,11 +185,7 @@
 		<ref bean="sessionInterceptor" />
 		<!--<ref bean="accessStatistics"/>-->
 	</mvc:interceptors>
-	
-	<task:annotation-driven executor="executor" scheduler="scheduler" />
-    <task:executor id="executor" />  
-    <task:scheduler id="scheduler"/>  
-	
+
 	
 	
 </beans>

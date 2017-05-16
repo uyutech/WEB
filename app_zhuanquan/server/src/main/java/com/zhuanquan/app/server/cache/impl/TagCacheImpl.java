@@ -22,6 +22,7 @@ import com.zhuanquan.app.common.component.cache.redis.utils.RedisHelper;
 import com.zhuanquan.app.common.component.event.redis.CacheChangedListener;
 import com.zhuanquan.app.common.component.event.redis.CacheClearEvent;
 import com.zhuanquan.app.common.component.event.redis.RedisCacheEnum;
+import com.zhuanquan.app.common.constants.RegisterFlowConstants;
 import com.zhuanquan.app.common.model.common.Tag;
 import com.zhuanquan.app.common.view.vo.author.SuggestTagVo;
 import com.zhuanquan.app.dal.dao.author.TagDAO;
@@ -38,7 +39,6 @@ import com.zhuanquan.app.server.task.HotTagsUpdateTask;
 @Repository
 public class TagCacheImpl extends CacheChangedListener implements TagCache {
 
-	private static final int PAGE_SIZE = 30;
 
 	
 	@Resource
@@ -61,7 +61,7 @@ public class TagCacheImpl extends CacheChangedListener implements TagCache {
 		String hashKey = pageNum+"_"+pageSize;
 		
 
-		//tag 第一页 是 48小时内最热的标签 15条  +  15条 总关注数最多的标签
+		//tag 第一页 是 48小时内最热的标签 15条(REG_SUGGEST_TAG_RECENT_NUM_LIMIT)  +  15条 总关注数最多的标签
 		//tag 第一页 之后都是按总关注数最多来排行
 		//task里的定时任务会缓存1-5页的数据，如果继续下啦，那么就直接从总关注最多的取
 		String result = redisHelper.hashGet(key, hashKey);
@@ -74,7 +74,7 @@ public class TagCacheImpl extends CacheChangedListener implements TagCache {
 
 
 		//第5页之后的不保证不重复,
-		List<Long> ids = userFollowTagsMappingDAO.queryHotTagsByPage((pageNum-1)*PAGE_SIZE, PAGE_SIZE, null);
+		List<Long> ids = userFollowTagsMappingDAO.queryHotTagsByPage((pageNum-1)*RegisterFlowConstants.REG_SUGGEST_TAG_PAGE_SIZE, RegisterFlowConstants.REG_SUGGEST_TAG_PAGE_SIZE, null);
 		
 		
 		if(CollectionUtils.isEmpty(ids)) {
