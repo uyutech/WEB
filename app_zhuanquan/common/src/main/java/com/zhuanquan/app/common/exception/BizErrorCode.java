@@ -76,6 +76,9 @@ public enum BizErrorCode implements ErrorCode {
 	 
 	 //第三方token鉴权失败
 	 EX_OPEN_ACCOUNT_TOKEN_VALIDATE_ERROR (100002015), 
+	 
+	 //失败次数过多
+	 EX_OPEN_ACCOUNT_TOO_MANY_FAIL_TIMES_ERROR (100002016), 
 
 
 

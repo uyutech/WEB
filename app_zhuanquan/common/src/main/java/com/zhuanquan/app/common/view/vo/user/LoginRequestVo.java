@@ -19,9 +19,9 @@ public class LoginRequestVo implements Serializable {
 	//密码
 	private String password;
 	
-	
-	//短信验证码
-	private String verifyCode;
+//	
+//	//短信验证码
+//	private String verifyCode;
 	
 	//登录方式
     private int loginType = LoginType.CHANNEL_MOBILE;
@@ -57,18 +57,18 @@ public class LoginRequestVo implements Serializable {
 		this.password = password;
 	}
 
-
-	public String getVerifyCode() {
-		return verifyCode;
-	}
-
-
-	public void setVerifyCode(String verifyCode) {
-		this.verifyCode = verifyCode;
-	}
-	
-	
-	
+//
+//	public String getVerifyCode() {
+//		return verifyCode;
+//	}
+//
+//
+//	public void setVerifyCode(String verifyCode) {
+//		this.verifyCode = verifyCode;
+//	}
+//	
+//	
+//	
 	
 	
 }

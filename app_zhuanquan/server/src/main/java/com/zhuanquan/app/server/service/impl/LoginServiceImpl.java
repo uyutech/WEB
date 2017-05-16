@@ -196,8 +196,8 @@ public class LoginServiceImpl implements LoginService {
 
 		// 是否ip限制
 
-		// 图片验证码key
-		String picVerifyCode = RedisKeyBuilder.getLoginVerifyCodeKey(request.getUserName());
+//		// 图片验证码key
+//		String picVerifyCode = RedisKeyBuilder.getLoginVerifyCodeKey(request.getUserName());
 
 		// String ipLimitKey =
 		// RedisKeyBuilder.getLoginIpLimitKey(RemoteIPInterceptor.getRemoteIP());
@@ -210,11 +210,12 @@ public class LoginServiceImpl implements LoginService {
 		// 失败次数大于等于3，需要校验验证码
 		if (failTimes >= FAIL_TIMES_LIMIT) {
 
-			String picValue = redisHelper.valueGet(picVerifyCode);
-			// 图片验证码校验
-			if (picValue != null && !picValue.equals(request.getVerifyCode())) {
-				throw new BizException(BizErrorCode.EX_LOGIN_VERIFY_CODE_ERR.getCode());
-			}
+			throw new BizException(BizErrorCode.EX_OPEN_ACCOUNT_TOO_MANY_FAIL_TIMES_ERROR.getCode());
+//			String picValue = redisHelper.valueGet(picVerifyCode);
+//			// 图片验证码校验
+//			if (picValue != null && !picValue.equals(request.getVerifyCode())) {
+//				throw new BizException(BizErrorCode.EX_LOGIN_VERIFY_CODE_ERR.getCode());
+//			}
 
 		}
 

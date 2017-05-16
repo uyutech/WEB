@@ -60,11 +60,11 @@ public class LoginResponseVo implements Serializable {
 	 */
 	private String sessionId;
 	
-	
-	/**
-	 * 1-开启验证码 0-不用开启
-	 */
-	private int verifycodeFlag;
+//	
+//	/**
+//	 * 1-开启验证码 0-不用开启
+//	 */
+//	private int verifycodeFlag;
 	
 
 	public String getSessionId() {
@@ -157,12 +157,12 @@ public class LoginResponseVo implements Serializable {
 		this.regStat = regStat;
 	}
 
-
-	public int getVerifycodeFlag() {
-		
-		String flag = (String) SessionHolder.getGlobalSession().getAttribute(SessionAttrbute.VERIFY_CODE_FLAG);
-		return flag == null?0:Integer.parseInt(flag);
-	}
+//
+//	public int getVerifycodeFlag() {
+//		
+//		String flag = (String) SessionHolder.getGlobalSession().getAttribute(SessionAttrbute.VERIFY_CODE_FLAG);
+//		return flag == null?0:Integer.parseInt(flag);
+//	}
 
 
 //	public void setVerifycodeFlag(int verifycodeFlag) {
