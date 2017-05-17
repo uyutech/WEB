@@ -1,7 +1,9 @@
 package com.zhuanquan.app.dal.dao.author.impl;
 
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
@@ -14,12 +16,22 @@ public class TagDAOImpl extends BaseDao implements TagDAO {
 
 	@Override
 	public List<Tag> queryTagsByIds(List<Long> tagIds) {
-		return null;
+		
+		
+		String ids = listToString(tagIds);
+		
+		Map map = new HashMap();
+		map.put("ids", ids);
+		return sqlSessionTemplate.selectList(getSqlName("queryTagsByIds"), map);
 	}
 
 	@Override
 	public Tag queryById(long tagId) {
-		return null;
+		
+		
+		return sqlSessionTemplate.selectOne(getSqlName("queryById"), tagId);
 	}
+
+	
 
 }

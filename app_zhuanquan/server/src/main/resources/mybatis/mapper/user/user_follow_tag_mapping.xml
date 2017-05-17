@@ -80,7 +80,7 @@
 		</if>
 
 		<if test="ids != null">
-			and tag_id not in ($ids$)
+			and tag_id not in (${ids})
 		</if>
 
 		group by tag_id order by count(uid) desc limit #{limit} offset

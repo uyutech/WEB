@@ -126,22 +126,5 @@ public class UserFollowTagsMappingDAOImpl extends BaseDao implements UserFollowT
 	
 	
 	
-	//拼接in语句
-	private String listToString(List<Long> list)
-	{
-		
-		if(CollectionUtils.isEmpty(list)) {
-			return null;
-		}
-
-		StringBuffer sb = new StringBuffer();
-		for (int i = 0; i < list.size(); i++)
-		{
-			sb.append(list.get(i)).append(",");
-		}
-		String newStr = sb.toString().substring(0, sb.toString().length() - 1);
-		return newStr;
-	}
-
 
 }

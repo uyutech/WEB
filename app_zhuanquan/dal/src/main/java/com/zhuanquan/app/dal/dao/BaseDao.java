@@ -1,10 +1,12 @@
 package com.zhuanquan.app.dal.dao;
 
 
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Component;
 
@@ -94,5 +96,25 @@ public abstract class BaseDao
 		}
 		
 	}
+	
+	
+	//拼接in语句
+	public String listToString(List<Long> list)
+	{
+		
+		if(CollectionUtils.isEmpty(list)) {
+			return null;
+		}
+
+		StringBuffer sb = new StringBuffer();
+		for (int i = 0; i < list.size(); i++)
+		{
+			sb.append(list.get(i)).append(",");
+		}
+		String newStr = sb.toString().substring(0, sb.toString().length() - 1);
+		return newStr;
+	}
+
+
 
 }
