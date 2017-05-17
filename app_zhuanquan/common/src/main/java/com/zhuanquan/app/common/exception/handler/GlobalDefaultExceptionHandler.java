@@ -74,12 +74,21 @@ public class GlobalDefaultExceptionHandler {
 			log.info("service exception happened at:{}. code:{} desc:{}", request.getRequestURI(), code, desc);
 			ModelAndView mv = getErrorJsonView(code, desc);
 			return mv;
+		} else {
+	
+			int code = BizErrorCode.EX_UNEXPECTED_ERROR.getCode();
+			String desc = "非预期异常";
+			
+			log.info("service exception happened at:{}. code:{} desc:{}", request.getRequestURI(), code, desc);
+			ModelAndView mv = getErrorJsonView(code, desc);
+			
+			log.warn("spring mvc exception at url:{}, params:{} exception is:{}.", request.getRequestURI(),
+					HttpRequestUtils.getRequestParams(request), ExceptionUtils.getStackTrace(e));
+			response.setStatus(500);
+			return mv;
+			
 		}
 
-		log.warn("spring mvc exception at url:{}, params:{} exception is:{}.", request.getRequestURI(),
-				HttpRequestUtils.getRequestParams(request), ExceptionUtils.getStackTrace(e));
-		response.setStatus(500);
-		return new ModelAndView();
 	}
 
 	/**

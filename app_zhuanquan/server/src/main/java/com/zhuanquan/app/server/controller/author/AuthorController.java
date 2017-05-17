@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.zhuanquan.app.common.view.ApiResponse;
-import com.zhuanquan.app.common.view.vo.author.SuggestAuthorVo;
+import com.zhuanquan.app.common.view.vo.author.SuggestAuthorResponseVo;
 import com.zhuanquan.app.common.view.vo.user.LoginRequestVo;
 import com.zhuanquan.app.server.service.AutherService;
 
@@ -39,7 +39,7 @@ public class AuthorController {
 	public ApiResponse getSuggestAuthors(long uid) {
 		
 
-		List<SuggestAuthorVo> list = autherService.getSuggestAuthors(uid);
+		List<SuggestAuthorResponseVo> list = autherService.getSuggestAuthors(uid);
 		
 		
 		return ApiResponse.success(list);

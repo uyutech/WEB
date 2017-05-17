@@ -78,3 +78,19 @@ create table author_role_define
    modify_time            datetime,
    primary key (role_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
+
+
+
+
+/*==============================================================*/
+/* Table: author_recommend    作者热度的推荐                                    */
+/*==============================================================*/
+drop table if exists author_recommend;
+create table author_recommend
+(
+   author_id              int(11) not null  ,
+   author_name            varchar(200) not null,
+   hot_degree             int(4) not null default 0 ,
+   primary key (author_id),
+   KEY idx_auth_recom_name (author_name)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;

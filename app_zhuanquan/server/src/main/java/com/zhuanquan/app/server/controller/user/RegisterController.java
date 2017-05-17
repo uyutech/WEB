@@ -140,24 +140,24 @@ public class RegisterController extends BaseController {
 		return ApiResponse.success();
 	}
 
-	/**
-	 * 注册设置性别
-	 * 
-	 * @param uid
-	 * @param gender
-	 *            0-男 1-女
-	 * @return
-	 */
-	@RequestMapping(value = "/setGenderOnRegister")
-	@ResponseBody
-	public ApiResponse setGenderOnRegister(long uid, int gender) {
-
-		checkLoginUid(uid);
-
-		registerService.setGenderOnRegister(uid, gender);
-
-		return ApiResponse.success();
-	}
+//	/**
+//	 * 注册设置性别
+//	 * 
+//	 * @param uid
+//	 * @param gender
+//	 *            0-男 1-女
+//	 * @return
+//	 */
+//	@RequestMapping(value = "/setGenderOnRegister")
+//	@ResponseBody
+//	public ApiResponse setGenderOnRegister(long uid, int gender) {
+//
+//		checkLoginUid(uid);
+//
+//		registerService.setGenderOnRegister(uid, gender);
+//
+//		return ApiResponse.success();
+//	}
 
 	/**
 	 * 注册设置昵称
@@ -185,6 +185,7 @@ public class RegisterController extends BaseController {
 	@RequestMapping(value = "/setFollowTagsOnRegister")
 	@ResponseBody
 	public ApiResponse setFollowTagsOnRegister(@RequestBody SelectFollowTagsRequestVo request) {
+		
 		checkLoginUid(request.getUid());
 
 		registerService.setFollowTagsOnRegister(request.getUid(), request.getTagIds());
