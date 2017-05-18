@@ -46,6 +46,10 @@ public class RegisterFlowConstants {
 	
 	public static final int REG_SUGGEST_TAG_RECENT_NUM_LIMIT = 15;
 	
+	//一批推送9个作者
+	public static final int REG_SUGGEST_AUTHOR_BATCH_NUM_LIMIT = 9;
+
+	
 
 	
 }

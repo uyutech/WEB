@@ -33,6 +33,11 @@ public class SuggestAuthorRequestVo implements Serializable {
 	 * 
 	 */
 	private long uid;
+	
+	/**
+	 * 页数
+	 */
+	private int page;
 
 
 	public List<String> getFollowOpenIds() {
@@ -62,6 +67,16 @@ public class SuggestAuthorRequestVo implements Serializable {
 
 	public void setUid(long uid) {
 		this.uid = uid;
+	}
+
+
+	public int getPage() {
+		return page;
+	}
+
+
+	public void setPage(int page) {
+		this.page = page;
 	}
 	
 	

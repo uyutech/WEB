@@ -1,6 +1,7 @@
 package com.zhuanquan.app.common.view.vo.author;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * 推荐作者信息
@@ -16,57 +17,43 @@ public class SuggestAuthorResponseVo implements Serializable {
 	private static final long serialVersionUID = -894898949202472548L;
 
 	/**
-	 * 作者id
+	 * 推荐的author
 	 */
-	private long authorId;
-
-	/**
-	 * 头像url
-	 */
-	private String headUrl;
-
-	/**
-	 * 作者名
-	 */
-	private String authorName;
+	private List<SuggestAuthorUnit> suggestAuthors;
 	
 	/**
-	 * 默认就是关注的，根据第三方登录同步过来的关注列表，如果作者也在我们平台，默认就是关注的
+	 * 页数
 	 */
-	private int isDefaultFollow;
-
-	public long getAuthorId() {
-		return authorId;
-	}
-
-	public void setAuthorId(long authorId) {
-		this.authorId = authorId;
-	}
-
-	public String getHeadUrl() {
-		return headUrl;
-	}
-
-	public void setHeadUrl(String headUrl) {
-		this.headUrl = headUrl;
-	}
-
-	public String getAuthorName() {
-		return authorName;
-	}
-
-	public void setAuthorName(String authorName) {
-		this.authorName = authorName;
-	}
-
-	public int getIsDefaultFollow() {
-		return isDefaultFollow;
-	}
-
-	public void setIsDefaultFollow(int isDefaultFollow) {
-		this.isDefaultFollow = isDefaultFollow;
-	}
+	private int page;
 	
+	/**
+	 * 用户id
+	 */
+	private long uid;
+
+	public List<SuggestAuthorUnit> getSuggestAuthors() {
+		return suggestAuthors;
+	}
+
+	public void setSuggestAuthors(List<SuggestAuthorUnit> suggestAuthors) {
+		this.suggestAuthors = suggestAuthors;
+	}
+
+	public int getPage() {
+		return page;
+	}
+
+	public void setPage(int page) {
+		this.page = page;
+	}
+
+	public long getUid() {
+		return uid;
+	}
+
+	public void setUid(long uid) {
+		this.uid = uid;
+	}
 	
 
 }

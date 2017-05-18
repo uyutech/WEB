@@ -5,10 +5,12 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.zhuanquan.app.common.view.ApiResponse;
+import com.zhuanquan.app.common.view.vo.author.SuggestAuthorRequestVo;
 import com.zhuanquan.app.common.view.vo.author.SuggestAuthorResponseVo;
 import com.zhuanquan.app.common.view.vo.user.LoginRequestVo;
 import com.zhuanquan.app.server.service.AutherService;
@@ -36,13 +38,13 @@ public class AuthorController {
 	 */
 	@RequestMapping(value = "/getSuggestAuthors")
 	@ResponseBody
-	public ApiResponse getSuggestAuthors(long uid) {
+	public ApiResponse getSuggestAuthors(@RequestBody SuggestAuthorRequestVo request) {
 		
 
-		List<SuggestAuthorResponseVo> list = autherService.getSuggestAuthors(uid);
+		SuggestAuthorResponseVo vo = autherService.getSuggestAuthors(request);
 		
 		
-		return ApiResponse.success(list);
+		return ApiResponse.success(vo);
 		
 	}
 	

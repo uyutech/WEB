@@ -2,6 +2,7 @@ package com.zhuanquan.app.server.service;
 
 import java.util.List;
 
+import com.zhuanquan.app.common.view.vo.author.SuggestAuthorRequestVo;
 import com.zhuanquan.app.common.view.vo.author.SuggestAuthorResponseVo;
 
 /**
@@ -17,6 +18,6 @@ public interface AutherService {
 	 * 
 	 * @return
 	 */
-	List<SuggestAuthorResponseVo> getSuggestAuthors(long uid);
+	SuggestAuthorResponseVo getSuggestAuthors(SuggestAuthorRequestVo vo);
 	
 }
