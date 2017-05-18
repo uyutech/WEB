@@ -129,6 +129,10 @@ public class BizException extends RuntimeException {
 	 */
 	private static String generateMessageWithCodeAndMsg(int code, String message) {
 
+		if(code>=100003000&& code<100004000) {
+			return "系统缓存服务异常!";
+		}
+		
 		return message;
 //		return "[code:" + code + ",message:" + message + "]";
 
