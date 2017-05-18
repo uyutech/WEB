@@ -11,6 +11,14 @@ import com.zhuanquan.app.common.view.vo.user.LoginResponseVo;
  */
 public interface LoginService {
 	
+	
+	/**
+	 * 检查会话状态，手机app唤醒时调用
+	 * @return
+	 */
+	LoginResponseVo sessionCheck();
+
+	
 	/**
 	 * 用户名密码登录
 	 * @param request

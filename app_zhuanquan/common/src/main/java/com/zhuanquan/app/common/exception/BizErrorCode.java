@@ -20,6 +20,9 @@ public enum BizErrorCode implements ErrorCode {
 	 
 	 //脏数据，需要修复
 	 EX_DIRTY_DATA (1005), 
+	 
+	 //会话超市
+	 EX_SESSION_EXPIRE(1006), 
 
 	 
 //***************短信验证码****************************************	 

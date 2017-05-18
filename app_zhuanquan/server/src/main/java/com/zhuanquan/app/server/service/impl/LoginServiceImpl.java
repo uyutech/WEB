@@ -282,4 +282,40 @@ public class LoginServiceImpl implements LoginService {
 
 	}
 
+	@Override
+	public LoginResponseVo sessionCheck() {
+		
+		UserSession session = SessionHolder.getCurrentLoginUserInfo();	
+		
+		if(session == null) {
+			throw new BizException(BizErrorCode.EX_SESSION_EXPIRE.getCode());
+		}
+
+		LoginResponseVo response = new LoginResponseVo();
+		
+		
+		UserProfile profile = userProfileDAO.queryById(session.getUid());
+
+		if(profile == null) {
+			throw new BizException(BizErrorCode.EX_SYSTEM_ERROR.getCode());
+		}
+		
+		response.setUid(session.getUid());
+		response.setAllowAttation(profile.getAllowFollow());
+		response.setChannelType(session.getChannelType());
+		response.setHeadUrl(profile.getHeadUrl());
+		response.setNickName(profile.getNickName());
+		response.setOpenId(session.getOpenId());
+
+		// 设置登录后注册的状态，需要根据状态决定是否跳转到注册引导页面
+		response.setRegStat(profile.getRegStat());
+
+		response.setIsVip(profile.getIsVip());
+
+
+		response.setSessionId(session.getSessionId());
+
+		return response;
+	}
+
 }

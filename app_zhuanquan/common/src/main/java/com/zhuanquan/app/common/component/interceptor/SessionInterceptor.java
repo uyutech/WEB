@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 检查client_security中的Client_Security是否正确
@@ -134,8 +135,10 @@ public class SessionInterceptor implements HandlerInterceptor {
 		// 会话不存在, 则返回 HTTP 401, 需要重新登录
 		// 会话存在, 校验 客户端上报的 sessionid和uid, 与cached中保存的会话必须一致
 		String sessionInfo;
+		
+		String sessionKey = RedisKeyBuilder.getLoginSessionKey(jSessionID);
 		try {
-			sessionInfo = redisHelper.valueGet(RedisKeyBuilder.getLoginSessionKey(jSessionID));
+			sessionInfo = redisHelper.valueGet(sessionKey);
 		} catch (Exception redisException) {
 			// 如果redis异常，直接放通
 			logger.warn("redis exception {} when get session,session id is {}", redisException.getMessage(),
@@ -153,6 +156,9 @@ public class SessionInterceptor implements HandlerInterceptor {
 		//
 		UserSession session = JSON.parseObject(sessionInfo, UserSession.class);
 		SessionHolder.setCurrentSession(session);
+		
+		//会话自动续租7天
+		redisHelper.expire(sessionKey, 7, TimeUnit.DAYS);
 
 	}
 

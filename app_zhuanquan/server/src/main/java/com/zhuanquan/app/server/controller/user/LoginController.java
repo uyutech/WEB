@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.zhuanquan.app.common.component.sesssion.UserSession;
 import com.zhuanquan.app.common.view.ApiResponse;
 import com.zhuanquan.app.common.view.vo.user.LoginByOpenIdRequestVo;
 import com.zhuanquan.app.common.view.vo.user.LoginRequestVo;
@@ -60,6 +61,17 @@ public class LoginController extends BaseController {
 	}
 	
 	
-	
+	/**
+	 * 检查会话状态，手机app唤醒时调用
+	 * @return
+	 */
+	@RequestMapping(value = "/sessionCheck")
+	@ResponseBody
+	public ApiResponse sessionCheck() {
+		
+		LoginResponseVo response = loginService.sessionCheck();
+
+		return ApiResponse.success(response);		
+	}
 	
 }
