@@ -1,5 +1,7 @@
 package com.zhuanquan.app.common.exception;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.zhuanquan.app.common.exception.code.impl.BaseCode;
 import com.zhuanquan.app.common.exception.internel.ErrorCodeLoader;
 
@@ -133,7 +135,7 @@ public class BizException extends RuntimeException {
 			return "系统缓存服务异常!";
 		}
 		
-		return message;
+		return StringUtils.isEmpty(message)?"系统异常":message;
 //		return "[code:" + code + ",message:" + message + "]";
 
 	}
