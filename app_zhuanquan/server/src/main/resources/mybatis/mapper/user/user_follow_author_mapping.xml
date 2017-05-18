@@ -71,9 +71,9 @@
     values
     <foreach collection="list" item="item" index="index" separator="," >      
     (#{item.uid}, #{item.followAuthorId}, #{item.status},#{item.createTime}, #{item.modifyTime})
-    on duplicate key update status =  #{item.status}, update_time = #{item.updateTime}
+   
     </foreach>  
-    
+     on duplicate key update status = VALUES(status), MODIFY_TIME = VALUES(MODIFY_TIME);
   </insert>
 
 

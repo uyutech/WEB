@@ -29,19 +29,17 @@
 
 
 
-	<insert id="insertOrUpdateBatchFollowAuthorIds" parameterType="java.util.List">
+	<insert id="insertOrUpdateBatchToFollowTags" parameterType="java.util.List">
 		insert into user_follow_tag (uid, tag_id,
 		tag_type,status,CREATE_TIME,MODIFY_TIME)
 		values
 		<foreach collection="list" item="item" index="index"
 			separator=",">
 			(#{item.uid}, #{item.tagId},
-			#{item.tagType},#{item.status},#{createTime},#{modifyTime})
-			on
-			duplicate key update status = #{item.status}, tag_type =
-			#{item.tagType},,MODIFY_TIME = now()
-		</foreach>
+			#{item.tagType},#{item.status},#{item.createTime},#{item.modifyTime})
 
+		</foreach>
+			on duplicate key update status = VALUES(status), tag_type =VALUES(tag_type),MODIFY_TIME = VALUES(MODIFY_TIME);
 	</insert>
 
 

@@ -169,7 +169,7 @@ public class RegisterController extends BaseController {
 	@RequestMapping(value = "/setNickNameAndGenderOnRegister")
 	@ResponseBody
 	public ApiResponse setNickNameOnRegister(long uid, String nickName,int gender) {
-//		checkLoginUid(uid);
+		checkLoginUid(uid);
 
 		registerService.setNickNameAndGenderOnRegister(uid, nickName,gender);
 
