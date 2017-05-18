@@ -76,7 +76,7 @@ public class LoginServiceImpl implements LoginService {
 
 		// 如果account为null
 		if (account == null) {
-			throw new BizException(BizErrorCode.EX_UID_NOT_EXSIT.getCode());
+			throw new BizException(BizErrorCode.EX_LOGIN_PWD_ERR.getCode());
 		}
 
 		// 校验密码

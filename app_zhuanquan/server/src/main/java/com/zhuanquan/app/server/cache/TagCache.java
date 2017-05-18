@@ -26,7 +26,14 @@ public interface TagCache {
 	 * @param tagIds
 	 * @return
 	 */
-	Map<String,Tag> getTagListByIds(List<Long> tagIds);
+	Map<String,Tag> getTagMapByIds(List<Long> tagIds);
+	
+	/**
+	 * 
+	 * @param tagIds
+	 * @return
+	 */
+	List<Tag> getTagListByIds(List<Long> tagIds);
 	
 	
 }

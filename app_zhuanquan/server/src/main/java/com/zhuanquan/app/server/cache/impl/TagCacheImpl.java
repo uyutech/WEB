@@ -81,7 +81,7 @@ public class TagCacheImpl extends CacheChangedListener implements TagCache {
 			return null;
 		}
 		
-		Map<String,Tag> map = this.getTagListByIds(ids);
+		Map<String,Tag> map = this.getTagMapByIds(ids);
 
 		List<SuggestTagVo> list =new ArrayList<SuggestTagVo>();
 		
@@ -140,7 +140,7 @@ public class TagCacheImpl extends CacheChangedListener implements TagCache {
 
 
 	@Override
-	public Map<String,Tag> getTagListByIds(List<Long> tagIds) {
+	public Map<String,Tag> getTagMapByIds(List<Long> tagIds) {
 		
 		if(CollectionUtils.isEmpty(tagIds)) {
 			return null;
@@ -209,6 +209,33 @@ public class TagCacheImpl extends CacheChangedListener implements TagCache {
 		
 		
 		return resultMap;
+	}
+
+
+
+
+
+	@Override
+	public List<Tag> getTagListByIds(List<Long> tagIds) {
+		
+		if(CollectionUtils.isEmpty(tagIds)) {
+			return null;
+		}
+		
+		Map<String,Tag> map = getTagMapByIds(tagIds);
+		
+		if(MapUtils.isEmpty(map)) {
+		    return null;
+		}
+		
+		List<Tag> list =new ArrayList<Tag>();
+		
+		for(Entry<String,Tag> entry:map.entrySet()) {
+			if(entry.getValue()!=null)
+			    list.add(entry.getValue());
+		}
+		
+		return list;
 	}
 	
 }

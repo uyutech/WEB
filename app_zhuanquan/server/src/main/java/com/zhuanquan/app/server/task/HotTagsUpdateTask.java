@@ -82,7 +82,7 @@ public class HotTagsUpdateTask {
 		allIds.addAll(hotTagRecently);
 		allIds.addAll(totalHotTags);
 
-		Map<String, Tag> map = tagCache.getTagListByIds(allIds);
+		Map<String, Tag> map = tagCache.getTagMapByIds(allIds);
 
 		int pageNum = 0;
 

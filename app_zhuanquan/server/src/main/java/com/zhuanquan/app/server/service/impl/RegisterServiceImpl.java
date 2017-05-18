@@ -2,6 +2,7 @@ package com.zhuanquan.app.server.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Resource;
@@ -35,6 +36,7 @@ import com.zhuanquan.app.dal.dao.user.UserFollowAuthorDAO;
 import com.zhuanquan.app.dal.dao.user.UserFollowTagsMappingDAO;
 import com.zhuanquan.app.dal.dao.user.UserOpenAccountDAO;
 import com.zhuanquan.app.dal.dao.user.UserProfileDAO;
+import com.zhuanquan.app.server.cache.TagCache;
 import com.zhuanquan.app.server.cache.UserOpenAccountCache;
 import com.zhuanquan.app.server.service.RegisterService;
 import com.zhuanquan.app.server.service.TransactionService;
@@ -73,6 +75,9 @@ public class RegisterServiceImpl implements RegisterService {
 
 	@Resource
 	private TagDAO tagDAO;
+	
+	@Resource
+	private TagCache tagCache;
 
 	@Override
 	public RegisterResponseVo mobileRegister(MobileRegisterRequestVo vo) {
@@ -391,7 +396,7 @@ public class RegisterServiceImpl implements RegisterService {
 
 		if (CollectionUtils.isNotEmpty(tagIds)) {
 
-			List<Tag> tags = tagDAO.queryTagsByIds(tagIds);
+			List<Tag> tags = tagCache.getTagListByIds(tagIds);
 			if (CollectionUtils.isEmpty(tags)) {
 
 				throw new BizException(BizErrorCode.EX_ILLEGLE_REQUEST_PARM.getCode());
