@@ -63,7 +63,7 @@ public class ApiResponse implements Serializable{
 //    }
 
 
-    public int getErrorCode() {
+    public int getCode() {
     
         return errorCode;
     }

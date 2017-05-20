@@ -78,10 +78,10 @@ public class SessionInterceptor implements HandlerInterceptor {
 
 		String url = httpServletRequest.getRequestURI();
 
-		// 测试阶段，关闭会话校验
-		if (isDebugEnable) {
-			return true;
-		}
+//		// 测试阶段，关闭会话校验
+//		if (isDebugEnable) {
+//			return true;
+//		}
 
 		// 是否在免过滤
 		if (sessionExcludeLoader.isSessionCheckExclude(url)) {
