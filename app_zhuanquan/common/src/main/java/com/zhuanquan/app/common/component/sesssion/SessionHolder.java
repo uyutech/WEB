@@ -60,8 +60,12 @@ public class SessionHolder {
 		if (response != null) {
 			// 注册成功之后, 设置cookie
 			Cookie cookie = new Cookie("JSESSIONID", sessionKey);
-			cookie.setMaxAge(24 * 60 * 60); // 24小时
+			cookie.setMaxAge(24 * 60 * 60 * 7); // 24小时*7
+			cookie.setPath("/");
 			response.addCookie(cookie);
+			
+			
+			
 		}
 
 		String key = RedisKeyBuilder.getLoginSessionKey(sessionKey);
