@@ -28,7 +28,7 @@ public class UserUpvoteController {
 	 * @param workId 作品id
 	 */
 	
-	@RequestMapping(value = "/doUpvoteWork")
+	@RequestMapping(value = "/doUpvoteWork",produces = {"application/json"})
 	@ResponseBody
 	public ApiResponse doUpvoteWork(long uid,long workId){
 		

@@ -33,7 +33,7 @@ public class LoginController extends BaseController {
 
 	
 	
-	@RequestMapping(value = "/loginByMobile")
+	@RequestMapping(value = "/loginByMobile",produces = {"application/json"})
 	@ResponseBody
 	public ApiResponse loginByMobile(LoginRequestVo request) {
 
@@ -51,7 +51,7 @@ public class LoginController extends BaseController {
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping(value = "/loginByOpenId")
+	@RequestMapping(value = "/loginByOpenId",produces = {"application/json"})
 	@ResponseBody
 	public ApiResponse loginByOpenId(LoginByOpenIdRequestVo request) {
 
@@ -65,7 +65,7 @@ public class LoginController extends BaseController {
 	 * 检查会话状态，手机app唤醒时调用
 	 * @return
 	 */
-	@RequestMapping(value = "/sessionCheck")
+	@RequestMapping(value = "/sessionCheck",produces = {"application/json"})
 	@ResponseBody
 	public ApiResponse sessionCheck() {
 		

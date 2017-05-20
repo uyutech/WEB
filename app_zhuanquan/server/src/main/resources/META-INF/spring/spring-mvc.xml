@@ -88,7 +88,6 @@
 				<property name="favorPathExtension" value="true" />
 				<property name="favorParameter" value="true" />
 				<property name="parameterName" value="format" />
-				<property name="ignoreAcceptHeader" value="true" />
 				<property name="mediaTypes">
 					<value>
 						json=application/json
@@ -96,7 +95,7 @@
 						html=text/html
 					</value>
 				</property>
-				<property name="defaultContentType" value="text/html" />
+				<property name="defaultContentType" value="application/json" />
 			</bean>
 		</property>
 		<property name="defaultViews">

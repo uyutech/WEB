@@ -30,7 +30,7 @@ public class UserFollowController extends BaseController {
 	 * @param uid
 	 * @return
 	 */
-	@RequestMapping(value="/queryUserFollowAuthors")
+	@RequestMapping(value="/queryUserFollowAuthors",produces = {"application/json"})
 	@ResponseBody
 	public ApiResponse queryUserFollowAuthors(long uid) {
 		

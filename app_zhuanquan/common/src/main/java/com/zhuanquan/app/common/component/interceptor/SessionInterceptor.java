@@ -72,7 +72,7 @@ public class SessionInterceptor implements HandlerInterceptor {
 
 		REQUEST_LOCAL.set(httpServletRequest);
 		RESPONSE_LOCAL.set(httpServletResponse);
-		
+
 		//设置header
 		setAccessControlHeader(httpServletRequest,httpServletResponse);
 

@@ -36,7 +36,7 @@ public class AuthorController {
 	 * @param uid
 	 * @return
 	 */
-	@RequestMapping(value = "/getSuggestAuthors")
+	@RequestMapping(value = "/getSuggestAuthors",produces = {"application/json"})
 	@ResponseBody
 	public ApiResponse getSuggestAuthors(@RequestBody SuggestAuthorRequestVo request) {
 

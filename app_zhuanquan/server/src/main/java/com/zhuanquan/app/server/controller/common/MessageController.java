@@ -12,7 +12,7 @@ import com.zhuanquan.app.common.view.ApiResponse;
 public class MessageController extends BaseController {
 	
 
-	@RequestMapping(value="/sendRegisterVerifyCode")
+	@RequestMapping(value="/sendRegisterVerifyCode",produces = {"application/json"})
 	@ResponseBody
 	public ApiResponse sendRegisterVerifyCode(String mobile) {
 		
@@ -20,7 +20,7 @@ public class MessageController extends BaseController {
 	}
 	
 	
-	@RequestMapping(value="/sendBindVerifyCode")
+	@RequestMapping(value="/sendBindVerifyCode",produces = {"application/json"})
 	@ResponseBody
 	public ApiResponse sendBindVerifyCode(String mobile) {
 		
@@ -29,7 +29,7 @@ public class MessageController extends BaseController {
 	
 	
 	
-	@RequestMapping(value="/sendForgetPwdVerifyCode")
+	@RequestMapping(value="/sendForgetPwdVerifyCode",produces = {"application/json"})
 	@ResponseBody
 	public ApiResponse sendForgetPwdVerifyCode(String mobile) {
 		
@@ -38,7 +38,7 @@ public class MessageController extends BaseController {
 	
 	
 	
-	@RequestMapping(value="/sendModifyPwdVerifyCode")
+	@RequestMapping(value="/sendModifyPwdVerifyCode",produces = {"application/json"})
 	@ResponseBody
 	public ApiResponse sendModifyPwdVerifyCode(String mobile) {
 		

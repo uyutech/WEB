@@ -26,7 +26,7 @@ public class RegisterController extends BaseController {
 	@Resource
 	private RegisterService registerService;
 
-	@RequestMapping(value = "/registerByMobile")
+	@RequestMapping(value = "/registerByMobile",produces = {"application/json"})
 	@ResponseBody
 	public ApiResponse registerByMobile(MobileRegisterRequestVo vo) {
 
@@ -47,7 +47,7 @@ public class RegisterController extends BaseController {
 	 *            验证码
 	 * @return
 	 */
-	@RequestMapping(value = "/bindUnregisterMobile")
+	@RequestMapping(value = "/bindUnregisterMobile",produces = {"application/json"})
 	@ResponseBody
 	public ApiResponse bindUnregisterMobile(long uid, String mobile, String password, String verifycode) {
 
@@ -63,7 +63,7 @@ public class RegisterController extends BaseController {
 	 * 
 	 * @param vo
 	 */
-	@RequestMapping(value = "/bindMobileAndChoosePersistAccount")
+	@RequestMapping(value = "/bindMobileAndChoosePersistAccount",produces = {"application/json"})
 	@ResponseBody
 	public ApiResponse bindMobileAndChoosePersistAccount(BindAndChoosePersistRequestVo vo) {
 
@@ -81,7 +81,7 @@ public class RegisterController extends BaseController {
 	 * @param mobile
 	 * @return
 	 */
-	@RequestMapping(value = "/beforeBindCheck")
+	@RequestMapping(value = "/beforeBindCheck",produces = {"application/json"})
 	@ResponseBody
 	public ApiResponse beforeBindCheck(String mobile) {
 
@@ -103,7 +103,7 @@ public class RegisterController extends BaseController {
 	 *            是否保留手机账号的数据 1-保留 0-不保留
 	 */
 
-	@RequestMapping(value = "/mergeMobileAccount")
+	@RequestMapping(value = "/mergeMobileAccount",produces = {"application/json"})
 	@ResponseBody
 	public ApiResponse mergeMobileAccount(long uid, String mobile, String verifycode, int persistMobileAccount) {
 
@@ -131,9 +131,9 @@ public class RegisterController extends BaseController {
 	 * @param mobile
 	 * @return
 	 */
-	@RequestMapping(value = "/sendRegSms")
+	@RequestMapping(value = "/sendRegSms",produces = {"application/json"})
 	@ResponseBody
-	public ApiResponse sendRegSms(@RequestBody String mobile) {
+	public ApiResponse sendRegSms(String mobile) {
 
 		registerService.sendRegisterSms(mobile);
 
@@ -166,7 +166,7 @@ public class RegisterController extends BaseController {
 	 * @param nickName
 	 * @return
 	 */
-	@RequestMapping(value = "/setNickNameAndGenderOnRegister")
+	@RequestMapping(value = "/setNickNameAndGenderOnRegister",produces = {"application/json"})
 	@ResponseBody
 	public ApiResponse setNickNameOnRegister(long uid, String nickName,int gender) {
 		checkLoginUid(uid);
@@ -182,7 +182,7 @@ public class RegisterController extends BaseController {
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping(value = "/setFollowTagsOnRegister")
+	@RequestMapping(value = "/setFollowTagsOnRegister",produces = {"application/json"})
 	@ResponseBody
 	public ApiResponse setFollowTagsOnRegister(@RequestBody SelectFollowTagsRequestVo request) {
 		
@@ -199,7 +199,7 @@ public class RegisterController extends BaseController {
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping(value = "/setFollowAuthorsOnRegister")
+	@RequestMapping(value = "/setFollowAuthorsOnRegister",produces = {"application/json"})
 	@ResponseBody
 	public ApiResponse setFollowAuthorsOnRegister(@RequestBody SelectFollowAuthorRequestVo request) {
 		checkLoginUid(request.getUid());

@@ -33,7 +33,7 @@ public class TagController {
 	 * @param uid
 	 * @return
 	 */
-	@RequestMapping(value = "/getSuggestTags")
+	@RequestMapping(value = "/getSuggestTags",produces = {"application/json"})
 	@ResponseBody
 	public ApiResponse getSuggestTags(long uid,int pageNum) {
 		List<SuggestTagVo> list = tagService.getSuggestTags(uid,pageNum,RegisterFlowConstants.REG_SUGGEST_TAG_PAGE_SIZE);
