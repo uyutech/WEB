@@ -39,11 +39,9 @@ public class AuthorController {
 	@RequestMapping(value = "/getSuggestAuthors")
 	@ResponseBody
 	public ApiResponse getSuggestAuthors(@RequestBody SuggestAuthorRequestVo request) {
-		
 
 		SuggestAuthorResponseVo vo = autherService.getSuggestAuthors(request);
-		
-		
+
 		return ApiResponse.success(vo);
 		
 	}

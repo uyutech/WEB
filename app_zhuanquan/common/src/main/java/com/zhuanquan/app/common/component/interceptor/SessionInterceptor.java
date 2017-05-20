@@ -71,6 +71,9 @@ public class SessionInterceptor implements HandlerInterceptor {
 
 		REQUEST_LOCAL.set(httpServletRequest);
 		RESPONSE_LOCAL.set(httpServletResponse);
+		
+		//设置header
+		setAccessControlHeader(httpServletResponse);
 
 		String url = httpServletRequest.getRequestURI();
 
@@ -224,6 +227,20 @@ public class SessionInterceptor implements HandlerInterceptor {
 		REQUEST_LOCAL.remove();
 		RESPONSE_LOCAL.remove();
 		SessionHolder.removeCurrentSession();
+	}
+	
+	
+	/**
+	 * 设置ajax跨域支持方案
+	 * @param httpServletResponse
+	 */
+	private void setAccessControlHeader(HttpServletResponse httpServletResponse){
+		
+		httpServletResponse.setHeader("Access-Control-Allow-Origin", "*");
+		httpServletResponse.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT, OPTIONS, DELETE");
+		httpServletResponse.setHeader("Access-Control-Max-Age", "3600");
+		httpServletResponse.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, token");
+		
 	}
 
 }

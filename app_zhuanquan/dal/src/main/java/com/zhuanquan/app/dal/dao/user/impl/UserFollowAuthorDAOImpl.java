@@ -79,7 +79,7 @@ public class UserFollowAuthorDAOImpl extends BaseDao implements UserFollowAuthor
 			list.add(UserFollowAuthor.createFollowRecord(uid, authorId));
 		}
 
-		sqlSessionTemplate.insert(getSqlName("insertBatchFollowAuthorIds"), list);
+		sqlSessionTemplate.insert(getSqlName("insertOrUpdateBatchFollowAuthorIds"), list);
 
 	}
 
