@@ -239,7 +239,7 @@ public class SessionInterceptor implements HandlerInterceptor {
 		
 		String origin = httpServletRequest.getHeader("origin");
 		
-		if(StringUtils.isEmpty(origin)){
+		if(StringUtils.isNotEmpty(origin)){
 			httpServletResponse.setHeader("Access-Control-Allow-Origin", origin);
 			httpServletResponse.setHeader("Access-Control-Allow-Credentials", "true");
 			httpServletResponse.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT, OPTIONS, DELETE");
@@ -247,13 +247,7 @@ public class SessionInterceptor implements HandlerInterceptor {
 		}
 
 //		httpServletResponse.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, token");
-		
-		
 
-		
-
-		
-		
 	}
 
 }
