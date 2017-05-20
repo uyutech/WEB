@@ -1,9 +1,9 @@
 ﻿session_validate_exclude:
    rule_whole_path:
-      - /register/sendRegSms.htm
-      - /register/registerByMobile.htm
-      - /login/loginByMobile.htm
-      - /login/loginByOpenId.htm
+      - /register/sendRegSms.json
+      - /register/registerByMobile.json
+      - /login/loginByMobile.json
+      - /login/loginByOpenId.json
 
 
    rule_package_match:
