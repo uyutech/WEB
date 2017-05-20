@@ -8,6 +8,7 @@ import com.zhuanquan.app.common.component.sesssion.SessionHolder;
 import com.zhuanquan.app.common.component.sesssion.UserSession;
 import com.zhuanquan.app.common.exception.SessionExpireException;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -73,7 +74,7 @@ public class SessionInterceptor implements HandlerInterceptor {
 		RESPONSE_LOCAL.set(httpServletResponse);
 		
 		//设置header
-		setAccessControlHeader(httpServletResponse);
+		setAccessControlHeader(httpServletRequest,httpServletResponse);
 
 		String url = httpServletRequest.getRequestURI();
 
@@ -234,12 +235,24 @@ public class SessionInterceptor implements HandlerInterceptor {
 	 * 设置ajax跨域支持方案
 	 * @param httpServletResponse
 	 */
-	private void setAccessControlHeader(HttpServletResponse httpServletResponse){
+	private void setAccessControlHeader(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
 		
-		httpServletResponse.setHeader("Access-Control-Allow-Origin", "*");
+		String origin = httpServletRequest.getHeader("origin");
+		
+		if(StringUtils.isEmpty(origin)){
+			httpServletResponse.setHeader("Access-Control-Allow-Origin", origin);
+
+		}
 		httpServletResponse.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT, OPTIONS, DELETE");
 		httpServletResponse.setHeader("Access-Control-Max-Age", "3600");
-		httpServletResponse.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, token");
+//		httpServletResponse.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, token");
+		httpServletResponse.setHeader("Access-Control-Allow-Credentials", "true");
+		
+		
+
+		
+
+		
 		
 	}
 
