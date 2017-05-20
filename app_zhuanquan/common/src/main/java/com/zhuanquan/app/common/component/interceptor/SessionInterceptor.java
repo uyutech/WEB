@@ -241,12 +241,12 @@ public class SessionInterceptor implements HandlerInterceptor {
 		
 		if(StringUtils.isEmpty(origin)){
 			httpServletResponse.setHeader("Access-Control-Allow-Origin", origin);
-
+			httpServletResponse.setHeader("Access-Control-Allow-Credentials", "true");
+			httpServletResponse.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT, OPTIONS, DELETE");
+			httpServletResponse.setHeader("Access-Control-Max-Age", "3600");
 		}
-		httpServletResponse.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT, OPTIONS, DELETE");
-		httpServletResponse.setHeader("Access-Control-Max-Age", "3600");
+
 //		httpServletResponse.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, token");
-		httpServletResponse.setHeader("Access-Control-Allow-Credentials", "true");
 		
 		
 
