@@ -133,7 +133,7 @@ public class RegisterController extends BaseController {
 	 */
 	@RequestMapping(value = "/sendRegSms")
 	@ResponseBody
-	public ApiResponse sendRegSms(@RequestParam(value = "mobile", required = true) String mobile) {
+	public ApiResponse sendRegSms(@RequestBody String mobile) {
 
 		registerService.sendRegisterSms(mobile);
 

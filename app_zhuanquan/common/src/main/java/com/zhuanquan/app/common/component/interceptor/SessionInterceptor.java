@@ -90,6 +90,7 @@ public class SessionInterceptor implements HandlerInterceptor {
 
 		this.validateSession(httpServletRequest.getCookies(),url);
 
+
 		return true;
 	}
 
