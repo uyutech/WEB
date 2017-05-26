@@ -30,6 +30,11 @@ public class SuggestTagVo implements Serializable {
 	 * tag 名
 	 */
 	private String tagName;
+	
+	/**
+	 * 第三方同步过来的作者，默认关注  0-不关注 1-关注
+	 */
+	boolean isDefaultFollowed;
 
 	public long getTagId() {
 		return tagId;
@@ -54,5 +59,16 @@ public class SuggestTagVo implements Serializable {
 	public void setTagName(String tagName) {
 		this.tagName = tagName;
 	}
+
+	public boolean isDefaultFollowed() {
+		return isDefaultFollowed;
+	}
+
+	public void setDefaultFollowed(boolean isDefaultFollowed) {
+		this.isDefaultFollowed = isDefaultFollowed;
+	}
+	
+	
+	
 
 }

@@ -64,8 +64,7 @@ public class AutherServiceImpl implements AutherService {
 			}
 		}
 		
-		int followedNum = followedIds.size();
-		
+	
 
 
 		return getTestData(vo.getPage(), vo.getUid());
