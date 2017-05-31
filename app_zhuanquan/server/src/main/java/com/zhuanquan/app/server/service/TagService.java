@@ -2,6 +2,7 @@ package com.zhuanquan.app.server.service;
 
 import java.util.List;
 
+import com.zhuanquan.app.common.view.vo.author.SuggestTagResponseVo;
 import com.zhuanquan.app.common.view.vo.author.SuggestTagVo;
 
 /**
@@ -12,14 +13,16 @@ import com.zhuanquan.app.common.view.vo.author.SuggestTagVo;
  */
 public interface TagService {
 
+
 	
 	/**
 	 * 获取推荐的tag
+	 * 
 	 * @param uid
-	 * @param pageNum
-	 * @param pagesize
+	 * @param fromIndex
+	 * @param limit
 	 * @return
 	 */
-	List<SuggestTagVo> getSuggestTags(long uid,int pageNum,int pagesize);
+	SuggestTagResponseVo getSuggestTags(long uid,int fromIndex,int limit);
 
 }

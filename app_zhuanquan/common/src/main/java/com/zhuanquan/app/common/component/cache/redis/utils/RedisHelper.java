@@ -3,6 +3,7 @@ package com.zhuanquan.app.common.component.cache.redis.utils;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import com.zhuanquan.app.common.component.cache.redis.GracefulRedisTemplate;
@@ -34,8 +35,6 @@ public class RedisHelper {
 	
 	private RedisZSetOperations<String, String> redisZSetOperations;
 
-
-	
 	
 	public RedisSetOperations<String, String> getRedisSetOperations() {
 		return redisSetOperations;
@@ -665,5 +664,130 @@ public class RedisHelper {
 	}
 	
 	
+	/**
+	 * 返回指定score 区段之间元素
+	 * @param key
+	 * @param min
+	 * @param max
+	 * @return
+	 */
+	public Set<String> zsetRangeByScore(String key,double min,double max){
+		
+		return redisZSetOperations.rangeByScore(key, min, max);
+	}
 	
+	
+	/**
+	 *  返回区间指定元素）,集合中元素是按score从小到大排序的
+	 * @param key
+	 * @param start 最小下标
+	 * @param end 最大下标
+	 * @return
+	 */
+	public Set<String> zsetRange(String key,long start,long end){
+		
+		return redisZSetOperations.range(key, start, end);
+	}	
+	
+	
+	/**
+	 * 返回区间指定元素,集合中元素是按score从大到小排序的，
+	 * @param key
+	 * @param start
+	 * @param end
+	 * @return
+	 */
+	public Set<String> zsetRevrange(String key,long start,long end){
+		
+		return redisZSetOperations.reverseRange(key, start, end);
+	}	
+		
+
+	/**
+	 * 返回区间指定元素的数量
+	 * @param key
+	 * @param min
+	 * @param max
+	 * @return
+	 */
+	public long zsetCountByScore(String key,double start,double end){
+		
+		return redisZSetOperations.count(key, start, end);
+		
+	}		
+	
+	
+	/**
+	 * 获取member对应的score
+	 * @param key
+	 * @param member
+	 * @return
+	 */
+	public double zsetScore(String key,String member) {
+		
+		return redisZSetOperations.score(key, member);
+	}
+	
+	
+	/**
+	 * 删除指定index区间的元素
+	 * @param key
+	 * @param start
+	 * @param end
+	 * @return
+	 */
+	public long zsetRemrangebyrank(String key,int start,int end){
+		
+		return redisZSetOperations.removeRange(key, start, end);
+		
+	}
+	
+	
+	/**
+	 * 删除指定score区间的元素
+	 * @param key
+	 * @param min
+	 * @param max
+	 * @return
+	 */
+	public long zsetRemrangebyscore(String key,double min,double max){
+		
+		return redisZSetOperations.removeRangeByScore(key, min, max);
+		
+	}	
+	
+	
+	
+	/**
+	 * 添加元素
+	 * @param key
+	 * @param score
+	 * @param member
+	 */
+	public void zsetAddMember(String key,double score,String member) {
+
+		redisZSetOperations.add(key, member, score);
+	}
+	
+	
+	/**
+	 * 删除
+	 * @param key
+	 * @param member
+	 */
+	public void zsetRemoveMember(String key,String member) {
+		redisZSetOperations.remove(key, member);
+	}
+	
+	
+	/**
+	 * 给指定score增加值incr
+	 * @param key
+	 * @param incr
+	 * @param member
+	 */
+	public void zsetIncrby(String key,double incr,String member) {
+		
+		redisZSetOperations.incrementScore(key, member, incr);
+	}
 }

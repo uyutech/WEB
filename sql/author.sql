@@ -83,7 +83,7 @@ create table author_role_define
 
 
 /*==============================================================*/
-/* Table: author_recommend    作者热度的推荐                                    */
+/* Table: author_hot_indexes   作者热度的推荐                                    */
 /*==============================================================*/
 drop table if exists author_recommend;
 create table author_recommend

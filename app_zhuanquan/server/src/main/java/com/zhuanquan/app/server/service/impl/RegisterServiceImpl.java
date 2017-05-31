@@ -2,9 +2,7 @@ package com.zhuanquan.app.server.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
-
 import javax.annotation.Resource;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -12,7 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSON;
-
 import com.zhuanquan.app.common.component.cache.RedisKeyBuilder;
 import com.zhuanquan.app.common.component.cache.redis.utils.RedisHelper;
 import com.zhuanquan.app.common.component.sesssion.SessionHolder;
@@ -487,5 +484,10 @@ public class RegisterServiceImpl implements RegisterService {
 		userProfileDAO.updateGender(uid, gender);
 		
 	}
+
+//	@Override
+//	public void sendForgetPwdSms(String mobile) {
+//		
+//	}
 
 }

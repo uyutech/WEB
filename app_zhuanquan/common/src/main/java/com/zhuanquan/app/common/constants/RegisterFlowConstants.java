@@ -44,10 +44,10 @@ public class RegisterFlowConstants {
 	 */
 	public static final int REG_SUGGEST_TAG_PAGE_SIZE = 30;
 	
-	public static final int REG_SUGGEST_TAG_RECENT_NUM_LIMIT = 15;
+	public static final int REG_SUGGEST_TAG_RECENT_NUM_LIMIT = 100;
 	
-	//一批推送9个作者
-	public static final int REG_SUGGEST_AUTHOR_BATCH_NUM_LIMIT = 9;
+//	//一批推送9个作者
+//	public static final int REG_SUGGEST_AUTHOR_BATCH_NUM_LIMIT = 9;
 
 	
 

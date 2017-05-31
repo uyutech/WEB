@@ -51,8 +51,6 @@ public class UserUpvoteController {
 	public ApiResponse cancelUpvoteWork(long uid,long workId){
 		upvoteService.cancelUpvoteWork(uid, workId);
 		return ApiResponse.success();
-
-		
 	}
 	
 	

@@ -77,24 +77,24 @@ public class UserFollowTagsMappingDAOImpl extends BaseDao implements UserFollowT
 		return  sqlSessionTemplate.selectOne(getSqlName("queryByUidAndTagId"), map);
 	}
 
-	@Override
-	public List<Long> queryHotTagsByPage(int offset, int pagSize,List<Long> excludeIds) {
-				
-		
-		return queryHotTagByPage(offset, pagSize, excludeIds, null);
-
-	}
-	
+//	@Override
+//	public List<Long> queryHotTagsByPage(int offset, int pagSize,List<Long> excludeIds) {
+//				
+//		
+//		return queryHotTagByPage(offset, pagSize, excludeIds, null);
+//
+//	}
+//	
 	
 	/**
 	 * 获取最近最火的tag
 	 * @return
 	 */
 	@Override
-	public List<Long> queryHotTagsRecently(int limit) {
+	public List<Long> queryHotTagsRecently(int top) {
 
 		//从offset 0 开始，查询15条
-		return queryHotTagByPage(0, 15, null, 2);
+		return queryHotTag(top, 2);
 
 	}
 	
@@ -107,19 +107,14 @@ public class UserFollowTagsMappingDAOImpl extends BaseDao implements UserFollowT
 	 * @param nDaysBefore
 	 * @return
 	 */
-	private List<Long> queryHotTagByPage(int offset, int pagSize,List<Long> excludeIds,Integer nDaysBefore) {
+	private List<Long> queryHotTag(int top,Integer nDaysBefore) {
 		
 		Map map = new HashMap();
-		
-		map.put("offset", offset);
-		
-		map.put("limit", pagSize);
-		
-		map.put("ids", listToString(excludeIds));
 
+		map.put("limit", top);
 		map.put("compareTime", nDaysBefore == null?null:DateUtils.getNDaysBefore(nDaysBefore, new Date()));
 
-		return sqlSessionTemplate.selectList(getSqlName("queryHotTagByPage"), map);
+		return sqlSessionTemplate.selectList(getSqlName("queryHotTag"), map);
 
 	}
 	

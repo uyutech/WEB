@@ -139,6 +139,36 @@ public class RegisterController extends BaseController {
 
 		return ApiResponse.success();
 	}
+	
+	
+	
+	/**
+	 * 登录进来之后，发送修改密码的短信
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	@RequestMapping(value = "/sendChangePwdSms",produces = {"application/json"})
+	@ResponseBody
+	public ApiResponse sendChangePwdSms(long uid) {
+
+
+		return ApiResponse.success();
+	}
+	
+	
+//	/**
+//	 * 发送忘记密码的短信
+//	 */
+//	@RequestMapping(value = "/sendForgetPwdSms",produces = {"application/json"})
+//	@ResponseBody
+//	public ApiResponse sendForgetPwdSms(String mobile) {	
+//		
+//
+//		
+//	}
+//	
+	
 
 //	/**
 //	 * 注册设置性别

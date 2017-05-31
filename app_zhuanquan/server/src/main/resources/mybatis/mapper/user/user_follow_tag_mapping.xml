@@ -70,19 +70,14 @@
 	</select>
 
 
-	<select id="queryHotTagByPage" resultType="java.lang.Long"
+	<select id="queryHotTag" resultType="java.lang.Long"
 		parameterType="java.util.Map">
 		select tag_id from user_follow_tag where status =1
 		<if test="compareTime != null">		
                 <![CDATA[ and create_time>= #{compareTime}   ]]>
 		</if>
 
-		<if test="ids != null">
-			and tag_id not in (${ids})
-		</if>
-
-		group by tag_id order by count(uid) desc limit #{limit} offset
-		#{offset};
+		group by tag_id order by count(uid) desc limit #{limit} ;
 	</select>
 
 

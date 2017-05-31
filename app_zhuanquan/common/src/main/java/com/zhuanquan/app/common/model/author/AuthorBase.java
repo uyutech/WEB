@@ -18,6 +18,12 @@ public class AuthorBase {
 	 * 作者的标签信息，多个以逗号分割 比如 歌手，作词
 	 */
 	private String authorTags;
+	
+	
+	/**
+	 * 头像地址
+	 */
+	private String headUrl;
 
 	/**
 	 * 作者账号状态
@@ -76,4 +82,14 @@ public class AuthorBase {
 		this.modifyTime = modifyTime;
 	}
 
+	public String getHeadUrl() {
+		return headUrl;
+	}
+
+	public void setHeadUrl(String headUrl) {
+		this.headUrl = headUrl;
+	}
+
+	
+	
 }

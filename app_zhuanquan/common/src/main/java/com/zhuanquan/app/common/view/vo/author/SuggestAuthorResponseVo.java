@@ -19,32 +19,30 @@ public class SuggestAuthorResponseVo implements Serializable {
 	/**
 	 * 推荐的author
 	 */
-	private List<SuggestAuthorUnit> suggestAuthors;
+	private List<SuggestAuthorUnit> dataList;
 	
 	/**
 	 * 页数
 	 */
-	private int page;
+	private int fromIndex;
 	
 	/**
 	 * 用户id
 	 */
 	private long uid;
+	
+	/**
+	 * 查多少条
+	 */
+	private long limit;
 
-	public List<SuggestAuthorUnit> getSuggestAuthors() {
-		return suggestAuthors;
+
+	public List<SuggestAuthorUnit> getDataList() {
+		return dataList;
 	}
 
-	public void setSuggestAuthors(List<SuggestAuthorUnit> suggestAuthors) {
-		this.suggestAuthors = suggestAuthors;
-	}
-
-	public int getPage() {
-		return page;
-	}
-
-	public void setPage(int page) {
-		this.page = page;
+	public void setDataList(List<SuggestAuthorUnit> dataList) {
+		this.dataList = dataList;
 	}
 
 	public long getUid() {
@@ -54,6 +52,24 @@ public class SuggestAuthorResponseVo implements Serializable {
 	public void setUid(long uid) {
 		this.uid = uid;
 	}
+
+	public int getFromIndex() {
+		return fromIndex;
+	}
+
+	public void setFromIndex(int fromIndex) {
+		this.fromIndex = fromIndex;
+	}
+
+	public long getLimit() {
+		return limit;
+	}
+
+	public void setLimit(long limit) {
+		this.limit = limit;
+	}
+	
+	
 	
 
 }

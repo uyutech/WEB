@@ -23,4 +23,12 @@ public interface AuthorBaseDAO {
 	List<AuthorBase> queryByAuthorName(String authorName);
 	
 	
+	/**
+	 * 根据ids批量差
+	 * @param authorIds
+	 * @return
+	 */
+	List<AuthorBase> queryByAuthorIds(List<Long> authorIds);
+	
+	
 }

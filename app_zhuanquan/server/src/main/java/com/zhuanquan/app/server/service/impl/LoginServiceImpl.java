@@ -24,15 +24,17 @@ import com.zhuanquan.app.common.model.user.UserOpenAccount;
 import com.zhuanquan.app.common.model.user.UserProfile;
 import com.zhuanquan.app.common.utils.CommonUtil;
 import com.zhuanquan.app.common.utils.MD5;
+import com.zhuanquan.app.common.view.bo.ThirdChannelSyncFollowAuthorRequestBo;
 import com.zhuanquan.app.common.view.vo.user.LoginByOpenIdRequestVo;
 import com.zhuanquan.app.common.view.vo.user.LoginRequestVo;
 import com.zhuanquan.app.common.view.vo.user.LoginResponseVo;
 import com.zhuanquan.app.dal.dao.user.UserOpenAccountDAO;
 import com.zhuanquan.app.dal.dao.user.UserProfileDAO;
 import com.zhuanquan.app.server.cache.UserOpenAccountCache;
+import com.zhuanquan.app.server.openapi.OpenApiService;
 import com.zhuanquan.app.server.service.LoginService;
-import com.zhuanquan.app.server.service.OpenApiService;
 import com.zhuanquan.app.server.service.TransactionService;
+import com.zhuanquan.app.server.thread.ThirdChannelSyncThreadPool;
 
 @Service
 public class LoginServiceImpl implements LoginService {
@@ -247,7 +249,17 @@ public class LoginServiceImpl implements LoginService {
 			// 第三方登录注册
 			UserProfile profile = transactionService.normalOpenAccountRegister(request);
 
-			// 普通第三方账户注册，非大v
+			//第三方注册成功，启动异步线程去同步第三方关注列表，查询有无关注的作者与我们库中相匹配的，放到注册推荐的作者缓存中去，有效时间15分钟
+			//超过有效期之后，用户即使再去设置注册信息，推荐作者里就只会推荐我们网站热度高的作者，不会再推荐他的第三方里的作者
+			ThirdChannelSyncFollowAuthorRequestBo bo = new ThirdChannelSyncFollowAuthorRequestBo();
+			bo.setChannelType(request.getChannelType());
+			bo.setOpenId(request.getOpenId());
+			bo.setToken(request.getToken());
+			bo.setUid(profile.getUid());
+			ThirdChannelSyncThreadPool.scheduleSyncFollowAuthorRequest(bo);
+			
+			
+			// 
 			return sessionCreate(profile, request.getLoginType(), request.getOpenId(), request.getChannelType(),
 					UserOpenAccount.NORMAL_ACCOUNT);
 		}
@@ -309,7 +321,6 @@ public class LoginServiceImpl implements LoginService {
 
 		// 设置登录后注册的状态，需要根据状态决定是否跳转到注册引导页面
 		response.setRegStat(profile.getRegStat());
-
 		response.setIsVip(profile.getIsVip());
 
 

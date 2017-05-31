@@ -23,5 +23,11 @@ public class AuthorBaseDAOImpl extends BaseDao implements AuthorBaseDAO {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public List<AuthorBase> queryByAuthorIds(List<Long> authorIds) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }

@@ -18,16 +18,18 @@ public class SmsRequestBo implements Serializable {
 	 * 手机号
 	 */
 	private String mobile;
-	
-	/**
-	 * 短信模版
-	 */
-	private String template;
+
 	
     /**
      * 验证码
      */
 	private String code;
+	
+	/**
+	 * 短信类型
+	 * @see   com.zhuanquan.app.common.component.sms.constants.SmsTypeConstants
+	 */
+	private int type; 
 
 
 	public String getMobile() {
@@ -40,15 +42,6 @@ public class SmsRequestBo implements Serializable {
 	}
 
 
-	public String getTemplate() {
-		return template;
-	}
-
-
-	public void setTemplate(String template) {
-		this.template = template;
-	}
-
 
 	public String getCode() {
 		return code;
@@ -58,9 +51,17 @@ public class SmsRequestBo implements Serializable {
 	public void setCode(String code) {
 		this.code = code;
 	}
+
+
+	public int getType() {
+		return type;
+	}
+
+
+	public void setType(int type) {
+		this.type = type;
+	}
 	
-	
-	
-	
+
 	
 }

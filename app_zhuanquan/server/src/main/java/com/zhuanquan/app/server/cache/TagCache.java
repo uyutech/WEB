@@ -18,7 +18,7 @@ public interface TagCache {
 	 * 获取随机的tag
 	 * @return
 	 */
-	List<SuggestTagVo> getSuggestTag(int pageNum,int pageSize);
+	List<SuggestTagVo> getSuggestTag(long uid,int fromIndex,int limit);
 	
 	
 	/**

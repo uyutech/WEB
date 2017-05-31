@@ -22,7 +22,7 @@ public class RedisKeyBuilder {
 	 */
 	public static String getRegisterSmsVerfiyCodeKey(String mobile) {
 		
-		return "gw:register:mobile:sms:"+mobile;
+		return "gw:reg:mobile:sms:"+mobile;
 	}
 	
 	
@@ -238,14 +238,25 @@ public class RedisKeyBuilder {
 	
 	
 	/**
-	 * 热点tag key推荐
+	 * 通用的热点tag key推荐
 	 * @param mobile
 	 * @return
 	 */
-	public static String getHotTagsSuggestKey() {
+	public static String getPublicHotTagsSuggestKey() {
 		
-		return "gw:tag:hot:suggest";
+		return "gw:tag:hot:suggest:public";
 	}
+	
+
+	/**
+	 * 个人的个性化热点tag key推荐
+	 * @param mobile
+	 * @return
+	 */
+	public static String getPrivateHotTagsSuggestKey(long uid) {
+		
+		return "gw:tag:hot:suggest:private:uid:"+uid;
+	}	
 	
 	
 	
@@ -259,6 +270,51 @@ public class RedisKeyBuilder {
 		
 		return "gw:tag:ids:query";
 	}
+	
+	
+	
+	/**
+	 * 全局的top 热度排行key
+	 * @return
+	 */
+	public static String getGlobalHotAuthorKey() {
+		return "gw:author:hot:global";
+	}
+	
+	/**
+	 * 用户注册给推荐的作者
+	 * @param uid
+	 * @return
+	 */
+	public static String getSuggestHotAuthorKey(long uid) {
+		return "gw:reg:sug:author:uid:"+uid;
+	}
+	
+	
+	
+	/**
+	 * 从第三方同步的作者的key的
+	 * @return
+	 */
+	public static String getOpenAccountSyncFollowAuthorKey(int channelType,long uid) {
+		
+		return "gw:openapi:syncfollowauth:channel:"+channelType+":uid:"+uid;
+	}
+	
+	
+	
+	
+	
+	/**
+	 * author列表的base 数据
+	 * @param mobile
+	 * @return
+	 */
+	public static String getAuthorBaseKey() {
+		
+		return "gw:author:baseinfo";
+	}
+	
 }
 
 

@@ -101,9 +101,12 @@ public interface RegisterService {
 	 */
 	void forgetPassword(String mobile, String verifyCode,String password);
 	
+	
+	
+	
 	/**
 	 * 修改密码
-	 * @param verifyCode 验证码
+	 * @param verifyCode 修改密码的验证码
 	 * @param newPwd 新密码
 	 */
 	void modifyPassword(String verifyCode,String newPwd);
@@ -123,5 +126,27 @@ public interface RegisterService {
 	void sendRegisterSms(String mobile) ;
 	
 	
-	
+//	/**
+//	 * 发送忘记密码验证短信
+//	 * @param mobile
+//	 */
+//	void sendForgetPwdSms(String mobile) ;
+//	
+//	
+//	/**
+//	 * 校验忘记密码的验证码是否正确
+//	 * 
+//	 * @param mobile
+//	 * @param verifyCode
+//	 */
+//	RegisterResponseVo verifyForgetPwdSms(String mobile,String verifyCode);
+//	
+//	
+//	
+//	
+//	/**
+//	 * 发送修改密码验证短信
+//	 * @param uid
+//	 */
+//	void sendChangePwdSms(long uid);
 }

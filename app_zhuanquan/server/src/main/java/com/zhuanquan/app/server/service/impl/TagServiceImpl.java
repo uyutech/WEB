@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.zhuanquan.app.common.view.vo.author.SuggestTagResponseVo;
 import com.zhuanquan.app.common.view.vo.author.SuggestTagVo;
 import com.zhuanquan.app.server.cache.TagCache;
 import com.zhuanquan.app.server.service.TagService;
@@ -19,9 +20,18 @@ public class TagServiceImpl implements TagService {
 	private TagCache tagCache;
 	
 	@Override
-	public List<SuggestTagVo> getSuggestTags(long uid,int pageNum,int pagesize) {
+	public SuggestTagResponseVo getSuggestTags(long uid,int fromIndex,int limit) {
 		
-		return tagCache.getSuggestTag(pageNum, pagesize);
+		List<SuggestTagVo> list =  tagCache.getSuggestTag(uid,fromIndex,limit);
+		
+		SuggestTagResponseVo response = new SuggestTagResponseVo();
+		
+		response.setDataList(list);
+		response.setFromIndex(fromIndex);
+		response.setUid(uid);
+		response.setLimit(limit);
+		
+		return response;
 
 	}
 	
