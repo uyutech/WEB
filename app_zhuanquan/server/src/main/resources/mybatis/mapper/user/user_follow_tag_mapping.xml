@@ -77,7 +77,7 @@
                 <![CDATA[ and modify_time>= #{compareTime}   ]]>
 		</if>
 
-		group by tag_id order by count(uid) desc limit #{limit} ;
+		group by tag_id order by count(uid) desc,tag_id asc limit #{limit} ;
 	</select>
 
 
