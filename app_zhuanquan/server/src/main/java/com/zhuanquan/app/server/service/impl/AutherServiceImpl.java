@@ -6,6 +6,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.concurrent.TimeUnit;
 import java.util.Set;
 
 import javax.annotation.Resource;
@@ -93,9 +94,13 @@ public class AutherServiceImpl implements AutherService {
 
 		// zset按照score排序，即index
 		for (int index = 0; index < allList.size(); index++) {
-			set.add(new DefaultTypedTuple(JSON.toJSON(allList.get(index)), (double) index));
+			set.add(new DefaultTypedTuple(JSON.toJSONString(allList.get(index)), (double) index));
 		}
 
+		redisHelper.zsetAdd(hotKey, set);
+		redisHelper.expire(hotKey, 5, TimeUnit.MINUTES);
+		
+		
 		sets = redisHelper.zsetRevrange(hotKey, vo.getFromIndex(), vo.getFromIndex() + vo.getLimit() - 1);
 
 		return sets != null ? (CommonUtil.deserializArray(sets, SuggestAuthorUnit.class)) : null;

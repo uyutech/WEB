@@ -1,7 +1,9 @@
 package com.zhuanquan.app.dal.dao.author.impl;
 
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
@@ -14,20 +16,21 @@ public class AuthorBaseDAOImpl extends BaseDao implements AuthorBaseDAO {
 
 	@Override
 	public AuthorBase queryByAuthorId(long authorId) {
-		// TODO Auto-generated method stub
-		return null;
+		return sqlSessionTemplate.selectOne(getSqlName("queryByAuthorId"), authorId);
 	}
 
 	@Override
 	public List<AuthorBase> queryByAuthorName(String authorName) {
-		// TODO Auto-generated method stub
-		return null;
+		return sqlSessionTemplate.selectList(getSqlName("queryByAuthorName"), authorName);
 	}
 
 	@Override
 	public List<AuthorBase> queryByAuthorIds(List<Long> authorIds) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		Map map = new HashMap();
+		map.put("ids", listToString(authorIds));		
+		
+		return sqlSessionTemplate.selectList(getSqlName("queryByAuthorIds"), map);
 	}
 	
 }
