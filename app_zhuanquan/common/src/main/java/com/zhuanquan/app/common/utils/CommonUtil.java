@@ -2,13 +2,17 @@ package com.zhuanquan.app.common.utils;
 
 import java.math.BigDecimal;
 import java.security.MessageDigest;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import com.alibaba.fastjson.JSON;
@@ -346,5 +350,24 @@ public class CommonUtil {
 //		System.out.println(checkMail("970474341@qq.com"));
 	}
 
- 
+	/**
+	 * 
+	 * @param set
+	 * @param clazz
+	 * @return
+	 */
+	 public static <T> List<T> deserializArray(Set<String> set, Class<T> clazz){
+		 
+		 if(CollectionUtils.isEmpty(set)) {
+			 return null;
+		 }
+		 
+		 List<T> list =new ArrayList<T>();
+		 
+		 for(String str:set) {
+			 list.add(JSON.parseObject(str, clazz));
+		 }
+		 
+		return list; 
+	 }
 }

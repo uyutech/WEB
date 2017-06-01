@@ -74,7 +74,7 @@
 		parameterType="java.util.Map">
 		select tag_id from user_follow_tag where status =1
 		<if test="compareTime != null">		
-                <![CDATA[ and create_time>= #{compareTime}   ]]>
+                <![CDATA[ and modify_time>= #{compareTime}   ]]>
 		</if>
 
 		group by tag_id order by count(uid) desc limit #{limit} ;

@@ -38,8 +38,14 @@ public class AuthorController {
 	 */
 	@RequestMapping(value = "/getSuggestAuthors",produces = {"application/json"})
 	@ResponseBody
-	public ApiResponse getSuggestAuthors(@RequestBody SuggestAuthorRequestVo request) {
+	public ApiResponse getSuggestAuthors(int channel,long uid, int fromIndex, int limit) {
 
+		SuggestAuthorRequestVo request = new SuggestAuthorRequestVo();
+		request.setChannelType(channel);
+		request.setFromIndex(fromIndex);
+		request.setLimit(limit);
+		request.setUid(uid);
+		
 		SuggestAuthorResponseVo vo = autherService.getSuggestAuthors(request);
 
 		return ApiResponse.success(vo);

@@ -27,6 +27,7 @@ import com.zhuanquan.app.common.component.event.redis.CacheChangedListener;
 import com.zhuanquan.app.common.component.event.redis.CacheClearEvent;
 import com.zhuanquan.app.common.component.event.redis.RedisCacheEnum;
 import com.zhuanquan.app.common.model.common.Tag;
+import com.zhuanquan.app.common.utils.CommonUtil;
 import com.zhuanquan.app.common.view.vo.author.SuggestTagVo;
 import com.zhuanquan.app.dal.dao.author.TagDAO;
 import com.zhuanquan.app.dal.dao.user.UserFollowTagsMappingDAO;
@@ -49,11 +50,7 @@ public class TagCacheImpl extends CacheChangedListener implements TagCache {
 	@Resource
 	private UserFollowTagsMappingDAO userFollowTagsMappingDAO;
 
-//	@Resource
-//	private HotTagsUpdateTask hotTagsUpdateTask;
 
-	@Resource
-	private RedisZSetOperations<String, SuggestTagVo> redisZSetOperations;
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
@@ -62,11 +59,12 @@ public class TagCacheImpl extends CacheChangedListener implements TagCache {
 		String privateSuggestKey = RedisKeyBuilder.getPrivateHotTagsSuggestKey(uid);
 
 		// 尝试从zset缓存中获取
-		Set<SuggestTagVo> sets = redisZSetOperations.reverseRange(privateSuggestKey, fromIndex, fromIndex + limit - 1);
+		Set<String> sets = redisHelper.zsetRevrange(privateSuggestKey, fromIndex, fromIndex + limit - 1);
 
 		// 缓存中有值
-		if (sets != null) {
-			return new ArrayList<SuggestTagVo>(sets);
+		if (sets != null && sets.size() != 0) {
+
+			return CommonUtil.deserializArray(sets, SuggestTagVo.class);
 		}
 
 		// 缓存中没有，尝试初始化
@@ -88,19 +86,20 @@ public class TagCacheImpl extends CacheChangedListener implements TagCache {
 
 		// 设置个人的缓存，有效期为5分钟
 
-		Set<TypedTuple<SuggestTagVo>> set = new LinkedHashSet<TypedTuple<SuggestTagVo>>(list.size());
+		Set<TypedTuple<String>> set = new LinkedHashSet<TypedTuple<String>>(list.size());
 
 		//zset按照score排序，即index
 		for (int index = 0; index < list.size(); index++) {
-			set.add(new DefaultTypedTuple(list.get(index), (double) index));
+			set.add(new DefaultTypedTuple(JSON.toJSONString(list.get(index)), (double) index));
 		}
 
-		redisZSetOperations.add(privateSuggestKey, set);
+		redisHelper.zsetAdd(privateSuggestKey, set);
 		redisHelper.expire(privateSuggestKey, 5, TimeUnit.MINUTES);
 
-		sets = redisZSetOperations.reverseRange(privateSuggestKey, fromIndex, fromIndex + limit - 1);
+		sets = redisHelper.zsetRevrange(privateSuggestKey, fromIndex, fromIndex + limit - 1);
 
-		return sets != null ? (new ArrayList<SuggestTagVo>(sets)) : null;
+		return CommonUtil.deserializArray(sets, SuggestTagVo.class);
+
 	}
 
 	/**
@@ -253,5 +252,9 @@ public class TagCacheImpl extends CacheChangedListener implements TagCache {
 
 		return list;
 	}
+
+	
+	
+	
 
 }

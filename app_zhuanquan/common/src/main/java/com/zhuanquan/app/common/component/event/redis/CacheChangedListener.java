@@ -1,12 +1,16 @@
 package com.zhuanquan.app.common.component.event.redis;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.context.ApplicationListener;
 
+import com.alibaba.fastjson.JSON;
 import com.zhuanquan.app.common.component.event.redis.CacheClearEvent;
 import com.zhuanquan.app.common.component.event.redis.RedisCacheEnum;
+import com.zhuanquan.app.common.view.vo.author.SuggestTagVo;
 
 
 /**
@@ -61,6 +65,7 @@ public abstract class CacheChangedListener implements ApplicationListener<CacheC
 	 * @param event
 	 */
 	public abstract void doProcessCacheCleanEvent(CacheClearEvent event);
+
 
 	
 }

@@ -6,6 +6,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import org.springframework.data.redis.core.ZSetOperations;
+
 import com.zhuanquan.app.common.component.cache.redis.GracefulRedisTemplate;
 import com.zhuanquan.app.common.component.cache.redis.RedisHashOperations;
 import com.zhuanquan.app.common.component.cache.redis.RedisListOperations;
@@ -790,4 +792,13 @@ public class RedisHelper {
 		
 		redisZSetOperations.incrementScore(key, member, incr);
 	}
+	
+	
+	
+
+	public Long zsetAdd(String key, Set<ZSetOperations.TypedTuple<String>> typedTuples) {
+		
+		return redisZSetOperations.add(key, typedTuples);
+	}
+
 }

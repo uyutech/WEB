@@ -16,10 +16,6 @@ public class SuggestAuthorRequestVo implements Serializable {
 	 */
 	private static final long serialVersionUID = 1687235272081827456L;
 
-	/**
-	 * 第三方已经关注的作者的openid
-	 */
-	private List<String> followOpenIds;
 
 	/**
 	 * 登录的渠道 0-手机登录 1-微博登录
@@ -44,13 +40,6 @@ public class SuggestAuthorRequestVo implements Serializable {
 	 */
 	private int limit;
 
-	public List<String> getFollowOpenIds() {
-		return followOpenIds;
-	}
-
-	public void setFollowOpenIds(List<String> followOpenIds) {
-		this.followOpenIds = followOpenIds;
-	}
 
 	public int getChannelType() {
 		return channelType;

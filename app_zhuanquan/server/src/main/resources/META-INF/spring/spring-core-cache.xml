@@ -44,72 +44,6 @@
     </bean>
 
 
-
-
-    <!--session 用 redis-->     
-    <bean id="sessionMultJedisConnectionFactory" class="com.zhuanquan.app.common.component.cache.redis.proxy.MultJedisConnectionFactory"
-          p:timeout="200"
-          p:poolConfig-ref="jedisPoolConfig"
-          p:tweproxyAddrs="${redis.notsync.twemproxy.addresses:127.0.0.1:6379}"
-          p:password="${redis.notsync.twemproxy.auth:''}"
-          p:dbIndex="${redis.notsync.twemproxy.database:0}" />   
-
-    <bean id="sessionGracefulRedisTemplate"
-          class="com.zhuanquan.app.common.component.cache.redis.GracefulRedisTemplate"  
-          p:connectionFactory-ref="sessionMultJedisConnectionFactory"
-          p:keySerializer-ref="stringRedisSerializer"
-          p:valueSerializer-ref="stringRedisSerializer"
-          p:hashKeySerializer-ref="stringRedisSerializer"
-          
-          />
-          
-
-    <bean id="sessionRedisValueOperations" class="com.zhuanquan.app.common.component.cache.redis.RedisValueOperations" 
-       p:valueOperations-ref="sessionGracefulRedisTemplate" p:valueOperationsReadOnly-ref="sessionGracefulRedisTemplate" />
-  
-    
-    <bean id="sessionRedisSetOperations" class="com.zhuanquan.app.common.component.cache.redis.RedisSetOperations" 
-       p:setOperations-ref="sessionGracefulRedisTemplate" p:setOperationsReadOnly-ref="sessionGracefulRedisTemplate" />
-
-    
-    <bean id="sessionRedisZSetOperations" class="com.zhuanquan.app.common.component.cache.redis.RedisZSetOperations"  
-       p:zsetOperations-ref="sessionGracefulRedisTemplate" p:zsetOperationsReadOnly-ref="sessionGracefulRedisTemplate" />
-    
-    
-    <bean id="sessionRedisListOperations" class="com.zhuanquan.app.common.component.cache.redis.RedisListOperations" 
-       p:listOperations-ref="sessionGracefulRedisTemplate" p:listOperationsReadOnly-ref="sessionGracefulRedisTemplate" />
-
-    <bean id="sessionRedisHashOperations" class="com.zhuanquan.app.common.component.cache.redis.RedisHashOperations" 
-       p:hashOperations-ref="sessionGracefulRedisTemplate" p:hashOperationsReadOnly-ref="sessionGracefulRedisTemplate" />
-
-
-       <!--jedis 存放 对象，不用string 序列化，用默认的jdk序列化-->
-        <bean id="jedisExcuteTemplate" class="com.zhuanquan.app.common.component.cache.redis.proxy.jedis.JedisExcuteTemplate"
-    p:connectionFactory-ref="sessionMultJedisConnectionFactory"/>
-
-       <bean id="jedisClient" class="com.zhuanquan.app.common.component.cache.redis.proxy.jedis.impl.JedisClientImpl"
-         p:jedisExcuteTemplate-ref="jedisExcuteTemplate"/> 
-
-
-    <bean id="sessionRedisHelper" class="com.zhuanquan.app.common.component.cache.redis.utils.RedisHelper" >
-          <!--  -->
-          <property name="gracefulRedisTemplate" ref="sessionGracefulRedisTemplate" />
-          <property name="redisValueOperations" ref="sessionRedisValueOperations" />
-          <property name="redisHashOperations" ref="sessionRedisHashOperations" />
-          <property name="redisListOperations" ref="sessionRedisListOperations" />
-      
-          
-    </bean>    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     <bean id= "redisSimpleLock" class = "com.zhuanquan.app.common.component.cache.redis.lock.RedisSimpleLock" >
           <property name="gracefulRedisTemplate" ref="gracefulRedisTemplate" />
           <property name="redisValueOperations" ref="redisValueOperations" />
@@ -122,9 +56,6 @@
           <property name="redisValueOperations" ref="redisValueOperations" />
 
     </bean>   
-
-
-
 
 
 
@@ -172,10 +103,9 @@
           <property name="redisValueOperations" ref="redisValueOperations" />
           <property name="redisHashOperations" ref="redisHashOperations" />
           <property name="redisListOperations" ref="redisListOperations" />
+          <property name="redisZSetOperations" ref="redisZSetOperations" />
 
     </bean>    
     
-
-
 
 </beans>

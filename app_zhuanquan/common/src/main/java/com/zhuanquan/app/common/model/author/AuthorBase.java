@@ -14,10 +14,10 @@ public class AuthorBase {
 	 */
 	private String authorName;
 
-	/**
-	 * 作者的标签信息，多个以逗号分割 比如 歌手，作词
-	 */
-	private String authorTags;
+//	/**
+//	 * 作者的标签信息，多个以逗号分割 比如 歌手，作词
+//	 */
+//	private String authorTags;
 	
 	
 	/**
@@ -50,13 +50,13 @@ public class AuthorBase {
 		this.authorName = authorName;
 	}
 
-	public String getAuthorTags() {
-		return authorTags;
-	}
-
-	public void setAuthorTags(String authorTags) {
-		this.authorTags = authorTags;
-	}
+//	public String getAuthorTags() {
+//		return authorTags;
+//	}
+//
+//	public void setAuthorTags(String authorTags) {
+//		this.authorTags = authorTags;
+//	}
 
 	public Integer getStatus() {
 		return status;

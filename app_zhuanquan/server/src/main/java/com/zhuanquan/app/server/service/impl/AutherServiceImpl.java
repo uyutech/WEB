@@ -25,9 +25,11 @@ import com.zhuanquan.app.common.component.cache.redis.utils.RedisHelper;
 import com.zhuanquan.app.common.model.author.AuthorBase;
 import com.zhuanquan.app.common.model.author.AuthorHotIndexes;
 import com.zhuanquan.app.common.model.author.VipAuthorOpenAccountMapping;
+import com.zhuanquan.app.common.utils.CommonUtil;
 import com.zhuanquan.app.common.view.vo.author.SuggestAuthorRequestVo;
 import com.zhuanquan.app.common.view.vo.author.SuggestAuthorResponseVo;
 import com.zhuanquan.app.common.view.vo.author.SuggestAuthorUnit;
+import com.zhuanquan.app.common.view.vo.author.SuggestTagVo;
 import com.zhuanquan.app.dal.dao.author.VipAuthorOpenAccountMappingDAO;
 import com.zhuanquan.app.server.cache.AuthorCache;
 import com.zhuanquan.app.server.cache.AuthorHotIndexesCache;
@@ -40,9 +42,6 @@ public class AutherServiceImpl implements AutherService {
 
 	@Resource
 	private VipAuthorOpenAccountMappingDAO vipAuthorOpenAccountMappingDAO;
-
-	@Resource
-	private RedisZSetOperations<String, SuggestAuthorUnit> redisZSetOperations;
 
 	@Resource
 	private RedisHelper redisHelper;
@@ -75,11 +74,11 @@ public class AutherServiceImpl implements AutherService {
 		String hotKey = RedisKeyBuilder.getSuggestHotAuthorKey(vo.getUid());
 
 		// 尝试从zset缓存中获取
-		Set<SuggestAuthorUnit> sets = redisZSetOperations.reverseRange(hotKey, vo.getFromIndex(),
+		Set<String> sets =  redisHelper.zsetRevrange(hotKey, vo.getFromIndex(),
 				vo.getFromIndex() + vo.getLimit() - 1);
 
-		if (sets != null) {
-			return new ArrayList<SuggestAuthorUnit>(sets);
+		if (sets != null&&sets.size()!=0) {
+			return CommonUtil.deserializArray(sets, SuggestAuthorUnit.class);
 		}
 
 		List<SuggestAuthorUnit> allList = lazyFetchSuggestAuthorInfo(vo);
@@ -90,16 +89,16 @@ public class AutherServiceImpl implements AutherService {
 
 		// 设置个人的缓存，有效期为5分钟
 
-		Set<TypedTuple<SuggestAuthorUnit>> set = new LinkedHashSet<TypedTuple<SuggestAuthorUnit>>(allList.size());
+		Set<TypedTuple<String>> set = new LinkedHashSet<TypedTuple<String>>(allList.size());
 
 		// zset按照score排序，即index
 		for (int index = 0; index < allList.size(); index++) {
-			set.add(new DefaultTypedTuple(allList.get(index), (double) index));
+			set.add(new DefaultTypedTuple(JSON.toJSON(allList.get(index)), (double) index));
 		}
 
-		sets = redisZSetOperations.reverseRange(hotKey, vo.getFromIndex(), vo.getFromIndex() + vo.getLimit() - 1);
+		sets = redisHelper.zsetRevrange(hotKey, vo.getFromIndex(), vo.getFromIndex() + vo.getLimit() - 1);
 
-		return sets != null ? (new ArrayList<SuggestAuthorUnit>(sets)) : null;
+		return sets != null ? (CommonUtil.deserializArray(sets, SuggestAuthorUnit.class)) : null;
 	}
 
 	/**
