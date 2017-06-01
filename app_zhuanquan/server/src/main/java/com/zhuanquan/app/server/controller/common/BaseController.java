@@ -45,9 +45,9 @@ public class BaseController {
 	 */
 	public void checkLoginUid(long uid) {
 		
-//		if(uid!=getCurrentLoginUid()){
-//			throw new BizException(BizErrorCode.EX_UID_NOT_CURRENT_LOGIN_USER.getCode());
-//		}
+		if(uid!=getCurrentLoginUid()){
+			throw new BizException(BizErrorCode.EX_UID_NOT_CURRENT_LOGIN_USER.getCode());
+		}
 	}
 	
 }
