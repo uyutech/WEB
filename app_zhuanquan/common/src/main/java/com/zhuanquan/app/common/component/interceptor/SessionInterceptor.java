@@ -73,6 +73,10 @@ public class SessionInterceptor implements HandlerInterceptor {
 		REQUEST_LOCAL.set(httpServletRequest);
 		RESPONSE_LOCAL.set(httpServletResponse);
 
+		httpServletResponse.setCharacterEncoding("UTF-8");
+		httpServletResponse.setHeader("Cache-Control", "no-cache");
+		
+		
 		//设置header
 		setAccessControlHeader(httpServletRequest,httpServletResponse);
 
