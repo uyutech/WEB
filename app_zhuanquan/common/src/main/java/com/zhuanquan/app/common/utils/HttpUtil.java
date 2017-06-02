@@ -19,6 +19,7 @@ import javax.net.ssl.X509TrustManager;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
 import org.apache.http.ParseException;
 import org.apache.http.client.ClientProtocolException;
@@ -188,7 +189,7 @@ public final class HttpUtil
 	 *            解码字符集,解析响应数据时用之,其为null时默认采用UTF-8解码
 	 * @return 远程主机响应正文
 	 */
-	public static Map<String, Object> sendGetRequest(String reqURL, String decodeCharset)
+	public static String sendGetRequest(String reqURL, String decodeCharset)
 	{
 		Map<String, Object> rs = new HashMap<String, Object>();
 		long responseLength = 0; // 响应长度
@@ -198,6 +199,15 @@ public final class HttpUtil
 		try
 		{
 			HttpResponse response = httpClient.execute(httpGet); // 执行GET请求
+			
+			int statusCode = response.getStatusLine().getStatusCode();
+			
+            if (statusCode != HttpStatus.SC_OK) {
+            	LOGGER.error( "[HttpUtils Post] error, url : {}   status :{}",
+                        reqURL,statusCode);
+                return "";
+            }
+
 			HttpEntity entity = response.getEntity(); // 获取响应实体
 			if (null != entity)
 			{
@@ -205,12 +215,13 @@ public final class HttpUtil
 				responseContent = EntityUtils.toString(entity, decodeCharset == null ? "UTF-8" : decodeCharset);
 				EntityUtils.consume(entity); // Consume response content
 			}
-			rs.put(RS_STATUS, response.getStatusLine().getStatusCode());
-			rs.put(RS_LENGTH, responseLength);
-			rs.put(RS_CONTENT, responseContent);
+//			rs.put(RS_STATUS, response.getStatusLine().getStatusCode());
+//			rs.put(RS_LENGTH, responseLength);
+//			rs.put(RS_CONTENT, responseContent);
 			LOGGER.debug("请求URL：{}", reqURL);
 			LOGGER.debug("请求响应：\n{}\n{}", response.getStatusLine(), responseContent);
-			return rs;
+			
+			return responseContent;
 		}
 		catch (ClientProtocolException e)
 		{
@@ -451,6 +462,16 @@ public final class HttpUtil
 			httpPost.setEntity(new UrlEncodedFormEntity(formParams, encodeCharset == null ? "UTF-8" : encodeCharset));
 
 			HttpResponse response = httpClient.execute(httpPost);
+			
+			int statusCode = response.getStatusLine().getStatusCode();
+			
+            if (statusCode != HttpStatus.SC_OK) {
+            	LOGGER.error( "[HttpUtils Post] error, url : {}  , params : {},  status :{}",
+                        reqURL, params, statusCode);
+                return "";
+            }
+
+			
 			HttpEntity entity = response.getEntity();
 			if (null != entity)
 			{

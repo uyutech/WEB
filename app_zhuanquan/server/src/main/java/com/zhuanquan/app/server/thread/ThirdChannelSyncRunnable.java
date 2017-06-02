@@ -53,7 +53,6 @@ public class ThirdChannelSyncRunnable implements Runnable {
 		
 		Assert.notNull(redisHelper);
 
-
 	}
 
 	@Override

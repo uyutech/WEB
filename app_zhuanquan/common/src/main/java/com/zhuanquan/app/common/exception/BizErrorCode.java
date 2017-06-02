@@ -77,9 +77,9 @@ public enum BizErrorCode implements ErrorCode {
 	 //密码不合法
 	 EX_PWD_IS_NOT_ILLEGLE (100002014), 
 	 
-	 //第三方token鉴权失败
-	 EX_OPEN_ACCOUNT_TOKEN_VALIDATE_ERROR (100002015), 
-	 
+//	 //第三方token鉴权失败
+//	 EX_OPEN_ACCOUNT_TOKEN_VALIDATE_ERROR (100002015), 
+//	 
 	 //失败次数过多
 	 EX_OPEN_ACCOUNT_TOO_MANY_FAIL_TIMES_ERROR (100002016), 
 
@@ -113,6 +113,27 @@ public enum BizErrorCode implements ErrorCode {
 
       //收藏状态不对
 	  EX_FAV_ILLEGLE_FAV_STATUS(100004001), 	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+		//***************第三方api 异常****************************************	 
+	  
+	  
+		//***************第三方api 微博------ 110001****************************************	 
+	  
+	  
+		 
+		 //微博token鉴权失败
+		 EX_OPEN_ACCOUNT_WEIBO_TOKEN_VALIDATE_ERROR (110001001), 	  
+	  
+		 //微博获取关注列表异常
+		 EX_OPEN_ACCOUNT_WEIBO_GET_FOLLOW_UIDS_ERROR (110001002), 	  
+
 	  
 	;
 

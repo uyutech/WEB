@@ -36,8 +36,13 @@ public class OpenApiServiceImpl implements OpenApiService {
 	@Override
 	public List<String> getAllFollowedAuthorOpenIds(String accessToken, String openId, int channelType) {
 		
-		
-		return null;
+		OpenApiConnector connector = adaptor.getConnectorInstance(channelType);
+
+		if(connector == null) {
+			throw new BizException(BizErrorCode.EX_ILLEGLE_REQUEST_PARM.getCode(), "不支持的渠道类型!");
+		}
+
+		return connector.getAllFollowedAuthorOpenIds(accessToken, openId);
 	}
 
 }
