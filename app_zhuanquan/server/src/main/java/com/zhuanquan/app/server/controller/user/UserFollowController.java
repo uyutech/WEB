@@ -1,15 +1,12 @@
 package com.zhuanquan.app.server.controller.user;
 
 
-
-import javax.annotation.Resource;
-
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.zhuanquan.app.common.view.ApiResponse;
 import com.zhuanquan.app.server.controller.common.BaseController;
-import com.zhuanquan.app.server.service.UserService;
 
 
 /**
@@ -19,11 +16,11 @@ import com.zhuanquan.app.server.service.UserService;
  * @author zhangjun
  *
  */
+@Controller
+@RequestMapping(value="/follow")
 public class UserFollowController extends BaseController {
 	
 	
-	@Resource
-	private UserService userService;
 	
 	/**
 	 * 查询用户关注的作者信息
@@ -33,13 +30,10 @@ public class UserFollowController extends BaseController {
 	@RequestMapping(value="/queryUserFollowAuthors",produces = {"application/json"})
 	@ResponseBody
 	public ApiResponse queryUserFollowAuthors(long uid) {
-		
-		
 
 		return ApiResponse.success();
 	}
 	
 
-	
 	
 }

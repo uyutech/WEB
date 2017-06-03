@@ -1,7 +1,6 @@
 package com.zhuanquan.app.server.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
+
 import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Resource;
@@ -13,8 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.zhuanquan.app.common.component.cache.RedisKeyBuilder;
 import com.zhuanquan.app.common.component.cache.redis.utils.RedisHelper;
-import com.zhuanquan.app.common.component.interceptor.RemoteIPInterceptor;
-import com.zhuanquan.app.common.component.sesssion.SessionAttrbute;
+
 import com.zhuanquan.app.common.component.sesssion.SessionHolder;
 import com.zhuanquan.app.common.component.sesssion.UserSession;
 import com.zhuanquan.app.common.constants.LoginType;
@@ -23,7 +21,6 @@ import com.zhuanquan.app.common.exception.BizException;
 import com.zhuanquan.app.common.model.user.UserOpenAccount;
 import com.zhuanquan.app.common.model.user.UserProfile;
 import com.zhuanquan.app.common.utils.CommonUtil;
-import com.zhuanquan.app.common.utils.MD5;
 import com.zhuanquan.app.common.view.bo.ThirdChannelSyncFollowAuthorRequestBo;
 import com.zhuanquan.app.common.view.vo.user.LoginByOpenIdRequestVo;
 import com.zhuanquan.app.common.view.vo.user.LoginRequestVo;

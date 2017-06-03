@@ -5,7 +5,6 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.zhuanquan.app.common.exception.BizErrorCode;
@@ -214,7 +213,7 @@ public class RegisterController extends BaseController {
 	 */
 	@RequestMapping(value = "/setFollowTagsOnRegister",produces = {"application/json"})
 	@ResponseBody
-	public ApiResponse setFollowTagsOnRegister(@RequestBody SelectFollowTagsRequestVo request) {
+	public ApiResponse setFollowTagsOnRegister(SelectFollowTagsRequestVo request) {
 		
 		checkLoginUid(request.getUid());
 
@@ -231,7 +230,7 @@ public class RegisterController extends BaseController {
 	 */
 	@RequestMapping(value = "/setFollowAuthorsOnRegister",produces = {"application/json"})
 	@ResponseBody
-	public ApiResponse setFollowAuthorsOnRegister(@RequestBody SelectFollowAuthorRequestVo request) {
+	public ApiResponse setFollowAuthorsOnRegister(SelectFollowAuthorRequestVo request) {
 		checkLoginUid(request.getUid());
 
 		registerService.setFollowAuthorsOnRegister(request.getUid(), request.getAuthorIds());

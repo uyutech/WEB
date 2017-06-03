@@ -24,6 +24,8 @@ public enum BizErrorCode implements ErrorCode {
 	 //会话超市
 	 EX_SESSION_EXPIRE(1006), 
 
+	 //操作过于频繁
+	 EX_NOT_ALLOW_FREQUENT_OPER (1007), 
 	 
 //***************短信验证码****************************************	 
 	 

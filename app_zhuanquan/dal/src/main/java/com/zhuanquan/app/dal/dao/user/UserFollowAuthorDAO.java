@@ -66,6 +66,14 @@ public interface UserFollowAuthorDAO {
 	 * @param authIds
 	 */
 	void insertBatchFollowAuthorIds(long uid,List<Long> authIds);
+	
+	/**
+	 * 查询是否关注了
+	 * @param uid
+	 * @param workId
+	 * @return
+	 */
+	boolean queryHasFollowAuthor(long uid, long authId);
 
 	
 	

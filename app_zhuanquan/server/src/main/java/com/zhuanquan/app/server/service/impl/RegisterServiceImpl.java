@@ -29,7 +29,6 @@ import com.zhuanquan.app.common.view.vo.user.MobileRegisterRequestVo;
 import com.zhuanquan.app.common.view.vo.user.RegisterResponseVo;
 import com.zhuanquan.app.dal.dao.author.AuthorBaseDAO;
 import com.zhuanquan.app.dal.dao.author.TagDAO;
-import com.zhuanquan.app.dal.dao.user.UserFollowAuthorDAO;
 import com.zhuanquan.app.dal.dao.user.UserFollowTagsMappingDAO;
 import com.zhuanquan.app.dal.dao.user.UserOpenAccountDAO;
 import com.zhuanquan.app.dal.dao.user.UserProfileDAO;
@@ -37,6 +36,7 @@ import com.zhuanquan.app.server.cache.TagCache;
 import com.zhuanquan.app.server.cache.UserOpenAccountCache;
 import com.zhuanquan.app.server.service.RegisterService;
 import com.zhuanquan.app.server.service.TransactionService;
+import com.zhuanquan.app.server.service.UserFollowService;
 
 @Service
 public class RegisterServiceImpl implements RegisterService {
@@ -62,7 +62,7 @@ public class RegisterServiceImpl implements RegisterService {
 	private AuthorBaseDAO authorBaseDAO;
 
 	@Resource
-	private UserFollowAuthorDAO userFollowAuthorDAO;
+	private UserFollowService userFollowService;
 
 	@Resource
 	private UserOpenAccountCache userOpenAccountCache;
@@ -451,7 +451,7 @@ public class RegisterServiceImpl implements RegisterService {
 		// 为空的也要更新状态
 		if (CollectionUtils.isNotEmpty(authorIds)) {
 			// 第三步注册完了，设置状态为normal
-			userFollowAuthorDAO.insertBatchFollowAuthorIds(uid, authorIds);
+			userFollowService.setUserFollowAuthors(uid, authorIds);
 		}
 
 		// 第三步注册完了，设置状态为normal，

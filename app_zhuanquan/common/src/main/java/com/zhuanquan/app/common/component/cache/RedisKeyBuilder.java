@@ -315,6 +315,45 @@ public class RedisKeyBuilder {
 		return "gw:author:baseinfo";
 	}
 	
+	
+	
+	/**
+	 * 防止点赞过于频繁的锁
+	 * @param uid
+	 * @param workId
+	 * @return
+	 */
+	public static String upvoteTooManyTimesLock(long uid,long workId) {
+		
+		return "gw:upvote:timeslimit:uid:"+uid+":workId="+workId;
+	}
+	
+	
+	
+	/**
+	 * 防止收藏过于频繁的锁
+	 * @param uid
+	 * @param workId
+	 * @return
+	 */
+	public static String favTooManyTimesLock(long uid,long workId) {
+		
+		return "gw:fav:timeslimit:uid:"+uid+":workId="+workId;
+	}
+	
+	
+	
+	
+	/**
+	 * 防止关注点击过于频繁的锁
+	 * @param uid
+	 * @param workId
+	 * @return
+	 */
+	public static String followAuthorTooManyTimesLock(long uid,long authorId) {
+		
+		return "gw:follow:timeslimit:uid:"+uid+":authorId="+authorId;
+	}
 }
 
 

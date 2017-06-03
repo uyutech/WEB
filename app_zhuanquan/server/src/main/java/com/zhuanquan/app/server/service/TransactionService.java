@@ -3,7 +3,6 @@ package com.zhuanquan.app.server.service;
 import com.zhuanquan.app.common.model.user.UserProfile;
 import com.zhuanquan.app.common.view.vo.user.LoginByOpenIdRequestVo;
 import com.zhuanquan.app.common.view.vo.user.MobileRegisterRequestVo;
-import com.zhuanquan.app.common.view.vo.user.RegisterResponseVo;
 
 /**
  * 事务处理的service

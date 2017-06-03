@@ -77,6 +77,13 @@
   </insert>
 
 
+
+	<select id="queryHasFollowAuthor" resultMap="BaseResultMap"
+		parameterType="java.util.HashMap">
+		select * from user_follow_author where uid = #{uid}  and follow_author_id = #{authorId};
+	</select>
+
+
 </mapper>		
 
 

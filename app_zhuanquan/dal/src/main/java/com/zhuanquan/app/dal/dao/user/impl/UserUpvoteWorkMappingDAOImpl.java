@@ -16,25 +16,19 @@ public class UserUpvoteWorkMappingDAOImpl extends BaseDao implements UserUpvoteW
 
 	@Override
 	public UserUpvoteWorkMapping queryUserUpvoteWorkMapping(long uid, long workId) {
-		// TODO Auto-generated method stub
+		
+		
 		return null;
 	}
 
 	@Override
 	public List<Long> queryHasInsertWorkIds(long uid, Set<String> workIds) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
-	public void insertBatchUserUpvoteWorkMapping(List<UserUpvoteWorkMapping> records) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
-	public void updateBatchUserUpvoteWorkMapping(List<UserUpvoteWorkMapping> records) {
-		// TODO Auto-generated method stub
+	public void insertOrUpdateBatchUserUpvoteWorkMapping(List<UserUpvoteWorkMapping> records) {
 		
 	}
 	

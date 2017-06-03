@@ -21,7 +21,6 @@ import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;
 import com.zhuanquan.app.common.component.cache.RedisKeyBuilder;
-import com.zhuanquan.app.common.component.cache.redis.RedisZSetOperations;
 import com.zhuanquan.app.common.component.cache.redis.utils.RedisHelper;
 import com.zhuanquan.app.common.model.author.AuthorBase;
 import com.zhuanquan.app.common.model.author.AuthorHotIndexes;
@@ -30,7 +29,6 @@ import com.zhuanquan.app.common.utils.CommonUtil;
 import com.zhuanquan.app.common.view.vo.author.SuggestAuthorRequestVo;
 import com.zhuanquan.app.common.view.vo.author.SuggestAuthorResponseVo;
 import com.zhuanquan.app.common.view.vo.author.SuggestAuthorUnit;
-import com.zhuanquan.app.common.view.vo.author.SuggestTagVo;
 import com.zhuanquan.app.dal.dao.author.VipAuthorOpenAccountMappingDAO;
 import com.zhuanquan.app.server.cache.AuthorCache;
 import com.zhuanquan.app.server.cache.AuthorHotIndexesCache;

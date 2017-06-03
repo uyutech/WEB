@@ -31,17 +31,25 @@ public interface UserUpvoteWorkMappingDAO {
 	 */
 	List<Long> queryHasInsertWorkIds(long uid,Set<String> workIds);
 	
+//	
+//	/**
+//	 * 批量插入
+//	 * @param records
+//	 */
+//	void insertBatchUserUpvoteWorkMapping(List<UserUpvoteWorkMapping> records);
+//	
+//	
+//	/**
+//	 * 批量更新
+//	 * @param records
+//	 */
+//	void updateBatchUserUpvoteWorkMapping(List<UserUpvoteWorkMapping> records);
+//	
+//	
 	
 	/**
-	 * 批量插入
+	 * 批量插入/更新
 	 * @param records
 	 */
-	void insertBatchUserUpvoteWorkMapping(List<UserUpvoteWorkMapping> records);
-	
-	
-	/**
-	 * 批量更新
-	 * @param records
-	 */
-	void updateBatchUserUpvoteWorkMapping(List<UserUpvoteWorkMapping> records);
+	void insertOrUpdateBatchUserUpvoteWorkMapping(List<UserUpvoteWorkMapping> records);
 }

@@ -1,11 +1,14 @@
 package com.zhuanquan.app.server.service.impl;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.zhuanquan.app.common.component.cache.RedisKeyBuilder;
+import com.zhuanquan.app.common.component.cache.redis.utils.RedisHelper;
 import com.zhuanquan.app.common.exception.BizErrorCode;
 import com.zhuanquan.app.common.exception.BizException;
 import com.zhuanquan.app.common.model.user.UserFavourite;
@@ -18,6 +21,9 @@ import com.zhuanquan.app.server.service.FavouriteService;
 @Service
 public class FavouriteServiceImpl implements FavouriteService {
 
+	private static final int TIMES_LIMIT = 3;
+
+	
 	@Resource
 	private UserFavouriteDAO userFavouriteDAO;
 
@@ -26,12 +32,28 @@ public class FavouriteServiceImpl implements FavouriteService {
 
 	@Resource
 	private WorksCache worksCache;
+	
+	@Resource
+	private RedisHelper redisHelper;
 
 	@Override
 	public void favouriteWork(long uid, long workId) {
 
+		//操作过于频繁的控制，2分钟内不允许对同一个连续收藏3次
+		//
+		String key = RedisKeyBuilder.favTooManyTimesLock(uid, workId);
+		
+		String value = redisHelper.valueGet(key);
+		
+		if(value!=null && Integer.parseInt(value)>TIMES_LIMIT) {
+			throw new BizException(BizErrorCode.EX_NOT_ALLOW_FREQUENT_OPER.getCode());
+		} else {
+			redisHelper.increase(key, 1);
+			redisHelper.expire(key, 2, TimeUnit.MINUTES);
+		}
+		
+		
 		doFavOrCancel(uid, workId, true);
-
 	}
 
 	@Override

@@ -3,6 +3,10 @@ package com.zhuanquan.app.common.view.vo.user;
 import java.io.Serializable;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
+import com.alibaba.fastjson.JSON;
+
 /**
  * 
  * @author zhangjun
@@ -19,11 +23,16 @@ public class SelectFollowAuthorRequestVo implements Serializable {
 	 * uid
 	 */
 	private long uid;
-
+	
 	/**
-	 * 作者id列表
+	 * 作者id str
 	 */
-	private List<Long> authorIds;
+	private String authorIdsStr;
+
+//	/**
+//	 * 作者id列表
+//	 */
+//	private List<Long> authorIds;
 
 	public long getUid() {
 		return uid;
@@ -34,11 +43,26 @@ public class SelectFollowAuthorRequestVo implements Serializable {
 	}
 
 	public List<Long> getAuthorIds() {
-		return authorIds;
+		
+		if(StringUtils.isEmpty(authorIdsStr)) {
+			return null;
+		} else {
+			return JSON.parseArray(authorIdsStr, Long.class);
+		}
 	}
 
-	public void setAuthorIds(List<Long> authorIds) {
-		this.authorIds = authorIds;
+	public String getAuthorIdsStr() {
+		return authorIdsStr;
 	}
 
+	public void setAuthorIdsStr(String authorIdsStr) {
+		this.authorIdsStr = authorIdsStr;
+	}
+
+//	public void setAuthorIds(List<Long> authorIds) {
+//		this.authorIds = authorIds;
+//	}
+
+	
+	
 }

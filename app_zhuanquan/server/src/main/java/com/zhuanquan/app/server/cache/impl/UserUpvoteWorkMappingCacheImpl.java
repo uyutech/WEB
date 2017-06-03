@@ -354,27 +354,24 @@ public class UserUpvoteWorkMappingCacheImpl  extends CacheChangedListener  imple
 
 		// 插入的列表
 		List<UserUpvoteWorkMapping> insertList = new ArrayList<UserUpvoteWorkMapping>();
-
-		// 更新的列表
-		List<UserUpvoteWorkMapping> updateList = new ArrayList<UserUpvoteWorkMapping>();
+//
+//		// 更新的列表
+//		List<UserUpvoteWorkMapping> updateList = new ArrayList<UserUpvoteWorkMapping>();
 
 		for (String uid : changedUids) {
 
 			uidTempList.add(uid);
 			// 处理单个用户id下的所有的记录，放到insert或者update队列
-			determineToInsertOrUpdate(Long.parseLong(uid), insertList, updateList);
+			determineToInsertOrUpdate(Long.parseLong(uid), insertList);
 
 			logger.info("process persistUidUpvoteWorkRecord :uid=" + uid + " has processed end!");
 
 			// 一批次达到200个，提交一次
 			if (uidTempList.size() >= maxBatchNum) {
-				// 批量插入
-				userUpvoteWorkMappingDAO.insertBatchUserUpvoteWorkMapping(insertList);
+				
+				userUpvoteWorkMappingDAO.insertOrUpdateBatchUserUpvoteWorkMapping(insertList);
+				
 				insertList.clear();
-
-				// 批量更新
-				userUpvoteWorkMappingDAO.updateBatchUserUpvoteWorkMapping(updateList);
-				updateList.clear();
 
 				logger.info("real process persistUidUpvoteWorkRecord :[batchNum]=" + batchNum + ",[uids]="
 						+ JSON.toJSONString(uidTempList));
@@ -392,8 +389,9 @@ public class UserUpvoteWorkMappingCacheImpl  extends CacheChangedListener  imple
 		}
 
 		if (uidTempList.size() > 0) {
-			userUpvoteWorkMappingDAO.insertBatchUserUpvoteWorkMapping(insertList);
-			userUpvoteWorkMappingDAO.updateBatchUserUpvoteWorkMapping(updateList);
+			
+			userUpvoteWorkMappingDAO.insertOrUpdateBatchUserUpvoteWorkMapping(insertList);
+			insertList.clear();
 
 			//提交了一批，就删掉dstkey里的值
 			redisSetOperations.remove(dstKey, uidTempList);
@@ -409,14 +407,12 @@ public class UserUpvoteWorkMappingCacheImpl  extends CacheChangedListener  imple
 	}
 
 	/**
-	 * 决定是insert还是update
+	 * 决定是等待插入或者更新的
 	 * 
 	 * @param uid
-	 * @param insertList
-	 * @param updateList
+	 * @param list
 	 */
-	private void determineToInsertOrUpdate(long uid, List<UserUpvoteWorkMapping> insertList,
-			List<UserUpvoteWorkMapping> updateList) {
+	private void determineToInsertOrUpdate(long uid, List<UserUpvoteWorkMapping> list) {
 
 		String upvoteWorkKey = RedisKeyBuilder.getUserUpvoteWorkKey(uid);
 
@@ -426,8 +422,6 @@ public class UserUpvoteWorkMappingCacheImpl  extends CacheChangedListener  imple
 			return;
 		}
 
-		// 哪些是已经插入的
-		List<Long> hasInsertIds = userUpvoteWorkMappingDAO.queryHasInsertWorkIds(uid, map.keySet());
 
 		for (Entry<String, String> entry : map.entrySet()) {
 			UserUpvoteWorkMapping record = new UserUpvoteWorkMapping();
@@ -435,11 +429,8 @@ public class UserUpvoteWorkMappingCacheImpl  extends CacheChangedListener  imple
 			record.setUid(uid);
 			record.setWorkId(Long.parseLong(entry.getKey()));
 
-			if (hasInsertIds.indexOf(Long.parseLong(entry.getKey())) != -1) {
-				insertList.add(record);
-			} else {
-				updateList.add(record);
-			}
+			list.add(record);
+
 		}
 
 	}

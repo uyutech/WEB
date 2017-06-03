@@ -17,7 +17,6 @@ import com.zhuanquan.app.common.view.vo.user.LoginByOpenIdRequestVo;
 import com.zhuanquan.app.common.view.vo.user.MobileRegisterRequestVo;
 import com.zhuanquan.app.dal.dao.author.TagDAO;
 import com.zhuanquan.app.dal.dao.author.VipAuthorOpenAccountMappingDAO;
-import com.zhuanquan.app.dal.dao.user.UserFollowAuthorDAO;
 import com.zhuanquan.app.dal.dao.user.UserFollowTagsMappingDAO;
 import com.zhuanquan.app.dal.dao.user.UserOpenAccountDAO;
 import com.zhuanquan.app.dal.dao.user.UserProfileDAO;
@@ -35,8 +34,6 @@ public class TransactionServiceImpl implements TransactionService {
 	@Resource
 	private UserOpenAccountDAO userOpenAccountDAO;
 
-	@Resource
-	private UserFollowAuthorDAO userFollowAuthorDAO;
 
 	@Resource
 	private TagDAO tagDAO;
