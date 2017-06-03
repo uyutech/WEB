@@ -1,5 +1,7 @@
 package com.zhuanquan.app.server.service.impl;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.slf4j.Logger;
@@ -7,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.google.common.collect.Lists;
 import com.zhuanquan.app.common.constants.LoginType;
 import com.zhuanquan.app.common.exception.BizErrorCode;
 import com.zhuanquan.app.common.exception.BizException;
@@ -15,8 +18,10 @@ import com.zhuanquan.app.common.model.user.UserOpenAccount;
 import com.zhuanquan.app.common.model.user.UserProfile;
 import com.zhuanquan.app.common.view.vo.user.LoginByOpenIdRequestVo;
 import com.zhuanquan.app.common.view.vo.user.MobileRegisterRequestVo;
+import com.zhuanquan.app.dal.dao.author.AuthorBaseDAO;
 import com.zhuanquan.app.dal.dao.author.TagDAO;
 import com.zhuanquan.app.dal.dao.author.VipAuthorOpenAccountMappingDAO;
+import com.zhuanquan.app.dal.dao.user.UserFollowAuthorDAO;
 import com.zhuanquan.app.dal.dao.user.UserFollowTagsMappingDAO;
 import com.zhuanquan.app.dal.dao.user.UserOpenAccountDAO;
 import com.zhuanquan.app.dal.dao.user.UserProfileDAO;
@@ -46,7 +51,13 @@ public class TransactionServiceImpl implements TransactionService {
 	
 	@Resource
 	private VipAuthorOpenAccountMappingDAO vipAuthorOpenAccountMappingDAO;
+	
+	@Resource
+	private UserFollowAuthorDAO userFollowAuthorDAO;
 
+	@Resource
+	private AuthorBaseDAO authorBaseDAO;
+	
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public long registerMobile(MobileRegisterRequestVo vo) {
@@ -96,6 +107,28 @@ public class TransactionServiceImpl implements TransactionService {
 		userOpenAccountDAO.insertUserOpenAccount(openAccount);
 
 		return profile;
+	}
+
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public void setUserFollowAuthors(long uid, List<Long> authorIds) {
+		
+		//批量插入更新
+		userFollowAuthorDAO.insertBatchFollowAuthorIds(uid, authorIds);
+
+		//粉丝数增加
+		authorBaseDAO.updateBatchToIncreaseOrDecreaseFans(authorIds, true, 1);
+		
+	}
+
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public void cancelFollowAuthor(long uid, long authorId) {
+		//批量插入
+		userFollowAuthorDAO.updateToCancelFollowAuthor(uid, authorId);
+		
+		//粉丝数减少
+		authorBaseDAO.updateBatchToIncreaseOrDecreaseFans(Lists.newArrayList(authorId), false, 1);
 	}
 
 }

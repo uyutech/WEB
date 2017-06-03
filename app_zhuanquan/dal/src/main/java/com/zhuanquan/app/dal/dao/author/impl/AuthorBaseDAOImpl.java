@@ -24,6 +24,7 @@ public class AuthorBaseDAOImpl extends BaseDao implements AuthorBaseDAO {
 		return sqlSessionTemplate.selectList(getSqlName("queryByAuthorName"), authorName);
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public List<AuthorBase> queryByAuthorIds(List<Long> authorIds) {
 		
@@ -31,6 +32,18 @@ public class AuthorBaseDAOImpl extends BaseDao implements AuthorBaseDAO {
 		map.put("ids", listToString(authorIds));		
 		
 		return sqlSessionTemplate.selectList(getSqlName("queryByAuthorIds"), map);
+	}
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Override
+	public void updateBatchToIncreaseOrDecreaseFans(List<Long> authorIds, boolean isIncrease, int delta) {
+		
+		Map map = new HashMap();
+		map.put("authorIdsStr", this.listToString(authorIds));
+		map.put("delta", isIncrease?delta:-delta);
+
+		sqlSessionTemplate.update(getSqlName("updateBatchToIncreaseOrDecreaseFans"), map);
+		
 	}
 	
 }

@@ -90,7 +90,7 @@ public class UserFollowAuthorDAOImpl extends BaseDao implements UserFollowAuthor
 		map.put("uid", uid);
 		map.put("authorId", authorId);
 
-		UserFollowAuthor record = sqlSessionTemplate.selectOne(getSqlName("queryFollowAuthorRecord"), map);
+		UserFollowAuthor record = sqlSessionTemplate.selectOne(getSqlName("queryHasFollowAuthor"), map);
 		
 		if(record == null || record.getStatus() == UserFollowAuthor.STAT_DISABLE) {
 			return false;

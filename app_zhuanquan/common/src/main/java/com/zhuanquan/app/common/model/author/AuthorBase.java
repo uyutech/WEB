@@ -14,11 +14,6 @@ public class AuthorBase {
 	 */
 	private String authorName;
 
-//	/**
-//	 * 作者的标签信息，多个以逗号分割 比如 歌手，作词
-//	 */
-//	private String authorTags;
-	
 	
 	/**
 	 * 头像地址
@@ -29,6 +24,12 @@ public class AuthorBase {
 	 * 作者账号状态
 	 */
 	private Integer status;
+	
+	/**
+	 * 粉丝数
+	 */
+	private long fansNum;
+	
 
 	private Date createTime;
 
@@ -88,6 +89,14 @@ public class AuthorBase {
 
 	public void setHeadUrl(String headUrl) {
 		this.headUrl = headUrl;
+	}
+
+	public long getFansNum() {
+		return fansNum;
+	}
+
+	public void setFansNum(long fansNum) {
+		this.fansNum = fansNum;
 	}
 
 	

@@ -22,14 +22,14 @@ public interface UserUpvoteWorkMappingDAO {
 	UserUpvoteWorkMapping queryUserUpvoteWorkMapping(long uid,long workId);
 	
 	
-	
-	/**
-	 * 查询哪些 workid已经插入过了，这些已经 插入的会做update 操作
-	 * @param uid
-	 * @param workIds
-	 * @return
-	 */
-	List<Long> queryHasInsertWorkIds(long uid,Set<String> workIds);
+//	
+//	/**
+//	 * 查询哪些 workid已经插入过了，这些已经 插入的会做update 操作
+//	 * @param uid
+//	 * @param workIds
+//	 * @return
+//	 */
+//	List<Long> queryHasInsertWorkIds(long uid,Set<String> workIds);
 	
 //	
 //	/**

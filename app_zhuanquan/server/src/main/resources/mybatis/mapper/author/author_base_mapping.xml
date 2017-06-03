@@ -9,11 +9,10 @@
 		<result column="author_name" property="authorName" jdbcType="VARCHAR" />
 		<result column="head_url" property="headUrl" jdbcType="VARCHAR" />
 		<result column="status" property="status" jdbcType="INTEGER" />
+		<result column="fans_num" property="fansNum" jdbcType="BIGINT" />
 		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
 		<result column="MODIFY_TIME" property="modifyTime" jdbcType="TIMESTAMP" />
 	</resultMap>
-
-
 
 
 	<select id="queryByAuthorId" resultMap="BaseResultMap"
@@ -33,6 +32,17 @@
 	</select>
 
 	
+	<update id="updateBatchToIncreaseOrDecreaseFans" parameterType="java.util.Map">
+		update author_base
+		<set>
+			fans_num = fans_num + #{delta},
+			MODIFY_TIME = now() 
+		</set>
+		where fans_num  >= -#{delta}  and author_id in  (${authorIdsStr});
+		
+	</update>	
+	
+
 </mapper>		
 
 	

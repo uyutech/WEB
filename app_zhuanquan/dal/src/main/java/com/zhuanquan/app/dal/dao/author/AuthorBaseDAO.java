@@ -30,5 +30,13 @@ public interface AuthorBaseDAO {
 	 */
 	List<AuthorBase> queryByAuthorIds(List<Long> authorIds);
 	
+	/**
+	 * 批量给作者新增或者 减少粉丝数
+	 * @param authorIds
+	 * @param isIncrease
+	 * @param delta
+	 */
+	void updateBatchToIncreaseOrDecreaseFans(List<Long> authorIds, boolean isIncrease,int delta);
+	
 	
 }

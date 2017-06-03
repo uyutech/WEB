@@ -289,7 +289,7 @@ public class UserUpvoteWorkMappingCacheImpl  extends CacheChangedListener  imple
 
 		String jobLockKey = RedisKeyBuilder.getExecUpvoteTaskLock();
 
-		boolean isLock = redisSimpleLock.tryLock(jobLockKey, 5, TimeUnit.MINUTES);
+		boolean isLock = redisSimpleLock.tryLock(jobLockKey, 1, TimeUnit.MINUTES);
 
 		if (!isLock) {
 			logger.info("begin to doPersistUpvoteNumTask,but can not get lock,ignore this ****************************");
@@ -540,13 +540,11 @@ public class UserUpvoteWorkMappingCacheImpl  extends CacheChangedListener  imple
 
 	@Override
 	public List<RedisCacheEnum> getMonitorRedisCache() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void doProcessCacheCleanEvent(CacheClearEvent event) {
-		// TODO Auto-generated method stub
 		
 	}
 

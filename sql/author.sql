@@ -8,9 +8,9 @@ create table author_base
 (
    author_id              int(11) not null auto_increment ,
    author_name            varchar(200) not null,
-   author_tags_desc       varchar(200) not null,
-   author_tags_ids        varchar(200) not null,
 
+   head_url               varchar(200) not null,
+   fans_num               int(11) not null default 0,
    status                 tinyint(1) not null default 1,
    create_time            datetime,
    modify_time            datetime,
@@ -85,12 +85,12 @@ create table author_role_define
 /*==============================================================*/
 /* Table: author_hot_indexes   作者热度的推荐                                    */
 /*==============================================================*/
-drop table if exists author_recommend;
-create table author_recommend
+drop table if exists author_hot_indexes;
+create table author_hot_indexes
 (
    author_id              int(11) not null  ,
-   author_name            varchar(200) not null,
-   hot_degree             int(4) not null default 0 ,
-   primary key (author_id),
-   KEY idx_auth_recom_name (author_name)
+   hot_index             int(11) not null  ,
+   create_time            datetime,
+   modify_time            datetime,
+   primary key (author_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
