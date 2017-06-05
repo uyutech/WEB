@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.zhuanquan.app.common.view.ApiResponse;
+import com.zhuanquan.app.common.view.vo.user.QueryUserFollowAuthorsResponseVo;
 import com.zhuanquan.app.server.controller.common.BaseController;
 import com.zhuanquan.app.server.service.UserFollowService;
 import com.zhuanquan.app.server.service.impl.UserFollowServiceImpl;
@@ -37,10 +38,9 @@ public class UserFollowController extends BaseController {
 	@ResponseBody
 	public ApiResponse queryUserFollowAuthors(long uid) {
 
+		QueryUserFollowAuthorsResponseVo response = userFollowService.queryFollowAuthors(uid);
 		
-	
-		
-		return ApiResponse.success();
+		return ApiResponse.success(response);
 	}
 	
 	

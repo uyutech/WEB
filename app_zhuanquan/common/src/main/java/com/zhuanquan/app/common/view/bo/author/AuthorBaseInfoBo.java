@@ -29,6 +29,17 @@ public class AuthorBaseInfoBo implements Serializable{
 	 * 作者名
 	 */
 	private String authorName;
+	
+	/**
+	 * tag 描述,比如 翻唱,作家，摇滚歌手
+	 */
+	private String tagDesc;
+	
+	/**
+	 * tag ids ,比如   110,111,222
+	 */
+	private String tagIds;
+	
 
 	public long getAuthorId() {
 		return authorId;
@@ -53,9 +64,22 @@ public class AuthorBaseInfoBo implements Serializable{
 	public void setAuthorName(String authorName) {
 		this.authorName = authorName;
 	}
-	
-	
-	
+
+	public String getTagDesc() {
+		return tagDesc;
+	}
+
+	public void setTagDesc(String tagDesc) {
+		this.tagDesc = tagDesc;
+	}
+
+	public String getTagIds() {
+		return tagIds;
+	}
+
+	public void setTagIds(String tagIds) {
+		this.tagIds = tagIds;
+	}
 	
 	
 }

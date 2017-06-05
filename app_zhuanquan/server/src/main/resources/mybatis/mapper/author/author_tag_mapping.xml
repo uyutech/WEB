@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="com.zhuanquan.app.dal.dao.author.impl.AuthorTagMappingDAOImpl">
+
+	<resultMap id="BaseResultMap"
+		type="com.zhuanquan.app.common.model.author.AuthorTagMapping">	
+		<id column="author_id" property="authorId" jdbcType="BIGINT" />
+		<result column="tag_id" property="tagId" jdbcType="BIGINT" />
+		<result column="tag_type" property="tagType" jdbcType="INTEGER" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+		<result column="order_num" property="orderNum" jdbcType="INTEGER" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="MODIFY_TIME" property="modifyTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<select id="queryByAuthorIds" resultMap="BaseResultMap"
+		parameterType="java.util.Map">
+		select * from author_tag_mapping where status = 1 and author_id in (${ids}) order by author_id asc ,order_num desc,create_time asc;
+	</select>
+
+
+</mapper>		
+
+	
+	

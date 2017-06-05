@@ -35,5 +35,12 @@ public interface TagCache {
 	 */
 	List<Tag> getTagListByIds(List<Long> tagIds);
 	
+	/**
+	 * 
+	 * @param tagId
+	 * @return
+	 */
+	Tag getTagById(long tagId);
+	
 	
 }

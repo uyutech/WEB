@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.zhuanquan.app.common.model.author.AuthorBase;
+import com.zhuanquan.app.common.view.bo.author.AuthorBaseInfoBo;
 
 public interface AuthorCache {
 	
@@ -12,6 +13,6 @@ public interface AuthorCache {
 	 * @param authorIds
 	 * @return
 	 */
-	Map<String, AuthorBase> batchQueryAuthorBaseByIds(List<Long> authorIds);
+	Map<String, AuthorBaseInfoBo> batchQueryAuthorBaseByIds(List<Long> authorIds);
 	
 }

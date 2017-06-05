@@ -26,6 +26,7 @@ import com.zhuanquan.app.common.model.author.AuthorBase;
 import com.zhuanquan.app.common.model.author.AuthorHotIndexes;
 import com.zhuanquan.app.common.model.author.VipAuthorOpenAccountMapping;
 import com.zhuanquan.app.common.utils.CommonUtil;
+import com.zhuanquan.app.common.view.bo.author.AuthorBaseInfoBo;
 import com.zhuanquan.app.common.view.vo.author.SuggestAuthorRequestVo;
 import com.zhuanquan.app.common.view.vo.author.SuggestAuthorResponseVo;
 import com.zhuanquan.app.common.view.vo.author.SuggestAuthorUnit;
@@ -128,7 +129,7 @@ public class AutherServiceImpl implements AutherService {
 
 		Map<Long, Boolean> map = mergeAndDetermin(list, globalHotList);
 
-		Map<String, AuthorBase> authorMap = authorCache.batchQueryAuthorBaseByIds(new ArrayList<Long>(map.keySet()));
+		Map<String, AuthorBaseInfoBo> authorMap = authorCache.batchQueryAuthorBaseByIds(new ArrayList<Long>(map.keySet()));
 
 		if (MapUtils.isEmpty(authorMap)) {
 			return null;
@@ -136,9 +137,9 @@ public class AutherServiceImpl implements AutherService {
 
 		List<SuggestAuthorUnit> suggestList = new ArrayList<SuggestAuthorUnit>();
 
-		for (Entry<String, AuthorBase> entry : authorMap.entrySet()) {
+		for (Entry<String, AuthorBaseInfoBo> entry : authorMap.entrySet()) {
 
-			AuthorBase base = entry.getValue();
+			AuthorBaseInfoBo base = entry.getValue();
 
 			if (base == null) {
 				continue;

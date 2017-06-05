@@ -2,6 +2,8 @@ package com.zhuanquan.app.server.service;
 
 import java.util.List;
 
+import com.zhuanquan.app.common.view.vo.user.QueryUserFollowAuthorsResponseVo;
+
 /**
  * 关注服务，  关注作者，关注圈子话题
  * @author zhangjun
@@ -32,6 +34,13 @@ public interface UserFollowService {
 	 * @param authorId
 	 */
 	void cancelFollowAuthor(long uid,long authorId);
+	
+	/**
+	 * 查询关注的作者信息
+	 * @param uid
+	 * @return
+	 */
+	QueryUserFollowAuthorsResponseVo queryFollowAuthors(long uid);
 	
 	
 }

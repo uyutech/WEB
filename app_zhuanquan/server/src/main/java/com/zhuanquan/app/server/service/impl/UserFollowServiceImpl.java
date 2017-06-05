@@ -1,8 +1,14 @@
 package com.zhuanquan.app.server.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
 import javax.annotation.Resource;
+
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.MapUtils;
 import org.springframework.stereotype.Service;
 
 import com.google.common.collect.Lists;
@@ -10,7 +16,10 @@ import com.zhuanquan.app.common.component.cache.RedisKeyBuilder;
 import com.zhuanquan.app.common.component.cache.redis.utils.RedisHelper;
 import com.zhuanquan.app.common.exception.BizErrorCode;
 import com.zhuanquan.app.common.exception.BizException;
+import com.zhuanquan.app.common.view.bo.author.AuthorBaseInfoBo;
+import com.zhuanquan.app.common.view.vo.user.QueryUserFollowAuthorsResponseVo;
 import com.zhuanquan.app.dal.dao.user.UserFollowAuthorDAO;
+import com.zhuanquan.app.server.cache.AuthorCache;
 import com.zhuanquan.app.server.service.TransactionService;
 import com.zhuanquan.app.server.service.UserFollowService;
 
@@ -35,6 +44,9 @@ public class UserFollowServiceImpl implements UserFollowService {
 	@Resource
 	private TransactionService transactionService;
 
+	@Resource
+	private AuthorCache authorCache;
+
 	@Override
 	public void setUserFollowAuthors(long uid, List<Long> authorIds) {
 
@@ -51,7 +63,7 @@ public class UserFollowServiceImpl implements UserFollowService {
 		boolean isFollowed = userFollowAuthorDAO.queryHasFollowAuthor(uid, authorId);
 
 		if (isFollowed) {
-			throw new BizException(BizErrorCode.EX_ILLEGLE_REQUEST_PARM.getCode(),"已关注此作者");
+			throw new BizException(BizErrorCode.EX_ILLEGLE_REQUEST_PARM.getCode(), "已关注此作者");
 		}
 
 		//
@@ -66,7 +78,7 @@ public class UserFollowServiceImpl implements UserFollowService {
 		boolean isFollowed = userFollowAuthorDAO.queryHasFollowAuthor(uid, authorId);
 
 		if (!isFollowed) {
-			throw new BizException(BizErrorCode.EX_ILLEGLE_REQUEST_PARM.getCode(),"未关注此作者");
+			throw new BizException(BizErrorCode.EX_ILLEGLE_REQUEST_PARM.getCode(), "未关注此作者");
 		}
 
 		transactionService.cancelFollowAuthor(uid, authorId);
@@ -92,6 +104,37 @@ public class UserFollowServiceImpl implements UserFollowService {
 			redisHelper.expire(key, 2, TimeUnit.MINUTES);
 		}
 
+	}
+
+	@Override
+	public QueryUserFollowAuthorsResponseVo queryFollowAuthors(long uid) {
+
+		QueryUserFollowAuthorsResponseVo vo = new QueryUserFollowAuthorsResponseVo();
+		vo.setUid(uid);
+
+		List<Long> authorIds = userFollowAuthorDAO.queryUserFollowAuthorIds(uid);
+
+		if (CollectionUtils.isEmpty(authorIds)) {
+			return vo;
+		}
+
+		Map<String, AuthorBaseInfoBo> map = authorCache.batchQueryAuthorBaseByIds(authorIds);
+		if (MapUtils.isEmpty(map)) {
+			return vo;
+		}
+
+		List<AuthorBaseInfoBo> infoList = new ArrayList<AuthorBaseInfoBo>();
+
+		for (Entry<String, AuthorBaseInfoBo> entry : map.entrySet()) {
+			if (entry == null || entry.getValue() == null) {
+				continue;
+			}
+			infoList.add(entry.getValue());
+		}
+
+		vo.setFollowAuthors(infoList);
+
+		return vo;
 	}
 
 }

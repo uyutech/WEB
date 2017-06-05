@@ -253,6 +253,14 @@ public class TagCacheImpl extends CacheChangedListener implements TagCache {
 		return list;
 	}
 
+	@Override
+	public Tag getTagById(long tagId) {
+		
+		List<Tag> list = this.getTagListByIds(Lists.newArrayList(tagId));
+		
+		return CollectionUtils.isEmpty(list)?null:list.get(0);
+	}
+
 	
 	
 	
