@@ -26,13 +26,12 @@ public class WorksCacheImpl  extends CacheChangedListener  implements WorksCache
 
 	@Override
 	public List<RedisCacheEnum> getMonitorRedisCache() {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
 	@Override
 	public void doProcessCacheCleanEvent(CacheClearEvent event) {
-		// TODO Auto-generated method stub
 		
 	}
 	

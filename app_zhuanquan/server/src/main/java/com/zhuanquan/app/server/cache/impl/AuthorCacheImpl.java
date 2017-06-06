@@ -173,7 +173,6 @@ public class AuthorCacheImpl extends BaseDao implements AuthorCache {
 			     map.put(record.getAuthorId().toString(), Pair.of(tag.getTagName(), tag.getTagId().toString()));
 			     
 			} else {
-				
 
 				String tagDesc = pair.getLeft()+","+tag.getTagName();
 				
