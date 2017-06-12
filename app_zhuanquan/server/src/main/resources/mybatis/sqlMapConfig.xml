@@ -11,5 +11,20 @@
 	    <setting name="logImpl" value="STDOUT_LOGGING" />
 	    --> 
 	</settings>
+
+    <plugins>
+    
+        <!--  
+        <plugin interceptor="com.github.pagehelper.PageInterceptor">
+        </plugin>    
+        -->
+       
+        <plugin interceptor="com.zhuanquan.app.server.internel.interceptor.PageInterceptor">
+        </plugin>
+       
+    </plugins>	
+	
+	
+	
 	
 </configuration>

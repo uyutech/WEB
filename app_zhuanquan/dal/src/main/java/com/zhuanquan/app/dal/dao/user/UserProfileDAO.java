@@ -1,6 +1,9 @@
 package com.zhuanquan.app.dal.dao.user;
 
+import java.util.List;
+
 import com.zhuanquan.app.common.model.user.UserProfile;
+
 
 public interface UserProfileDAO {
 	
@@ -71,5 +74,10 @@ public interface UserProfileDAO {
      * @return
      */
 	int updateNickNameAndGenderOnRegister(long uid,String nickName,int gender,int registerStatus);
+	
+	
+	
+	List<UserProfile> queryByPage();
+	
 	
 }

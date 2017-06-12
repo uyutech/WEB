@@ -47,6 +47,7 @@
                 <groupId>com.alibaba</groupId>
                 <artifactId>druid</artifactId>
         </dependency>
+        
 
 	</dependencies>
 
@@ -70,16 +71,26 @@
             </properties>
         </profile>
         <profile>
-            <!-- 生产环境 -->
+            <!-- 阿里云测试环境106.14.223.219 -->
             <id>prod</id>
             <properties>
                 <package.environment>prod</package.environment>
             </properties>
         </profile>
+        
+        <profile>
+            <!-- 阿里云测试环境116.62.244.93 -->
+            <id>prod1</id>
+            <properties>
+                <package.environment>prod1</package.environment>
+            </properties>
+        </profile>        
+        
+        
     </profiles>
     <build>
         <finalName>zhuanquan</finalName>
-        <sourceDirectory>src</sourceDirectory>
+        <sourceDirectory>src/main/java</sourceDirectory>
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>

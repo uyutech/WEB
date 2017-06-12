@@ -12,6 +12,8 @@ import org.springframework.stereotype.Repository;
 
 import com.alibaba.fastjson.JSON;
 import com.sun.tools.javac.util.Assert;
+import com.zhuanquan.app.common.component.db.pagination.Page;
+import com.zhuanquan.app.common.component.db.pagination.Pagination;
 import com.zhuanquan.app.common.exception.BizErrorCode;
 import com.zhuanquan.app.common.exception.BizException;
 import com.zhuanquan.app.common.model.user.UserProfile;
@@ -102,6 +104,22 @@ public class UserProfileDAOImpl extends BaseDao implements UserProfileDAO {
 
 
 		return sqlSessionTemplate.update(getSqlName("updateNickNameAndGenderOnRegister"), map);	
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<UserProfile> queryByPage() {
+		
+	
+		Pagination parm = new Pagination();
+		
+		parm.setNeedCount(true);
+		parm.setPageIndex(1);
+		parm.setPageLength(2);
+		
+		Page<UserProfile> page = this.pageQueryList(getSqlName("queryAll"), null, parm,UserProfile.class);
+		
+		return page.getData();
 	}
 
 	

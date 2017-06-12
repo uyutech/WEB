@@ -4,7 +4,7 @@
 /*==============================================================*/
 create database zqdb;
 
-grant select,insert,update,delete on zqdb.* to zhuanquan@"%" identified by "123456";
+grant select,insert,update,delete on zqdb.* to zhuanquan@"%" identified by "Qwer!234";
 
 
 
