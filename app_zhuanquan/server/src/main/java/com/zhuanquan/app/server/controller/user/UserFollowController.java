@@ -37,7 +37,7 @@ public class UserFollowController extends BaseController {
 	@RequestMapping(value="/queryUserFollowAuthors",produces = {"application/json"})
 	@ResponseBody
 	public ApiResponse queryUserFollowAuthors(long uid) {
-
+		
 		QueryUserFollowAuthorsResponseVo response = userFollowService.queryFollowAuthors(uid);
 		
 		return ApiResponse.success(response);

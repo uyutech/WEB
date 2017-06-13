@@ -13,7 +13,6 @@
         <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss} [%-5level] [%logger.%M:%L] |%msg%n</pattern>
         </encoder>
-        <charset>UTF-8</charset>
     </appender>
 
     <appender name="async_rolling" class="ch.qos.logback.classic.AsyncAppender">
@@ -40,7 +39,6 @@
 		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
 			<pattern>%d{yyyy-MM-dd HH:mm:ss} [%-5level] [%logger.%M:%L] |%msg%n
 			</pattern>
-			<charset>utf-8</charset>
 		</encoder>
 	</appender>
 	
@@ -49,6 +47,11 @@
 		additivity="false" level="info">
 		<appender-ref ref="USERREQUEST" />
 	</logger>
+
+    <logger name="ch.qos.logback.classic" level="ERROR"/>
+
+
+
 
     <!--  
     <logger name="com.ibatis" level="ERROR"/>

@@ -15,14 +15,14 @@
 
 	<!-- 启动定时任务 -->
 	
-
+    <!-- 
 	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean" autowire="no">
 	    <property name="triggers">	
 	      <list>
 	      </list>	
 	    </property>
 	</bean>
-
+    -->
 
     <!--异步通知回调地址  -->
     

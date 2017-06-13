@@ -18,11 +18,14 @@ public class UserFavController extends BaseController {
 	@ResponseBody
 	public ApiResponse queryUserFavInfo(long uid) {
 
-		
-		
-		
 		return ApiResponse.success();
 	}
+	
+	
+	
+	
+	
+	
 	
 	
 }
