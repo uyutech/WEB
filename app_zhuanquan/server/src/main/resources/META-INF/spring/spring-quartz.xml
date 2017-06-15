@@ -24,23 +24,6 @@
 	</bean>
     -->
 
-    <!--异步通知回调地址  -->
-    
-    <!--
-	<bean id="payResultNotifyJob" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
-		<property name="jobDetail" ref="payResultNotifyTaskJobDetial" />
-		<property name="cronExpression" value="0 0/1 * * * ?" />
-	</bean>	
-	
-	
-	<bean id="payResultNotifyTaskJobDetial" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
-		<property name="targetObject" ref="payResultNotifyTask" />
-		<property name="targetMethod" value="execute" />
-		<property name="concurrent" value="false" />
-	</bean>	
-	
-	<bean id="payResultNotifyTask" class="com.waiqin365.pay.core.asyncnotify.task.AsyncNotifyTask"/>		
-		  -->
 	<context:component-scan base-package="com.zhuanquan.app.server.task" />
 	
 	<task:annotation-driven executor="executor" scheduler="scheduler" />

@@ -116,7 +116,7 @@ public class TransactionServiceImpl implements TransactionService {
 		//批量插入更新
 		userFollowAuthorDAO.insertBatchFollowAuthorIds(uid, authorIds);
 
-		//粉丝数增加
+		//粉丝数增加，需要改成异步
 		authorBaseDAO.updateBatchToIncreaseOrDecreaseFans(authorIds, true, 1);
 		
 	}
@@ -127,7 +127,7 @@ public class TransactionServiceImpl implements TransactionService {
 		//批量插入
 		userFollowAuthorDAO.updateToCancelFollowAuthor(uid, authorId);
 		
-		//粉丝数减少
+		//粉丝数减少，需要改成异步
 		authorBaseDAO.updateBatchToIncreaseOrDecreaseFans(Lists.newArrayList(authorId), false, 1);
 	}
 

@@ -1,6 +1,6 @@
 package com.zhuanquan.app.common.component.cache;
 
-
+import com.zhuanquan.app.common.constants.AsyncUpdateType;
 
 public class RedisKeyBuilder {
 	
@@ -354,6 +354,52 @@ public class RedisKeyBuilder {
 		
 		return "gw:follow:timeslimit:uid:"+uid+":authorId="+authorId;
 	}
+	
+	
+	/**
+	 * 异步更新的set队列的key，比如点赞总数，收藏总数这种的需要异步更新的队列，里面的 member是 workid这些
+	 * @param type
+	 * @return
+	 */
+	public static String getAsyncUpateTotalNumZSetKey(AsyncUpdateType type) {
+		
+		return "gw:async:"+type.getDesc()+":changedsets";
+	}
+	
+	/**
+	 * 获取总数key，比如 点赞总数，作者粉丝总数这些
+	 * @param type
+	 * @param targetId
+	 * @return
+	 */
+	public static String getTargetIdTotalNumKey(AsyncUpdateType type,long targetId){
+
+		return "gw:"+type.getDesc()+":total:targetid:"+targetId;
+	}
+	
+	/**
+	 * hash结构的 key，用来标注属性哪个用户，比如 用户的所有的点赞记录里的 key，用户所有的收藏记录里的key
+	 * @return
+	 */
+	public static String getIsEnableKeyByUidWithHash(AsyncUpdateType type,long uid) {
+		
+		return "gw:"+type.getDesc()+":isenable:uid:"+uid;
+	}
+	
+	
+	/**
+	 * 对用户操作太频繁的限制，比如对某个作品不停点赞，不停的关注取消关注这些
+	 * @param type
+	 * @param uid
+	 * @param targetId
+	 * @return
+	 */
+	public static String getOperTooManyTimesLockKey(AsyncUpdateType type,long uid,long targetId) {
+		return "gw:"+type.getDesc()+":timeslimit:uid"+uid+":targetid:"+targetId;
+	}	
+	
+	
+	
 }
 
 

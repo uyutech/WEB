@@ -45,6 +45,10 @@ public class SerializationUtil {
 			return null;
 		}
 
+		
+		System.out.println("deserizlize rsult:"+new String(byt));
+		
+		
 		ObjectInputStream oii = null;
 		ByteArrayInputStream bis = null;
 		bis = new ByteArrayInputStream(byt);

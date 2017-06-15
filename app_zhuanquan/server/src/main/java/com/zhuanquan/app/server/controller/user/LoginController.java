@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.zhuanquan.app.common.component.cache.redis.GracefulRedisTemplate;
+import com.zhuanquan.app.common.component.cache.redis.utils.RedisHelper;
 import com.zhuanquan.app.common.model.user.UserProfile;
 import com.zhuanquan.app.common.view.ApiResponse;
 import com.zhuanquan.app.common.view.vo.user.LoginByOpenIdRequestVo;
@@ -30,6 +32,12 @@ public class LoginController extends BaseController {
 
 	@Resource
 	private UserProfileDAO userProfileDAO;
+	
+	@Resource
+	private GracefulRedisTemplate gracefulRedisTemplate;
+	
+	@Resource
+	private RedisHelper redisHelper;
 
 	@RequestMapping(value = "/loginByMobile", produces = { "application/json" })
 	@ResponseBody
@@ -74,10 +82,20 @@ public class LoginController extends BaseController {
 	@ResponseBody
 	public ApiResponse test() {
 
+		redisHelper.rightPush("list123", "aa");
+		redisHelper.rightPush("list123", "bb");
+		redisHelper.rightPush("list123", "cc");
 
-		List<UserProfile> list = userProfileDAO.queryByPage();
+		
+
+		List<String> list= gracefulRedisTemplate.listBatchLeftPop("list123", 13);
+		System.out.println("obj:"+list.toString());
+
 
 		return ApiResponse.success(list);
 	}
 
+	
+	
+	
 }

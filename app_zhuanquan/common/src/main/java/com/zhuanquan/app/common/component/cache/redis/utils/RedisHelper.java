@@ -5,9 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
-
 import org.springframework.data.redis.core.ZSetOperations;
-
 import com.zhuanquan.app.common.component.cache.redis.GracefulRedisTemplate;
 import com.zhuanquan.app.common.component.cache.redis.RedisHashOperations;
 import com.zhuanquan.app.common.component.cache.redis.RedisListOperations;
@@ -800,5 +798,54 @@ public class RedisHelper {
 		
 		return redisZSetOperations.add(key, typedTuples);
 	}
+	
+	
+	
+	/**
+	 * zset模拟pop
+	 * @param key
+	 * @return
+	 */
+	public String zpop(String key) {
+
+		return gracefulRedisTemplate.zpop(key);
+	}
+	
+	/**
+	 * zset模拟 pop
+	 * @param key
+	 * @return
+	 */
+	public String zRevpop(String key) {
+		return gracefulRedisTemplate.zRevpop(key);
+
+	}
+
+	
+	
+	/**
+	 * left batch pop  for list
+	 * @param key
+	 * @param batchLimit
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public List<String> lBatchLeftPop(String key, int batchLimit) {
+		return gracefulRedisTemplate.listBatchLeftPop(key, batchLimit);
+	}
+	
+	
+	/**
+	 * right batch pop  for list
+	 * @param key
+	 * @param batchLimit
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public List<String> lBatchRightPop(String key, int batchLimit) {
+		return gracefulRedisTemplate.listBatchRightPop(key, batchLimit);
+	}
+		
+
 
 }
