@@ -30,7 +30,18 @@ public class UserFollowAuthor {
 	 * enable  disable等
 	 */
 	private Integer status;
+	
+	
+	/**
+	 * 关注程度  0-普通关注  1-特别关注
+	 */
+	private Integer followLev;
 
+	
+	/**
+	 * 应援值
+	 */
+	private Integer supportVal;
 	
 	 
 	/**
@@ -42,6 +53,8 @@ public class UserFollowAuthor {
 	 * 修改时间
 	 */
 	private Date modifyTime;
+	
+	
 
 	public Long getUid() {
 		return uid;
@@ -92,6 +105,29 @@ public class UserFollowAuthor {
 		this.modifyTime = modifyTime;
 	}
 	
+	
+
+	public Integer getSupportVal() {
+		return supportVal;
+	}
+
+
+	public void setSupportVal(Integer supportVal) {
+		this.supportVal = supportVal;
+	}
+
+
+	
+	public Integer getFollowLev() {
+		return followLev;
+	}
+
+
+	public void setFollowLev(Integer followLev) {
+		this.followLev = followLev;
+	}
+
+
 	/**
 	 * 创建记录
 	 * @param uid

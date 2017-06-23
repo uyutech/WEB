@@ -274,12 +274,29 @@ public class RedisKeyBuilder {
 	
 	
 	/**
-	 * 全局的top 热度排行key
+	 * 全局的top 作者热度排行key
+	 * 
+	 *  zset 结构
 	 * @return
 	 */
 	public static String getGlobalHotAuthorKey() {
 		return "gw:author:hot:global";
 	}
+	
+	
+	
+	/**
+	 * 全局的top 作品热度排行key
+	 * 
+	 *  zset 结构
+	 * @return
+	 */
+	public static String getGlobalHotWorkKey() {
+		return "gw:work:hot:global";
+	}
+	
+	
+	
 	
 	/**
 	 * 用户注册给推荐的作者
@@ -357,11 +374,11 @@ public class RedisKeyBuilder {
 	
 	
 	/**
-	 * 异步更新的set队列的key，比如点赞总数，收藏总数这种的需要异步更新的队列，里面的 member是 workid这些
+	 * 异步更新的list队列的key，比如点赞总数，收藏总数这种的需要异步更新的队列
 	 * @param type
 	 * @return
 	 */
-	public static String getAsyncUpateTotalNumZSetKey(AsyncUpdateType type) {
+	public static String getAsyncUpateTotalNumListKey(AsyncUpdateType type) {
 		
 		return "gw:async:"+type.getDesc()+":changedsets";
 	}
@@ -398,7 +415,188 @@ public class RedisKeyBuilder {
 		return "gw:"+type.getDesc()+":timeslimit:uid"+uid+":targetid:"+targetId;
 	}	
 	
+
 	
+	
+	
+	
+	
+	
+//***************************************work cache**********************************************************
+	
+	
+	/**
+	 * key-value结构 作品基础信息
+	 * @param workId
+	 * @return
+	 */
+	public static String getWorkBaseCacheKey(long workId) {
+		
+		
+		return "gw:work:workbase:workid:"+workId;
+	}
+	
+	
+	
+	/**
+	 * key-value结构 作品tag缓存
+	 * @param workId
+	 * @return
+	 */
+	public static String getWorkTagsCacheKey(long workId) {
+		
+		
+		return "gw:work:tags:workid:"+workId;
+	}
+	
+	
+	
+	/**
+	 * hash结构 作品扩展信心缓存
+	 * @param workId
+	 * @return
+	 */
+	public static String getWorkBaseExtendCacheKey(long workId) {
+		
+		
+		return "gw:work:workbaseextend:workid:"+workId;
+	}
+	
+	/**
+	 * hash结构 作品参与人缓存
+	 * @param workId
+	 * @return
+	 */
+	public static String getWorkAttenderCacheKey(long workId) {
+		
+		
+		return "gw:work:workattender:workid:"+workId;
+	}
+	
+	
+	/**
+	 * hash结构 作品内容资源
+	 * 
+	 * @param workId
+	 * @return
+	 */
+	public static String getWorkContentSourceCacheKey(long workId) {
+		
+		return "gw:work:workcontentsource:workid:"+workId;
+	}
+	
+	
+	/**
+	 * hash结构 作品内容资源扩展信息
+	 * 
+	 * @param sourceId
+	 * @return
+	 */
+	public static String getWorkContentSourceExtendCacheKey(long sourceId) {
+		
+		return "gw:work:worksourceextend:sourceid:"+sourceId;
+	}
+	
+	
+	
+	
+	/**
+	 * author列表的base 数据
+	 * @param mobile
+	 * @return
+	 */
+	public static String getAuthorBaseKey(long authorId) {
+		
+		return "gw:author:baseinfo:authorId:"+authorId;
+	}
+	
+	
+	
+	/**
+	 * author列表的base 数据
+	 * @param mobile
+	 * @return
+	 */
+	public static String getAuthorBaseExtendKey(long authorId) {
+		
+		return "gw:author:baseextend:authorId:"+authorId;
+	}
+	
+	
+	
+	
+	/**
+	 * 作者的热度信息
+	 * @param mobile
+	 * @return
+	 */
+	public static String getAuthorHotIndexKey(long authorId) {
+		
+		return "gw:author:hotindex:authorId:"+authorId;
+	}
+	
+	/**
+	 * 所有的第三方平台信息
+	 * @param mobile
+	 * @return
+	 */
+	public static String getPlatformDefineKey() {
+		
+		return "gw:author:platdefine:all";
+	}
+	
+	
+	
+	
+	/**
+	 * 作者的第三方平台信息
+	 * @param mobile
+	 * @return
+	 */
+	public static String getAuthorOtherPlatformInfoKey(long authorId) {
+		
+		return "gw:author:otherplatinfo:authorId:"+authorId;
+	}
+	
+	
+	
+	
+	
+	/**
+	 * 组合基本信息
+	 * @param mobile
+	 * @return
+	 */
+	public static String getAuthorGroupBaseInfoKey(long groupId) {
+		
+		return "gw:author:groupbase:groupId:"+groupId;
+	}
+	
+	
+	
+	
+	/**
+	 * discovery 作者热度排行key
+	 * 
+	 *  zset 结构
+	 * @return
+	 */
+	public static String getDiscoverHotAuthorKey() {
+		return "gw:author:hot:discover";
+	}
+	
+	
+	
+	
+	/**
+	 * discovery 作品热度排行key
+	 * 
+	 *  zset 结构
+	 * @return
+	 */
+	public static String getDiscoverHotWorkKey() {
+		return "gw:work:hot:discover";
+	}
 	
 }
 

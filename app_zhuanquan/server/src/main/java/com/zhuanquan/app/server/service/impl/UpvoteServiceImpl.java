@@ -45,7 +45,10 @@ public class UpvoteServiceImpl implements UpvoteService {
 
 	@Override
 	public long queryWorkUpvoteNum(long workId) {
-		return userUpvoteWorkMappingCache.queryWorkUpvoteNum(workId);
+		
+		
+		//TODO need implement
+		return 0;
 	}
 
 	@Override

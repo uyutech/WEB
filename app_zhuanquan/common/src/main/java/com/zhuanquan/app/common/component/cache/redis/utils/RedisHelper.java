@@ -847,5 +847,26 @@ public class RedisHelper {
 	}
 		
 
+	/**
+	 * list left push
+	 * @param key
+	 * @param list
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public boolean lBatchLeftPush(String key,List<String> list){
+		return gracefulRedisTemplate.listBatchLeftPush(key, list);
+	}
+	
+	/**
+	 * list right push
+	 * @param key
+	 * @param list
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public boolean lBatchRightPush(String key,List<String> list){
+		return gracefulRedisTemplate.listBatchRightPush(key, list);
+	}
 
 }

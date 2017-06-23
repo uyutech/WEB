@@ -24,7 +24,8 @@ public class Tag {
 	private Long citedNum;
 	
 	/**
-	 * tag 类型
+	 * tag 类型，0-风格类 1-ip类  2-作品类型  3-职种标签
+	 * @see com.zhuanquan.app.common.constants.TagTypeConstants.java
 	 */
 	private Integer tagType;
 	

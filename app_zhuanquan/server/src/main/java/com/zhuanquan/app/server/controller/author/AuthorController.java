@@ -1,11 +1,9 @@
 package com.zhuanquan.app.server.controller.author;
 
-import java.util.List;
 
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -13,7 +11,6 @@ import com.zhuanquan.app.common.component.sesssion.SessionHolder;
 import com.zhuanquan.app.common.view.ApiResponse;
 import com.zhuanquan.app.common.view.vo.author.SuggestAuthorRequestVo;
 import com.zhuanquan.app.common.view.vo.author.SuggestAuthorResponseVo;
-import com.zhuanquan.app.common.view.vo.user.LoginRequestVo;
 import com.zhuanquan.app.server.controller.common.BaseController;
 import com.zhuanquan.app.server.service.AutherService;
 

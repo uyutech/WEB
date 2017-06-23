@@ -17,7 +17,7 @@ public class AuthorHotIndexes {
 	/**
 	 * 热度指数
 	 */
-	private Long hotIndex;
+	private Long score;
 
 	/**
 	 * 创建时间
@@ -37,12 +37,13 @@ public class AuthorHotIndexes {
 		this.authorId = authorId;
 	}
 
-	public Long getHotIndex() {
-		return hotIndex;
+
+	public Long getScore() {
+		return score;
 	}
 
-	public void setHotIndex(Long hotIndex) {
-		this.hotIndex = hotIndex;
+	public void setScore(Long score) {
+		this.score = score;
 	}
 
 	public Date getCreateTime() {

@@ -5,55 +5,56 @@ package com.zhuanquan.app.common.constants;
 /**
  * 作品基本属性
  */
-public class WorkBaseAttr {
+public class WorkAttrConstants {
 	
 	/**
 	 *  作品标题
 	 */
-	public static final int WORK_ATTR_HEADING = 0;
+	public static final int WORK_ATTR_HEADING = 100;
 	
 	/**
 	 * 作品标签信息描述,比如   游戏，剑三，  以字符串形式存储
 	 */
-	public static final int WORK_ATTR_TAGS_INFO = 1;
+	public static final int WORK_ATTR_TAGS_INFO = 101;
 	
 	/**
 	 * 作品标签的id，举例   112,114,114  多个标签id，以逗号分割
 	 */
-	public static final int WORK_ATTR_TAGS_IDS = 2;
+	public static final int WORK_ATTR_TAGS_IDS = 102;
 
 	/**
 	 * 副标题
 	 */
-	public static final int WORK_ATTR_SUB_HEADING = 3;
+	public static final int WORK_ATTR_SUB_HEADING = 103;
 	
 	/**
-	 * 策划
+	 * 策划人名字，比如 a，b，c
 	 */
-	public static final int WORK_ATTR_EDITER = 4;
+	public static final int WORK_ATTR_EDITER_STR = 104;
+	
+	
+	/**
+	 * 策划人id，比如  11，22，33
+	 */
+	public static final int WORK_ATTR_EDITER_IDS = 105;
 
 	
 	/**
-	 * 出品人
+	 * 出品人，，比如 a，b，c，string格式
 	 */
-	public static final int WORK_ATTR_PRODUCTER = 5;
+	public static final int WORK_ATTR_PRODUCTER_STR = 106;
+	
 	
 	/**
-	 * 音频资源id
+	 * 出品人ids ,比如  11，22，33
 	 */
-	public static final int WORK_ATTR_CONTENT_AUDIO = 6;
+	public static final int WORK_ATTR_PRODUCTER_IDS = 107;
+	
 	
 	/**
-	 * 视频资源id
+	 * 多媒体资源ids,比如a，b，c
 	 */
-	public static final int WORK_ATTR_CONTENT_VEDIO = 7;
-	
-	/**
-	 * 图片资源id
-	 */
-	public static final int WORK_ATTR_CONTENT_PIC = 8;
-
-
+	public static final int WORK_ATTR_MEDIA_SOURCE_IDS = 108;
 
 
 	

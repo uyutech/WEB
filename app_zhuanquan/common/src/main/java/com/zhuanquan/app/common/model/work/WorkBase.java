@@ -1,41 +1,37 @@
 package com.zhuanquan.app.common.model.work;
 
+import java.util.Date;
+
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.util.Assert;
+
 /**
- * 作者作品信息
+ * 作品基本信息
  * 
  * @author zhangjun
  *
  */
 public class WorkBase {
 
+	//待审核
+	public static final int STAT_AUDIT = 0;
+	
+	/**
+	 * 可用
+	 */
+	public static final int STAT_ENABLE = 1;
+	
+	//不可用
+	public static final int STAT_DISABLE = 2;
+
+
+	
+	
 	/**
 	 * 作品id
 	 */
 	private Long workId;
 
-    /**
-     * 作品分类
-     */
-	private Integer category;
-	
-	
-	/**
-	 * 策划信息，以逗号分割，格式为 作者名A(作者A id),作者名B(作者B的id)
-	 */
-	private String editors;
-	
-	
-	
-	/**
-	 * 出品人信息，以逗号分割，格式为 作者名A(作者A id),作者名B(作者B的id)
-	 */
-	private String producters;
-	
-
-	/**
-	 * 作品简介
-	 */
-	private String summary;
 
 	/**
 	 * 作品标题
@@ -43,29 +39,9 @@ public class WorkBase {
 	private String subject;
 
 	/**
-	 * 收藏数
+	 * 作品简介
 	 */
-	private Integer favNum;
-
-	/**
-	 * 评论数
-	 */
-	private Integer commentNum;
-
-	/**
-	 * 转发数
-	 */
-	private Integer transpondNum;
-
-	/**
-	 * 点赞数
-	 */
-	private Integer upvoteNum;
-
-	/**
-	 * 点击阅读数
-	 */
-	private Integer readNum;
+	private String summary;
 
 	/**
 	 * 封面图片地址
@@ -73,9 +49,21 @@ public class WorkBase {
 	private String covPicUrl;
 	
 	/**
-	 * 作品标签 多个以 逗号分割  动漫，悬疑
+	 * 0-待审核 1-正常  2-disable
 	 */
-	private String workTags;
+	private Integer status;
+	
+	/**
+	 * 创建时间
+	 */
+	private Date createTime;
+	
+	/**
+	 * 修改时间
+	 */
+	private Date modifyTime;
+
+
 
 	public Long getWorkId() {
 		return workId;
@@ -83,26 +71,6 @@ public class WorkBase {
 
 	public void setWorkId(Long workId) {
 		this.workId = workId;
-	}
-
-
-
-
-
-	public String getEditors() {
-		return editors;
-	}
-
-	public void setEditors(String editors) {
-		this.editors = editors;
-	}
-
-	public String getProducters() {
-		return producters;
-	}
-
-	public void setProducters(String producters) {
-		this.producters = producters;
 	}
 
 
@@ -123,45 +91,6 @@ public class WorkBase {
 		this.subject = subject;
 	}
 
-	public Integer getFavNum() {
-		return favNum;
-	}
-
-	public void setFavNum(Integer favNum) {
-		this.favNum = favNum;
-	}
-
-	public Integer getCommentNum() {
-		return commentNum;
-	}
-
-	public void setCommentNum(Integer commentNum) {
-		this.commentNum = commentNum;
-	}
-
-	public Integer getTranspondNum() {
-		return transpondNum;
-	}
-
-	public void setTranspondNum(Integer transpondNum) {
-		this.transpondNum = transpondNum;
-	}
-
-	public Integer getUpvoteNum() {
-		return upvoteNum;
-	}
-
-	public void setUpvoteNum(Integer upvoteNum) {
-		this.upvoteNum = upvoteNum;
-	}
-
-	public Integer getReadNum() {
-		return readNum;
-	}
-
-	public void setReadNum(Integer readNum) {
-		this.readNum = readNum;
-	}
 
 	public String getCovPicUrl() {
 		return covPicUrl;
@@ -171,21 +100,62 @@ public class WorkBase {
 		this.covPicUrl = covPicUrl;
 	}
 
-	public String getWorkTags() {
-		return workTags;
+	public Integer getStatus() {
+		return status;
 	}
 
-	public void setWorkTags(String workTags) {
-		this.workTags = workTags;
+	public void setStatus(Integer status) {
+		this.status = status;
 	}
 
-	public Integer getCategory() {
-		return category;
+	public Date getCreateTime() {
+		return createTime;
 	}
 
-	public void setCategory(Integer category) {
-		this.category = category;
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
 	}
 
+	public Date getModifyTime() {
+		return modifyTime;
+	}
+
+	public void setModifyTime(Date modifyTime) {
+		this.modifyTime = modifyTime;
+	}
+
+
+	/**
+	 * 
+	 * @param subject
+	 * @param summary
+	 * @param covPicUrl
+	 * @return
+	 */
+	public static WorkBase createWorkBase(String subject,String summary,String covPicUrl){
+		
+		WorkBase base = new WorkBase();
+		
+		Assert.hasText(subject);
+		
+		
+		base.setSubject(subject);
+
+		base.setCovPicUrl(StringUtils.isEmpty(covPicUrl)?null:covPicUrl);
+		base.setSummary(StringUtils.isEmpty(summary)?null:summary);
+		
+		//待审核状态
+		base.setStatus(STAT_AUDIT);
+		
+		Date now = new Date();
+		base.setCreateTime(now);
+		base.setModifyTime(now);
+		
+		return base;
+		
+	}
+	
+	
+	 
 	
 }

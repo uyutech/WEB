@@ -10,26 +10,43 @@ import java.util.Date;
 public class WorkTagMapping {
 	
 	/**
-	 * 标签id
+	 * 可用
 	 */
-	private Long tagId;
+	public static final int STAT_ENABLE =1;
+	
+	/**
+	 * 不可用
+	 */
+	public static final int STAT_DISABLE =0;
+
 	
 	/**
 	 * 作品id
 	 */
 	private Long workId;
 	
+	/**
+	 * 标签id
+	 */
+	private Long tagId;
 
 	
-	 
+
 	/**
-	 * 标签分类
+	 * 标签分类，tag表定义，这里只包含风格和ip类的标签。冗余字段
 	 */
 	private Integer tagType;
 	
 	
+	/**
+	 * 0-disable 1-enable
+	 */
     private Integer status;
     
+    /**
+     * 排序字段
+     */
+    private Integer orderNum;
     
     
     private Date createTime;
@@ -39,6 +56,14 @@ public class WorkTagMapping {
 
 	
 	
+	public Integer getOrderNum() {
+		return orderNum;
+	}
+
+	public void setOrderNum(Integer orderNum) {
+		this.orderNum = orderNum;
+	}
+
 	public Integer getStatus() {
 		return status;
 	}
@@ -89,7 +114,22 @@ public class WorkTagMapping {
 	}
 	
 	
-	
+	public static WorkTagMapping createRecord(long workId,long tagId,int tagType,int orderNum){
+		
+		WorkTagMapping record = new WorkTagMapping();
+		
+		record.setTagId(tagId);
+		record.setStatus(STAT_ENABLE);
+		record.setTagType(tagType);
+		record.setWorkId(workId);
+		record.setOrderNum(orderNum);
+		
+		Date now = new Date();
+		record.setCreateTime(now);
+		record.setModifyTime(now);
+		
+		return record;
+	}
 	
 	
 }

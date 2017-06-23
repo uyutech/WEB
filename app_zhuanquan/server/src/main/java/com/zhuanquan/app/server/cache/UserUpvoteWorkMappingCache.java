@@ -27,13 +27,13 @@ public interface UserUpvoteWorkMappingCache {
 	void cancelUpvoteWork(long uid,long workId);
 	
 	
-	/**
-	 * 查询作品的点赞数
-	 * 
-	 * @param workId
-	 * @return
-	 */
-	long queryWorkUpvoteNum(long workId);
+//	/**
+//	 * 查询作品的点赞数
+//	 * 
+//	 * @param workId
+//	 * @return
+//	 */
+//	long queryWorkUpvoteNum(long workId);
 	
 	
 	

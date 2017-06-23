@@ -3,6 +3,7 @@ package com.zhuanquan.app.server.service;
 import java.util.List;
 
 import com.zhuanquan.app.common.model.user.UserProfile;
+import com.zhuanquan.app.common.view.vo.sync.ImportWorkInfoVo;
 import com.zhuanquan.app.common.view.vo.user.LoginByOpenIdRequestVo;
 import com.zhuanquan.app.common.view.vo.user.MobileRegisterRequestVo;
 
@@ -43,6 +44,12 @@ public interface TransactionService {
 	 * @param authorId
 	 */
 	void cancelFollowAuthor(long uid,long authorId);
+	
+	/**
+	 * 执行作品导入
+	 * @param vo
+	 */
+	void doImportWork(ImportWorkInfoVo vo);
 	
 
 }

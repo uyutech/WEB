@@ -1,11 +1,9 @@
 package com.zhuanquan.app.server.cache.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.apache.commons.collections.ListUtils;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;

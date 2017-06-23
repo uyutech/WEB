@@ -45,6 +45,8 @@ public class UserFollowTag {
      */
 	private Integer status;
 	
+
+	
 	/**
 	 * 创建时间
 	 */
