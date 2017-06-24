@@ -24,77 +24,80 @@ import com.zhuanquan.app.server.cache.AuthorThirdPlatformCache;
 
 /**
  * 第三方平台的cahche
+ * 
  * @author zhangjun
  *
  */
 @Service
-public class AuthorThirdPlatformCacheImpl extends CacheChangedListener implements AuthorThirdPlatformCache  {
+public class AuthorThirdPlatformCacheImpl extends CacheChangedListener implements AuthorThirdPlatformCache {
 
 	@Resource
-	private RedisHelper  redisHelper;
-	
+	private RedisHelper redisHelper;
+
 	@Resource
 	private AuthorThirdPlatformDefineDAO authorThirdPlatformDefineDAO;
-	
-	
+
+	@SuppressWarnings("unchecked")
 	@Override
 	public Map<String, AuthorThirdPlatformDefine> batchQueryThirdPlatformInfo(List<Integer> platformIds) {
-		
-		
+
 		if (CollectionUtils.isEmpty(platformIds)) {
 			return null;
 		}
-		
+
 		//
 		String key = RedisKeyBuilder.getAuthorThirdplatformInfoKey();
-		
+
 		List<String> platIdsHashKey = new ArrayList<String>();
 
 		for (Integer id : platformIds) {
 			platIdsHashKey.add(id.toString());
-	    }
-		
-
-		List<String> platInfoList = redisHelper.hashMultiGet(key, platIdsHashKey);
-		
-		//不为空
-		if(!CollectionUtils.isEmpty(platInfoList)){
-			
-			Map<String, AuthorThirdPlatformDefine> result = new HashMap<>();
-			for(String record:platInfoList) {
-				
-				if(StringUtils.isNotEmpty(record)) {
-				    AuthorThirdPlatformDefine info = JSON.parseObject(record, AuthorThirdPlatformDefine.class);
-				    result.put(info.getId().toString(), info); 
-				}
-			}
-			
-			return result;
 		}
-		
+
+		boolean hasKey = redisHelper.getGracefulRedisTemplate().hasKey(key);
+
+		if (hasKey) {
+
+			List<String> platInfoList = redisHelper.hashMultiGet(key, platIdsHashKey);
+
+			// 不为空
+			if (!CollectionUtils.isEmpty(platInfoList)) {
+
+				Map<String, AuthorThirdPlatformDefine> result = new HashMap<>();
+				for (String record : platInfoList) {
+
+					if (StringUtils.isNotEmpty(record)) {
+						AuthorThirdPlatformDefine info = JSON.parseObject(record, AuthorThirdPlatformDefine.class);
+						result.put(info.getId().toString(), info);
+					}
+				}
+
+				return result;
+			}
+
+		}
 		List<AuthorThirdPlatformDefine> allInfo = authorThirdPlatformDefineDAO.queryAllInfo();
-		
-		if(CollectionUtils.isEmpty(allInfo)){
+
+		if (CollectionUtils.isEmpty(allInfo)) {
 			return null;
 		}
-		
-		Map<String,String> pushMap = new HashMap<String,String>();
+
+		Map<String, String> pushMap = new HashMap<String, String>();
 
 		Map<String, AuthorThirdPlatformDefine> resultMap = new HashMap<String, AuthorThirdPlatformDefine>();
-		
-		
-		for(AuthorThirdPlatformDefine record:allInfo) {
+
+		for (AuthorThirdPlatformDefine record : allInfo) {
 			pushMap.put(record.getId().toString(), JSON.toJSONString(record));
-			
-			//有需要查询的id
-			if(platIdsHashKey.contains(record.getId().toString())) {
+
+			// 有需要查询的id
+			if (platIdsHashKey.contains(record.getId().toString())) {
 				resultMap.put(record.getId().toString(), record);
 			}
 		}
-		
+
 		redisHelper.hashPutAll(key, pushMap);
 		redisHelper.expire(key, 30, TimeUnit.MINUTES);
-		
+
 		return resultMap;
 	}
 
@@ -107,12 +110,7 @@ public class AuthorThirdPlatformCacheImpl extends CacheChangedListener implement
 	@Override
 	public void doProcessCacheCleanEvent(CacheClearEvent event) {
 		// TODO Auto-generated method stub
-		
-	}
-	
 
-	
-	
-	
-	
+	}
+
 }

@@ -272,6 +272,9 @@ public class UserFollowServiceImpl implements UserFollowService {
 
 			//设置作者信息
 			setDynamicsAuthorInfo(bo, dynamic);
+			
+			
+			dynamicsBoList.add(bo);
 		}
 
 		vo.setDynamicsList(dynamicsBoList);
@@ -293,7 +296,7 @@ public class UserFollowServiceImpl implements UserFollowService {
 		Map<String, AuthorThirdPlatformDefine> map = authorThirdPlatformCache
 				.batchQueryThirdPlatformInfo(Lists.newArrayList(dynamic.getPlatformId()));
 		if (MapUtils.isNotEmpty(map)) {
-			AuthorThirdPlatformDefine define = map.get(dynamic.getPlatformId());
+			AuthorThirdPlatformDefine define = map.get(dynamic.getPlatformId().toString());
 			if (define != null) {
 				bo.setPlatformLogoUrl(define.getLogoUrl());
 			}
