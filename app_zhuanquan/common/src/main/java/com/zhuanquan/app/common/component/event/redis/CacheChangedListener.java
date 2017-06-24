@@ -10,7 +10,6 @@ import org.springframework.context.ApplicationListener;
 import com.alibaba.fastjson.JSON;
 import com.zhuanquan.app.common.component.event.redis.CacheClearEvent;
 import com.zhuanquan.app.common.component.event.redis.RedisCacheEnum;
-import com.zhuanquan.app.common.view.vo.author.SuggestTagVo;
 
 
 /**

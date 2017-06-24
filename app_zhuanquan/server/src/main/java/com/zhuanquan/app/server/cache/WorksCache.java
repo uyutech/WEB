@@ -10,6 +10,7 @@ import com.zhuanquan.app.common.model.work.WorkContentSource;
 import com.zhuanquan.app.common.model.work.WorkContentSourceExtend;
 import com.zhuanquan.app.common.model.work.WorkTagMapping;
 import com.zhuanquan.app.common.view.vo.discovery.DiscoveryHotWorkVo;
+import com.zhuanquan.app.common.view.vo.discovery.DiscoveryPageQueryRequest;
 
 public interface WorksCache {
 
@@ -70,6 +71,6 @@ public interface WorksCache {
 	 * @param limit
 	 * @return
 	 */
-	List<DiscoveryHotWorkVo> queryDiscoverHotWorksByPage(int fromIndex,int limit);
+	List<DiscoveryHotWorkVo> queryDiscoverHotWorksByPage(DiscoveryPageQueryRequest request);
 
 }

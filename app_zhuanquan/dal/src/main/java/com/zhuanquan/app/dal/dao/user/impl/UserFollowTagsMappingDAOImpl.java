@@ -162,4 +162,16 @@ public class UserFollowTagsMappingDAOImpl extends BaseDao implements UserFollowT
 		return target;
 	}
 
+
+	@Override
+	public List<Long> queryUserFollowTagByPage(long uid, int fromIndex, int limit) {
+		Map map = new HashMap();
+
+		map.put("uid", uid);
+		map.put("offset", fromIndex);
+		map.put("limit", limit);
+
+		return sqlSessionTemplate.selectList(getSqlName("queryUserFollowTagByPage"), map);
+	}
+
 }

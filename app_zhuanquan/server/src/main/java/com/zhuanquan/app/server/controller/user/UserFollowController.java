@@ -6,12 +6,13 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.zhuanquan.app.common.view.ApiResponse;
+import com.zhuanquan.app.common.view.vo.author.PageQueryAuthorDynamicsVo;
+import com.zhuanquan.app.common.view.vo.user.PageQueryFollowedAuthorsResponseVo;
+import com.zhuanquan.app.common.view.vo.user.PageQueryFollowedTagsResponseVo;
 import com.zhuanquan.app.common.view.vo.user.QueryUserFollowAuthorsResponseVo;
 import com.zhuanquan.app.server.controller.common.BaseController;
 import com.zhuanquan.app.server.service.UserFollowService;
-import com.zhuanquan.app.server.service.impl.UserFollowServiceImpl;
 
 
 /**
@@ -30,7 +31,7 @@ public class UserFollowController extends BaseController {
 	private UserFollowService userFollowService;
 	
 	/**
-	 * 查询用户关注的作者信息
+	 * 查询用户关注的所有的作者信息
 	 * @param uid
 	 * @return
 	 */
@@ -43,6 +44,7 @@ public class UserFollowController extends BaseController {
 		return ApiResponse.success(response);
 	}
 	
+
 	
 	/**
 	 * 关注作者
@@ -76,5 +78,60 @@ public class UserFollowController extends BaseController {
 
 	}
 
+	
+	
+	
+	@RequestMapping(value="/pageQueryUserFollowAuthors",produces = {"application/json"})
+	@ResponseBody
+	public ApiResponse pageQueryUserFollowAuthors(long uid, int fromIndex, int limit) {
+
+		PageQueryFollowedAuthorsResponseVo vo = userFollowService.queryUserFollowAuthors(uid, fromIndex, limit);
+
+		return ApiResponse.success(vo);
+	}
+	
+	
+
+	/**
+	 * 查询用户关注的标签。
+	 * @param uid
+	 * @param fromIndex
+	 * @param limit
+	 * @return
+	 */
+	@RequestMapping(value="/pageQueryUserFollowTags",produces = {"application/json"})
+	@ResponseBody
+	public ApiResponse pageQueryUserFollowTags(long uid, int fromIndex, int limit) {
+			
+		
+		PageQueryFollowedTagsResponseVo vo =userFollowService.queryUserFollowTags(uid, fromIndex, limit);
+		
+		return ApiResponse.success(vo);
+	}
+	
+	
+
+	/**
+	 * 查询关注的作者的动态
+	 * @param uid
+	 * @param fromIndex
+	 * @param limit
+	 * @return
+	 */
+	@RequestMapping(value = "/pageQueryFollowedAuthorDynamics",produces = {"application/json"})
+	@ResponseBody
+	public ApiResponse pageQueryFollowedAuthorDynamics(long uid, int fromIndex, int limit) {
+
+		PageQueryAuthorDynamicsVo vo = userFollowService.pageQueryFollowedAuthorDynamics(uid, fromIndex, limit);
+
+		return ApiResponse.success(vo);
+		
+	}
+	
+	
+	
+	
+	
+	
 	
 }

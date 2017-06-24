@@ -10,7 +10,7 @@ import java.util.Date;
 public class AuthorThirdPlatformDefine {
 	
 	
-	private Long id;
+	private Integer id;
 	
 	/**
 	 * 1-社交类 2-音乐 3-视频 4-图片
@@ -21,6 +21,12 @@ public class AuthorThirdPlatformDefine {
 	 *  第三方平台名
 	 */
 	private String name;
+	
+	
+	/**
+	 * logo图片
+	 */
+	private String logoUrl;
 	
 	
 	/**
@@ -38,11 +44,11 @@ public class AuthorThirdPlatformDefine {
 	 */
 	private Date modifyTime;
 
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -85,12 +91,15 @@ public class AuthorThirdPlatformDefine {
 	public void setModifyTime(Date modifyTime) {
 		this.modifyTime = modifyTime;
 	}
+
+	public String getLogoUrl() {
+		return logoUrl;
+	}
+
+	public void setLogoUrl(String logoUrl) {
+		this.logoUrl = logoUrl;
+	}
 	
-	
-	
-	
-	
-	
-	
+
 	
 }

@@ -35,8 +35,8 @@ import com.zhuanquan.app.common.model.work.WorkHotIndex;
 import com.zhuanquan.app.common.model.work.WorkTagMapping;
 import com.zhuanquan.app.common.utils.CommonUtil;
 import com.zhuanquan.app.common.view.bo.author.AuthorBaseInfoBo;
-import com.zhuanquan.app.common.view.vo.author.SuggestTagVo;
 import com.zhuanquan.app.common.view.vo.discovery.DiscoveryHotWorkVo;
+import com.zhuanquan.app.common.view.vo.discovery.DiscoveryPageQueryRequest;
 import com.zhuanquan.app.dal.dao.work.WorkAttenderDAO;
 import com.zhuanquan.app.dal.dao.work.WorkBaseDAO;
 import com.zhuanquan.app.dal.dao.work.WorkBaseExtendDAO;
@@ -414,12 +414,12 @@ public class WorksCacheImpl extends CacheChangedListener implements WorksCache {
 	}
 
 	@Override
-	public List<DiscoveryHotWorkVo> queryDiscoverHotWorksByPage(int fromIndex, int limit) {
+	public List<DiscoveryHotWorkVo> queryDiscoverHotWorksByPage(DiscoveryPageQueryRequest request) {
 
 		String hotWorkKey = RedisKeyBuilder.getDiscoverHotWorkKey();
 
 		// 尝试从zset缓存中获取
-		Set<String> sets = redisHelper.zsetRevrange(hotWorkKey, fromIndex, fromIndex + limit - 1);
+		Set<String> sets = redisHelper.zsetRevrange(hotWorkKey, request.getFromIndex(), request.getFromIndex() + request.getLimit() - 1);
 
 		// 缓存中有值
 		if (sets != null && sets.size() != 0) {

@@ -8,7 +8,6 @@ create table author_base
 (
    author_id              int(11) not null auto_increment ,
    author_name            varchar(200) not null,
-
    head_url               varchar(200) not null,
    fans_num               int(11) not null default 0,
    status                 tinyint(1) not null default 1,
@@ -94,3 +93,56 @@ create table author_hot_indexes
    modify_time            datetime,
    primary key (author_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
+
+
+
+
+
+
+
+/*==============================================================*/
+/* Table: author_dynamics    作者动态表                                       */
+/*==============================================================*/
+drop table if exists author_dynamics;
+create table author_dynamics
+(
+   id                     int(11) not null auto_increment ,
+   author_id              int(11) not null  ,
+   oper_type              int(4) not null default 0 ,
+   platform_id            int(11) not null ,
+   target                 varchar(200) not null,
+   extend_info            varchar(500) not null default '',
+   status                 tinyint(1) not null default 1,
+   publish_time           datetime,
+   create_time            datetime,
+   modify_time            datetime,
+   primary key (id),
+   KEY idx_authdyna_all (author_id,platform_id,oper_type),
+   KEY idx_authdyna_pubtime(publish_time)
+
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
+
+
+
+
+
+/*==============================================================*/
+/* Table: author_third_platform_define    第三方平台的信息定义                                     */
+/*==============================================================*/
+drop table if exists author_third_platform_define;
+create table author_third_platform_define
+(
+   id                     int(11) not null auto_increment ,
+   type                   int(4) not null default 0 ,
+   name                   varchar(200) not null,
+   logo_url               varchar(500) not null default '',
+   status                 tinyint(1) not null default 1,
+   create_time            datetime,
+   modify_time            datetime,
+   primary key (id)
+
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
+
+
+
+

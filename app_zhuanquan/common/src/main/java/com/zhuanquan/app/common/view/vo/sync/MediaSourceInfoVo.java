@@ -3,6 +3,7 @@ package com.zhuanquan.app.common.view.vo.sync;
 import java.io.Serializable;
 import java.util.List;
 import com.zhuanquan.app.common.view.vo.work.WorkContentSourceExtendVo;
+import com.zhuanquan.app.common.view.vo.work.WorkReferedTagVo;
 
 /**
  * 
@@ -52,6 +53,12 @@ public class MediaSourceInfoVo implements Serializable {
 	 * 作者列表
 	 */
 	private List<MediaSourceReleatedAuthorVo> authorList;
+	
+	
+	/**
+	 * 具体资源关联的标签
+	 */
+	private List<WorkReferedTagVo> sourceReferedTags;
 
 	/**
 	 * 扩展属性的list 其他资源属性(list结构的扩展属性信息，比如点击数，下载数等等)。
@@ -122,6 +129,14 @@ public class MediaSourceInfoVo implements Serializable {
 
 	public void setOriginSourceId(long originSourceId) {
 		this.originSourceId = originSourceId;
+	}
+
+	public List<WorkReferedTagVo> getSourceReferedTags() {
+		return sourceReferedTags;
+	}
+
+	public void setSourceReferedTags(List<WorkReferedTagVo> sourceReferedTags) {
+		this.sourceReferedTags = sourceReferedTags;
 	}
 	
 	

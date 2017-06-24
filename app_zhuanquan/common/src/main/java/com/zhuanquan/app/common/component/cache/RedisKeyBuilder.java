@@ -598,6 +598,26 @@ public class RedisKeyBuilder {
 		return "gw:work:hot:discover";
 	}
 	
+	
+	
+	
+	
+	
+	
+	
+	/**
+	 * 第三方平台的信息，hash结构的key
+	 * @param mobile
+	 * @return
+	 */
+	public static String getAuthorThirdplatformInfoKey() {
+		
+		return "gw:authorthirdplat:all";
+	}
+	
+	
+	
+	
 }
 
 

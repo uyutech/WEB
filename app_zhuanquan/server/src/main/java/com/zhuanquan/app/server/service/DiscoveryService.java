@@ -5,6 +5,7 @@ import java.util.List;
 import com.zhuanquan.app.common.view.vo.discovery.DiscoveryHotAuthorVo;
 import com.zhuanquan.app.common.view.vo.discovery.DiscoveryHotWorkVo;
 import com.zhuanquan.app.common.view.vo.discovery.DiscoveryInfoVo;
+import com.zhuanquan.app.common.view.vo.discovery.DiscoveryPageQueryRequest;
 
 
 /**
@@ -22,7 +23,7 @@ public interface DiscoveryService {
 	 * @param limit
 	 * @return
 	 */
-	List<DiscoveryHotWorkVo> getDiscoverHotWorksByPage(int fromIndex,int limit);
+	List<DiscoveryHotWorkVo> getDiscoverHotWorksByPage(DiscoveryPageQueryRequest request);
 	
 	/**
 	 * 
@@ -30,6 +31,6 @@ public interface DiscoveryService {
 	 * @param limit
 	 * @return
 	 */
-	List<DiscoveryHotAuthorVo> getDiscoverHotAuthorByPage(int fromIndex, int limit);
+	List<DiscoveryHotAuthorVo> getDiscoverHotAuthorByPage(DiscoveryPageQueryRequest request);
 	
 }

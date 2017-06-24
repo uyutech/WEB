@@ -6,8 +6,8 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.zhuanquan.app.common.view.bo.TagInfoBo;
 import com.zhuanquan.app.common.view.vo.author.SuggestTagResponseVo;
-import com.zhuanquan.app.common.view.vo.author.SuggestTagVo;
 import com.zhuanquan.app.server.cache.TagCache;
 import com.zhuanquan.app.server.service.TagService;
 
@@ -22,7 +22,7 @@ public class TagServiceImpl implements TagService {
 	@Override
 	public SuggestTagResponseVo getSuggestTags(long uid,int fromIndex,int limit) {
 		
-		List<SuggestTagVo> list =  tagCache.getSuggestTag(uid,fromIndex,limit);
+		List<TagInfoBo> list =  tagCache.getSuggestTag(uid,fromIndex,limit);
 		
 		SuggestTagResponseVo response = new SuggestTagResponseVo();
 		

@@ -24,6 +24,7 @@ import com.zhuanquan.app.common.model.work.WorkBase;
 import com.zhuanquan.app.common.model.work.WorkContentSource;
 import com.zhuanquan.app.common.model.work.WorkContentSourceExtend;
 import com.zhuanquan.app.common.model.work.WorkTagMapping;
+import com.zhuanquan.app.common.view.bo.work.WorkTagBo;
 import com.zhuanquan.app.common.view.vo.sync.ImportWorkInfoVo;
 import com.zhuanquan.app.common.view.vo.sync.MediaSourceInfoVo;
 import com.zhuanquan.app.common.view.vo.sync.MediaSourceReleatedAuthorVo;
@@ -172,8 +173,12 @@ public class TransactionServiceImpl implements TransactionService {
 		// 获取workid
 		long workId = workBaseDAO.insertWorkBaseInfo(base);
 
-		// 解析作品标签
-		parseWorkTag(vo.getTagInfoList(), workId);
+		
+		List<WorkTagBo> allTag = new ArrayList<WorkTagBo>();
+		
+		//解析作品标签，针对整个作品的标签 全局的tag
+		parseWorkTag(allTag, vo.getTagInfoList(), 0);
+
 
 		// 作品参与人
 		List<WorkAttender> attenderList = new ArrayList<>();
@@ -184,8 +189,11 @@ public class TransactionServiceImpl implements TransactionService {
 		parseWorkAttender(attenderList, vo.getEditorList(), workId, 0, 0);
 
 		// 处理多媒体信息
-		parseMediaSource(workId, attenderList, vo.getMediaSource());
+		parseMediaSource(workId, allTag,attenderList, vo.getMediaSource());
 
+		//所有的tag入库
+		saveWorkTag(allTag, workId);
+		
 		// 统一处理作品相关作者信息。
 		//
 		workAttenderDAO.insertOrUpdateBatch(attenderList);
@@ -213,7 +221,29 @@ public class TransactionServiceImpl implements TransactionService {
 		}
 	}
 
-	private void parseWorkTag(List<WorkReferedTagVo> tagList, long workId) {
+	
+	private void parseWorkTag(List<WorkTagBo> allList,List<WorkReferedTagVo> workTags,long sourceId){
+		
+
+		if (CollectionUtils.isEmpty(workTags)) {
+			return;
+		}
+
+		
+		for(WorkReferedTagVo record:workTags){
+			
+			WorkTagBo bo = new WorkTagBo();
+			
+			bo.setOrderNum(record.getOrderNum());
+			bo.setSourceId(sourceId);
+			bo.setTagId(record.getTagId());
+		}
+	}
+	
+	
+	
+	
+	private void saveWorkTag(List<WorkTagBo>  tagList, long workId) {
 
 		if (CollectionUtils.isEmpty(tagList)) {
 			return;
@@ -221,12 +251,12 @@ public class TransactionServiceImpl implements TransactionService {
 
 		List<WorkTagMapping> list = new ArrayList<>();
 
-		for (WorkReferedTagVo record : tagList) {
+		for (WorkTagBo record : tagList) {
 			Tag tag = tagCache.getTagById(record.getTagId());
 
 			if (tag != null) {
 				WorkTagMapping mapping = WorkTagMapping.createRecord(workId, record.getTagId(), tag.getTagType(),
-						record.getOrderNum());
+						record.getOrderNum(),record.getSourceId());
 				list.add(mapping);
 			}
 
@@ -241,7 +271,7 @@ public class TransactionServiceImpl implements TransactionService {
 	/**
 	 * 解析多媒体资源
 	 */
-	private void parseMediaSource(long workId, List<WorkAttender> attenderList, List<MediaSourceInfoVo> mediaSources) {
+	private void parseMediaSource(long workId, List<WorkTagBo> allTagList,List<WorkAttender> attenderList, List<MediaSourceInfoVo> mediaSources) {
 
 		if (CollectionUtils.isEmpty(mediaSources)) {
 			return;
@@ -257,6 +287,10 @@ public class TransactionServiceImpl implements TransactionService {
 			// 解析具体内容资源的作者信息，放到attenderList里
 			parseWorkAttender(attenderList, authorList, workId, sourceId, media.getSourceCategory());
 
+			//解析source里的tag标签
+			parseWorkTag(allTagList, media.getSourceReferedTags(), sourceId);
+			
+			
 			// 处理扩展信息
 			List<WorkContentSourceExtendVo> extendAttrs = media.getExtendAttrList();
 

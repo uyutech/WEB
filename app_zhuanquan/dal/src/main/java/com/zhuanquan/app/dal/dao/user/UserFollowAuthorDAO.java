@@ -74,6 +74,16 @@ public interface UserFollowAuthorDAO {
 	 * @return
 	 */
 	boolean queryHasFollowAuthor(long uid, long authId);
+	
+	
+	/**
+	 * 分页查询关注作者
+	 * @param uid
+	 * @param limit
+	 * @param offset
+	 * @return
+	 */
+	List<Long> queryFollowAuthorsByPage(long uid,int limit ,int offset);
 
 	
 	

@@ -3,6 +3,8 @@ package com.zhuanquan.app.common.view.vo.author;
 import java.io.Serializable;
 import java.util.List;
 
+import com.zhuanquan.app.common.view.bo.TagInfoBo;
+
 public class SuggestTagResponseVo implements Serializable {
 
 	/**
@@ -23,7 +25,7 @@ public class SuggestTagResponseVo implements Serializable {
 	/**
 	 * tag列表
 	 */
-	private List<SuggestTagVo> dataList;
+	private List<TagInfoBo> dataList;
 	
 	/**
 	 * 限制最多查多少条
@@ -46,11 +48,11 @@ public class SuggestTagResponseVo implements Serializable {
 		this.fromIndex = fromIndex;
 	}
 
-	public List<SuggestTagVo> getDataList() {
+	public List<TagInfoBo> getDataList() {
 		return dataList;
 	}
 
-	public void setDataList(List<SuggestTagVo> dataList) {
+	public void setDataList(List<TagInfoBo> dataList) {
 		this.dataList = dataList;
 	}
 

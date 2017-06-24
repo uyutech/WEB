@@ -1,4 +1,4 @@
-package com.zhuanquan.app.common.view.vo.author;
+package com.zhuanquan.app.common.view.bo;
 
 import java.io.Serializable;
 
@@ -8,13 +8,14 @@ import java.io.Serializable;
  * @author zhangjun
  *
  */
-public class SuggestTagVo implements Serializable {
+public class TagInfoBo implements Serializable {
+
 
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 3810722274502259506L;
+	private static final long serialVersionUID = 6640174804798524630L;
 
 	/**
 	 * tag id

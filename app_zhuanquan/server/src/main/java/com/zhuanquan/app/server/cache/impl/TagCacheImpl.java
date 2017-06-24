@@ -28,7 +28,7 @@ import com.zhuanquan.app.common.component.event.redis.CacheClearEvent;
 import com.zhuanquan.app.common.component.event.redis.RedisCacheEnum;
 import com.zhuanquan.app.common.model.common.Tag;
 import com.zhuanquan.app.common.utils.CommonUtil;
-import com.zhuanquan.app.common.view.vo.author.SuggestTagVo;
+import com.zhuanquan.app.common.view.bo.TagInfoBo;
 import com.zhuanquan.app.dal.dao.author.TagDAO;
 import com.zhuanquan.app.dal.dao.user.UserFollowTagsMappingDAO;
 import com.zhuanquan.app.server.cache.TagCache;
@@ -54,7 +54,7 @@ public class TagCacheImpl extends CacheChangedListener implements TagCache {
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
-	public List<SuggestTagVo> getSuggestTag(long uid, int fromIndex, int limit) {
+	public List<TagInfoBo> getSuggestTag(long uid, int fromIndex, int limit) {
 
 		String privateSuggestKey = RedisKeyBuilder.getPrivateHotTagsSuggestKey(uid);
 
@@ -64,7 +64,7 @@ public class TagCacheImpl extends CacheChangedListener implements TagCache {
 		// 缓存中有值
 		if (sets != null && sets.size() != 0) {
 
-			return CommonUtil.deserializArray(sets, SuggestTagVo.class);
+			return CommonUtil.deserializArray(sets, TagInfoBo.class);
 		}
 
 		// 缓存中没有，尝试初始化
@@ -73,7 +73,7 @@ public class TagCacheImpl extends CacheChangedListener implements TagCache {
 
 		String hotTop100ListStr = redisHelper.valueGet(publicHotkey);
 
-		List<SuggestTagVo> list = new ArrayList<SuggestTagVo>();
+		List<TagInfoBo> list = new ArrayList<TagInfoBo>();
 
 		if (hotTop100ListStr == null) {
 
@@ -81,7 +81,7 @@ public class TagCacheImpl extends CacheChangedListener implements TagCache {
 
 		} else {
 
-			list = JSON.parseArray(hotTop100ListStr, SuggestTagVo.class);
+			list = JSON.parseArray(hotTop100ListStr, TagInfoBo.class);
 		}
 
 		// 设置个人的缓存，有效期为5分钟
@@ -98,7 +98,7 @@ public class TagCacheImpl extends CacheChangedListener implements TagCache {
 
 		sets = redisHelper.zsetRevrange(privateSuggestKey, fromIndex, fromIndex + limit - 1);
 
-		return CommonUtil.deserializArray(sets, SuggestTagVo.class);
+		return CommonUtil.deserializArray(sets, TagInfoBo.class);
 
 	}
 
@@ -107,9 +107,9 @@ public class TagCacheImpl extends CacheChangedListener implements TagCache {
 	 * 
 	 * @return
 	 */
-	public List<SuggestTagVo> lazyInitGlobalTop100HotTag() {
+	public List<TagInfoBo> lazyInitGlobalTop100HotTag() {
 
-		List<SuggestTagVo> list = new ArrayList<SuggestTagVo>();
+		List<TagInfoBo> list = new ArrayList<TagInfoBo>();
 
 		String publicHotkey = RedisKeyBuilder.getPublicHotTagsSuggestKey();
 
@@ -126,7 +126,7 @@ public class TagCacheImpl extends CacheChangedListener implements TagCache {
 			Tag tag = entry.getValue();
 
 			if (tag != null) {
-				SuggestTagVo record = new SuggestTagVo();
+				TagInfoBo record = new TagInfoBo();
 
 				record.setTagId(tag.getTagId());
 				record.setTagName(tag.getTagName());

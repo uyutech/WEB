@@ -7,7 +7,7 @@ import java.util.List;
 import com.zhuanquan.app.common.view.bo.author.AuthorBaseInfoBo;
 
 /**
- * 查询用户关注的作者的返回值
+ * 查询用户关注的所有的 作者的返回值
  * @author zhangjun
  *
  */
@@ -25,7 +25,7 @@ public class QueryUserFollowAuthorsResponseVo implements Serializable {
 	
 	
     /**
-     *  关注的作者
+     *  所有的关注的作者
      */
 	private List<AuthorBaseInfoBo> followAuthors;
 

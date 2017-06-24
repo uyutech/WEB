@@ -82,4 +82,15 @@
 
 
 
+
+	<select id="queryUserFollowTagByPage" resultType="java.lang.Long"
+		parameterType="java.util.Map">
+		select tag_id from user_follow_tag where uid = #{uid} and
+		status =1 limit #{limit} offset #{offset};
+	</select>
+
+
+
+
+
 </mapper>		

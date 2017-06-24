@@ -40,6 +40,7 @@ import com.zhuanquan.app.common.utils.CommonUtil;
 import com.zhuanquan.app.common.view.bo.author.AuthorBaseInfoBo;
 import com.zhuanquan.app.common.view.vo.discovery.DiscoveryHotAuthorVo;
 import com.zhuanquan.app.common.view.vo.discovery.DiscoveryHotWorkVo;
+import com.zhuanquan.app.common.view.vo.discovery.DiscoveryPageQueryRequest;
 import com.zhuanquan.app.dal.dao.author.AuthorBaseDAO;
 import com.zhuanquan.app.dal.dao.author.AuthorExtendInfoDAO;
 import com.zhuanquan.app.dal.dao.author.AuthorHotIndexesDAO;
@@ -423,12 +424,12 @@ public class AuthorCacheImpl extends CacheChangedListener implements AuthorCache
 
 
 	@Override
-	public List<DiscoveryHotAuthorVo> getDiscoverHotAuthorByPage(int fromIndex, int limit) {
+	public List<DiscoveryHotAuthorVo> getDiscoverHotAuthorByPage(DiscoveryPageQueryRequest request) {
 		
 		String hotKey = RedisKeyBuilder.getDiscoverHotAuthorKey();
 
 		// 尝试从zset缓存中获取
-		Set<String> sets = redisHelper.zsetRevrange(hotKey, fromIndex, fromIndex + limit - 1);
+		Set<String> sets = redisHelper.zsetRevrange(hotKey, request.getFromIndex(), request.getFromIndex() + request.getLimit() - 1);
 
 		// 缓存中有值
 		if (sets != null && sets.size() != 0) {
@@ -452,10 +453,7 @@ public class AuthorCacheImpl extends CacheChangedListener implements AuthorCache
 			
 			vo.setAuthorId(base.getAuthorId());
 			vo.setAuthorName(base.getAuthorName());
-			vo.setHeadUrl(base.getHeadUrl());
-			
-//			vo.setRoleTypes(roleTypes);
-			
+			vo.setHeadUrl(base.getHeadUrl());			
 			vo.setScore(index.getScore());
 			
 			resultList.add(vo);

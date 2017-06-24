@@ -26,7 +26,7 @@ public class UserFollowedAuthorInfoVo implements Serializable{
 	
 	
 	/**
-	 * 关注的作品分组
+	 * 关注的作者分组
 	 */
 	private List<AuthorBaseInfoBo> followList;
 

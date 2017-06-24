@@ -6,6 +6,7 @@ import java.io.Serializable;
 
 /**
  * 多媒体资源 扩展信息
+ * 
  * @author zhangjun
  *
  */
@@ -15,9 +16,6 @@ public class WorkContentSourceExtendVo implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -8985704432038636068L;
-	
-	
-	
 
 	/**
 	 * 扩展属性定义
@@ -71,10 +69,7 @@ public class WorkContentSourceExtendVo implements Serializable {
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
-	
-	
-	
-	
+
 
 
 }

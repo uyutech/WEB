@@ -61,7 +61,7 @@
     <!-- 作者有哪些fans -->
 	<select id="queryAuthorFollowersIds" resultType="java.lang.Long"
 		parameterType="java.lang.Long">
-		select follow_author_id from user_follow_author where uid = #{uid}  and status = 1 ;
+		select uid from user_follow_author where follow_author_id = #{authorId}  and status = 1 ;
 	</select>
 
 
@@ -82,6 +82,15 @@
 		parameterType="java.util.HashMap">
 		select * from user_follow_author where uid = #{uid}  and follow_author_id = #{authorId};
 	</select>
+
+
+
+	<select id="queryFollowAuthorsByPage" resultType="java.lang.Long"
+		parameterType="java.util.HashMap">
+		select follow_author_id from user_follow_author where uid = #{uid}  and status = 1 limit #{limit} offset #{offset} ;
+	</select>
+
+
 
 
 </mapper>		

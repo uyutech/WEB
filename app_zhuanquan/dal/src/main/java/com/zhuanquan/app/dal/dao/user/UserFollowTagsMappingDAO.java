@@ -56,15 +56,6 @@ public interface UserFollowTagsMappingDAO {
 	boolean queryHasFollowedTag(long uid,long tagId);
 	
 
-//	/**
-//	 * 分页查询
-//	 * @param offset
-//	 * @param pagSize
-//	 * @param excludeIds
-//	 * @return
-//	 */
-//	List<Long> queryHotTagsByPage(int offset,int pagSize,List<Long> excludeIds);
-	
 	
 	/**
 	 * 获取最近最火的标签
@@ -72,6 +63,16 @@ public interface UserFollowTagsMappingDAO {
 	 * @return
 	 */
 	public List<Long> queryHotTagsRecently(int top) ;
+	
+	
+	/**
+	 * 分页查询用户关注的标签
+	 * @param uid
+	 * @param fromIndex
+	 * @param limit
+	 * @return
+	 */
+	List<Long> queryUserFollowTagByPage(long uid,int fromIndex,int limit);
 
 	
 }

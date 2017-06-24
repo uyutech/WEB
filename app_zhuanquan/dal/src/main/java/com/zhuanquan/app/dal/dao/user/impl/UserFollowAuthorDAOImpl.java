@@ -99,4 +99,17 @@ public class UserFollowAuthorDAOImpl extends BaseDao implements UserFollowAuthor
 		return true;
 	}
 
+	@Override
+	public List<Long> queryFollowAuthorsByPage(long uid, int limit, int offset) {
+		
+		
+		Map map = new HashMap();
+		map.put("uid", uid);
+		map.put("limit", limit);
+		map.put("offset", offset);
+
+		
+		return sqlSessionTemplate.selectList(getSqlName("queryFollowAuthorsByPage"), map);
+	}
+
 }

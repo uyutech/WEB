@@ -7,6 +7,7 @@ import com.zhuanquan.app.common.model.author.AuthorThirdPlatformDefine;
 import com.zhuanquan.app.common.model.author.AuthorThirdPlatformInfo;
 import com.zhuanquan.app.common.view.bo.author.AuthorBaseInfoBo;
 import com.zhuanquan.app.common.view.vo.discovery.DiscoveryHotAuthorVo;
+import com.zhuanquan.app.common.view.vo.discovery.DiscoveryPageQueryRequest;
 
 public interface AuthorCache {
 	
@@ -45,6 +46,6 @@ public interface AuthorCache {
 	 * @param limit
 	 * @return
 	 */
-	List<DiscoveryHotAuthorVo> getDiscoverHotAuthorByPage(int fromIndex,int limit);
+	List<DiscoveryHotAuthorVo> getDiscoverHotAuthorByPage(DiscoveryPageQueryRequest request);
 	
 }

@@ -43,6 +43,12 @@ public class WorkTagMapping {
 	 */
     private Integer status;
     
+    
+    /**
+     * 标签对应哪个多媒体资源source，如果是作品本身的标签，sourceid为0
+     */
+    private Long sourceId;
+    
     /**
      * 排序字段
      */
@@ -114,7 +120,17 @@ public class WorkTagMapping {
 	}
 	
 	
-	public static WorkTagMapping createRecord(long workId,long tagId,int tagType,int orderNum){
+	
+	
+	public Long getSourceId() {
+		return sourceId;
+	}
+
+	public void setSourceId(Long sourceId) {
+		this.sourceId = sourceId;
+	}
+
+	public static WorkTagMapping createRecord(long workId,long tagId,int tagType,int orderNum,long sourceId){
 		
 		WorkTagMapping record = new WorkTagMapping();
 		
@@ -123,6 +139,8 @@ public class WorkTagMapping {
 		record.setTagType(tagType);
 		record.setWorkId(workId);
 		record.setOrderNum(orderNum);
+		
+		record.setSourceId(sourceId);
 		
 		Date now = new Date();
 		record.setCreateTime(now);
