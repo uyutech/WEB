@@ -27,7 +27,7 @@ public class DiscoveryQuerySuggestTagRequest implements Serializable {
 	/**
 	 * 资源类型id，比如 广播剧，视频这种
 	 */
-	private List<Integer> ids;
+	private List<String> sourceTypes;
 
 
 	public long getUid() {
@@ -40,14 +40,15 @@ public class DiscoveryQuerySuggestTagRequest implements Serializable {
 	}
 
 
-	public List<Integer> getIds() {
-		return ids;
+	public List<String> getSourceTypes() {
+		return sourceTypes;
 	}
 
 
-	public void setIds(List<Integer> ids) {
-		this.ids = ids;
+	public void setSourceTypes(List<String> sourceTypes) {
+		this.sourceTypes = sourceTypes;
 	}
-	
-	
+
+
+
 }

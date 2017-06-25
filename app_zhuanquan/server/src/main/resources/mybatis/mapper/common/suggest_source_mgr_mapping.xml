@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="com.zhuanquan.app.dal.dao.common.impl.SuggestSourceMgrDAOImpl">
+
+	<resultMap id="BaseResultMap"
+		type="com.zhuanquan.app.common.model.common.SuggestSourceMgr">	
+		<result column="batch_num" property="batchNum" jdbcType="INTEGER" />
+		<result column="source_type" property="sourceType" jdbcType="VARCHAR" />		
+		<result column="status" property="status" jdbcType="INTEGER" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="MODIFY_TIME" property="modifyTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+
+	<select id="queryCurrentSuggestRecord" resultType="java.lang.String">
+		select source_type from suggest_source_mgr where status =1 and batch_num = (select max(batch_num) from suggest_source_mgr);
+	</select>
+
+
+
+</mapper>

@@ -23,7 +23,7 @@ public class DiscoveryPageQueryRequest implements Serializable {
 	/**
 	 * sourcetype查询条件
 	 */
-	private List<Integer> sourceTypes;
+	private List<String> sourceTypes;
 	
 	/**
 	 * tag查询条件
@@ -40,8 +40,6 @@ public class DiscoveryPageQueryRequest implements Serializable {
 	 * 分页限制
 	 */
 	private int limit;
-	
-	
 	
 	
 	public int getFromIndex() {
@@ -68,11 +66,11 @@ public class DiscoveryPageQueryRequest implements Serializable {
 		this.uid = uid;
 	}
 
-	public List<Integer> getSourceTypes() {
+	public List<String> getSourceTypes() {
 		return sourceTypes;
 	}
 
-	public void setSourceTypes(List<Integer> sourceTypes) {
+	public void setSourceTypes(List<String> sourceTypes) {
 		this.sourceTypes = sourceTypes;
 	}
 

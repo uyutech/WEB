@@ -607,13 +607,40 @@ public class RedisKeyBuilder {
 	
 	/**
 	 * 第三方平台的信息，hash结构的key
-	 * @param mobile
+	 * 
 	 * @return
 	 */
 	public static String getAuthorThirdplatformInfoKey() {
 		
 		return "gw:authorthirdplat:all";
 	}
+	
+
+	
+	
+	
+	/**
+	 * 发现页面 推荐的资源类型,  value结构
+	 * 
+	 * @return
+	 */
+	public static String getDiscoverSuggestSourceTypesKey() {
+		
+		return "gw:discover:suggest:sourcetypes";
+	}
+	
+	
+	
+	/**
+	 * 作品资源类型定义的key,  hash结构
+	 * 
+	 * @return
+	 */
+	public static String getWorkSourceTypeDefineKey() {
+		
+		return "gw:work:sourcetype:define:all";
+	}
+		
 	
 	
 	

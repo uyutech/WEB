@@ -6,6 +6,9 @@ import com.zhuanquan.app.common.view.vo.discovery.DiscoveryHotAuthorVo;
 import com.zhuanquan.app.common.view.vo.discovery.DiscoveryHotWorkVo;
 import com.zhuanquan.app.common.view.vo.discovery.DiscoveryInfoVo;
 import com.zhuanquan.app.common.view.vo.discovery.DiscoveryPageQueryRequest;
+import com.zhuanquan.app.common.view.vo.discovery.DiscoveryQuerySuggestTagRequest;
+import com.zhuanquan.app.common.view.vo.discovery.DiscoverySuggestSourceTypeVo;
+import com.zhuanquan.app.common.view.vo.discovery.DiscoverySuggestTagInfoVo;
 
 
 /**
@@ -32,5 +35,20 @@ public interface DiscoveryService {
 	 * @return
 	 */
 	List<DiscoveryHotAuthorVo> getDiscoverHotAuthorByPage(DiscoveryPageQueryRequest request);
+	
+	
+	
+	/**
+	 * 获取发现页面，推荐的 可选资源类型
+	 * @return
+	 */
+	DiscoverySuggestSourceTypeVo querySuggestSourceType();
+	
+	/**
+	 * 根据选择的资源类型，查询tag
+	 * @param request
+	 * @return
+	 */
+	DiscoverySuggestTagInfoVo queryDiscoverSuggestTags(DiscoveryQuerySuggestTagRequest request);
 	
 }

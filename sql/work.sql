@@ -99,6 +99,23 @@ create table work_media_source
 
 
 
+  /*==============================================================*/
+/* Table: work_source_type_define 作品相关的多媒体资源类型的定义                                        */
+/*==============================================================*/
+drop table if exists work_source_type_define;
+create table work_source_type_define
+(
+   source_type            varchar(60) not null,
+   lv                     tinyint(1) not null default 1, 
+   type_name              varchar(100) not null,
+   status                 tinyint(1) not null default 1,
+   create_time            datetime,
+   modify_time            datetime,
+   primary key (source_type)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
+  
+
+
 
 
 

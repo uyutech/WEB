@@ -21,18 +21,18 @@ public class WorkSourceTypeInfoBo implements Serializable {
 	/**
 	 * source类型
 	 */
-	private int sourceType;
+	private String sourceType;
 	
 	/**
 	 * source类型的描述
 	 */
 	private String typeName;
 
-	public int getSourceType() {
+	public String getSourceType() {
 		return sourceType;
 	}
 
-	public void setSourceType(int sourceType) {
+	public void setSourceType(String sourceType) {
 		this.sourceType = sourceType;
 	}
 

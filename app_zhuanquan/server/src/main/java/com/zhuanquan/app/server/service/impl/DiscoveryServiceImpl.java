@@ -6,11 +6,16 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.zhuanquan.app.common.view.bo.work.WorkSourceTypeInfoBo;
 import com.zhuanquan.app.common.view.vo.discovery.DiscoveryHotAuthorVo;
 import com.zhuanquan.app.common.view.vo.discovery.DiscoveryHotWorkVo;
 import com.zhuanquan.app.common.view.vo.discovery.DiscoveryPageQueryRequest;
+import com.zhuanquan.app.common.view.vo.discovery.DiscoveryQuerySuggestTagRequest;
+import com.zhuanquan.app.common.view.vo.discovery.DiscoverySuggestSourceTypeVo;
+import com.zhuanquan.app.common.view.vo.discovery.DiscoverySuggestTagInfoVo;
 import com.zhuanquan.app.server.cache.AuthorCache;
 import com.zhuanquan.app.server.cache.AuthorHotIndexesCache;
+import com.zhuanquan.app.server.cache.SuggestSourceMgrCache;
 import com.zhuanquan.app.server.cache.WorksCache;
 import com.zhuanquan.app.server.service.DiscoveryService;
 
@@ -25,6 +30,10 @@ public class DiscoveryServiceImpl implements DiscoveryService {
 	
 	@Resource
 	private AuthorHotIndexesCache authorHotIndexesCache;
+	
+	
+	@Resource
+	private SuggestSourceMgrCache suggestSourceMgrCache;
 	
 
 	/**
@@ -50,6 +59,28 @@ public class DiscoveryServiceImpl implements DiscoveryService {
 	public List<DiscoveryHotAuthorVo> getDiscoverHotAuthorByPage(DiscoveryPageQueryRequest request){
 
 		return authorCache.getDiscoverHotAuthorByPage(request);
+	}
+
+
+	@Override
+	public DiscoverySuggestSourceTypeVo querySuggestSourceType() {
+		
+		
+		List<WorkSourceTypeInfoBo> sourceTypes = suggestSourceMgrCache.getDiscoverSuggestSourceType();
+		
+		
+		DiscoverySuggestSourceTypeVo vo = new DiscoverySuggestSourceTypeVo();
+		vo.setSourceType(sourceTypes);
+
+		return vo;
+	}
+
+
+	@Override
+	public DiscoverySuggestTagInfoVo queryDiscoverSuggestTags(DiscoveryQuerySuggestTagRequest request) {
+		
+
+		return null;
 	}
 	
 	

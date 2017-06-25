@@ -3,6 +3,8 @@ package com.zhuanquan.app.server.controller.discovery;
 
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -15,11 +17,14 @@ import com.zhuanquan.app.common.view.vo.discovery.DiscoveryQuerySuggestTagReques
 import com.zhuanquan.app.common.view.vo.discovery.DiscoverySuggestSourceTypeVo;
 import com.zhuanquan.app.common.view.vo.discovery.DiscoverySuggestTagInfoVo;
 import com.zhuanquan.app.server.controller.common.BaseController;
+import com.zhuanquan.app.server.service.DiscoveryService;
 
 @Controller
 @RequestMapping(value = "/discovery")
 public class DiscoveryController extends BaseController {
 	
+	@Resource
+	private DiscoveryService discoveryService;
 	
 	/**
 	 * 获取发现页面推荐的 资源类型
@@ -28,11 +33,11 @@ public class DiscoveryController extends BaseController {
 	 */
 	@RequestMapping(value="/queryDisSuggestSourceType",produces = {"application/json"})
 	@ResponseBody
-	public ApiResponse querySuggestSourceType(long uid){
+	public ApiResponse querySuggestSourceType(){
 		
-		DiscoverySuggestSourceTypeVo vo;
+		DiscoverySuggestSourceTypeVo vo = discoveryService.querySuggestSourceType();
 		
-		return ApiResponse.success();
+		return ApiResponse.success(vo);
 		
 	}
 	
@@ -55,7 +60,7 @@ public class DiscoveryController extends BaseController {
 	
 	
 	/**
-	 * 获取发现页面推荐的 tag类型
+	 * 获取发现页面推荐的热点作品
 	 * @param uid
 	 * @param authorId
 	 */
