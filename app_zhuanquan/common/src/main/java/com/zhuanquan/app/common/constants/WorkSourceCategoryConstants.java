@@ -13,17 +13,22 @@ public class WorkSourceCategoryConstants {
 	/**
 	 * 音频
 	 */
-	public static final int WORK_CONTENT_SOURCE_CATEGORY_AUDIO = 0;
+	public static final int WORK_CONTENT_SOURCE_CATEGORY_AUDIO = 100;
 	
 	/**
 	 * 视频
 	 */
-	public static final int WORK_SOURCE_CATEGORY_VEDIO = 1;
+	public static final int WORK_SOURCE_CATEGORY_VEDIO = 101;
 	
 	/**
 	 * 图片
 	 */
-	public static final int WORK_SOURCE_CATEGORY_PIC = 2;
+	public static final int WORK_SOURCE_CATEGORY_PIC = 102;
+	
+	/**
+	 * 文字
+	 */
+	public static final int WORK_SOURCE_CATEGORY_TXT= 103;
 
 
 }

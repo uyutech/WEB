@@ -213,7 +213,7 @@ public class TransactionServiceImpl implements TransactionService {
 			for (MediaSourceReleatedAuthorVo record : list) {
 
 				WorkAttender workattender = WorkAttender.createInstance(workId, sourceId, sourceCategory,
-						record.getRoleType(), record.getAuthorId(), record.getOrderNum(), record.getInspiration());
+						record.getRoleCode(), record.getAuthorId(), record.getOrderNum());
 
 				attenderList.add(workattender);
 			}

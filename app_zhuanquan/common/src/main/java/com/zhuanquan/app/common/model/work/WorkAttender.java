@@ -1,6 +1,5 @@
 package com.zhuanquan.app.common.model.work;
 
-import com.zhuanquan.app.common.view.vo.sync.MediaSourceReleatedAuthorVo;
 
 /**
  * 作品参与者
@@ -35,7 +34,7 @@ public class WorkAttender {
 	/**
 	 * 职种角色
 	 */
-	private Integer roleType;
+	private String roleCode;
 	
 	/**
 	 * 作者id
@@ -47,10 +46,10 @@ public class WorkAttender {
 	 */
 	private Integer orderNum;
 	
-    /**
-     * 灵感
-     */
-	private String inspiration;
+//    /**
+//     * 灵感
+//     */
+//	private String inspiration;
 	
 	/**
 	 * 1-enable 0-disable
@@ -73,12 +72,14 @@ public class WorkAttender {
 		this.workId = workId;
 	}
 
-	public Integer getRoleType() {
-		return roleType;
+
+
+	public String getRoleCode() {
+		return roleCode;
 	}
 
-	public void setRoleType(Integer roleType) {
-		this.roleType = roleType;
+	public void setRoleCode(String roleCode) {
+		this.roleCode = roleCode;
 	}
 
 	public Long getAuthorId() {
@@ -98,14 +99,14 @@ public class WorkAttender {
 	public void setOrderNum(Integer orderNum) {
 		this.orderNum = orderNum;
 	}
-
-	public String getInspiration() {
-		return inspiration;
-	}
-
-	public void setInspiration(String inspiration) {
-		this.inspiration = inspiration;
-	}
+//
+//	public String getInspiration() {
+//		return inspiration;
+//	}
+//
+//	public void setInspiration(String inspiration) {
+//		this.inspiration = inspiration;
+//	}
 
 	public Long getMediaSourceId() {
 		return mediaSourceId;
@@ -127,15 +128,15 @@ public class WorkAttender {
 	 * 创建记录
 	 * @return
 	 */
-   public static WorkAttender createInstance(long workId,long sourceId,int sourceCategory,int roleType,long authorId,int orderNum,String inspiration){
+   public static WorkAttender createInstance(long workId,long sourceId,int sourceCategory,String roleCode,long authorId,int orderNum){
 	   
 	   WorkAttender record = new WorkAttender();
 	   
 	   record.setAuthorId(authorId);
-	   record.setInspiration(inspiration);
+//	   record.setInspiration(inspiration);
 	   record.setMediaSourceId(sourceId);
 	   record.setOrderNum(orderNum);
-	   record.setRoleType(roleType);
+	   record.setRoleCode(roleCode);
 	   record.setSourceCategory(sourceCategory);
 	   record.setStatus(STAT_ENABLE);
 	   record.setWorkId(workId);

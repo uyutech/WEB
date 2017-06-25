@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="com.zhuanquan.app.dal.dao.work.impl.WorkContentSourceDAOImpl">
+
+	<resultMap id="BaseResultMap"
+		type="com.zhuanquan.app.common.model.work.WorkContentSource">
+		<id column="source_id" property="sourceId" jdbcType="BIGINT" />
+		<result column="work_id" property="workId" jdbcType="BIGINT" />
+		<result column="source_category" property="sourceCategory" jdbcType="INTEGER" />
+		<result column="platform_id" property="platformId" jdbcType="BIGINT" />
+		
+		<result column="source_type" property="sourceType" jdbcType="VARCHAR" />
+		<result column="source_val" property="sourceVal" jdbcType="VARCHAR" />
+		<result column="origin_source_id" property="originSourceId" jdbcType="BIGINT" />
+		
+	
+		<result column="order_num" property="orderNum" jdbcType="INTEGER" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="MODIFY_TIME" property="modifyTime" jdbcType="TIMESTAMP" />
+
+	</resultMap>
+
+
+
+  <insert id="insertOrUpdateRecord" parameterType="com.zhuanquan.app.common.model.work.WorkContentSource" >
+    insert into work_content_source (source_id,work_id, source_category, platform_id,source_type,source_val,origin_source_id,order_num,status,CREATE_TIME, MODIFY_TIME)
+    values(#{sourceId}, #{workId}, #{sourceCategory},#{platformId},#{sourceType},#{sourceVal},#{originSourceId},#{orderNum},#{status},#{createTime}, #{modifyTime})
+  </insert>
+
+
+
+	<select id="queryByWorkId" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select * from work_content_source where work_id = #{workId} and status =1;
+	</select>
+
+
+
+
+</mapper>		

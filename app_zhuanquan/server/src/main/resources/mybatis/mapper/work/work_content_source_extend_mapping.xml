@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="com.zhuanquan.app.dal.dao.work.impl.WorkContentSourceExtendDAOImpl">
+
+	<resultMap id="BaseResultMap"
+		type="com.zhuanquan.app.common.model.work.WorkContentSourceExtend">
+		<result column="source_id" property="sourceId" jdbcType="BIGINT" />
+		<result column="extend_attr" property="extendAttr" jdbcType="INTEGER" />
+		<result column="attr_val" property="attrVal" jdbcType="VARCHAR" />
+		<result column="order_num" property="orderNum" jdbcType="INTEGER" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+	</resultMap>
+
+
+
+	<insert id="insertOrUpdateBatch" parameterType="java.util.List">
+		insert into work_content_source_extend (source_id, extend_attr,
+		attr_val,order_num,status,remark)
+		values
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(#{item.sourceId}, #{item.extendAttr},
+			#{item.attrVal},#{item.orderNum},#{item.status},#{item.remark})
+
+		</foreach>
+			on duplicate key update status = VALUES(status), order_num =VALUES(order_num);
+	</insert>
+
+
+
+
+
+	<select id="queryBySourceId" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select * from work_content_source_extend where source_id = #{sourceId} and status =1;
+	</select>
+
+
+
+
+</mapper>		

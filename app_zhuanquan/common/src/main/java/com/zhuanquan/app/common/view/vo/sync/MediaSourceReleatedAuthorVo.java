@@ -23,7 +23,7 @@ public class MediaSourceReleatedAuthorVo implements Serializable {
 	/**
 	 * 角色类型:
 	 */
-	private int roleType;
+	private String roleCode;
 
 	/**
 	 * 创作灵感
@@ -43,12 +43,13 @@ public class MediaSourceReleatedAuthorVo implements Serializable {
 		this.authorId = authorId;
 	}
 
-	public int getRoleType() {
-		return roleType;
+
+	public String getRoleCode() {
+		return roleCode;
 	}
 
-	public void setRoleType(int roleType) {
-		this.roleType = roleType;
+	public void setRoleCode(String roleCode) {
+		this.roleCode = roleCode;
 	}
 
 	public String getInspiration() {

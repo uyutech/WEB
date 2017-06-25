@@ -221,10 +221,7 @@ public class UserFollowServiceImpl implements UserFollowService {
 			AuthorBaseInfoBo base = map.get(id.toString());
 			if (base != null) {
 
-				AuthorBriefInfoBo bo = new AuthorBriefInfoBo();
-				bo.setAuthorId(base.getAuthorId());
-				bo.setAuthorName(base.getAuthorName());
-				bo.setHeadSnapshot(base.getHeadUrl());
+				AuthorBriefInfoBo bo = AuthorBriefInfoBo.getObjectFromAuthorBase(base);
 				result.add(bo);
 			}
 		}
@@ -316,10 +313,7 @@ public class UserFollowServiceImpl implements UserFollowService {
 		AuthorBaseInfoBo base = authormap.get(dynamic.getAuthorId().toString());
 		if (base != null) {
 
-			AuthorBriefInfoBo authorBrief = new AuthorBriefInfoBo();
-			authorBrief.setAuthorId(base.getAuthorId());
-			authorBrief.setAuthorName(base.getAuthorName());
-			authorBrief.setHeadSnapshot(base.getHeadUrl());
+			AuthorBriefInfoBo authorBrief = AuthorBriefInfoBo.getObjectFromAuthorBase(base);
 			bo.setAuthorList(Lists.newArrayList(authorBrief));
 
 		}

@@ -11,6 +11,15 @@ import com.zhuanquan.app.common.view.vo.discovery.DiscoveryPageQueryRequest;
 
 public interface AuthorCache {
 	
+	
+	/**
+	 * 批量查询作者信息
+	 * @param authorIds
+	 * @return
+	 */
+	AuthorBaseInfoBo queryAuthorBaseById(long authorId);
+	
+	
 	/**
 	 * 批量查询作者信息
 	 * @param authorIds

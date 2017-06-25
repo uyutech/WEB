@@ -15,11 +15,8 @@ public class WorkHotIndexDAOImpl extends BaseDao implements WorkHotIndexDAO {
 
 	@Override
 	public List<WorkHotIndex> queryTopN(int top) {
-		
-		
-		
-		
-		return null;
+
+		return sqlSessionTemplate.selectList(getSqlName("queryTopN"), top);
 	}
 	
 }

@@ -35,6 +35,12 @@ public class WorkDetailInfoVo implements Serializable {
 	
 	
 	/**
+	 * 作品封面
+	 */
+	private String covPicUrl;
+	
+	
+	/**
 	 * 作者的角色视图
 	 */
 	private List<WorkAttenderRoleViewVo> authorList;
@@ -50,27 +56,82 @@ public class WorkDetailInfoVo implements Serializable {
 	 */
 	private List<TagInfoBo> tagList;
 	
+	
+	/**
+	 * 多媒体资源
+	 */
+	private List<WorkMediaSourceCategoryView> mediaSources;
 
+
+	public long getWorkId() {
+		return workId;
+	}
+
+
+	public void setWorkId(long workId) {
+		this.workId = workId;
+	}
+
+
+	public String getCovPicUrl() {
+		return covPicUrl;
+	}
+
+
+	public void setCovPicUrl(String covPicUrl) {
+		this.covPicUrl = covPicUrl;
+	}
+
+
+	public String getWorkName() {
+		return workName;
+	}
+
+
+	public void setWorkName(String workName) {
+		this.workName = workName;
+	}
+
+
+	public List<WorkAttenderRoleViewVo> getAuthorList() {
+		return authorList;
+	}
+
+
+	public void setAuthorList(List<WorkAttenderRoleViewVo> authorList) {
+		this.authorList = authorList;
+	}
+
+
+	public String getSummary() {
+		return summary;
+	}
+
+
+	public void setSummary(String summary) {
+		this.summary = summary;
+	}
+
+
+	public List<TagInfoBo> getTagList() {
+		return tagList;
+	}
+
+
+	public void setTagList(List<TagInfoBo> tagList) {
+		this.tagList = tagList;
+	}
+
+
+	public List<WorkMediaSourceCategoryView> getMediaSources() {
+		return mediaSources;
+	}
+
+
+	public void setMediaSources(List<WorkMediaSourceCategoryView> mediaSources) {
+		this.mediaSources = mediaSources;
+	}
 	
-	/**
-	 * 点赞数
-	 */
-	private long upvoteNum;
-	
-	/**
-	 * 收藏数
-	 */
-	private long favNum;
-	
-	
-	/**
-	 * 转发数
-	 */
-	private long forwardNum;
-	
-	
-	
-	
-	
+
 	
 }

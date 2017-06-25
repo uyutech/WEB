@@ -24,7 +24,7 @@ public class WorkAttenderRoleViewVo implements Serializable {
 	/**
 	 *  角色类型
 	 */
-	private int roleType;
+	private String roleCode;
 	
 	/**
 	 * 角色名称
@@ -40,14 +40,13 @@ public class WorkAttenderRoleViewVo implements Serializable {
 
 
 
-	public int getRoleType() {
-		return roleType;
+	public String getRoleCode() {
+		return roleCode;
 	}
 
 
-
-	public void setRoleType(int roleType) {
-		this.roleType = roleType;
+	public void setRoleCode(String roleCode) {
+		this.roleCode = roleCode;
 	}
 
 

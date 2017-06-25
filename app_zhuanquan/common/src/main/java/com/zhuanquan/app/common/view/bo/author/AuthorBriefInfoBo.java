@@ -2,6 +2,8 @@ package com.zhuanquan.app.common.view.bo.author;
 
 import java.io.Serializable;
 
+import com.zhuanquan.app.common.model.author.AuthorBase;
+
 
 /**
  * 作者该要信息，作者id，作者名，作者缩略图头像
@@ -55,7 +57,21 @@ public class AuthorBriefInfoBo  implements Serializable{
 	}
 	
 	
-	
-	
+	/**
+	 * 对象转化
+	 * @param base
+	 * @return
+	 */
+	public static AuthorBriefInfoBo getObjectFromAuthorBase(AuthorBaseInfoBo base) {
+		
+
+		AuthorBriefInfoBo bo = new AuthorBriefInfoBo();
+		bo.setAuthorId(base.getAuthorId());
+		bo.setAuthorName(base.getAuthorName());
+
+		bo.setHeadSnapshot(base.getHeadUrl());
+		
+		return bo;
+	}
 	
 }

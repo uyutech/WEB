@@ -14,14 +14,12 @@ public class WorkContentSourceDAOImpl extends BaseDao implements WorkContentSour
 
 	@Override
 	public long insertOrUpdateRecord(WorkContentSource source) {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.sqlSessionTemplate.insert(getSqlName("insertOrUpdateRecord"), source);
 	}
 
 	@Override
 	public List<WorkContentSource> queryByWorkId(long workId) {
-		// TODO Auto-generated method stub
-		return null;
+		return sqlSessionTemplate.selectList(getSqlName("queryByWorkId"), workId);
 	}
 	
 }

@@ -27,7 +27,7 @@ public class MediaSourceInfoVo implements Serializable {
 	/**
 	 * 具体的资源类型 歌曲/广播剧 ，MAD／MMD／PV／MV
 	 */
-	private int sourceType;
+	private String sourceType;
 
 	/**
 	 * 排序字段
@@ -74,11 +74,11 @@ public class MediaSourceInfoVo implements Serializable {
 		this.sourceCategory = sourceCategory;
 	}
 
-	public int getSourceType() {
+	public String getSourceType() {
 		return sourceType;
 	}
 
-	public void setSourceType(int sourceType) {
+	public void setSourceType(String sourceType) {
 		this.sourceType = sourceType;
 	}
 

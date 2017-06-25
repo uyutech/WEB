@@ -7,33 +7,38 @@ drop table if exists work_base;
 create table work_base
 (
    work_id                int(11) not null auto_increment ,
-   category               int(4) not null ,
    subject                varchar(200) not null,
    summary                varchar(500) not null,
 
-   work_tags_desc         varchar(200) not null,
-   work_tags_ids          varchar(200) not null,
+   cov_pic_Url            varchar(200) not null,
    status                 tinyint(1) not null default 1,
-
-
-   editors_desc           varchar(200) not null,
-   editors_ids            varchar(200) not null,
-
-   producters_desc        varchar(200) not null,
-   producters_ids         varchar(200) not null,
-
-   fav_num                int(11) not null default 0,
-   comment_num            int(11) not null default 0,
-   transpond_num          int(11) not null default 0,
-   upvote_num             int(11) not null default 0,
-   read_num               int(11) not null default 0,
-  
-
    create_time            datetime,
    modify_time            datetime,
 
-   primary key (work_id)
+   primary key (work_id),
+   KEY idx_base_subject (subject)
+
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
+
+
+
+
+/*==============================================================*/
+/* Table: work_base_extend 作品扩展信息表                                              */
+/*==============================================================*/
+drop table if exists work_base_extend;
+create table work_base_extend
+(
+   work_id                int(11) not null ,
+   extend_attr            int(4) not null ,
+   attr_val               varchar(200) not null,
+   order_num              int(4) not null ,
+   status                 tinyint(1) not null default 1,
+   remark                 varchar(200) not null,
+   UNIQUE KEY uniq_work_baseex (work_id,extend_attr,attr_val)
+
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
+
 
 
 
@@ -46,49 +51,35 @@ drop table if exists work_tag_mapping;
 create table work_tag_mapping
 (
    work_id                int(11) not null  ,
-   tag_id                 bigint(20) not null ,
+   tag_id                 int(11) not null  ,
    tag_type               int(4) not null ,
+   source_id              int(11) not null  ,
    status                 tinyint(1) not null default 1,
    order_num              int(4) not null ,
    create_time            datetime,
    modify_time            datetime,
-   primary key (work_id,tag_id)
+   primary key (work_id,tag_id,source_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
 
 
 
 
- /*==============================================================*/
-/* Table: work_attr_mapping 作品扩展属性映射表                                            */
-/*==============================================================*/
-drop table if exists work_attr_mapping;
-create table work_attr_mapping
-(
-   work_id                int(11) not null  ,
-   attr_type              int(4) not null ,
-   value                  varchar(200) not null,
-   order_num              int(4) not null,
-   status                 tinyint(1) not null default 1,
-   create_time            datetime,
-   modify_time            datetime,
-   KEY idx_work_attr_map_id_and_attr (work_id,attr_type)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
-
-   
 
 
   /*==============================================================*/
-/* Table: work_media_source 作品相关的多媒体资源信息                                         */
+/* Table: work_content_source 作品相关的多媒体资源信息                                         */
 /*==============================================================*/
-drop table if exists work_media_source;
-create table work_media_source
+drop table if exists work_content_source;
+create table work_content_source
 (
    source_id              int(11) not null auto_increment ,
    work_id                int(11) not null,
-   source_channel         int(4) not null default 0, 
-   category               tinyint(1) not null default 0, 
-   source_type            int(4) not null default 0, 
-   source_val             varchar(500) not null,
+   source_category        int(4) not null default 0, 
+   platform_id            int(4) not null,
+   source_type            varchar(100) not null,
+   source_val             varchar(200) not null,
+   origin_source_id       int(11) not null,
+   order_num              int(4) not null default 0, 
    status                 tinyint(1) not null default 1,
    create_time            datetime,
    modify_time            datetime,
@@ -99,13 +90,35 @@ create table work_media_source
 
 
 
+
+/*==============================================================*/
+/* Table: work_content_source_extend 作品中多媒体资源的扩展信息表                                              */
+/*==============================================================*/
+drop table if exists work_content_source_extend;
+create table work_content_source_extend
+(
+   source_id              int(11) not null ,
+   extend_attr            int(4) not null ,
+   attr_val               varchar(200) not null,
+   order_num              int(4) not null ,
+   status                 tinyint(1) not null default 1,
+   remark                 varchar(200) not null,
+
+   UNIQUE KEY uniq_work_sourceex (source_id,extend_attr,attr_val)
+
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
+
+
+
+
+
   /*==============================================================*/
 /* Table: work_source_type_define 作品相关的多媒体资源类型的定义                                        */
 /*==============================================================*/
 drop table if exists work_source_type_define;
 create table work_source_type_define
 (
-   source_type            varchar(60) not null,
+   source_type            varchar(100) not null,
    lv                     tinyint(1) not null default 1, 
    type_name              varchar(100) not null,
    status                 tinyint(1) not null default 1,
@@ -116,6 +129,55 @@ create table work_source_type_define
   
 
 
+
+
+  /*==============================================================*/
+/* Table: work_role_define 角色定义表                                       */
+/*==============================================================*/
+drop table if exists work_role_define;
+create table work_role_define
+(
+   role_code            varchar(100) not null,
+   lv                     tinyint(1) not null default 1, 
+   role_desc              varchar(100) not null,
+   status                 tinyint(1) not null default 1,
+   primary key (role_code)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
+
+
+
+
+  /*==============================================================*/
+/* Table: work_attender 作品的相关作者                                       */
+/*==============================================================*/
+drop table if exists work_attender;
+create table work_attender
+(
+   work_id                int(11) not null  ,
+   media_source_id        int(11) not null  ,
+   source_category        int(4) not null default 0, 
+   role_code              varchar(100) not null,
+   author_id              int(11) not null,
+   order_num              int(4) not null default 0, 
+   status                 tinyint(1) not null default 1,
+   primary key (role_code)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
+
+
+
+  /*==============================================================*/
+/* Table: work_hot_index 作品热度表                                     */
+/*==============================================================*/
+drop table if exists work_hot_index;
+create table work_hot_index
+(
+   work_id                int(11) not null  ,
+   score                  int(11) not null  ,
+   create_time            datetime,
+   modify_time            datetime,
+   primary key (work_id),
+   KEY idx_work_hotidx_score (score)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
 
 
 

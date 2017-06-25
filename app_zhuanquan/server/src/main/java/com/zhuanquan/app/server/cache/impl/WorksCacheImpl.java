@@ -14,9 +14,11 @@ import javax.annotation.Resource;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.util.Asserts;
 import org.springframework.data.redis.core.DefaultTypedTuple;
 import org.springframework.data.redis.core.ZSetOperations.TypedTuple;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
@@ -26,17 +28,25 @@ import com.zhuanquan.app.common.component.event.redis.CacheChangedListener;
 import com.zhuanquan.app.common.component.event.redis.CacheClearEvent;
 import com.zhuanquan.app.common.component.event.redis.RedisCacheEnum;
 import com.zhuanquan.app.common.constants.WorkRoleTypeConstants;
+import com.zhuanquan.app.common.model.common.Tag;
 import com.zhuanquan.app.common.model.work.WorkAttender;
 import com.zhuanquan.app.common.model.work.WorkBase;
 import com.zhuanquan.app.common.model.work.WorkBaseExtend;
 import com.zhuanquan.app.common.model.work.WorkContentSource;
 import com.zhuanquan.app.common.model.work.WorkContentSourceExtend;
 import com.zhuanquan.app.common.model.work.WorkHotIndex;
+import com.zhuanquan.app.common.model.work.WorkRoleDefine;
 import com.zhuanquan.app.common.model.work.WorkTagMapping;
 import com.zhuanquan.app.common.utils.CommonUtil;
+import com.zhuanquan.app.common.view.bo.TagInfoBo;
 import com.zhuanquan.app.common.view.bo.author.AuthorBaseInfoBo;
+import com.zhuanquan.app.common.view.bo.author.AuthorBriefInfoBo;
+import com.zhuanquan.app.common.view.bo.work.WorkContentSourceBriefInfoBo;
 import com.zhuanquan.app.common.view.vo.discovery.DiscoveryHotWorkVo;
 import com.zhuanquan.app.common.view.vo.discovery.DiscoveryPageQueryRequest;
+import com.zhuanquan.app.common.view.vo.work.WorkAttenderRoleViewVo;
+import com.zhuanquan.app.common.view.vo.work.WorkDetailInfoVo;
+import com.zhuanquan.app.common.view.vo.work.WorkMediaSourceCategoryView;
 import com.zhuanquan.app.dal.dao.work.WorkAttenderDAO;
 import com.zhuanquan.app.dal.dao.work.WorkBaseDAO;
 import com.zhuanquan.app.dal.dao.work.WorkBaseExtendDAO;
@@ -45,6 +55,8 @@ import com.zhuanquan.app.dal.dao.work.WorkContentSourceExtendDAO;
 import com.zhuanquan.app.dal.dao.work.WorkHotIndexDAO;
 import com.zhuanquan.app.dal.dao.work.WorkTagMappingDAO;
 import com.zhuanquan.app.server.cache.AuthorCache;
+import com.zhuanquan.app.server.cache.TagCache;
+import com.zhuanquan.app.server.cache.WorkRoleDefineCache;
 import com.zhuanquan.app.server.cache.WorksCache;
 
 @Service
@@ -76,6 +88,12 @@ public class WorksCacheImpl extends CacheChangedListener implements WorksCache {
 
 	@Resource
 	private AuthorCache authorCache;
+
+	@Resource
+	private TagCache tagCache;
+
+	@Resource
+	private WorkRoleDefineCache workRoleDefineCache;
 
 	@Override
 	public WorkBase queryWorkById(long workId) {
@@ -419,7 +437,8 @@ public class WorksCacheImpl extends CacheChangedListener implements WorksCache {
 		String hotWorkKey = RedisKeyBuilder.getDiscoverHotWorkKey();
 
 		// 尝试从zset缓存中获取
-		Set<String> sets = redisHelper.zsetRevrange(hotWorkKey, request.getFromIndex(), request.getFromIndex() + request.getLimit() - 1);
+		Set<String> sets = redisHelper.zsetRevrange(hotWorkKey, request.getFromIndex(),
+				request.getFromIndex() + request.getLimit() - 1);
 
 		// 缓存中有值
 		if (sets != null && sets.size() != 0) {
@@ -483,7 +502,7 @@ public class WorksCacheImpl extends CacheChangedListener implements WorksCache {
 			List<Long> productorIds = new ArrayList<>();
 			for (WorkAttender attender : attenders) {
 				// 出品人
-				if (attender.getRoleType() == WorkRoleTypeConstants.WORK_ROLE_PRODUCTOR) {
+				if (attender.getRoleCode().equals(WorkRoleTypeConstants.WORK_ROLE_PRODUCTOR)) {
 					productorIds.add(attender.getAuthorId());
 				}
 			}
@@ -510,6 +529,235 @@ public class WorksCacheImpl extends CacheChangedListener implements WorksCache {
 
 		return null;
 
+	}
+
+	@Override
+	public WorkDetailInfoVo queryWorkDetail(long workId) {
+
+		String key = RedisKeyBuilder.getWorkDetailInfoKey(workId);
+
+		String jsonStr = redisHelper.valueGet(key);
+
+		if (!StringUtils.isEmpty(jsonStr)) {
+
+			return JSON.parseObject(jsonStr, WorkDetailInfoVo.class);
+		}
+
+		return lazyInitWorkDetailInfo(workId);
+	}
+
+	/**
+	 * 懒记载作品详情信息
+	 * 
+	 * @param workId
+	 * @return
+	 */
+	private WorkDetailInfoVo lazyInitWorkDetailInfo(long workId) {
+
+		WorkDetailInfoVo vo = new WorkDetailInfoVo();
+
+		// 基础信息
+		WorkBase base = queryWorkById(workId);
+		vo.setSummary(base.getSummary());
+		vo.setWorkName(base.getSubject());
+		vo.setWorkId(workId);
+		vo.setCovPicUrl(base.getCovPicUrl());
+
+
+		//设置tag信息
+		setWorkTagInfoToWorkDetail(vo, workId);
+		
+		//设置作品的参与人信息
+		setWorkAttederInfoToWorkDetail(vo, workId);
+
+		//设置作品的多媒体资源信息
+		setWorkContentSourceToWorkDetail(vo, workId);
+		
+		
+		
+		String key = RedisKeyBuilder.getWorkDetailInfoKey(workId);
+		
+		
+		redisHelper.valueSet(key, JSON.toJSONString(vo), 1, TimeUnit.HOURS);
+
+		return vo;
+
+	}
+	
+	
+	/**
+	 * 设置作品的tag信息到作品详情页面
+	 * @param vo
+	 * @param workId
+	 */
+	private void setWorkTagInfoToWorkDetail(WorkDetailInfoVo vo, long workId) {
+		
+		List<WorkTagMapping> workTagsMappings = lazyFetchWorkTags(workId);
+
+		if (CollectionUtils.isNotEmpty(workTagsMappings)) {
+
+			List<TagInfoBo> tagList = new ArrayList<TagInfoBo>();
+
+			// 此处可以优化代码，批量获取，赶时间，先这样吧
+			for (WorkTagMapping record : workTagsMappings) {
+
+				TagInfoBo bo = new TagInfoBo();
+				bo.setTagId(record.getTagId());
+
+				Tag tag = tagCache.getTagById(record.getTagId());
+
+				Assert.notNull(tag);
+				bo.setTagName(tag.getTagName());
+				bo.setTagType(tag.getTagType());
+
+				tagList.add(bo);
+			}
+
+			if (!CollectionUtils.isEmpty(tagList)) {
+				vo.setTagList(tagList);
+			}
+		}
+
+	}
+
+	
+	
+	
+	
+
+	private void setWorkAttederInfoToWorkDetail(WorkDetailInfoVo vo, long workId) {
+
+		// 作品参与人信息
+		Map<String, List<WorkAttender>> attenderMap = lazyFetchWorkAttenderCache(workId);
+		Assert.isTrue(MapUtils.isNotEmpty(attenderMap));
+
+		// 以角色为视图的map
+		Map<String, Map<String, AuthorBriefInfoBo>> roleViewMap = new HashMap<String, Map<String, AuthorBriefInfoBo>>();
+
+		for (Entry<String, List<WorkAttender>> entry : attenderMap.entrySet()) {
+
+			List<WorkAttender> temp = entry.getValue();
+
+			if (CollectionUtils.isNotEmpty(temp)) {
+				for (WorkAttender atetnder : temp) {
+
+					Map<String, AuthorBriefInfoBo> map = roleViewMap.get(atetnder.getRoleCode());
+
+					if (map == null) {
+
+						// 作者id
+						long authorId = atetnder.getAuthorId();
+
+						map = new HashMap<String, AuthorBriefInfoBo>();
+
+						AuthorBaseInfoBo base = authorCache.queryAuthorBaseById(authorId);
+						Asserts.notNull(base, "AuthorBaseInfoBo");
+
+						map.put(authorId + "", AuthorBriefInfoBo.getObjectFromAuthorBase(base));
+
+						roleViewMap.put(atetnder.getRoleCode(), map);
+
+					} else {
+						long authorId = atetnder.getAuthorId();
+						// map中不含有这个作者的信息
+						if (!map.containsKey(authorId + "")) {
+
+							AuthorBaseInfoBo base = authorCache.queryAuthorBaseById(authorId);
+							Asserts.notNull(base, "AuthorBaseInfoBo");
+
+							map.put(atetnder.getAuthorId() + "", AuthorBriefInfoBo.getObjectFromAuthorBase(base));
+						}
+
+					}
+
+				}
+			}
+		}
+
+		if (MapUtils.isEmpty(roleViewMap)) {
+			return;
+		}
+
+		List<WorkAttenderRoleViewVo> authorList = new ArrayList<WorkAttenderRoleViewVo>();
+
+		for (Entry<String, Map<String, AuthorBriefInfoBo>> entry : roleViewMap.entrySet()) {
+
+			WorkAttenderRoleViewVo roleView = new WorkAttenderRoleViewVo();
+
+			// 角色code
+			roleView.setRoleCode(entry.getKey());
+
+			WorkRoleDefine roleDefine = workRoleDefineCache.queryRoleDefine(entry.getKey());
+
+			Assert.notNull(roleDefine);
+
+			roleView.setRoleName(roleDefine.getRoleDesc());
+
+			Map<String, AuthorBriefInfoBo> map = entry.getValue();
+
+			if (MapUtils.isNotEmpty(map)) {
+				List<AuthorBriefInfoBo> list = new ArrayList<AuthorBriefInfoBo>(map.values());
+				roleView.setAttenders(list);
+				authorList.add(roleView);
+			}
+
+		}
+
+	}
+	
+	
+	/**
+	 * 设置多媒体资源到 作品详情页
+	 * @param vo
+	 * @param workId
+	 */
+	private void setWorkContentSourceToWorkDetail(WorkDetailInfoVo vo, long workId) {
+
+		List<WorkMediaSourceCategoryView> mediaSources = new ArrayList<WorkMediaSourceCategoryView>();
+		
+		
+		Map<String, List<WorkContentSource>> sourceMap = lazyFetchWorkContentSourceCache(workId);
+		
+		if(MapUtils.isEmpty(sourceMap)){
+			return;
+		}
+				
+		//key为资源category，
+		for(Entry<String, List<WorkContentSource>> entry:sourceMap.entrySet()) {
+			
+			WorkMediaSourceCategoryView view = new WorkMediaSourceCategoryView();
+	
+			view.setSourceCategory(Integer.parseInt(entry.getKey()));
+
+			List<WorkContentSource> temp = new ArrayList<WorkContentSource>();
+			
+			if(CollectionUtils.isNotEmpty(temp)) {
+				
+				List<WorkContentSourceBriefInfoBo> sourceList =new ArrayList<WorkContentSourceBriefInfoBo>();
+				for(WorkContentSource tempSource:temp) {
+	
+					WorkContentSourceBriefInfoBo bo = new WorkContentSourceBriefInfoBo();
+
+					bo.setPlatformId(tempSource.getPlatformId());
+					bo.setSourceCategory(tempSource.getSourceCategory());
+					bo.setSourceId(tempSource.getSourceId());
+					bo.setSourceType(tempSource.getSourceType());
+					bo.setSourceVal(tempSource.getSourceVal());
+					
+					sourceList.add(bo);
+				}
+				
+				view.setSourceList(sourceList);
+				mediaSources.add(view);
+			}
+		}
+		
+		
+		if(CollectionUtils.isNotEmpty(mediaSources)) {
+			
+			vo.setMediaSources(mediaSources);
+		}
+		
 	}
 
 }

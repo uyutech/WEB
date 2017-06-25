@@ -84,6 +84,22 @@ public class AuthorCacheImpl extends CacheChangedListener implements AuthorCache
 	@Resource
 	private AuthorThirdPlatformInfoDAO authorThirdPlatformInfoDAO;
 	
+	
+
+	@Override
+	public AuthorBaseInfoBo queryAuthorBaseById(long authorId) {
+		Map<String, AuthorBaseInfoBo> map = batchQueryAuthorBaseByIds(Lists.newArrayList(authorId))	;	
+		
+		if(MapUtils.isEmpty(map)) {
+			return null;
+		}
+		
+		return map.get(authorId+"");
+	}
+	
+	
+	
+	
 	@Override
 	public Map<String, AuthorBaseInfoBo> batchQueryAuthorBaseByIds(List<Long> authorIds) {
 		
@@ -475,7 +491,7 @@ public class AuthorCacheImpl extends CacheChangedListener implements AuthorCache
 
 		return resultList;
 	}
-	
+
 
 
 	

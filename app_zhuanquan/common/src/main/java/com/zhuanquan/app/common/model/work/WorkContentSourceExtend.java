@@ -10,6 +10,12 @@ import com.zhuanquan.app.common.view.vo.work.WorkContentSourceExtendVo;
  */
 public class WorkContentSourceExtend {
 
+	public static final int STAT_ENABLE = 1;
+	
+	public static final int STAT_DISABLE = 0;
+
+	
+	
 	/**
 	 * source id
 	 */
@@ -34,6 +40,11 @@ public class WorkContentSourceExtend {
 	 * 补充说明
 	 */
 	private String remark;
+	
+	/**
+	 * 0-disable 1-enable
+	 */
+	private Integer status;
 
 	public Long getSourceId() {
 		return sourceId;
@@ -76,8 +87,16 @@ public class WorkContentSourceExtend {
 	}
 
 	
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+
 	/**
-	 * 
+	 * 创建记录
 	 * @param vo
 	 * @return
 	 */
@@ -90,7 +109,7 @@ public class WorkContentSourceExtend {
 		record.setOrderNum(vo.getOrderNum());
 		record.setSourceId(sourceId);
 		record.setRemark(vo.getRemark());
-		
+		record.setStatus(STAT_ENABLE);
 		return record;
 		
 	}

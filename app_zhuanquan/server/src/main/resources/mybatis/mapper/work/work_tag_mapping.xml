@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="com.zhuanquan.app.dal.dao.work.impl.WorkTagMappingDAOImpl">
+
+	<resultMap id="BaseResultMap"
+		type="com.zhuanquan.app.common.model.work.WorkTagMapping">
+		<result column="work_id" property="workId" jdbcType="BIGINT" />
+		<result column="tag_id" property="tagId" jdbcType="BIGINT" />
+		<result column="tag_type" property="tagType" jdbcType="INTEGER" />
+		<result column="source_id" property="sourceId" jdbcType="BIGINT" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+		<result column="order_num" property="orderNum" jdbcType="INTEGER" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="MODIFY_TIME" property="modifyTime" jdbcType="TIMESTAMP" />
+
+	</resultMap>
+
+
+
+	<insert id="insertOrUpdateBatch" parameterType="java.util.List">
+		insert into work_tag_mapping (work_id, tag_id,
+		tag_type,source_id,status,order_num,CREATE_TIME,MODIFY_TIME)
+		values
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(#{item.workId}, #{item.tagId},
+			#{item.tagType},#{item.sourceId},#{item.status},#{item.orderNum},#{item.createTime},#{item.modifyTime})
+
+		</foreach>
+			on duplicate key update status = VALUES(status), order_num =VALUES(order_num),MODIFY_TIME =VALUES(MODIFY_TIME) ;
+	</insert>
+
+
+	<select id="queryWorkTags" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select * from work_tag_mapping where work_id = #{workId} and status =1;
+	</select>
+
+
+
+
+</mapper>		

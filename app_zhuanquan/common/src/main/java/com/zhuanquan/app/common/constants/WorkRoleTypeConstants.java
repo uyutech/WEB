@@ -6,13 +6,13 @@ public class WorkRoleTypeConstants {
 	/**
 	 * 出品人
 	 */
-	public static final int WORK_ROLE_PRODUCTOR = 100;
+	public static final String WORK_ROLE_PRODUCTOR = "100";
 	
 	
 	/**
 	 * 文
 	 */
-	public static final int WORK_ROLE_TYPE_WEN = 1000;
+	public static final String WORK_ROLE_TYPE_WEN = "110";
 	
 	
 	/**

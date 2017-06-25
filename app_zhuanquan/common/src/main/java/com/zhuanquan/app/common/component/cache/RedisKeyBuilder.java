@@ -643,7 +643,28 @@ public class RedisKeyBuilder {
 		
 	
 	
+	/**
+	 * 作品详情信息， value结构
+	 * 
+	 * @return
+	 */
+	public static String getWorkDetailInfoKey(long workId) {
+		
+		return "gw:work:defailinfo:workid:"+workId;
+	}
+		
+		
 	
+	/**
+	 * 作品的角色定义，hash结构
+	 * 
+	 * @return
+	 */
+	public static String getAllWorkRoleDefineKey() {
+		
+		return "gw:work:roledefine:all";
+	}
+			
 	
 }
 

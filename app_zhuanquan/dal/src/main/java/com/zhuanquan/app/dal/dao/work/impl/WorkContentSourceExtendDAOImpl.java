@@ -2,6 +2,7 @@ package com.zhuanquan.app.dal.dao.work.impl;
 
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Repository;
 
 import com.zhuanquan.app.common.model.work.WorkContentSourceExtend;
@@ -15,12 +16,19 @@ public class WorkContentSourceExtendDAOImpl extends BaseDao implements WorkConte
 	@Override
 	public void insertOrUpdateBatch(List<WorkContentSourceExtend> list) {
 		
+		
+		if (CollectionUtils.isEmpty(list)) {
+			return;
+		}
+
+		sqlSessionTemplate.insert(getSqlName("insertOrUpdateBatch"), list);
+		
+		
 	}
 
 	@Override
 	public List<WorkContentSourceExtend> queryBySourceId(long sourceId) {
-		// TODO Auto-generated method stub
-		return null;
+		return sqlSessionTemplate.selectList(getSqlName("queryBySourceId"), sourceId);
 	}
 	
 }

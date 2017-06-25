@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="com.zhuanquan.app.dal.dao.work.impl.WorkBaseDAOImpl">
+
+	<resultMap id="BaseResultMap"
+		type="com.zhuanquan.app.common.model.work.WorkBase">
+		<id column="work_id" property="workId" jdbcType="BIGINT" />
+		<result column="subject" property="subject" jdbcType="VARCHAR" />
+		<result column="summary" property="summary" jdbcType="VARCHAR" />
+		<result column="cov_pic_Url" property="covPicUrl" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="MODIFY_TIME" property="modifyTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+
+  <insert id="insertWorkBaseInfo" parameterType="com.zhuanquan.app.common.model.work.WorkBase" >
+    insert into work_base (work_id, subject, summary,cov_pic_Url,status,CREATE_TIME, MODIFY_TIME)
+    values(#{workId}, #{subject}, #{summary},#{covPicUrl},#{status},#{createTime}, #{modifyTime})
+  </insert>
+
+
+	<select id="queryWorkById" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select * from work_base where work_id = #{workId} and status =1;
+	</select>
+
+
+
+
+</mapper>		

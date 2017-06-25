@@ -27,30 +27,23 @@ public class WorkContentSource {
 	private Long workId;
 
 	/**
-	 * 大类区分：1-音频 2-视频 3-图片
+	 * 大类区分：100-音频 101-视频 102-图片 103-文字
 	 * 
 	 * @see com.zhuanquan.app.common.constants.WorkSourceCategoryConstants
 	 * 
 	 */
 	private Integer sourceCategory;
 
-	public Integer getSourceCategory() {
-		return sourceCategory;
-	}
-
-	public void setSourceCategory(Integer sourceCategory) {
-		this.sourceCategory = sourceCategory;
-	}
 
 	/**
 	 * 多媒体资源渠道 站内资源/5sing/本地资源等等
 	 */
-	private Integer sourceChannel;
+	private Integer platformId;
 
 	/**
 	 * 具体资源类型 原创,改编,翻填,翻唱
 	 */
-	private Integer sourceType;
+	private String sourceType;
 
 	/**
 	 * 音频视频图片的url
@@ -98,16 +91,17 @@ public class WorkContentSource {
 		this.workId = workId;
 	}
 
-	public Integer getSourceChannel() {
-		return sourceChannel;
-	}
-
-	public void setSourceChannel(Integer sourceChannel) {
-		this.sourceChannel = sourceChannel;
-	}
 
 	
 	
+	public Integer getPlatformId() {
+		return platformId;
+	}
+
+	public void setPlatformId(Integer platformId) {
+		this.platformId = platformId;
+	}
+
 	public Integer getOrderNum() {
 		return orderNum;
 	}
@@ -116,11 +110,11 @@ public class WorkContentSource {
 		this.orderNum = orderNum;
 	}
 
-	public Integer getSourceType() {
+	public String getSourceType() {
 		return sourceType;
 	}
 
-	public void setSourceType(Integer sourceType) {
+	public void setSourceType(String sourceType) {
 		this.sourceType = sourceType;
 	}
 
@@ -175,7 +169,7 @@ public class WorkContentSource {
 	 * @param originSourceId
 	 * @return
 	 */
-	public static WorkContentSource createInstance(long workId, int sourceChannel, int sourceCategory, int sourceType,
+	public static WorkContentSource createInstance(long workId, int platformId, int sourceCategory, String sourceType,
 			String url, long originSourceId,int orderNum) {
 
 		WorkContentSource source = new WorkContentSource();
@@ -188,7 +182,8 @@ public class WorkContentSource {
 		source.setOriginSourceId(originSourceId);
 
 		source.setSourceCategory(sourceCategory);
-		source.setSourceChannel(sourceChannel);
+		
+		source.setPlatformId(platformId);
 		source.setSourceType(sourceType);
 		source.setOrderNum(orderNum);
 
@@ -199,7 +194,13 @@ public class WorkContentSource {
 		return source;
 	}
 	
-	
+	public Integer getSourceCategory() {
+		return sourceCategory;
+	}
+
+	public void setSourceCategory(Integer sourceCategory) {
+		this.sourceCategory = sourceCategory;
+	}
 	
 	/**
 	 * 原创资源，非同人
@@ -211,7 +212,7 @@ public class WorkContentSource {
 	 * @param originSourceId
 	 * @return
 	 */
-	public static WorkContentSource createInstance(long workId, int sourceChannel, int sourceCategory, int sourceType,
+	public static WorkContentSource createInstance(long workId, int sourceChannel, int sourceCategory, String sourceType,
 			String url,int orderNum) {
 		return createInstance(workId, sourceChannel, sourceCategory, sourceType, url, 0,orderNum);
 	}

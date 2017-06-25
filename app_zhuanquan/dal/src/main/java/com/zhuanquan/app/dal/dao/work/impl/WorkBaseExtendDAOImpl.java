@@ -14,8 +14,9 @@ public class WorkBaseExtendDAOImpl extends BaseDao implements WorkBaseExtendDAO 
 
 	@Override
 	public List<WorkBaseExtend> queryExtendInfoByWorkId(long workId) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		
+		return this.sqlSessionTemplate.selectList(getSqlName("queryExtendInfoByWorkId"), workId);
 	}
 	
 }
