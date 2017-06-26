@@ -239,10 +239,15 @@ public class WorksCacheImpl extends CacheChangedListener implements WorksCache {
 
 		String key = RedisKeyBuilder.getWorkAttenderCacheKey(workId);
 
-		// key为 属性id，value为 list结构的WorkAttender
-		Map<String, String> resultMap = redisHelper.hashGetByKey(key);
+		boolean hasKey = redisHelper.getGracefulRedisTemplate().hasKey(key);
 
-		if (resultMap != null) {
+		if (hasKey) {
+			// key为 属性id，value为 list结构的WorkAttender
+			Map<String, String> resultMap = redisHelper.hashGetByKey(key);
+
+			if (resultMap == null) {
+				return null;
+			}
 
 			Map<String, List<WorkAttender>> map = new HashMap<String, List<WorkAttender>>();
 
@@ -251,8 +256,8 @@ public class WorksCacheImpl extends CacheChangedListener implements WorksCache {
 			}
 
 			return map;
-		}
 
+		}
 		return lazyInitWorkAttenderCache(workId);
 
 	}
@@ -303,10 +308,16 @@ public class WorksCacheImpl extends CacheChangedListener implements WorksCache {
 
 		String key = RedisKeyBuilder.getWorkContentSourceCacheKey(workId);
 
-		// key为 属性id，value为 list结构的WorkContentSource
-		Map<String, String> resultMap = redisHelper.hashGetByKey(key);
+		boolean hasKey = redisHelper.getGracefulRedisTemplate().hasKey(key);
 
-		if (resultMap != null) {
+		if (hasKey) {
+			// key为 属性id，value为 list结构的WorkContentSource
+			Map<String, String> resultMap = redisHelper.hashGetByKey(key);
+
+			if (resultMap == null) {
+
+				return null;
+			}
 
 			Map<String, List<WorkContentSource>> map = new HashMap<String, List<WorkContentSource>>();
 
@@ -315,8 +326,8 @@ public class WorksCacheImpl extends CacheChangedListener implements WorksCache {
 			}
 
 			return map;
-		}
 
+		}
 		return lazyInitWorkContentSourceCache(workId);
 
 	}
@@ -563,35 +574,31 @@ public class WorksCacheImpl extends CacheChangedListener implements WorksCache {
 		vo.setWorkId(workId);
 		vo.setCovPicUrl(base.getCovPicUrl());
 
-
-		//设置tag信息
+		// 设置tag信息
 		setWorkTagInfoToWorkDetail(vo, workId);
-		
-		//设置作品的参与人信息
+
+		// 设置作品的参与人信息
 		setWorkAttederInfoToWorkDetail(vo, workId);
 
-		//设置作品的多媒体资源信息
+		// 设置作品的多媒体资源信息
 		setWorkContentSourceToWorkDetail(vo, workId);
-		
-		
-		
+
 		String key = RedisKeyBuilder.getWorkDetailInfoKey(workId);
-		
-		
+
 		redisHelper.valueSet(key, JSON.toJSONString(vo), 1, TimeUnit.HOURS);
 
 		return vo;
 
 	}
-	
-	
+
 	/**
 	 * 设置作品的tag信息到作品详情页面
+	 * 
 	 * @param vo
 	 * @param workId
 	 */
 	private void setWorkTagInfoToWorkDetail(WorkDetailInfoVo vo, long workId) {
-		
+
 		List<WorkTagMapping> workTagsMappings = lazyFetchWorkTags(workId);
 
 		if (CollectionUtils.isNotEmpty(workTagsMappings)) {
@@ -620,16 +627,13 @@ public class WorksCacheImpl extends CacheChangedListener implements WorksCache {
 
 	}
 
-	
-	
-	
-	
-
 	private void setWorkAttederInfoToWorkDetail(WorkDetailInfoVo vo, long workId) {
 
 		// 作品参与人信息
 		Map<String, List<WorkAttender>> attenderMap = lazyFetchWorkAttenderCache(workId);
-		Assert.isTrue(MapUtils.isNotEmpty(attenderMap));
+		if (MapUtils.isEmpty(attenderMap)) {
+			return;
+		}
 
 		// 以角色为视图的map
 		Map<String, Map<String, AuthorBriefInfoBo>> roleViewMap = new HashMap<String, Map<String, AuthorBriefInfoBo>>();
@@ -703,39 +707,40 @@ public class WorksCacheImpl extends CacheChangedListener implements WorksCache {
 
 		}
 
+		vo.setAuthorList(authorList);
+
 	}
-	
-	
+
 	/**
 	 * 设置多媒体资源到 作品详情页
+	 * 
 	 * @param vo
 	 * @param workId
 	 */
 	private void setWorkContentSourceToWorkDetail(WorkDetailInfoVo vo, long workId) {
 
 		List<WorkMediaSourceCategoryView> mediaSources = new ArrayList<WorkMediaSourceCategoryView>();
-		
-		
+
 		Map<String, List<WorkContentSource>> sourceMap = lazyFetchWorkContentSourceCache(workId);
-		
-		if(MapUtils.isEmpty(sourceMap)){
+
+		if (MapUtils.isEmpty(sourceMap)) {
 			return;
 		}
-				
-		//key为资源category，
-		for(Entry<String, List<WorkContentSource>> entry:sourceMap.entrySet()) {
-			
+
+		// key为资源category，
+		for (Entry<String, List<WorkContentSource>> entry : sourceMap.entrySet()) {
+
 			WorkMediaSourceCategoryView view = new WorkMediaSourceCategoryView();
-	
+
 			view.setSourceCategory(Integer.parseInt(entry.getKey()));
 
-			List<WorkContentSource> temp = new ArrayList<WorkContentSource>();
-			
-			if(CollectionUtils.isNotEmpty(temp)) {
-				
-				List<WorkContentSourceBriefInfoBo> sourceList =new ArrayList<WorkContentSourceBriefInfoBo>();
-				for(WorkContentSource tempSource:temp) {
-	
+			List<WorkContentSource> temp = entry.getValue();
+
+			if (CollectionUtils.isNotEmpty(temp)) {
+
+				List<WorkContentSourceBriefInfoBo> sourceList = new ArrayList<WorkContentSourceBriefInfoBo>();
+				for (WorkContentSource tempSource : temp) {
+
 					WorkContentSourceBriefInfoBo bo = new WorkContentSourceBriefInfoBo();
 
 					bo.setPlatformId(tempSource.getPlatformId());
@@ -743,21 +748,20 @@ public class WorksCacheImpl extends CacheChangedListener implements WorksCache {
 					bo.setSourceId(tempSource.getSourceId());
 					bo.setSourceType(tempSource.getSourceType());
 					bo.setSourceVal(tempSource.getSourceVal());
-					
+
 					sourceList.add(bo);
 				}
-				
+
 				view.setSourceList(sourceList);
 				mediaSources.add(view);
 			}
 		}
-		
-		
-		if(CollectionUtils.isNotEmpty(mediaSources)) {
-			
+
+		if (CollectionUtils.isNotEmpty(mediaSources)) {
+
 			vo.setMediaSources(mediaSources);
 		}
-		
+
 	}
 
 }

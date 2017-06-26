@@ -19,4 +19,8 @@ public class WorkSourceTypeDefineDAOImpl extends BaseDao implements WorkSourceTy
 		return this.sqlSessionTemplate.selectList(getSqlName("queryAll"));
 	}
 	
+	
+	
+	
+	
 }
