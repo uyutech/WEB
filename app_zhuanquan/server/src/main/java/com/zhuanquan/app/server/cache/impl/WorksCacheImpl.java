@@ -27,6 +27,7 @@ import com.zhuanquan.app.common.component.cache.redis.utils.RedisHelper;
 import com.zhuanquan.app.common.component.event.redis.CacheChangedListener;
 import com.zhuanquan.app.common.component.event.redis.CacheClearEvent;
 import com.zhuanquan.app.common.component.event.redis.RedisCacheEnum;
+import com.zhuanquan.app.common.constants.WorkExtendAttrConstants;
 import com.zhuanquan.app.common.constants.WorkRoleTypeConstants;
 import com.zhuanquan.app.common.model.common.Tag;
 import com.zhuanquan.app.common.model.work.WorkAttender;
@@ -35,6 +36,8 @@ import com.zhuanquan.app.common.model.work.WorkBaseExtend;
 import com.zhuanquan.app.common.model.work.WorkContentSource;
 import com.zhuanquan.app.common.model.work.WorkContentSourceExtend;
 import com.zhuanquan.app.common.model.work.WorkHotIndex;
+import com.zhuanquan.app.common.model.work.WorkInspiration;
+import com.zhuanquan.app.common.model.work.WorkMilestone;
 import com.zhuanquan.app.common.model.work.WorkRoleDefine;
 import com.zhuanquan.app.common.model.work.WorkTagMapping;
 import com.zhuanquan.app.common.utils.CommonUtil;
@@ -42,10 +45,12 @@ import com.zhuanquan.app.common.view.bo.TagInfoBo;
 import com.zhuanquan.app.common.view.bo.author.AuthorBaseInfoBo;
 import com.zhuanquan.app.common.view.bo.author.AuthorBriefInfoBo;
 import com.zhuanquan.app.common.view.bo.work.WorkContentSourceBriefInfoBo;
+import com.zhuanquan.app.common.view.bo.work.WorkMilestoneBo;
 import com.zhuanquan.app.common.view.vo.discovery.DiscoveryHotWorkVo;
 import com.zhuanquan.app.common.view.vo.discovery.DiscoveryPageQueryRequest;
 import com.zhuanquan.app.common.view.vo.work.WorkAttenderRoleViewVo;
 import com.zhuanquan.app.common.view.vo.work.WorkDetailInfoVo;
+import com.zhuanquan.app.common.view.vo.work.WorkInspirationInfoVo;
 import com.zhuanquan.app.common.view.vo.work.WorkMediaSourceCategoryView;
 import com.zhuanquan.app.dal.dao.work.WorkAttenderDAO;
 import com.zhuanquan.app.dal.dao.work.WorkBaseDAO;
@@ -53,6 +58,8 @@ import com.zhuanquan.app.dal.dao.work.WorkBaseExtendDAO;
 import com.zhuanquan.app.dal.dao.work.WorkContentSourceDAO;
 import com.zhuanquan.app.dal.dao.work.WorkContentSourceExtendDAO;
 import com.zhuanquan.app.dal.dao.work.WorkHotIndexDAO;
+import com.zhuanquan.app.dal.dao.work.WorkInspirationDAO;
+import com.zhuanquan.app.dal.dao.work.WorkMilestoneDAO;
 import com.zhuanquan.app.dal.dao.work.WorkTagMappingDAO;
 import com.zhuanquan.app.server.cache.AuthorCache;
 import com.zhuanquan.app.server.cache.TagCache;
@@ -94,6 +101,12 @@ public class WorksCacheImpl extends CacheChangedListener implements WorksCache {
 
 	@Resource
 	private WorkRoleDefineCache workRoleDefineCache;
+
+	@Resource
+	private WorkInspirationDAO workInspirationDAO;
+
+	@Resource
+	private WorkMilestoneDAO workMilestoneDAO;
 
 	@Override
 	public WorkBase queryWorkById(long workId) {
@@ -155,6 +168,18 @@ public class WorksCacheImpl extends CacheChangedListener implements WorksCache {
 			return JSON.parseArray(obj, WorkTagMapping.class);
 		}
 
+		return lazyInitWorkTags(workId);
+	}
+
+	/**
+	 * 
+	 * @param workId
+	 * @return
+	 */
+	private List<WorkTagMapping> lazyInitWorkTags(long workId) {
+
+		String key = RedisKeyBuilder.getWorkTagsCacheKey(workId);
+
 		List<WorkTagMapping> list = workTagMappingDAO.queryWorkTags(workId);
 
 		if (CollectionUtils.isEmpty(list)) {
@@ -164,6 +189,7 @@ public class WorksCacheImpl extends CacheChangedListener implements WorksCache {
 		redisHelper.valueSet(key, JSON.toJSONString(list), 30, TimeUnit.MINUTES);
 
 		return list;
+
 	}
 
 	/**
@@ -195,6 +221,13 @@ public class WorksCacheImpl extends CacheChangedListener implements WorksCache {
 	}
 
 	// 懒加载
+
+	/**
+	 * 初始化作品的扩展属性cache，key是属性类型
+	 * 
+	 * @param workId
+	 * @return
+	 */
 	private Map<String, List<WorkBaseExtend>> lazyInitWorkBaseExtendCache(long workId) {
 
 		String key = RedisKeyBuilder.getWorkBaseExtendCacheKey(workId);
@@ -583,6 +616,15 @@ public class WorksCacheImpl extends CacheChangedListener implements WorksCache {
 		// 设置作品的多媒体资源信息
 		setWorkContentSourceToWorkDetail(vo, workId);
 
+		// 设置创作灵感信息
+		setWorkInspirationToWorkDetail(vo, workId);
+
+		// 添加总评论数等扩展信息
+		parseWorkExtendAttrToWorkDetail(vo, workId);
+		
+		//设置作品创作里程碑
+		parseWorkMileStoneToWorkDetail(vo, workId);
+
 		String key = RedisKeyBuilder.getWorkDetailInfoKey(workId);
 
 		redisHelper.valueSet(key, JSON.toJSONString(vo), 1, TimeUnit.HOURS);
@@ -599,7 +641,7 @@ public class WorksCacheImpl extends CacheChangedListener implements WorksCache {
 	 */
 	private void setWorkTagInfoToWorkDetail(WorkDetailInfoVo vo, long workId) {
 
-		List<WorkTagMapping> workTagsMappings = lazyFetchWorkTags(workId);
+		List<WorkTagMapping> workTagsMappings = lazyInitWorkTags(workId);
 
 		if (CollectionUtils.isNotEmpty(workTagsMappings)) {
 
@@ -630,7 +672,7 @@ public class WorksCacheImpl extends CacheChangedListener implements WorksCache {
 	private void setWorkAttederInfoToWorkDetail(WorkDetailInfoVo vo, long workId) {
 
 		// 作品参与人信息
-		Map<String, List<WorkAttender>> attenderMap = lazyFetchWorkAttenderCache(workId);
+		Map<String, List<WorkAttender>> attenderMap = lazyInitWorkAttenderCache(workId);
 		if (MapUtils.isEmpty(attenderMap)) {
 			return;
 		}
@@ -721,7 +763,7 @@ public class WorksCacheImpl extends CacheChangedListener implements WorksCache {
 
 		List<WorkMediaSourceCategoryView> mediaSources = new ArrayList<WorkMediaSourceCategoryView>();
 
-		Map<String, List<WorkContentSource>> sourceMap = lazyFetchWorkContentSourceCache(workId);
+		Map<String, List<WorkContentSource>> sourceMap = lazyInitWorkContentSourceCache(workId);
 
 		if (MapUtils.isEmpty(sourceMap)) {
 			return;
@@ -761,6 +803,90 @@ public class WorksCacheImpl extends CacheChangedListener implements WorksCache {
 
 			vo.setMediaSources(mediaSources);
 		}
+
+	}
+
+	/**
+	 * 添加创作灵感
+	 * 
+	 * @param vo
+	 * @param workId
+	 */
+	private void setWorkInspirationToWorkDetail(WorkDetailInfoVo vo, long workId) {
+
+		// 获取创作灵感，这个不能用缓存，因为可能更新很快
+		List<WorkInspiration> list = workInspirationDAO.queryByWorkId(workId);
+
+		if (CollectionUtils.isEmpty(list)) {
+			return;
+		}
+
+		//
+
+		List<WorkInspirationInfoVo> target = new ArrayList<WorkInspirationInfoVo>();
+		for (WorkInspiration reocrd : list) {
+
+			WorkInspirationInfoVo instance = new WorkInspirationInfoVo();
+
+			instance.setAuthorId(reocrd.getAuthorId());
+			AuthorBaseInfoBo bo = authorCache.queryAuthorBaseById(reocrd.getAuthorId());
+			Assert.notNull(bo);
+
+			instance.setAuthorName(bo.getAuthorName());
+			instance.setHeadUrl(bo.getHeadUrl());
+
+			instance.setCreateTime(reocrd.getModifyTime());
+			instance.setInspiration(reocrd.getInspiration());
+
+			target.add(instance);
+		}
+
+		vo.setWorkInspirationList(target);
+	}
+
+	/**
+	 * 添加评论总数
+	 * 
+	 * @param vo
+	 * @param workId
+	 */
+	private void parseWorkExtendAttrToWorkDetail(WorkDetailInfoVo vo, long workId) {
+		Map<String, List<WorkBaseExtend>> map = lazyInitWorkBaseExtendCache(workId);
+
+		// 解析总评论数
+		List<WorkBaseExtend> commentList = map.get(WorkExtendAttrConstants.EXTEND_ATTR_COMMENT_TOTAL_NUM + "");
+		if (CollectionUtils.isNotEmpty(commentList)) {
+			Assert.isTrue(commentList.size() == 1);
+			long totalComment = Long.parseLong(commentList.get(0).getAttrVal());
+			vo.setTotalComment(totalComment);
+		}
+
+	}
+
+	/**
+	 * 解析作品里程碑
+	 * 
+	 * @param vo
+	 * @param workId
+	 */
+	private void parseWorkMileStoneToWorkDetail(WorkDetailInfoVo vo, long workId) {
+
+		List<WorkMilestone> list = workMilestoneDAO.queryMileStoneByWorkId(workId);
+
+		if (CollectionUtils.isEmpty(list)) {
+			return;
+		}
+
+		List<WorkMilestoneBo> target = new ArrayList<WorkMilestoneBo>();
+
+		for (WorkMilestone record : list) {
+
+			WorkMilestoneBo bo = WorkMilestoneBo.getBoFromWorkMilestone(record);
+			target.add(bo);
+
+		}
+
+		vo.setMilestoneList(target);
 
 	}
 

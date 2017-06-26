@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import com.zhuanquan.app.common.view.bo.TagInfoBo;
+import com.zhuanquan.app.common.view.bo.work.WorkMilestoneBo;
 
 
 /**
@@ -52,6 +53,11 @@ public class WorkDetailInfoVo implements Serializable {
 	
 	
 	/**
+	 * 总评论数
+	 */
+	private long totalComment;
+	
+	/**
 	 * 作品标签列表
 	 */
 	private List<TagInfoBo> tagList;
@@ -61,6 +67,51 @@ public class WorkDetailInfoVo implements Serializable {
 	 * 多媒体资源
 	 */
 	private List<WorkMediaSourceCategoryView> mediaSources;
+
+	
+	/**
+	 * 创作灵感
+	 */
+	private List<WorkInspirationInfoVo> workInspirationList;
+	
+
+	/**
+	 * 作品创作里程碑
+	 */
+	private List<WorkMilestoneBo> milestoneList;
+	
+	
+	
+	
+
+	public List<WorkMilestoneBo> getMilestoneList() {
+		return milestoneList;
+	}
+
+
+	public void setMilestoneList(List<WorkMilestoneBo> milestoneList) {
+		this.milestoneList = milestoneList;
+	}
+
+
+	public long getTotalComment() {
+		return totalComment;
+	}
+
+
+	public void setTotalComment(long totalComment) {
+		this.totalComment = totalComment;
+	}
+
+
+	public List<WorkInspirationInfoVo> getWorkInspirationList() {
+		return workInspirationList;
+	}
+
+
+	public void setWorkInspirationList(List<WorkInspirationInfoVo> workInspirationList) {
+		this.workInspirationList = workInspirationList;
+	}
 
 
 	public long getWorkId() {

@@ -7,7 +7,7 @@ package com.zhuanquan.app.common.constants;
  * @author zhangjun
  *
  */
-public class WorkExtendAttrConstants extends WorkSourceCategoryConstants {
+public class WorkExtendAttrConstants  {
 
 //******************************作品生命周期相关从10100开始到10199结束*******************************************	
 
@@ -38,8 +38,16 @@ public class WorkExtendAttrConstants extends WorkSourceCategoryConstants {
 	public static final int EXTEND_ATTR_COMMENT_TOTAL_NUM =  10202;	
 	
 	
+	//******************************统计各种总数量从10300开始到10399结束*******************************************	
 	
+	//发布时间
+	public static final int EXTEND_ATTR_STAT_PUBLISH =  10350;	
 	
-	
+	//预告
+	public static final int EXTEND_ATTR_STAT_announce =  10340;	
+
+	//开坑
+	public static final int EXTEND_ATTR_STAT_PREPARE =  10320;	
+
 	
 }
