@@ -800,26 +800,26 @@ public class RedisHelper {
 	}
 	
 	
-	
-	/**
-	 * zset模拟pop
-	 * @param key
-	 * @return
-	 */
-	public String zpop(String key) {
-
-		return gracefulRedisTemplate.zpop(key);
-	}
-	
-	/**
-	 * zset模拟 pop
-	 * @param key
-	 * @return
-	 */
-	public String zRevpop(String key) {
-		return gracefulRedisTemplate.zRevpop(key);
-
-	}
+//	
+//	/**
+//	 * zset模拟pop
+//	 * @param key
+//	 * @return
+//	 */
+//	public String zpop(String key) {
+//
+//		return gracefulRedisTemplate.zpop(key);
+//	}
+//	
+//	/**
+//	 * zset模拟 pop
+//	 * @param key
+//	 * @return
+//	 */
+//	public String zRevpop(String key) {
+//		return gracefulRedisTemplate.zRevpop(key);
+//
+//	}
 
 	
 	

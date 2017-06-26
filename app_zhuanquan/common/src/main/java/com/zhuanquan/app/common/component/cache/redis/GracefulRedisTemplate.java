@@ -181,101 +181,101 @@ public class GracefulRedisTemplate<K, V> extends RedisTemplate<K, V> {
 		return true;
 
 	}
+//
+//	/**
+//	 * zset 结构模拟pop
+//	 * 
+//	 * @param key
+//	 * @return
+//	 */
+//	public String zpop(String key) {
+//
+//		return zsetPop(key, 0);
+//	}
+//
+//	/**
+//	 * zset 结构模拟pop
+//	 * 
+//	 * @param key
+//	 * @return
+//	 */
+//	public String zRevpop(String key) {
+//		return zsetPop(key, -1);
+//
+//	}
 
-	/**
-	 * zset 结构模拟pop
-	 * 
-	 * @param key
-	 * @return
-	 */
-	public String zpop(String key) {
-
-		return zsetPop(key, 0);
-	}
-
-	/**
-	 * zset 结构模拟pop
-	 * 
-	 * @param key
-	 * @return
-	 */
-	public String zRevpop(String key) {
-		return zsetPop(key, -1);
-
-	}
-
-	/**
-	 * zset 结构模拟pop
-	 * 
-	 * @param key
-	 * @param position
-	 * @return
-	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	private String zsetPop(String key, int position) {
-
-		try {
-
-			final byte[] rawKey = key.getBytes("UTF-8");
-
-			final int pos = position;
-
-			Set<byte[]> setsResult = this.execute(new RedisCallback() {
-				@Override
-				public Set<byte[]> doInRedis(RedisConnection connection) {
-
-					connection.watch(rawKey);
-
-					Set<byte[]> sets = connection.zRange(rawKey, pos, pos);
-
-					if (sets == null || sets.size() == 0) {
-						return null;
-					}
-
-					connection.multi();
-					connection.zRemRange(rawKey, pos, pos);
-
-					// 执行结果
-					List<Object> list = connection.exec();
-
-					if (CollectionUtils.isEmpty(list)) {
-						return null;
-					} else {
-						Object result = list.get(0);
-						if (result.toString().equals(EXEC_SUCESS)) {
-							return sets;
-						}
-
-						return null;
-					}
-
-				}
-			}, true);
-
-			if (CollectionUtils.isEmpty(setsResult)) {
-				return null;
-			}
-
-			Iterator<byte[]> its = setsResult.iterator();
-
-			while (its.hasNext()) {
-				byte[] bytes = its.next();
-				if (bytes != null) {
-					return new String(bytes);
-				}
-			}
-
-			return null;
-
-		} catch (UnsupportedEncodingException e) {
-			logger.warn("unsupport this encoding :{}", e);
-		} catch (Exception e) {
-			logger.warn("unexpected error :{}", e);
-
-		}
-
-		return null;
-	}
+//	/**
+//	 * zset 结构模拟pop
+//	 * 
+//	 * @param key
+//	 * @param position
+//	 * @return
+//	 */
+//	@SuppressWarnings({ "rawtypes", "unchecked" })
+//	private String zsetPop(String key, int position) {
+//
+//		try {
+//
+//			final byte[] rawKey = key.getBytes("UTF-8");
+//
+//			final int pos = position;
+//
+//			Set<byte[]> setsResult = this.execute(new RedisCallback() {
+//				@Override
+//				public Set<byte[]> doInRedis(RedisConnection connection) {
+//
+//					connection.watch(rawKey);
+//
+//					Set<byte[]> sets = connection.zRange(rawKey, pos, pos);
+//
+//					if (sets == null || sets.size() == 0) {
+//						return null;
+//					}
+//
+//					connection.multi();
+//					connection.zRemRange(rawKey, pos, pos);
+//
+//					// 执行结果
+//					List<Object> list = connection.exec();
+//
+//					if (CollectionUtils.isEmpty(list)) {
+//						return null;
+//					} else {
+//						Object result = list.get(0);
+//						if (result.toString().equals(EXEC_SUCESS)) {
+//							return sets;
+//						}
+//
+//						return null;
+//					}
+//
+//				}
+//			}, true);
+//
+//			if (CollectionUtils.isEmpty(setsResult)) {
+//				return null;
+//			}
+//
+//			Iterator<byte[]> its = setsResult.iterator();
+//
+//			while (its.hasNext()) {
+//				byte[] bytes = its.next();
+//				if (bytes != null) {
+//					return new String(bytes);
+//				}
+//			}
+//
+//			return null;
+//
+//		} catch (UnsupportedEncodingException e) {
+//			logger.warn("unsupport this encoding :{}", e);
+//		} catch (Exception e) {
+//			logger.warn("unexpected error :{}", e);
+//
+//		}
+//
+//		return null;
+//	}
 
 	/**
 	 * left batch pop for list
