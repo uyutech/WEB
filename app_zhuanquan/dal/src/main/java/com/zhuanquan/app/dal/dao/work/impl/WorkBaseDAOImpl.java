@@ -1,6 +1,8 @@
 package com.zhuanquan.app.dal.dao.work.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
@@ -37,6 +39,17 @@ public class WorkBaseDAOImpl extends BaseDao  implements WorkBaseDAO {
 	@Override
 	public void updateBatchToIncrseaseWorkUpvoteNum(List<AsyncUpdateUnitBo> list) {
 		
+	}
+
+	@Override
+	public List<WorkBase> queryWorksInfoByPage(List<Long> workIds, int fromIndex, int limit) {
+		
+		Map map = new HashMap();
+		map.put("ids", this.listToString(workIds));
+		map.put("offset", fromIndex);
+		map.put("limit", limit);
+		
+		return sqlSessionTemplate.selectList(getSqlName("queryWorksInfoByPage"), map);
 	}
 	
 }

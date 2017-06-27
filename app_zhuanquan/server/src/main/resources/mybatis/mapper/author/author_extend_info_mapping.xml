@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="com.zhuanquan.app.dal.dao.author.impl.AuthorExtendInfoDAOImpl">
+
+	<resultMap id="BaseResultMap"
+		type="com.zhuanquan.app.common.model.author.AuthorExtendInfo">
+		<result column="author_id" property="authorId" jdbcType="BIGINT" />
+		<result column="attr_type" property="attrType" jdbcType="INTEGER" />
+		<result column="value" property="value" jdbcType="VARCHAR" />
+		<result column="order_num" property="orderNum" jdbcType="INTEGER" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+	</resultMap>
+
+
+
+	<select id="queryByAuthorId" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select * from author_extend_info where author_id = #{authorId} and status =1;
+	</select>
+
+
+
+
+</mapper>		

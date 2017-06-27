@@ -9,10 +9,12 @@ import java.util.concurrent.TimeUnit;
 import javax.annotation.Resource;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;
+import com.google.common.collect.Lists;
 import com.zhuanquan.app.common.component.cache.RedisKeyBuilder;
 import com.zhuanquan.app.common.component.cache.redis.utils.RedisHelper;
 import com.zhuanquan.app.common.component.event.redis.CacheChangedListener;
@@ -111,6 +113,16 @@ public class AuthorThirdPlatformCacheImpl extends CacheChangedListener implement
 	public void doProcessCacheCleanEvent(CacheClearEvent event) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public AuthorThirdPlatformDefine queryThirdPlatformInfo(Integer platformId) {
+		Map<String, AuthorThirdPlatformDefine> map = batchQueryThirdPlatformInfo(Lists.newArrayList(platformId));
+		if(MapUtils.isEmpty(map)){
+			return null;
+		}
+
+		return map.get(platformId.toString());
 	}
 
 }

@@ -43,4 +43,17 @@ public interface WorkBaseDAO {
 	void updateBatchToIncrseaseWorkUpvoteNum(List<AsyncUpdateUnitBo> list);
 	
 	
+	/**
+	 * 分页查询作品信息
+	 * @param workIds
+	 * @param fromIndex
+	 * @param limit
+	 * @return
+	 */
+	List<WorkBase> queryWorksInfoByPage(List<Long> workIds,int fromIndex,int limit);
+	
+	
+	
+	
+	
 }

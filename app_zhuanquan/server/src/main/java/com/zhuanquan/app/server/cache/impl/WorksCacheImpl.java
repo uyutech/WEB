@@ -29,6 +29,7 @@ import com.zhuanquan.app.common.component.event.redis.CacheClearEvent;
 import com.zhuanquan.app.common.component.event.redis.RedisCacheEnum;
 import com.zhuanquan.app.common.constants.WorkExtendAttrConstants;
 import com.zhuanquan.app.common.constants.WorkRoleTypeConstants;
+import com.zhuanquan.app.common.model.author.AuthorBase;
 import com.zhuanquan.app.common.model.common.Tag;
 import com.zhuanquan.app.common.model.work.WorkAttender;
 import com.zhuanquan.app.common.model.work.WorkBase;
@@ -44,6 +45,7 @@ import com.zhuanquan.app.common.utils.CommonUtil;
 import com.zhuanquan.app.common.view.bo.TagInfoBo;
 import com.zhuanquan.app.common.view.bo.author.AuthorBaseInfoBo;
 import com.zhuanquan.app.common.view.bo.author.AuthorBriefInfoBo;
+import com.zhuanquan.app.common.view.bo.author.AuthorPartnerInfoBo;
 import com.zhuanquan.app.common.view.bo.work.WorkContentSourceBriefInfoBo;
 import com.zhuanquan.app.common.view.bo.work.WorkMilestoneBo;
 import com.zhuanquan.app.common.view.vo.discovery.DiscoveryHotWorkVo;
@@ -889,5 +891,101 @@ public class WorksCacheImpl extends CacheChangedListener implements WorksCache {
 		vo.setMilestoneList(target);
 
 	}
+
+	@Override
+	public List<Long> queryAuthorAttendWorks(long authorId) {
+		
+		String key = RedisKeyBuilder.getAuthorAttenderWorksKey(authorId);
+		
+		String val = redisHelper.valueGet(key);
+		
+		if(!StringUtils.isEmpty(val)){
+			return JSON.parseArray(val, Long.class);
+		}
+		
+		
+		List<Long> workIds = workAttenderDAO.queryAuthorAttendWorkIds(authorId);
+		
+		if(CollectionUtils.isEmpty(workIds)) {
+			return null;
+		}
+		
+		redisHelper.valueSet(key, JSON.toJSONString(workIds), 5, TimeUnit.MINUTES);
+
+		return workIds;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<AuthorPartnerInfoBo> pageQueryAuthorPartnerInfo(long authorId, int fromIndex, int limit) {
+		
+		
+		String key = RedisKeyBuilder.getAuthorPartnerInfoKey(authorId);
+		
+		boolean hasKey = redisHelper.getGracefulRedisTemplate().hasKey(key);
+		
+		//
+		if(hasKey) {
+			
+			
+			//从大到小取
+			Set<String> sets = redisHelper.zsetRevrange(key, fromIndex, fromIndex+limit-1);
+			
+
+			// 缓存中有值
+			if (sets != null && sets.size() != 0) {
+
+				return CommonUtil.deserializArray(sets, AuthorPartnerInfoBo.class);
+			} else {
+				return null;
+			}
+			
+		}
+		
+
+		List<Long> workIds = queryAuthorAttendWorks(authorId);
+		
+		if(CollectionUtils.isEmpty(workIds)) {
+			return null;
+		}
+		
+		List<AuthorPartnerInfoBo> list = workAttenderDAO.queryAuthorPartnerInfo(authorId, workIds);
+		
+		if(CollectionUtils.isEmpty(list)){
+			return null;
+		}
+		
+		
+		for(AuthorPartnerInfoBo record:list) {
+			
+			AuthorBaseInfoBo base= authorCache.queryAuthorBaseById(record.getAuthorId());
+			
+			Assert.notNull(base);
+			record.setAuthorHeader(base.getHeadUrl());
+			record.setAuthorName(base.getAuthorName());
+		}
+		
+		
+		// 设置个人的缓存，有效期为5分钟
+
+		Set<TypedTuple<String>> set = new LinkedHashSet<TypedTuple<String>>(list.size());
+
+		// zset按照score排序，即按照热度排序
+		for (int index = 0; index < list.size(); index++) {
+			AuthorPartnerInfoBo bo = list.get(index);
+			set.add(new DefaultTypedTuple(JSON.toJSONString(bo), (double) bo.getCooperationTimes()));
+		}
+
+		redisHelper.zsetAdd(key, set);
+		redisHelper.expire(key, 5, TimeUnit.MINUTES);
+
+		Set<String> sets = redisHelper.zsetRevrange(key, fromIndex, fromIndex + limit - 1);
+		return sets != null ? (CommonUtil.deserializArray(sets, AuthorPartnerInfoBo.class)) : null;		
+
+	}
+	
+	
+	
+	
 
 }

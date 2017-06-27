@@ -28,5 +28,12 @@
 
 
 
+	<select id="queryWorksInfoByPage" resultMap="BaseResultMap"
+		parameterType="java.util.Map">
+		select * from work_base where status = 1 and work_id in (${ids}) order by work_id desc limit #{limit} offset #{offset};
+	</select>
+
+
+
 
 </mapper>		

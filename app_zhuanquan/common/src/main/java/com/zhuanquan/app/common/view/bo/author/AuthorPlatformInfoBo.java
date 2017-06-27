@@ -19,8 +19,13 @@ public class AuthorPlatformInfoBo implements Serializable {
 	/**
 	 * 其他平台的id
 	 */
-	private long platformId;
+	private int platformId;
 	
+	
+	/**
+	 * 1-社交类 2-音乐 3-视频 4-图片
+	 */
+	private Integer type;
 	
 	/**
 	 * 其他平台的logo
@@ -32,14 +37,42 @@ public class AuthorPlatformInfoBo implements Serializable {
 	 * 其他平台的主页
 	 */
 	private String homePage;
+	
+	/**
+	 * 平台名
+	 */
+	private String platformName;
 
 
-	public long getPlatformId() {
+	
+	
+	
+	public Integer getType() {
+		return type;
+	}
+
+
+	public void setType(Integer type) {
+		this.type = type;
+	}
+
+
+	public String getPlatformName() {
+		return platformName;
+	}
+
+
+	public void setPlatformName(String platformName) {
+		this.platformName = platformName;
+	}
+
+
+	public int getPlatformId() {
 		return platformId;
 	}
 
 
-	public void setPlatformId(long platformId) {
+	public void setPlatformId(int platformId) {
 		this.platformId = platformId;
 	}
 

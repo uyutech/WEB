@@ -5,8 +5,13 @@ import java.util.List;
 
 import com.zhuanquan.app.common.view.bo.author.AuthorPlatformInfoBo;
 
-
-public class AuthorHomeInfoResponseVo implements Serializable {
+/**
+ * 作者主页信息视图
+ * 
+ * @author zhangjun
+ *
+ */
+public class AuthorHomeInfoVo implements Serializable {
 
 	/**
 	 * 
@@ -19,6 +24,11 @@ public class AuthorHomeInfoResponseVo implements Serializable {
 	 * 作者id
 	 */
 	private long authorId;
+	
+	/**
+	 * 是否已关注
+	 */
+	private boolean hasFollowed;
 	
 	
 	/**
@@ -39,9 +49,10 @@ public class AuthorHomeInfoResponseVo implements Serializable {
 	
 	
 	/**
-	 * 职业角色
+	 * 职业角色类型，按照第一级类别划分.比如 策，文，歌，舞这种
+	 * 返回的是  100,101这样的rolecode的前三位
 	 */
-	private List<String> roleStrs;
+	private List<String> roleTypes;
 	
 	
 	/**
@@ -65,7 +76,34 @@ public class AuthorHomeInfoResponseVo implements Serializable {
 	 */
 	private List<AuthorPlatformInfoBo> thirdPlatList;
 	
+	/**
+	 * 作者的作品信息
+	 */
+	private AuthorWorksPageQueryVo worksView;
 	
+	
+
+	/**
+	 * 作者的关系页面
+	 */
+	private AuthorRelationshipPageQueryVo relationView;
+	
+	
+	/**
+	 * 作者的专辑查询页面
+	 */
+	private AuthorAlbumPageQueryVo albumView;
+	
+
+	public AuthorWorksPageQueryVo getWorksView() {
+		return worksView;
+	}
+
+
+	public void setWorksView(AuthorWorksPageQueryVo worksView) {
+		this.worksView = worksView;
+	}
+
 
 	public List<AuthorPlatformInfoBo> getThirdPlatList() {
 		return thirdPlatList;
@@ -127,13 +165,15 @@ public class AuthorHomeInfoResponseVo implements Serializable {
 	}
 
 
-	public List<String> getRoleStrs() {
-		return roleStrs;
+
+
+	public List<String> getRoleTypes() {
+		return roleTypes;
 	}
 
 
-	public void setRoleStrs(List<String> roleStrs) {
-		this.roleStrs = roleStrs;
+	public void setRoleTypes(List<String> roleTypes) {
+		this.roleTypes = roleTypes;
 	}
 
 
@@ -154,6 +194,36 @@ public class AuthorHomeInfoResponseVo implements Serializable {
 
 	public void setHotScore(long hotScore) {
 		this.hotScore = hotScore;
+	}
+
+
+	public AuthorRelationshipPageQueryVo getRelationView() {
+		return relationView;
+	}
+
+
+	public void setRelationView(AuthorRelationshipPageQueryVo relationView) {
+		this.relationView = relationView;
+	}
+
+
+	public AuthorAlbumPageQueryVo getAlbumView() {
+		return albumView;
+	}
+
+
+	public void setAlbumView(AuthorAlbumPageQueryVo albumView) {
+		this.albumView = albumView;
+	}
+
+
+	public boolean isHasFollowed() {
+		return hasFollowed;
+	}
+
+
+	public void setHasFollowed(boolean hasFollowed) {
+		this.hasFollowed = hasFollowed;
 	}
 	
 	

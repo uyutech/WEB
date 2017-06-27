@@ -6,7 +6,7 @@
 	<resultMap id="BaseResultMap"
 		type="com.zhuanquan.app.common.model.author.AuthorHotIndexes">	
 		<id column="author_id" property="authorId" jdbcType="BIGINT" />
-		<result column="hot_index" property="hotIndex" jdbcType="BIGINT" />
+		<result column="score" property="score" jdbcType="BIGINT" />
 		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
 		<result column="MODIFY_TIME" property="modifyTime" jdbcType="TIMESTAMP" />
 	</resultMap>
@@ -23,7 +23,7 @@
 
 	<select id="getHotTopN" resultMap="BaseResultMap"
 		parameterType="java.lang.Integer">
-		select * from author_hot_indexes order by hot_index desc limit #{top};
+		select * from author_hot_indexes order by score desc limit #{top};
 	</select>
 
 

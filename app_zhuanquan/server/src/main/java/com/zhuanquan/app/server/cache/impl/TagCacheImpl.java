@@ -29,6 +29,7 @@ import com.zhuanquan.app.common.component.event.redis.RedisCacheEnum;
 import com.zhuanquan.app.common.model.common.Tag;
 import com.zhuanquan.app.common.utils.CommonUtil;
 import com.zhuanquan.app.common.view.bo.TagInfoBo;
+import com.zhuanquan.app.common.view.vo.author.SuggestAuthorUnit;
 import com.zhuanquan.app.dal.dao.author.TagDAO;
 import com.zhuanquan.app.dal.dao.user.UserFollowTagsMappingDAO;
 import com.zhuanquan.app.server.cache.TagCache;
@@ -58,6 +59,9 @@ public class TagCacheImpl extends CacheChangedListener implements TagCache {
 
 		String privateSuggestKey = RedisKeyBuilder.getPrivateHotTagsSuggestKey(uid);
 
+		boolean hasKey = redisHelper.hasKey(privateSuggestKey);
+		
+		if(hasKey) {
 		// 尝试从zset缓存中获取
 		Set<String> sets = redisHelper.zsetRevrange(privateSuggestKey, fromIndex, fromIndex + limit - 1);
 
@@ -65,8 +69,11 @@ public class TagCacheImpl extends CacheChangedListener implements TagCache {
 		if (sets != null && sets.size() != 0) {
 
 			return CommonUtil.deserializArray(sets, TagInfoBo.class);
+		} else {
+			return null;
 		}
 
+		}
 		// 缓存中没有，尝试初始化
 
 		String publicHotkey = RedisKeyBuilder.getPublicHotTagsSuggestKey();
@@ -96,9 +103,13 @@ public class TagCacheImpl extends CacheChangedListener implements TagCache {
 		redisHelper.zsetAdd(privateSuggestKey, set);
 		redisHelper.expire(privateSuggestKey, 5, TimeUnit.MINUTES);
 
-		sets = redisHelper.zsetRevrange(privateSuggestKey, fromIndex, fromIndex + limit - 1);
+		Set<String> sets = redisHelper.zsetRevrange(privateSuggestKey, fromIndex, fromIndex + limit - 1);
 
-		return CommonUtil.deserializArray(sets, TagInfoBo.class);
+		
+		return sets != null ? (CommonUtil.deserializArray(sets, TagInfoBo.class)) : null;
+//
+//		
+//		return CommonUtil.deserializArray(sets, TagInfoBo.class);
 
 	}
 

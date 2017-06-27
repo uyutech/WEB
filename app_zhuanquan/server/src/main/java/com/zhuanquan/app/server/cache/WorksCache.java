@@ -9,6 +9,7 @@ import com.zhuanquan.app.common.model.work.WorkBaseExtend;
 import com.zhuanquan.app.common.model.work.WorkContentSource;
 import com.zhuanquan.app.common.model.work.WorkContentSourceExtend;
 import com.zhuanquan.app.common.model.work.WorkTagMapping;
+import com.zhuanquan.app.common.view.bo.author.AuthorPartnerInfoBo;
 import com.zhuanquan.app.common.view.vo.discovery.DiscoveryHotWorkVo;
 import com.zhuanquan.app.common.view.vo.discovery.DiscoveryPageQueryRequest;
 import com.zhuanquan.app.common.view.vo.work.WorkDetailInfoVo;
@@ -81,6 +82,25 @@ public interface WorksCache {
 	 * @return
 	 */
 	WorkDetailInfoVo queryWorkDetail(long workId);
+	
+	/**
+	 * 作者参与的作品id
+	 * @param authorId
+	 * @return
+	 */
+	List<Long> queryAuthorAttendWorks(long authorId);
+	
+
+	
+	/**
+	 * 分页查询合作者信息
+	 * @param authorId 作者id
+	 * @param fromIndex 
+	 * @param limit
+	 * @return
+	 */
+	List<AuthorPartnerInfoBo> pageQueryAuthorPartnerInfo(long authorId,int fromIndex,int limit);
+	
 	
 	
 

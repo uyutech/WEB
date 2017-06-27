@@ -14,8 +14,7 @@ public class AuthorThirdPlatformInfoDAOImpl extends BaseDao implements AuthorThi
 
 	@Override
 	public List<AuthorThirdPlatformInfo> queryByAuthorId(long authorId) {
-		// TODO Auto-generated method stub
-		return null;
+		return sqlSessionTemplate.selectList(getSqlName("queryByAuthorId"), authorId);
 	}
 	
 }

@@ -666,6 +666,39 @@ public class RedisKeyBuilder {
 	}
 			
 	
+	
+	/**
+	 * 作者主页信息.
+	 * 
+	 * @return
+	 */
+	public static String getAuthorHomeInfoKey(long authorId) {
+		
+		return "gw:author:homeinfo:authorid:"+authorId;
+	}	
+	
+	
+	/**
+	 * 查询作者参与作品的key
+	 * @param authorId
+	 * @return
+	 */
+	public static String getAuthorAttenderWorksKey(long authorId) {
+		
+		return "gw:author:attendworks:authorid:"+authorId;
+	}
+	
+	/**
+	 * 查询作者合作者信息的key，zset结构
+	 * @param authorId
+	 * @return
+	 */
+	public static String getAuthorPartnerInfoKey(long authorId) {
+		
+		return "gw:author:partnerinfo:authorid:"+authorId;
+	}	
+	
+	
 }
 
 

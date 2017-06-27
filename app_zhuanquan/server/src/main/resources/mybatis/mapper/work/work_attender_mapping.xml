@@ -40,5 +40,30 @@
 
 
 
+	<select id="queryAuthorAttendWorkIds" resultType="java.lang.Long" parameterType="java.lang.Long">
+		select distinct(work_id) from work_attender where author_id = #{authorId} and status =1;
+	</select>
+
+
+	<select id="queryAuthorRoleCodesByAuthorId" resultType="java.lang.String" parameterType="java.lang.Long">
+		select distinct(role_code) from work_attender where author_id = #{authorId} and status =1;
+	</select>
+
+
+	<resultMap id="PartnerBo"
+		type="com.zhuanquan.app.common.view.bo.author.AuthorPartnerInfoBo">
+		<result column="times" property="cooperationTimes" jdbcType="INTEGER" />
+		<result column="author_id" property="authorId" jdbcType="NUMERIC" />
+	</resultMap>
+
+
+
+  
+	<select id="queryAuthorPartnerInfo" resultMap="PartnerBo" parameterType="java.util.Map">
+     select count(temp.author_id) as times,temp.author_id from (select author_id,work_id from work_attender where work_id in (${ids}) and author_id != #{authorId} group by author_id,work_id) temp group by temp.author_id order by times desc,temp.author_id asc;	
+    </select>
+
+
+
 
 </mapper>		

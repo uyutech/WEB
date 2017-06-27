@@ -13,12 +13,14 @@ import com.zhuanquan.app.common.component.sesssion.SessionHolder;
 import com.zhuanquan.app.common.view.ApiResponse;
 import com.zhuanquan.app.common.view.bo.work.AuthorAlbumInfoBo;
 import com.zhuanquan.app.common.view.bo.work.AuthorWorkInfoBo;
-import com.zhuanquan.app.common.view.vo.author.AuthorHomeInfoResponseVo;
-import com.zhuanquan.app.common.view.vo.author.AuthorRelationshipVo;
+import com.zhuanquan.app.common.view.vo.author.AuthorAlbumPageQueryVo;
+import com.zhuanquan.app.common.view.vo.author.AuthorHomeInfoVo;
+import com.zhuanquan.app.common.view.vo.author.AuthorRelationshipPageQueryVo;
+import com.zhuanquan.app.common.view.vo.author.AuthorWorksPageQueryVo;
 import com.zhuanquan.app.common.view.vo.author.SuggestAuthorRequestVo;
 import com.zhuanquan.app.common.view.vo.author.SuggestAuthorResponseVo;
 import com.zhuanquan.app.server.controller.common.BaseController;
-import com.zhuanquan.app.server.service.AutherService;
+import com.zhuanquan.app.server.service.AuthorService;
 
 /**
  *  作者controller
@@ -31,7 +33,7 @@ import com.zhuanquan.app.server.service.AutherService;
 public class AuthorController extends BaseController {
 	
 	@Resource
-	private AutherService autherService;
+	private AuthorService authorService;
 	
 	
 	/**
@@ -56,7 +58,7 @@ public class AuthorController extends BaseController {
 		request.setLimit(limit);
 		request.setUid(uid);
 		
-		SuggestAuthorResponseVo vo = autherService.getSuggestAuthors(request);
+		SuggestAuthorResponseVo vo = authorService.getSuggestAuthors(request);
 
 		return ApiResponse.success(vo);
 		
@@ -72,12 +74,10 @@ public class AuthorController extends BaseController {
 	@ResponseBody
 	public ApiResponse queryAuthorHomePageInfo(long authorId) {	
 		
-		
 
-		AuthorHomeInfoResponseVo vo;
-		
-		
-		return ApiResponse.success();
+		AuthorHomeInfoVo vo = authorService.queryAuthorHomeInfoVo(authorId);
+
+		return ApiResponse.success(vo);
 		
 	}
 	
@@ -91,9 +91,10 @@ public class AuthorController extends BaseController {
 	@ResponseBody
 	public ApiResponse pageQueryAuthorWorks(long authorId,int fromIndex,int limit) {	
 
-		List<AuthorWorkInfoBo>  list;
 		
-		return ApiResponse.success();
+		AuthorWorksPageQueryVo vo = authorService.pageQueryAuthorWorksPageQueryVo(authorId, fromIndex, limit);
+				
+		return ApiResponse.success(vo);
 		
 	}
 	
@@ -108,9 +109,9 @@ public class AuthorController extends BaseController {
 	@ResponseBody
 	public ApiResponse pageQueryAuthorAlbums(long authorId,int fromIndex,int limit) {	
 
-		List<AuthorAlbumInfoBo>  list;
+		AuthorAlbumPageQueryVo vo = authorService.pageQueryAuthorAlbumsVo(authorId, fromIndex, limit);
 		
-		return ApiResponse.success();
+		return ApiResponse.success(vo);
 		
 	}	
 	
@@ -125,9 +126,9 @@ public class AuthorController extends BaseController {
 	@ResponseBody
 	public ApiResponse pageQueryAuthorRelationship(long authorId,int fromIndex,int limit) {	
 
-		AuthorRelationshipVo  vo;
+		AuthorRelationshipPageQueryVo vo = authorService.pageQueryAuthorRelationship(authorId, fromIndex, limit);
 		
-		return ApiResponse.success();
+		return ApiResponse.success(vo);
 		
 	}
 	

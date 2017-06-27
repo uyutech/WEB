@@ -16,9 +16,9 @@ public class AuthorExtendInfo {
 	private Long authorId;
 	
 	/**
-	 * 作者属性
+	 * 作者扩展属性类型
 	 * 
-	 * @see
+	 * @see com.zhuanquan.app.common.constants.author.AuthorExtendInfoConstants
 	 */
 	private Integer attrType;
 	

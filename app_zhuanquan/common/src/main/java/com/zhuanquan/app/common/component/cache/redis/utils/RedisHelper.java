@@ -868,5 +868,12 @@ public class RedisHelper {
 	public boolean lBatchRightPush(String key,List<String> list){
 		return gracefulRedisTemplate.listBatchRightPush(key, list);
 	}
+	
+	
+	
+	@SuppressWarnings("unchecked")
+	public boolean hasKey(String key) {
+		return gracefulRedisTemplate.hasKey(key);
+	}
 
 }

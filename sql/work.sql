@@ -211,15 +211,11 @@ create table work_inspiration
 drop table if exists work_milestone;
 create table work_milestone
 (
-   id                     int(11) not null auto_increment  ,
    work_id                  int(11) not null  ,
-   author_id               int(11) not null  ,  
-   inspiration            varchar(500) not null,
+   mile_attr               int(4) not null  ,  
    status                 tinyint(1) not null default 1,
-   create_time            datetime,
-   modify_time            datetime,
-   primary key (id),
-   UNIQUE KEY uniq_work_inspri (work_id,author_id)
+   mile_time            datetime,
+   primary key (work_id,mile_attr)
 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
 
@@ -228,4 +224,49 @@ create table work_milestone
 
 
 
+  /*==============================================================*/
+/* Table: work_album专辑组成                                     */
+/*==============================================================*/
+drop table if exists work_album;
+create table work_album
+(
+   album_Id               int(11) not null auto_increment  ,
+   work_id               int(11) not null  ,  
+   order_num             int(4) not null default 0 ,  
+   status                tinyint(1) not null default 1,
 
+   primary key (album_Id,work_id),
+    KEY idx_work_album_mem_workid (work_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
+
+
+
+
+
+
+
+
+  /*==============================================================*/
+/* Table: work_album_member 专辑组成                                     */
+/*==============================================================*/
+drop table if exists work_album_member;
+create table work_album_member
+(
+   album_Id               int(11) not null ,
+   work_id               int(11) not null  ,  
+   order_num             int(4) not null default 0 ,  
+   status                tinyint(1) not null default 1,
+
+   primary key (album_Id,work_id),
+    KEY idx_work_album_mem_workid (work_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
+
+
+
+      <id column="album_Id" property="albumId" jdbcType="BIGINT" />
+      <result column="subject" property="subject" jdbcType="VARCHAR" />
+      <result column="summary" property="summary" jdbcType="VARCHAR" />
+      <result column="cov_pic_url" property="covPicUrl" jdbcType="VARCHAR" />
+      <result column="status" property="status" jdbcType="INTEGER" />
+      <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+      <result column="MODIFY_TIME" property="modifyTime" jdbcType="TIMESTAMP" />

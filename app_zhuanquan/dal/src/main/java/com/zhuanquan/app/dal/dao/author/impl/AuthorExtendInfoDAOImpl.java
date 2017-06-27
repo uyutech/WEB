@@ -15,8 +15,7 @@ public class AuthorExtendInfoDAOImpl extends BaseDao implements AuthorExtendInfo
 
 	@Override
 	public List<AuthorExtendInfo> queryByAuthorId(long authorId) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.sqlSessionTemplate.selectList(getSqlName("queryByAuthorId"), authorId);
 	}
 	
 }

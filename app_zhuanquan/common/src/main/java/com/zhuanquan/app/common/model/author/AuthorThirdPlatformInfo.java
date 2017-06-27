@@ -1,7 +1,11 @@
 package com.zhuanquan.app.common.model.author;
 
 
-
+/**
+ * 作者在第三方平台的信息
+ * @author zhangjun
+ *
+ */
 public class AuthorThirdPlatformInfo {
 	
 	/**
@@ -15,7 +19,7 @@ public class AuthorThirdPlatformInfo {
 	 * 
 	 * 
 	 */
-	private Long platformId;
+	private Integer platformId;
 	
 	
 
@@ -29,6 +33,12 @@ public class AuthorThirdPlatformInfo {
 	 * 粉丝数
 	 */
 	private Long fansNum;
+	
+	
+	/**
+	 * 状态  0-disable 1-enable
+	 */
+	private Integer status;
 
 
 	public Long getAuthorId() {
@@ -63,13 +73,23 @@ public class AuthorThirdPlatformInfo {
 	}
 
 
-	public Long getPlatformId() {
+	public Integer getPlatformId() {
 		return platformId;
 	}
 
 
-	public void setPlatformId(Long platformId) {
+	public void setPlatformId(Integer platformId) {
 		this.platformId = platformId;
+	}
+
+
+	public Integer getStatus() {
+		return status;
+	}
+
+
+	public void setStatus(Integer status) {
+		this.status = status;
 	}
 	
 	

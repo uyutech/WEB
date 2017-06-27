@@ -20,6 +20,10 @@ public interface AuthorThirdPlatformCache {
 	Map<String,AuthorThirdPlatformDefine> batchQueryThirdPlatformInfo(List<Integer> platformIds);
 	
 	
-	
-	
+	/**
+	 * 
+	 * @param platformId
+	 * @return
+	 */
+	AuthorThirdPlatformDefine queryThirdPlatformInfo(Integer platformId);
 }

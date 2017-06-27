@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="com.zhuanquan.app.dal.dao.work.impl.WorkAlbumDAOImpl">
+
+	<resultMap id="BaseResultMap"
+		type="com.zhuanquan.app.common.model.work.WorkAlbum">
+		<id column="album_Id" property="albumId" jdbcType="BIGINT" />
+		<result column="subject" property="subject" jdbcType="VARCHAR" />
+		<result column="summary" property="summary" jdbcType="VARCHAR" />
+		<result column="cov_pic_url" property="covPicUrl" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="MODIFY_TIME" property="modifyTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+
+
+
+	<select id="queryById" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select * from work_album where album_id = #{albumId} and status =1 ;
+	</select>
+
+
+
+	<select id="queryByAlbumIds" resultMap="BaseResultMap"
+		parameterType="java.util.Map">
+		select * from work_album where status = 1 and album_Id in  (${ids}) order by  album_Id desc;
+	</select>
+
+</mapper>		

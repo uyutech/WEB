@@ -6,6 +6,10 @@ import java.util.Map;
 import com.zhuanquan.app.common.model.author.AuthorThirdPlatformDefine;
 import com.zhuanquan.app.common.model.author.AuthorThirdPlatformInfo;
 import com.zhuanquan.app.common.view.bo.author.AuthorBaseInfoBo;
+import com.zhuanquan.app.common.view.vo.author.AuthorAlbumPageQueryVo;
+import com.zhuanquan.app.common.view.vo.author.AuthorHomeInfoVo;
+import com.zhuanquan.app.common.view.vo.author.AuthorRelationshipPageQueryVo;
+import com.zhuanquan.app.common.view.vo.author.AuthorWorksPageQueryVo;
 import com.zhuanquan.app.common.view.vo.discovery.DiscoveryHotAuthorVo;
 import com.zhuanquan.app.common.view.vo.discovery.DiscoveryPageQueryRequest;
 
@@ -56,5 +60,43 @@ public interface AuthorCache {
 	 * @return
 	 */
 	List<DiscoveryHotAuthorVo> getDiscoverHotAuthorByPage(DiscoveryPageQueryRequest request);
+	
+	
+	/**
+	 * 查询作者主页信息
+	 * @param authorId
+	 * @return
+	 */
+	AuthorHomeInfoVo queryAuthorHomeInfoVo(long authorId);
+	
+	
+	
+	/**
+	 * 分页查询作者作品
+	 * @param authorId
+	 * @param offset
+	 * @param limit
+	 * @return
+	 */
+	AuthorWorksPageQueryVo pageQueryAuthorWorksPageQueryVo(long authorId,int offset,int limit);
+	
+	/**
+	 * 分页查询作者专辑
+	 * @param authorId
+	 * @param fromIndex
+	 * @param limit
+	 * @return
+	 */
+	AuthorAlbumPageQueryVo pageQueryAuthorAlbumsVo(long authorId, int fromIndex,int limit);
+	
+	
+	/**
+	 * 分页查询作者相关的关系
+	 * @param authorId
+	 * @param fromIndex
+	 * @param limit
+	 * @return
+	 */
+	AuthorRelationshipPageQueryVo pageQueryAuthorRelationship( long authorId,int fromIndex,int limit);
 	
 }

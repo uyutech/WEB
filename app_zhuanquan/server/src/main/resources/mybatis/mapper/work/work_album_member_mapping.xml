@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="com.zhuanquan.app.dal.dao.work.impl.WorkAlbumMemberDAOImpl">
+
+	<resultMap id="BaseResultMap"
+		type="com.zhuanquan.app.common.model.work.WorkAlbumMember">
+		<result column="album_Id" property="albumId" jdbcType="BIGINT" />
+		<result column="work_id" property="workId" jdbcType="BIGINT" />
+		<result column="order_num" property="orderNum" jdbcType="INTEGER" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+
+	</resultMap>
+
+
+	<select id="queryMembersByAlbumId" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select * from work_album_member where album_id = #{albumId} and status =1 order by order_num  desc;
+	</select>
+
+
+
+	<select id="queryAlbumIdsByWorkIds" resultType="java.lang.Long"
+		parameterType="java.util.Map">
+		select distinct(album_Id) from work_album_member where status = 1 and work_id in (${ids}) order by album_id desc limit #{limit} offset #{offset};
+	</select>
+
+
+
+
+</mapper>		

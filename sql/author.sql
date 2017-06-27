@@ -19,6 +19,29 @@ create table author_base
 
 
 
+
+
+/*==============================================================*/
+/* Table: author_extend_info    作者扩展信息                                          */
+/*==============================================================*/
+drop table if exists author_extend_info;
+create table author_extend_info
+(
+   author_id              int(11) not null  ,
+   attr_type              int(4) not null  ,
+   value                  varchar(200) not null,
+   status                 tinyint(1) not null default 1,
+   orderNum               int(4) not null  ,
+   primary key (author_id,attr_type)
+) ENGINE=InnoDB AUTO_INCREMENT=1000 DEFAULT CHARSET=utf8 ;
+
+
+
+
+
+
+
+
 /*==============================================================*/
 /* Table: author_tag_mapping    作者标签映射表                                          */
 /*==============================================================*/
@@ -145,4 +168,25 @@ create table author_third_platform_define
 
 
 
+
+/*==============================================================*/
+/* Table: author_third_platform_info    作者在第三方平台的信息                                     */
+/*==============================================================*/
+drop table if exists author_third_platform_info;
+create table author_third_platform_info
+(
+   id                     int(11) not null auto_increment ,
+   type                   int(4) not null default 0 ,
+   name                   varchar(200) not null,
+   logo_url               varchar(500) not null default '',
+   status                 tinyint(1) not null default 1,
+   create_time            datetime,
+   modify_time            datetime,
+   primary key (id)
+
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
+
+
+
+AuthorThirdPlatformInfo
 

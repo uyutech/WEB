@@ -13,6 +13,7 @@ import javax.annotation.Resource;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.DefaultTypedTuple;
@@ -22,21 +23,27 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSON;
 import com.zhuanquan.app.common.component.cache.RedisKeyBuilder;
 import com.zhuanquan.app.common.component.cache.redis.utils.RedisHelper;
+import com.zhuanquan.app.common.component.sesssion.SessionHolder;
 import com.zhuanquan.app.common.model.author.AuthorBase;
 import com.zhuanquan.app.common.model.author.AuthorHotIndexes;
 import com.zhuanquan.app.common.model.author.VipAuthorOpenAccountMapping;
 import com.zhuanquan.app.common.utils.CommonUtil;
 import com.zhuanquan.app.common.view.bo.author.AuthorBaseInfoBo;
+import com.zhuanquan.app.common.view.vo.author.AuthorAlbumPageQueryVo;
+import com.zhuanquan.app.common.view.vo.author.AuthorHomeInfoVo;
+import com.zhuanquan.app.common.view.vo.author.AuthorRelationshipPageQueryVo;
+import com.zhuanquan.app.common.view.vo.author.AuthorWorksPageQueryVo;
 import com.zhuanquan.app.common.view.vo.author.SuggestAuthorRequestVo;
 import com.zhuanquan.app.common.view.vo.author.SuggestAuthorResponseVo;
 import com.zhuanquan.app.common.view.vo.author.SuggestAuthorUnit;
 import com.zhuanquan.app.dal.dao.author.VipAuthorOpenAccountMappingDAO;
+import com.zhuanquan.app.dal.dao.user.UserFollowAuthorDAO;
 import com.zhuanquan.app.server.cache.AuthorCache;
 import com.zhuanquan.app.server.cache.AuthorHotIndexesCache;
-import com.zhuanquan.app.server.service.AutherService;
+import com.zhuanquan.app.server.service.AuthorService;
 
 @Service
-public class AutherServiceImpl implements AutherService {
+public class AuthorServiceImpl implements AuthorService {
 
 	protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -51,6 +58,9 @@ public class AutherServiceImpl implements AutherService {
 
 	@Resource
 	private AuthorHotIndexesCache authorHotIndexesCache;
+
+	@Resource
+	private UserFollowAuthorDAO userFollowAuthorDAO;
 
 	@Override
 	public SuggestAuthorResponseVo getSuggestAuthors(SuggestAuthorRequestVo vo) {
@@ -73,12 +83,19 @@ public class AutherServiceImpl implements AutherService {
 
 		String hotKey = RedisKeyBuilder.getSuggestHotAuthorKey(vo.getUid());
 
-		// 尝试从zset缓存中获取
-		Set<String> sets =  redisHelper.zsetRevrange(hotKey, vo.getFromIndex(),
-				vo.getFromIndex() + vo.getLimit() - 1);
+		boolean hasKey = redisHelper.hasKey(hotKey);
 
-		if (sets != null&&sets.size()!=0) {
-			return CommonUtil.deserializArray(sets, SuggestAuthorUnit.class);
+		if (hasKey) {
+			// 尝试从zset缓存中获取
+			Set<String> sets = redisHelper.zsetRevrange(hotKey, vo.getFromIndex(),
+					vo.getFromIndex() + vo.getLimit() - 1);
+
+			if (sets != null && sets.size() != 0) {
+				return CommonUtil.deserializArray(sets, SuggestAuthorUnit.class);
+			} else {
+				return null;
+			}
+
 		}
 
 		List<SuggestAuthorUnit> allList = lazyFetchSuggestAuthorInfo(vo);
@@ -98,9 +115,8 @@ public class AutherServiceImpl implements AutherService {
 
 		redisHelper.zsetAdd(hotKey, set);
 		redisHelper.expire(hotKey, 5, TimeUnit.MINUTES);
-		
-		
-		sets = redisHelper.zsetRevrange(hotKey, vo.getFromIndex(), vo.getFromIndex() + vo.getLimit() - 1);
+
+		Set<String> sets = redisHelper.zsetRevrange(hotKey, vo.getFromIndex(), vo.getFromIndex() + vo.getLimit() - 1);
 
 		return sets != null ? (CommonUtil.deserializArray(sets, SuggestAuthorUnit.class)) : null;
 	}
@@ -129,7 +145,8 @@ public class AutherServiceImpl implements AutherService {
 
 		Map<Long, Boolean> map = mergeAndDetermin(list, globalHotList);
 
-		Map<String, AuthorBaseInfoBo> authorMap = authorCache.batchQueryAuthorBaseByIds(new ArrayList<Long>(map.keySet()));
+		Map<String, AuthorBaseInfoBo> authorMap = authorCache
+				.batchQueryAuthorBaseByIds(new ArrayList<Long>(map.keySet()));
 
 		if (MapUtils.isEmpty(authorMap)) {
 			return null;
@@ -188,6 +205,29 @@ public class AutherServiceImpl implements AutherService {
 		}
 
 		return result;
+	}
+
+	@Override
+	public AuthorHomeInfoVo queryAuthorHomeInfoVo(long authorId) {
+		return authorCache.queryAuthorHomeInfoVo(authorId);
+	}
+
+	@Override
+	public AuthorWorksPageQueryVo pageQueryAuthorWorksPageQueryVo(long authorId, int offset, int limit) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public AuthorAlbumPageQueryVo pageQueryAuthorAlbumsVo(long authorId, int fromIndex, int limit) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public AuthorRelationshipPageQueryVo pageQueryAuthorRelationship(long authorId, int fromIndex, int limit) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

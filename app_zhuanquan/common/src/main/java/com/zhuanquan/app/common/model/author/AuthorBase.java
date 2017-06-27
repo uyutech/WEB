@@ -25,10 +25,10 @@ public class AuthorBase {
 	 */
 	private Integer status;
 	
-	/**
-	 * 粉丝数
-	 */
-	private long fansNum;
+//	/**
+//	 * 粉丝数
+//	 */
+//	private long fansNum;
 	
 
 	private Date createTime;
@@ -91,13 +91,13 @@ public class AuthorBase {
 		this.headUrl = headUrl;
 	}
 
-	public long getFansNum() {
-		return fansNum;
-	}
-
-	public void setFansNum(long fansNum) {
-		this.fansNum = fansNum;
-	}
+//	public long getFansNum() {
+//		return fansNum;
+//	}
+//
+//	public void setFansNum(long fansNum) {
+//		this.fansNum = fansNum;
+//	}
 
 	
 	
