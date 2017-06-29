@@ -1,7 +1,5 @@
 package com.zhuanquan.app.dal.dao.work.impl;
 
-
-
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
@@ -18,9 +16,11 @@ public class WorkSourceTypeDefineDAOImpl extends BaseDao implements WorkSourceTy
 
 		return this.sqlSessionTemplate.selectList(getSqlName("queryAll"));
 	}
-	
-	
-	
-	
-	
+
+	@Override
+	public List<String> querySourceTypeAndSubType(List<String> sourceTypes) {
+
+		return sqlSessionTemplate.selectList(getSqlName("querySourceTypeAndSubType"), sourceTypes);
+	}
+
 }

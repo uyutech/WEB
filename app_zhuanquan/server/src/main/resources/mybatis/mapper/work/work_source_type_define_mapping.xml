@@ -4,25 +4,30 @@
 	namespace="com.zhuanquan.app.dal.dao.work.impl.WorkSourceTypeDefineDAOImpl">
 
 	<resultMap id="BaseResultMap"
-		type="com.zhuanquan.app.common.model.work.WorkSourceTypeDefine">	
+		type="com.zhuanquan.app.common.model.work.WorkSourceTypeDefine">
 		<result column="source_type" property="sourceType" jdbcType="VARCHAR" />
 		<result column="lv" property="lv" jdbcType="INTEGER" />
-		<result column="type_name" property="typeName" jdbcType="VARCHAR" />		
+		<result column="type_name" property="typeName" jdbcType="VARCHAR" />
 		<result column="status" property="status" jdbcType="INTEGER" />
 		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
 		<result column="MODIFY_TIME" property="modifyTime" jdbcType="TIMESTAMP" />
 	</resultMap>
 
 
-	<select id="queryAll" resultMap="BaseResultMap">
-		select * from work_source_type_define where status =1;
+	<select id="queryAll" resultMap="BaseResultMap" >
+		select * from
+		work_source_type_define where status =1;
 	</select>
 
 
+	<select id="querySourceTypeAndSubType" resultType="java.lang.String" parameterType="java.util.List">
+		select distinct(source_type) from work_source_type_define
+		<foreach collection="list" item="item" index="index"
+			separator=" or " open=" where ">
+			source_type like '${item}%'
+		</foreach>
 
-	
-
-
+	</select>
 
 
 </mapper>

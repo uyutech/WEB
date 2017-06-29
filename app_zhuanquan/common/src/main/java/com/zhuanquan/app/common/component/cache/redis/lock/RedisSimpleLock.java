@@ -110,7 +110,8 @@ public class RedisSimpleLock {
 	 */
 	private void checkIsForEver(String key,long timeout,TimeUnit unit) {
 		//之前加锁时，设置超时时间的时候失败了，导致key变成永久的key,需要删掉
-		long expire = gracefulRedisTemplate.getExpire(key, unit);
+		
+		long expire = gracefulRedisTemplate.getExpire(key, TimeUnit.MILLISECONDS);
 		//-1表示 key未设置超时时间，-2表示 key不存在。
         if(expire == -1 ) {
         	

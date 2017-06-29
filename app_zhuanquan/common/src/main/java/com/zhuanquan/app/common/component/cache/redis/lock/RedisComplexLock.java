@@ -111,7 +111,7 @@ public class RedisComplexLock {
 	 */
 	private void checkIsForEver(String key,long timeout,TimeUnit unit) {
 		//之前加锁时，设置超时时间的时候失败了，导致key变成永久的key,需要删掉
-		long expire = gracefulRedisTemplate.getExpire(key, unit);
+		long expire = gracefulRedisTemplate.getExpire(key, TimeUnit.MILLISECONDS);
 		//-1表示 key未设置超时时间，-2表示 key不存在。
         if(expire == -1 ) {
 			// 如果原来的超时时间未设置，这里设置expire时间，不能用delete，因为delete可能把高并发下别的线程新获取的锁给删掉

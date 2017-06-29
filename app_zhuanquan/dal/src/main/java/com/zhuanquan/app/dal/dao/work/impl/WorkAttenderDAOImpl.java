@@ -56,9 +56,6 @@ public class WorkAttenderDAOImpl extends BaseDao implements WorkAttenderDAO{
 		map.put("ids", listToString(workIds));
 		map.put("authorId", authorId);
 		
-
-
-		Object obj = sqlSessionTemplate.selectList(getSqlName("queryAuthorPartnerInfo"), map);
 		
 		return sqlSessionTemplate.selectList(getSqlName("queryAuthorPartnerInfo"), map);
 	}

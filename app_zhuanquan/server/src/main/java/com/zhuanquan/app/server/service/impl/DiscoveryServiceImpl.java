@@ -64,11 +64,8 @@ public class DiscoveryServiceImpl implements DiscoveryService {
 
 	@Override
 	public DiscoverySuggestSourceTypeVo querySuggestSourceType() {
-		
-		
 		List<WorkSourceTypeInfoBo> sourceTypes = suggestSourceMgrCache.getDiscoverSuggestSourceType();
-		
-		
+
 		DiscoverySuggestSourceTypeVo vo = new DiscoverySuggestSourceTypeVo();
 		vo.setSourceType(sourceTypes);
 
@@ -78,6 +75,11 @@ public class DiscoveryServiceImpl implements DiscoveryService {
 
 	@Override
 	public DiscoverySuggestTagInfoVo queryDiscoverSuggestTags(DiscoveryQuerySuggestTagRequest request) {
+		
+		
+		
+		
+		
 		
 
 		return null;

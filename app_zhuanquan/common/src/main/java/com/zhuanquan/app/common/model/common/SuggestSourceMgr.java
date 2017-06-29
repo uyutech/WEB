@@ -17,7 +17,7 @@ public class SuggestSourceMgr {
 	private long batchNum;
 	
 	/**
-	 * 资源类型的code
+	 * 资源类型的code.
 	 * 
 	 * @see com.zhuanquan.app.common.model.work.WorkSourceTypeDefine
 	 */
