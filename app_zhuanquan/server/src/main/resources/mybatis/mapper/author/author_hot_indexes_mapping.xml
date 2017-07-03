@@ -27,6 +27,21 @@
 	</select>
 
 
+	<select id="querySuggestAuthorByPage" resultMap="java.lang.Long"
+		parameterType="java.util.Map">
+       SELECT author_id FROM author_hot_indexes hot, work_attender attender
+         WHERE attender.work_id IN (
+                  SELECT DISTINCT a.work_id
+		          FROM work_content_source a, work_tag_mapping b
+		          WHERE a.source_type IN (${typeIds})
+			AND b.tag_id IN (${tagIds})
+			AND a.work_id = b.work_id)
+	        AND hot.author_id = attender.author_id
+            ORDER BY hot.score DESC limit #{limit} offset #{offset}
+	</select>
+
+
+
 
 
 </mapper>		

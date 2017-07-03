@@ -67,9 +67,10 @@ public class DiscoveryController extends BaseController {
 	@ResponseBody
 	public ApiResponse queryDisSuggestTag(DiscoveryQuerySuggestTagRequest request ){
 		
-		DiscoverySuggestTagInfoVo vo;
+
+		DiscoverySuggestTagInfoVo vo  = discoveryService.queryDiscoverSuggestTags(request);
 		
-		return ApiResponse.success();
+		return ApiResponse.success(vo);
 		
 	}
 	
@@ -123,11 +124,7 @@ public class DiscoveryController extends BaseController {
 		List<String> list = Lists.newArrayList("100");
 		
 		
-		
-		redisHelper.valueSetIfAbsent("test", "test");
-		
-		redisSimpleLock.tryLock("test", 5, TimeUnit.MINUTES);
-		
+
 		
 		Object obj = workSourceTypeDefineDAO.querySourceTypeAndSubType(list);
 		

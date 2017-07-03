@@ -109,6 +109,21 @@ public abstract class BaseDao {
 		String newStr = sb.toString().substring(0, sb.toString().length() - 1);
 		return newStr;
 	}
+	
+	
+	public String listTransferToString(List<String> list) {
+
+		if (CollectionUtils.isEmpty(list)) {
+			return null;
+		}
+
+		StringBuffer sb = new StringBuffer();
+		for (int i = 0; i < list.size(); i++) {
+			sb.append(list.get(i)).append(",");
+		}
+		String newStr = sb.toString().substring(0, sb.toString().length() - 1);
+		return newStr;
+	}
 
 	/**
 	 * 分页查询，不带参数

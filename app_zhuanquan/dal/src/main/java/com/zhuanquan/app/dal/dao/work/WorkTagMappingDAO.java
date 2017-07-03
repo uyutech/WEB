@@ -26,4 +26,13 @@ public interface WorkTagMappingDAO {
 	 */
 	List<WorkTagMapping> queryWorkTags(long workId);
 	
+	
+	
+	/**
+	 * 查询资源类型下的tagid排行
+	 * @param sourceTypes
+	 * @return
+	 */
+	List<Long> queryTagIds(List<String> sourceTypes,int fromIndex,int limit);
+	
 }

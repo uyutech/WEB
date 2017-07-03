@@ -26,4 +26,15 @@ public interface AuthorHotIndexesDAO {
 	 */
 	List<AuthorHotIndexes> queryHotTopN(int top);
 	
+	
+	/**
+	 * 发现页面查询推荐的作者
+	 * @param sourceTypes
+	 * @param tagIds
+	 * @param fromIndex
+	 * @param limit
+	 * @return
+	 */
+	List<Long> querySuggestAuthorByPage(List<String> sourceTypes,List<Long> tagIds,int fromIndex,int limit);
+	
 }

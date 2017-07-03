@@ -76,13 +76,8 @@ public class DiscoveryServiceImpl implements DiscoveryService {
 	@Override
 	public DiscoverySuggestTagInfoVo queryDiscoverSuggestTags(DiscoveryQuerySuggestTagRequest request) {
 		
+		return suggestSourceMgrCache.queryDiscoverSuggestTags(request);
 		
-		
-		
-		
-		
-
-		return null;
 	}
 	
 	
