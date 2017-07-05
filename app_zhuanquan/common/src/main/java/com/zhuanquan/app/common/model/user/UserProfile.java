@@ -3,7 +3,7 @@ package com.zhuanquan.app.common.model.user;
 import java.util.Date;
 import java.util.UUID;
 
-import com.zhuanquan.app.common.constants.RegisterFlowConstants;
+import com.zhuanquan.app.common.constants.user.RegisterFlowConstants;
 import com.zhuanquan.app.common.view.vo.user.MobileRegisterRequestVo;
 
 /**

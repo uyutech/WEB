@@ -3,7 +3,7 @@ package com.zhuanquan.app.common.model.user;
 import java.io.Serializable;
 import java.util.Date;
 
-import com.zhuanquan.app.common.constants.LoginType;
+import com.zhuanquan.app.common.constants.user.LoginType;
 import com.zhuanquan.app.common.utils.MD5;
 
 public class UserOpenAccount implements Serializable {

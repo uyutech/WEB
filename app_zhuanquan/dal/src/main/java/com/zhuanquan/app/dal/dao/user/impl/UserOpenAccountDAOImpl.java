@@ -8,7 +8,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Repository;
 
 import com.zhuanquan.app.common.component.event.redis.RedisCacheEnum;
-import com.zhuanquan.app.common.constants.LoginType;
+import com.zhuanquan.app.common.constants.user.LoginType;
 import com.zhuanquan.app.common.model.user.UserOpenAccount;
 import com.zhuanquan.app.common.utils.CommonUtil;
 import com.zhuanquan.app.dal.dao.BaseDao;

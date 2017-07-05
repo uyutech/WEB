@@ -5,7 +5,7 @@ import java.io.Serializable;
 
 import org.springframework.util.StringUtils;
 
-import com.zhuanquan.app.common.constants.LoginType;
+import com.zhuanquan.app.common.constants.user.LoginType;
 import com.zhuanquan.app.common.exception.BizErrorCode;
 import com.zhuanquan.app.common.exception.BizException;
 import com.zhuanquan.app.common.utils.MD5;

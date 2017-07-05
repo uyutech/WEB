@@ -2,7 +2,7 @@ package com.zhuanquan.app.common.view.vo.user;
 
 import java.io.Serializable;
 
-import com.zhuanquan.app.common.constants.LoginType;
+import com.zhuanquan.app.common.constants.user.LoginType;
 
 
 public class LoginRequestVo implements Serializable {

@@ -1,4 +1,4 @@
-package com.zhuanquan.app.common.constants;
+package com.zhuanquan.app.common.constants.work;
 
 
 public class WorkRoleTypeConstants {
