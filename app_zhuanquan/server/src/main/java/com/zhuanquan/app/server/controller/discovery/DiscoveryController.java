@@ -2,7 +2,6 @@ package com.zhuanquan.app.server.controller.discovery;
 
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Resource;
 
@@ -10,11 +9,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.google.common.collect.Lists;
 import com.zhuanquan.app.common.component.cache.redis.lock.RedisSimpleLock;
 import com.zhuanquan.app.common.component.cache.redis.utils.RedisHelper;
 import com.zhuanquan.app.common.view.ApiResponse;
 import com.zhuanquan.app.common.view.vo.discovery.DiscoveryHotAuthorVo;
+import com.zhuanquan.app.common.view.vo.discovery.DiscoveryHotWorkAlbumVo;
 import com.zhuanquan.app.common.view.vo.discovery.DiscoveryHotWorkVo;
 import com.zhuanquan.app.common.view.vo.discovery.DiscoveryPageQueryRequest;
 import com.zhuanquan.app.common.view.vo.discovery.DiscoveryQuerySuggestTagRequest;
@@ -86,9 +85,9 @@ public class DiscoveryController extends BaseController {
 	public ApiResponse pageQueryDiscoverHotWorks(DiscoveryPageQueryRequest request ){
 		
 
-		List<DiscoveryHotWorkVo> list;
+		List<DiscoveryHotWorkVo> list = discoveryService.getDiscoverHotWorksByPage(request);
 		
-		return ApiResponse.success();
+		return ApiResponse.success(list);
 		
 	}	
 	
@@ -104,10 +103,9 @@ public class DiscoveryController extends BaseController {
 	@ResponseBody
 	public ApiResponse pageQueryDiscoverHotAuthors(DiscoveryPageQueryRequest request ){
 		
+		List<DiscoveryHotAuthorVo> list = discoveryService.getDiscoverHotAuthorByPage(request);
 
-		List<DiscoveryHotAuthorVo> list;
-		
-		return ApiResponse.success();
+		return ApiResponse.success(list);
 	}
 	
 	
@@ -119,21 +117,12 @@ public class DiscoveryController extends BaseController {
 	@RequestMapping(value="/pageQueryDiscoverHotAlbums",produces = {"application/json"})
 	@ResponseBody
 	public ApiResponse pageQueryDiscoverHotAlbums(DiscoveryPageQueryRequest request ){
-		
-	
-		List<String> list = Lists.newArrayList("100");
-		
-		
 
-		
-		Object obj = workSourceTypeDefineDAO.querySourceTypeAndSubType(list);
-		
-		
-		return ApiResponse.success();
+		List<DiscoveryHotWorkAlbumVo> list = discoveryService.getDiscoverHotWorkAlbumByPage(request);
+
+		return ApiResponse.success(list);
 	}
 	
-	
-	
-	
+
 	
 }

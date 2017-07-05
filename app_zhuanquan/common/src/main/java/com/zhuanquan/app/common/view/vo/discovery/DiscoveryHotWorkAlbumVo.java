@@ -29,13 +29,13 @@ public class DiscoveryHotWorkAlbumVo implements Serializable {
 	/**
 	 * 热度指数
 	 */
-	private long hotIndex;
+	private long hotScore;
 	
 	
-	/**
-	 * 作者信息
-	 */
-	private String authorInfo;
+//	/**
+//	 * 作者信息
+//	 */
+//	private String authorInfo;
 
 
 	public long getAlbumId() {
@@ -58,29 +58,30 @@ public class DiscoveryHotWorkAlbumVo implements Serializable {
 	}
 
 
-	public long getHotIndex() {
-		return hotIndex;
+
+	public long getHotScore() {
+		return hotScore;
 	}
 
 
-	public void setHotIndex(long hotIndex) {
-		this.hotIndex = hotIndex;
+	public void setHotScore(long hotScore) {
+		this.hotScore = hotScore;
 	}
 
-
-	public String getAuthorInfo() {
-		return authorInfo;
-	}
-
-
-	public void setAuthorInfo(String authorInfo) {
-		this.authorInfo = authorInfo;
-	}
-	
-	
-	
-	
-	
+//
+//	public String getAuthorInfo() {
+//		return authorInfo;
+//	}
+//
+//
+//	public void setAuthorInfo(String authorInfo) {
+//		this.authorInfo = authorInfo;
+//	}
+//	
+//	
+//	
+//	
+//	
 	
 	
 }

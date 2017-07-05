@@ -12,4 +12,21 @@
 	</resultMap>
 
 
+
+	<select id="querySuggestWorksByPage" resultMap="BaseResultMap"
+		parameterType="java.util.Map">
+
+            
+      select hot.work_id,hot.score,hot.create_time,hot.modify_time from work_hot_index hot where hot.work_id in (SELECT DISTINCT a.work_id
+		          FROM work_content_source a, work_tag_mapping b
+		          WHERE a.source_type IN (${typeIds})
+			AND b.tag_id IN (${tagIds})
+			AND a.work_id = b.work_id) ORDER BY hot.score DESC limit #{limit} offset #{offset};
+
+	</select>
+
+
+
+
+
 </mapper>		

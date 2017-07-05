@@ -35,6 +35,6 @@ public interface AuthorHotIndexesDAO {
 	 * @param limit
 	 * @return
 	 */
-	List<Long> querySuggestAuthorByPage(List<String> sourceTypes,List<Long> tagIds,int fromIndex,int limit);
+	List<AuthorHotIndexes> querySuggestAuthorByPage(List<String> sourceTypes,List<Long> tagIds,int fromIndex,int limit);
 	
 }

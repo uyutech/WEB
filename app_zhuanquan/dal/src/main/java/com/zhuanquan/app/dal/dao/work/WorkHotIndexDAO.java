@@ -18,4 +18,15 @@ public interface WorkHotIndexDAO {
 	 */
 	List<WorkHotIndex> queryTopN(int top);
 	
+	
+	/**
+	 * 发现页面查询
+	 * @param sourceTypes
+	 * @param tagIds
+	 * @param fromIndex
+	 * @param limit
+	 * @return
+	 */
+	List<WorkHotIndex> querySuggestWorksByPage(List<String> sourceTypes,List<Long> tagIds,int fromIndex,int limit);
+	
 }

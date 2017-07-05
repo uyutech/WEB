@@ -27,5 +27,16 @@
 
 
 
+	<select id="querySuggestAlbumsByPage" resultMap="java.util.Map"
+		parameterType="java.util.Map">
+      select sum(hot.score) as total,album.album_Id from work_album_member album ,work_hot_index hot where hot.work_id in (SELECT DISTINCT a.work_id
+		          FROM work_content_source a, work_tag_mapping b
+		          WHERE a.source_type IN (${typeIds})
+			AND b.tag_id IN (${tagIds})
+			AND a.work_id = b.work_id) and album.work_id = hot.work_id
+            group by album.album_Id order by total desc limit #{limit} offset #{offset};
+
+	</select>
+
 
 </mapper>		

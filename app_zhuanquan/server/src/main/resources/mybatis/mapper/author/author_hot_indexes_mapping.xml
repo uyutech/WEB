@@ -27,9 +27,9 @@
 	</select>
 
 
-	<select id="querySuggestAuthorByPage" resultMap="java.lang.Long"
+	<select id="querySuggestAuthorByPage" resultMap="BaseResultMap"
 		parameterType="java.util.Map">
-       SELECT author_id FROM author_hot_indexes hot, work_attender attender
+       SELECT distinct(hot.author_id),hot.score,hot.CREATE_TIME,hot.MODIFY_TIME FROM author_hot_indexes hot, work_attender attender
          WHERE attender.work_id IN (
                   SELECT DISTINCT a.work_id
 		          FROM work_content_source a, work_tag_mapping b
@@ -39,9 +39,6 @@
 	        AND hot.author_id = attender.author_id
             ORDER BY hot.score DESC limit #{limit} offset #{offset}
 	</select>
-
-
-
 
 
 </mapper>		

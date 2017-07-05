@@ -121,6 +121,10 @@ public class AuthorCacheImpl extends CacheChangedListener implements AuthorCache
 
 	@Resource
 	private WorkAlbumMemberDAO workAlbumMemberDAO;
+	
+	
+	@Resource
+	private AuthorCache authorCache;
 
 	@Override
 	public AuthorBaseInfoBo queryAuthorBaseById(long authorId) {
@@ -444,66 +448,33 @@ public class AuthorCacheImpl extends CacheChangedListener implements AuthorCache
 	@Override
 	public List<DiscoveryHotAuthorVo> getDiscoverHotAuthorByPage(DiscoveryPageQueryRequest request) {
 
-		String hotKey = RedisKeyBuilder.getDiscoverHotAuthorKey();
-
-		boolean hasKey = redisHelper.getGracefulRedisTemplate().hasKey(hotKey);
-
-		if (hasKey) {
-			// 尝试从zset缓存中获取
-			Set<String> sets = redisHelper.zsetRevrange(hotKey, request.getFromIndex(),
-					request.getFromIndex() + request.getLimit() - 1);
-
-			// 缓存中有值
-			if (sets != null && sets.size() != 0) {
-
-				return CommonUtil.deserializArray(sets, DiscoveryHotAuthorVo.class);
-			} else {
-				return null;
-			}
-
-		}
-
-		List<AuthorHotIndexes> authors = authorHotIndexesCache.getAuthorHotIndexTop100();
-
-		if (CollectionUtils.isEmpty(authors)) {
+	
+		List<AuthorHotIndexes> authorIndexs = authorHotIndexesDAO.querySuggestAuthorByPage(request.getSourceTypes(), request.getTags(), request.getFromIndex(), request.getLimit());
+		
+		if(CollectionUtils.isEmpty(authorIndexs)) {
 			return null;
 		}
-
-		List<DiscoveryHotAuthorVo> resultList = new ArrayList<DiscoveryHotAuthorVo>();
-
-		for (AuthorHotIndexes index : authors) {
-
-			DiscoveryHotAuthorVo vo = new DiscoveryHotAuthorVo();
-
-			AuthorBase base = this.fetchAuthorBaseCache(index.getAuthorId());
-
-			vo.setAuthorId(base.getAuthorId());
-			vo.setAuthorName(base.getAuthorName());
-			vo.setHeadUrl(base.getHeadUrl());
-			vo.setScore(index.getScore());
-
-			resultList.add(vo);
+		
+		
+		List<DiscoveryHotAuthorVo> target = new ArrayList<>();
+		
+		for(AuthorHotIndexes authorIndex:authorIndexs) {
+			
+			DiscoveryHotAuthorVo record = new DiscoveryHotAuthorVo();
+			
+			AuthorBaseInfoBo base = authorCache.queryAuthorBaseById(authorIndex.getAuthorId());
+			
+			Assert.notNull(base);
+			
+			record.setAuthorId(authorIndex.getAuthorId());
+			record.setAuthorName(base.getAuthorName());
+			record.setHeadUrl(base.getHeadUrl());
+			record.setScore(authorIndex.getScore());
+			
+			target.add(record);
 		}
-
-		// 设置个人的缓存，有效期为5分钟
-
-		Set<TypedTuple<String>> set = new LinkedHashSet<TypedTuple<String>>(resultList.size());
-
-		// zset按照score排序，即按照热度排序
-		for (int index = 0; index < resultList.size(); index++) {
-			DiscoveryHotAuthorVo vo = resultList.get(index);
-			set.add(new DefaultTypedTuple(JSON.toJSONString(vo), (double) vo.getScore()));
-		}
-
-		redisHelper.zsetAdd(hotKey, set);
-		redisHelper.expire(hotKey, 5, TimeUnit.MINUTES);
-
-		Set<String> sets = redisHelper.zsetRevrange(hotKey, request.getFromIndex(),
-				request.getFromIndex() + request.getLimit() - 1);
-
-		return sets != null ? (CommonUtil.deserializArray(sets, DiscoveryHotAuthorVo.class)) : null;
-
-		// return resultList;
+		
+		return target;
 	}
 
 	@Override

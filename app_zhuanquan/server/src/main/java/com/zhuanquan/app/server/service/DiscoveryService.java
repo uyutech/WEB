@@ -3,6 +3,7 @@ package com.zhuanquan.app.server.service;
 import java.util.List;
 
 import com.zhuanquan.app.common.view.vo.discovery.DiscoveryHotAuthorVo;
+import com.zhuanquan.app.common.view.vo.discovery.DiscoveryHotWorkAlbumVo;
 import com.zhuanquan.app.common.view.vo.discovery.DiscoveryHotWorkVo;
 import com.zhuanquan.app.common.view.vo.discovery.DiscoveryInfoVo;
 import com.zhuanquan.app.common.view.vo.discovery.DiscoveryPageQueryRequest;
@@ -19,7 +20,6 @@ import com.zhuanquan.app.common.view.vo.discovery.DiscoverySuggestTagInfoVo;
 public interface DiscoveryService {
 	
 
-	
 	/**
 	 * 分页查询热点作品
 	 * @param fromIndex
@@ -50,5 +50,14 @@ public interface DiscoveryService {
 	 * @return
 	 */
 	DiscoverySuggestTagInfoVo queryDiscoverSuggestTags(DiscoveryQuerySuggestTagRequest request);
+	
+	
+	
+	/**
+	 * 查询发现页面的热点专辑
+	 * @param request
+	 * @return
+	 */
+	List<DiscoveryHotWorkAlbumVo>  getDiscoverHotWorkAlbumByPage(DiscoveryPageQueryRequest request);
 	
 }

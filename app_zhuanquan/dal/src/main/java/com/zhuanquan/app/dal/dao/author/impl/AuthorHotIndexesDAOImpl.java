@@ -28,7 +28,7 @@ public class AuthorHotIndexesDAOImpl extends BaseDao implements AuthorHotIndexes
 	}
 
 	@Override
-	public List<Long> querySuggestAuthorByPage(List<String> sourceTypes, List<Long> tagIds, int fromIndex, int limit) {
+	public List<AuthorHotIndexes> querySuggestAuthorByPage(List<String> sourceTypes, List<Long> tagIds, int fromIndex, int limit) {
 
 		Map map = new HashMap();
 		

@@ -480,54 +480,32 @@ public class WorksCacheImpl extends CacheChangedListener implements WorksCache {
 	@Override
 	public List<DiscoveryHotWorkVo> queryDiscoverHotWorksByPage(DiscoveryPageQueryRequest request) {
 
-		String hotWorkKey = RedisKeyBuilder.getDiscoverHotWorkKey();
-
-		// 尝试从zset缓存中获取
-		Set<String> sets = redisHelper.zsetRevrange(hotWorkKey, request.getFromIndex(),
-				request.getFromIndex() + request.getLimit() - 1);
-
-		// 缓存中有值
-		if (sets != null && sets.size() != 0) {
-
-			return CommonUtil.deserializArray(sets, DiscoveryHotWorkVo.class);
-		}
-
-		List<WorkHotIndex> works = workHotIndexDAO.queryTopN(100);
-
-		if (CollectionUtils.isEmpty(works)) {
+		
+		List<WorkHotIndex> list = workHotIndexDAO.querySuggestWorksByPage(request.getSourceTypes(), request.getTags(), request.getFromIndex(), request.getLimit());
+		
+		if(CollectionUtils.isEmpty(list)) {
 			return null;
 		}
-
-		List<DiscoveryHotWorkVo> resultList = new ArrayList<DiscoveryHotWorkVo>();
-
-		for (WorkHotIndex index : works) {
+		
+		
+		List<DiscoveryHotWorkVo> target = new ArrayList<>();
+		
+		for(WorkHotIndex index:list) {
+			
 			DiscoveryHotWorkVo vo = new DiscoveryHotWorkVo();
-
-			WorkBase base = this.lazyFetchWorkBaseCache(index.getWorkId());
+			vo.setAuthorInfo(fetchProductorInfo(index.getWorkId()));			
 			vo.setScore(index.getScore());
+			WorkBase base = this.lazyFetchWorkBaseCache(index.getWorkId());
+			Assert.notNull(base);
+			
 			vo.setSubject(base.getSubject());
-			vo.setWorkId(index.getWorkId());
-
-			// 出品人信息
-			vo.setAuthorInfo(fetchProductorInfo(index.getWorkId()));
-
-			resultList.add(vo);
+			vo.setWorkId(base.getWorkId());
+			
+			target.add(vo);
 		}
-
-		// 设置个人的缓存，有效期为5分钟
-
-		Set<TypedTuple<String>> set = new LinkedHashSet<TypedTuple<String>>(resultList.size());
-
-		// zset按照score排序，即按照热度排序
-		for (int index = 0; index < resultList.size(); index++) {
-			DiscoveryHotWorkVo vo = resultList.get(index);
-			set.add(new DefaultTypedTuple(JSON.toJSONString(vo), (double) vo.getScore()));
-		}
-
-		redisHelper.zsetAdd(hotWorkKey, set);
-		redisHelper.expire(hotWorkKey, 5, TimeUnit.MINUTES);
-
-		return resultList;
+		
+		return target;
+	
 	}
 
 	/**
