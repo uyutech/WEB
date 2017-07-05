@@ -31,7 +31,7 @@ create table author_extend_info
    attr_type              int(4) not null  ,
    value                  varchar(200) not null,
    status                 tinyint(1) not null default 1,
-   orderNum               int(4) not null  ,
+   order_num               int(4) not null  ,
    primary key (author_id,attr_type)
 ) ENGINE=InnoDB AUTO_INCREMENT=1000 DEFAULT CHARSET=utf8 ;
 
@@ -111,7 +111,7 @@ drop table if exists author_hot_indexes;
 create table author_hot_indexes
 (
    author_id              int(11) not null  ,
-   hot_index             int(11) not null  ,
+   score             int(11) not null  ,
    create_time            datetime,
    modify_time            datetime,
    primary key (author_id)
@@ -175,18 +175,19 @@ create table author_third_platform_define
 drop table if exists author_third_platform_info;
 create table author_third_platform_info
 (
-   id                     int(11) not null auto_increment ,
-   type                   int(4) not null default 0 ,
-   name                   varchar(200) not null,
-   logo_url               varchar(500) not null default '',
+   author_id              int(11) not null ,
+   platform_id            int(11) not null default 0 ,
+   home_page              varchar(200) not null,
+   fans_num               int(11) not null default 0,
    status                 tinyint(1) not null default 1,
-   create_time            datetime,
-   modify_time            datetime,
-   primary key (id)
+   primary key (author_id,platform_id)
 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
 
 
 
-AuthorThirdPlatformInfo
+
+
+   
+
 

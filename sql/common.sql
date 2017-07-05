@@ -19,14 +19,3 @@ create table suggest_source_mgr
 
 
 
-
-
-
-
-
-
-      <result column="batch_num" property="batchNum" jdbcType="INTEGER" />
-      <result column="source_type" property="sourceType" jdbcType="VARCHAR" />      
-      <result column="status" property="status" jdbcType="INTEGER" />
-      <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
-      <result column="MODIFY_TIME" property="modifyTime" jdbcType="TIMESTAMP" />
