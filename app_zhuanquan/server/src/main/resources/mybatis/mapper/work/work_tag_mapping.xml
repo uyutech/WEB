@@ -32,7 +32,7 @@
 	</insert>
 
 
-	<select id="queryWorkTags" resultMap="java.util.HashMap"
+	<select id="queryWorkTags" resultMap="BaseResultMap"
 		parameterType="java.util.Map">
 		select * from work_tag_mapping where work_id = #{workId}
 		and status =1;
@@ -42,7 +42,7 @@
 
 
 
-	<select id="queryTagIds" resultMap="BaseResultMap"
+	<select id="queryTagIds" resultType="java.util.HashMap"
 		parameterType="java.util.Map">
        SELECT COUNT(tag_id) as count, tag_id
             FROM work_tag_mapping

@@ -62,6 +62,7 @@ import com.zhuanquan.app.dal.dao.work.WorkContentSourceExtendDAO;
 import com.zhuanquan.app.dal.dao.work.WorkHotIndexDAO;
 import com.zhuanquan.app.dal.dao.work.WorkInspirationDAO;
 import com.zhuanquan.app.dal.dao.work.WorkMilestoneDAO;
+import com.zhuanquan.app.dal.dao.work.WorkSourceTypeDefineDAO;
 import com.zhuanquan.app.dal.dao.work.WorkTagMappingDAO;
 import com.zhuanquan.app.server.cache.AuthorCache;
 import com.zhuanquan.app.server.cache.TagCache;
@@ -109,6 +110,12 @@ public class WorksCacheImpl extends CacheChangedListener implements WorksCache {
 
 	@Resource
 	private WorkMilestoneDAO workMilestoneDAO;
+	
+	@Resource
+	private WorkSourceTypeDefineDAO workSourceTypeDefineDAO;
+	
+	
+	private static final String WORK_ATTENDER_GLOBAL_ROLE_SOURCE_ID = "0";
 
 	@Override
 	public WorkBase queryWorkById(long workId) {
@@ -481,7 +488,12 @@ public class WorksCacheImpl extends CacheChangedListener implements WorksCache {
 	public List<DiscoveryHotWorkVo> queryDiscoverHotWorksByPage(DiscoveryPageQueryRequest request) {
 
 		
-		List<WorkHotIndex> list = workHotIndexDAO.querySuggestWorksByPage(request.getSourceTypes(), request.getTags(), request.getFromIndex(), request.getLimit());
+		//页面传入的只是父类，查询实际所有包含的子类
+		List<String> typeList = workSourceTypeDefineDAO.querySourceTypeAndSubType(request.getSourceTypes());
+		Assert.notEmpty(typeList);
+		
+		
+		List<WorkHotIndex> list = workHotIndexDAO.querySuggestWorksByPage(typeList, request.getTags(), request.getFromIndex(), request.getLimit());
 		
 		if(CollectionUtils.isEmpty(list)) {
 			return null;
@@ -521,14 +533,25 @@ public class WorksCacheImpl extends CacheChangedListener implements WorksCache {
 		if (MapUtils.isNotEmpty(attenderMap)) {
 			// 获取出品人信息
 
-			List<WorkAttender> attenders = attenderMap.get(0);
+			List<WorkAttender> attenders = attenderMap.get(WORK_ATTENDER_GLOBAL_ROLE_SOURCE_ID);
 
+			if(CollectionUtils.isEmpty(attenders)){
+				return null;
+			}
+			
+			
 			List<Long> productorIds = new ArrayList<>();
 			for (WorkAttender attender : attenders) {
 				// 出品人
 				if (attender.getRoleCode().equals(WorkRoleTypeConstants.WORK_ROLE_PRODUCTOR)) {
 					productorIds.add(attender.getAuthorId());
 				}
+			}
+			
+			
+			//没有出品人信息
+			if(CollectionUtils.isEmpty(productorIds)){
+				return null;
 			}
 
 			StringBuilder productor = new StringBuilder();

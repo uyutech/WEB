@@ -65,6 +65,7 @@ import com.zhuanquan.app.dal.dao.work.WorkAlbumDAO;
 import com.zhuanquan.app.dal.dao.work.WorkAlbumMemberDAO;
 import com.zhuanquan.app.dal.dao.work.WorkAttenderDAO;
 import com.zhuanquan.app.dal.dao.work.WorkBaseDAO;
+import com.zhuanquan.app.dal.dao.work.WorkSourceTypeDefineDAO;
 import com.zhuanquan.app.server.cache.AuthorCache;
 import com.zhuanquan.app.server.cache.AuthorHotIndexesCache;
 import com.zhuanquan.app.server.cache.AuthorThirdPlatformCache;
@@ -122,6 +123,9 @@ public class AuthorCacheImpl extends CacheChangedListener implements AuthorCache
 	@Resource
 	private WorkAlbumMemberDAO workAlbumMemberDAO;
 	
+	
+	@Resource
+	private WorkSourceTypeDefineDAO workSourceTypeDefineDAO;
 	
 	@Resource
 	private AuthorCache authorCache;
@@ -449,7 +453,12 @@ public class AuthorCacheImpl extends CacheChangedListener implements AuthorCache
 	public List<DiscoveryHotAuthorVo> getDiscoverHotAuthorByPage(DiscoveryPageQueryRequest request) {
 
 	
-		List<AuthorHotIndexes> authorIndexs = authorHotIndexesDAO.querySuggestAuthorByPage(request.getSourceTypes(), request.getTags(), request.getFromIndex(), request.getLimit());
+		//页面传入的只是父类，查询实际所有包含的子类
+		List<String> typeList = workSourceTypeDefineDAO.querySourceTypeAndSubType(request.getSourceTypes());
+		Assert.notEmpty(typeList);
+		
+		
+		List<AuthorHotIndexes> authorIndexs = authorHotIndexesDAO.querySuggestAuthorByPage(typeList, request.getTags(), request.getFromIndex(), request.getLimit());
 		
 		if(CollectionUtils.isEmpty(authorIndexs)) {
 			return null;

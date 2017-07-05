@@ -47,17 +47,17 @@ public class WorkAlbumMemberDAOImpl extends BaseDao implements WorkAlbumMemberDA
 		map.put("offset", fromIndex);
 		map.put("limit", limit);
 		
-		List<Map<String,String>> result = this.sqlSessionTemplate.selectList(this.getSqlName("querySuggestAlbumsByPage"), map);
+		List<Map<String,Object>> result = this.sqlSessionTemplate.selectList(this.getSqlName("querySuggestAlbumsByPage"), map);
 		
 		if(CollectionUtils.isEmpty(result)){
 			return null;
 		}
 		
 		List<Pair<Long, Long>> list = new ArrayList<Pair<Long, Long>>();
-		for(Map<String,String> parm:result) {
+		for(Map<String,Object> parm:result) {
 			
-			long albumId = Long.parseLong(parm.get("album_Id"));
-			long totalScore = Long.parseLong(parm.get("total"));
+			long albumId = Long.parseLong(parm.get("album_Id").toString());
+			long totalScore = Long.parseLong(parm.get("total").toString());
 			list.add(Pair.of(albumId, totalScore));
 		}
 

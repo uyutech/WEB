@@ -42,7 +42,7 @@ public class WorkTagMappingDAOImpl extends BaseDao implements WorkTagMappingDAO 
 		map.put("limit", limit);
 		
 		
-		List<Map<String,String>> list = sqlSessionTemplate.selectList(getSqlName("queryTagIds"), map);
+		List<Map<String,Object>> list = sqlSessionTemplate.selectList(getSqlName("queryTagIds"), map);
 
 		if(CollectionUtils.isEmpty(list)){
 			return null;
@@ -50,13 +50,10 @@ public class WorkTagMappingDAOImpl extends BaseDao implements WorkTagMappingDAO 
 		
 		List<Long> result = new ArrayList<Long>();
 		
-		for(Map<String,String> temp:list) {
+		for(Map<String,Object> temp:list) {
 			
-			String str = temp.get("tag_id");
-			if(StringUtils.isNotEmpty(str)) {
-				result.add(Long.parseLong(str));
-			}
-
+			Object tid = temp.get("tag_id");
+			result.add(Long.parseLong(tid.toString()));
 		}
 		
 		return result;
