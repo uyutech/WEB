@@ -512,6 +512,7 @@ public class WorksCacheImpl extends CacheChangedListener implements WorksCache {
 			
 			vo.setSubject(base.getSubject());
 			vo.setWorkId(base.getWorkId());
+			vo.setCovPic(base.getCovPicUrl());
 			
 			target.add(vo);
 		}

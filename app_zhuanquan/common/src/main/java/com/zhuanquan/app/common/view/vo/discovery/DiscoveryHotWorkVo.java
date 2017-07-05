@@ -39,7 +39,23 @@ public class DiscoveryHotWorkVo implements Serializable {
 	private String authorInfo;
 	
 	
+   /**
+    * 作品封面
+    */
+	private String covPic;
 
+
+	
+	
+	
+	public String getCovPic() {
+	return covPic;
+}
+
+
+public void setCovPic(String covPic) {
+	this.covPic = covPic;
+}
 
 
 	public long getWorkId() {

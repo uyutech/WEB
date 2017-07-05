@@ -129,6 +129,9 @@ public class DiscoveryServiceImpl implements DiscoveryService {
 
 			vo.setSubject(album.getSubject());
 
+			vo.setCovPic(album.getCovPicUrl());
+			
+			
 			target.add(vo);
 		}
 

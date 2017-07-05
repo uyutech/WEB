@@ -32,10 +32,24 @@ public class DiscoveryHotWorkAlbumVo implements Serializable {
 	private long hotScore;
 	
 	
-//	/**
-//	 * 作者信息
-//	 */
-//	private String authorInfo;
+	/**
+	 * 封面url
+	 */
+	private String covPic;
+	
+	
+
+
+
+
+	public String getCovPic() {
+		return covPic;
+	}
+
+
+	public void setCovPic(String covPic) {
+		this.covPic = covPic;
+	}
 
 
 	public long getAlbumId() {
