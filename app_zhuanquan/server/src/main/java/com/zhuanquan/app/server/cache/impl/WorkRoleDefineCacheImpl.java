@@ -108,6 +108,7 @@ public class WorkRoleDefineCacheImpl extends CacheChangedListener implements Wor
 
 	@Override
 	public WorkRoleDefine queryRoleDefine(String roleCode) {
+		
 		Map<String, WorkRoleDefine> map = batchQueryRoleDefine(Lists.newArrayList(roleCode));
 		
 		if(MapUtils.isEmpty(map)) {

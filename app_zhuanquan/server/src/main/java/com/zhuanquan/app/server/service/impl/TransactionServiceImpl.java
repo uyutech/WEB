@@ -10,13 +10,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import com.google.common.collect.Lists;
 import com.zhuanquan.app.common.constants.user.LoginType;
 import com.zhuanquan.app.common.exception.BizErrorCode;
 import com.zhuanquan.app.common.exception.BizException;
 import com.zhuanquan.app.common.model.author.VipAuthorOpenAccountMapping;
+import com.zhuanquan.app.common.model.common.RegisterAppointment;
 import com.zhuanquan.app.common.model.common.Tag;
+import com.zhuanquan.app.common.model.common.WeiboRegisterAppointmentUserData;
+import com.zhuanquan.app.common.model.common.WeiboRegisterAppointmentUserFollowData;
 import com.zhuanquan.app.common.model.user.UserOpenAccount;
 import com.zhuanquan.app.common.model.user.UserProfile;
 import com.zhuanquan.app.common.model.work.WorkAttender;
@@ -24,6 +28,7 @@ import com.zhuanquan.app.common.model.work.WorkBase;
 import com.zhuanquan.app.common.model.work.WorkContentSource;
 import com.zhuanquan.app.common.model.work.WorkContentSourceExtend;
 import com.zhuanquan.app.common.model.work.WorkTagMapping;
+import com.zhuanquan.app.common.view.bo.openapi.WeiboUserInfoBo;
 import com.zhuanquan.app.common.view.bo.work.WorkTagBo;
 import com.zhuanquan.app.common.view.vo.sync.ImportWorkInfoVo;
 import com.zhuanquan.app.common.view.vo.sync.MediaSourceInfoVo;
@@ -34,6 +39,9 @@ import com.zhuanquan.app.common.view.vo.work.WorkContentSourceExtendVo;
 import com.zhuanquan.app.common.view.vo.work.WorkReferedTagVo;
 import com.zhuanquan.app.dal.dao.author.AuthorBaseDAO;
 import com.zhuanquan.app.dal.dao.author.VipAuthorOpenAccountMappingDAO;
+import com.zhuanquan.app.dal.dao.common.RegisterAppointmentDAO;
+import com.zhuanquan.app.dal.dao.common.WeiboRegisterAppointmentUserDataDAO;
+import com.zhuanquan.app.dal.dao.common.WeiboRegisterAppointmentUserFollowDataDAO;
 import com.zhuanquan.app.dal.dao.user.UserFollowAuthorDAO;
 import com.zhuanquan.app.dal.dao.user.UserFollowTagsMappingDAO;
 import com.zhuanquan.app.dal.dao.user.UserOpenAccountDAO;
@@ -45,6 +53,8 @@ import com.zhuanquan.app.dal.dao.work.WorkContentSourceExtendDAO;
 import com.zhuanquan.app.dal.dao.work.WorkTagMappingDAO;
 import com.zhuanquan.app.server.cache.TagCache;
 import com.zhuanquan.app.server.cache.UserOpenAccountCache;
+import com.zhuanquan.app.server.openapi.OpenApiAdapter;
+import com.zhuanquan.app.server.openapi.OpenApiConnector;
 import com.zhuanquan.app.server.service.TransactionService;
 
 @Service
@@ -90,6 +100,20 @@ public class TransactionServiceImpl implements TransactionService {
 
 	@Resource
 	private WorkAttenderDAO workAttenderDAO;
+	
+
+	@Resource
+	private OpenApiAdapter adaptor;
+	
+
+	@Resource
+	private WeiboRegisterAppointmentUserFollowDataDAO weiboRegisterAppointmentUserFollowDataDAO;
+	
+	@Resource
+	private WeiboRegisterAppointmentUserDataDAO weiboRegisterAppointmentUserDataDAO;
+	
+	@Resource
+	private RegisterAppointmentDAO registerAppointmentDAO;
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
@@ -312,6 +336,76 @@ public class TransactionServiceImpl implements TransactionService {
 			}
 
 		}
+
+	}
+
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public void syncRegisterAppointmentUserData(RegisterAppointment record) {
+
+		// 已经同步过的数据，忽略
+		if (record.getIsSyncData() == 1) {
+			return;
+		}
+
+		switch (record.getChannelType()) {
+
+		case LoginType.CHANNEL_WEIBO:
+			syncWeiboRegisterAppointmentData(record);
+			break;
+
+		default:
+			return;
+
+		}
+		
+	}
+	
+	
+	/**
+	 * 同步预约用户的微信信息
+	 * @param record
+	 */
+	private void syncWeiboRegisterAppointmentData(RegisterAppointment record) {
+
+		OpenApiConnector connector = adaptor.getConnectorInstance(LoginType.CHANNEL_WEIBO);
+
+		Assert.notNull(connector);
+
+		WeiboUserInfoBo syncData = connector.getWeiboUserBaseInfo(record.getToken(), record.getOpenId());
+
+		if(syncData!=null) {
+			
+			WeiboRegisterAppointmentUserData userData = WeiboRegisterAppointmentUserData.createRecord(record.getOpenId(),syncData);
+
+			weiboRegisterAppointmentUserDataDAO.insertRecord(userData);
+		}
+		
+
+		List<String> followedOpenIds = connector.getAllFollowedAuthorOpenIds(record.getToken(), record.getOpenId());
+
+		if (CollectionUtils.isNotEmpty(followedOpenIds)) {
+
+			List<WeiboRegisterAppointmentUserFollowData> followList = new ArrayList<WeiboRegisterAppointmentUserFollowData>();
+			
+			//
+			for (String followOpenId : followedOpenIds) {
+
+				WeiboRegisterAppointmentUserFollowData followData = new WeiboRegisterAppointmentUserFollowData();
+
+				followData.setFollowedOpenId(followOpenId);
+				followData.setOpenId(record.getOpenId());
+				followList.add(followData);
+			}
+			
+			//入库批量插入
+			if (CollectionUtils.isNotEmpty(followList)) {
+				weiboRegisterAppointmentUserFollowDataDAO.insertBatchRecord(followList);
+			}
+
+		}
+		
+		registerAppointmentDAO.updateToSynced(record.getChannelType(), record.getOpenId());
 
 	}
 

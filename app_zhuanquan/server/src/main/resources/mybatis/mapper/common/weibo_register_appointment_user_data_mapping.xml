@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="com.zhuanquan.app.dal.dao.common.impl.WeiboRegisterAppointmentUserDataDAOImpl">
+
+
+	<resultMap id="BaseResultMap"
+		type="com.zhuanquan.app.common.model.common.WeiboRegisterAppointmentUserData">	
+
+		<result column="open_Id" property="openId" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="screen_name" property="screen_name" jdbcType="VARCHAR" />
+		<result column="url" property="url" jdbcType="VARCHAR" />
+		<result column="wei_hao" property="wei_hao" jdbcType="VARCHAR" />
+		<result column="profile_url" property="profile_url" jdbcType="VARCHAR" />
+		
+		<result column="profile_image_url" property="profile_image_url" jdbcType="VARCHAR" />
+		
+		
+		<result column="domain" property="domain" jdbcType="VARCHAR" />
+		<result column="gender" property="gender" jdbcType="VARCHAR" />
+		<result column="location" property="location" jdbcType="VARCHAR" />
+		<result column="description" property="description" jdbcType="VARCHAR" />
+
+		<result column="city" property="city" jdbcType="INTEGER" />
+		<result column="province" property="province" jdbcType="INTEGER" />
+		<result column="statuses_count" property="statuses_count" jdbcType="INTEGER" />
+		<result column="favourites_count" property="favourites_count" jdbcType="INTEGER" />
+		<result column="followers_count" property="followers_count" jdbcType="INTEGER" />
+		<result column="friends_count" property="friends_count" jdbcType="INTEGER" />
+
+
+		<result column="created_at" property="created_at" jdbcType="VARCHAR" />
+
+	</resultMap>
+
+
+
+
+	<insert id="insertRecord" parameterType="com.zhuanquan.app.common.model.common.WeiboRegisterAppointmentUserData">
+
+		insert into weibo_register_appointment_user_data (open_Id,name,screen_name,url,wei_hao,profile_url,profile_image_url,domain,gender,location,description,city,province,statuses_count,favourites_count,followers_count,friends_count,created_at)
+
+		values(#{openId},#{name},#{screen_name},#{url},#{wei_hao},#{profile_url},#{profile_image_url},#{domain},#{gender},#{location},#{description},#{city},#{province},#{statuses_count},#{favourites_count},#{followers_count},#{friends_count},#{created_at})
+
+	</insert>
+
+
+
+
+</mapper>

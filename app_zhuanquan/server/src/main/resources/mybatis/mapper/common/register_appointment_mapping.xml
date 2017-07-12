@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="com.zhuanquan.app.dal.dao.common.impl.RegisterAppointmentDAOImpl">
+
+	<resultMap id="BaseResultMap"
+		type="com.zhuanquan.app.common.model.common.RegisterAppointment">	
+		
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="channel_type" property="channelType" jdbcType="INTEGER" />
+		<result column="open_id" property="openId" jdbcType="VARCHAR" />
+		<result column="token" property="token" jdbcType="VARCHAR" />
+	
+		<result column="is_sync_data" property="isSyncData" jdbcType="INTEGER" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="MODIFY_TIME" property="modifyTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+
+
+
+	<insert id="insertOrUpdateRecord" parameterType="com.zhuanquan.app.common.model.common.RegisterAppointment">
+
+
+		insert into register_appointment (channel_type,open_id,token,is_sync_data,CREATE_TIME,MODIFY_TIME)
+		values(#{channelType},#{openId},#{token},#{isSyncData},#{createTime},#{modifyTime})
+		
+		on duplicate key update token = VALUES(token),MODIFY_TIME =  VALUES(MODIFY_TIME);
+		
+
+	</insert>
+
+
+
+
+
+
+	<select id="queryUnSyncedRecord" parameterType="java.util.Map" resultMap="BaseResultMap">
+		select * from register_appointment where is_sync_data = 0 and id >  #{fromIndex} limit #{limit};
+	</select>
+
+
+
+	<select id="queryByOpenId" parameterType="java.util.Map" resultMap="BaseResultMap">
+		select * from register_appointment where channel_type  = #{channelType} and open_id = #{openId};
+	</select>
+
+
+
+	<update id="updateToSynced" parameterType="java.util.Map">
+		update register_appointment
+		<set>
+			is_sync_data = 1 ,
+			MODIFY_TIME = now() 
+		</set>
+		where open_id = #{openId} and channel_type = #{channelType};
+		
+	</update>	
+
+
+
+</mapper>

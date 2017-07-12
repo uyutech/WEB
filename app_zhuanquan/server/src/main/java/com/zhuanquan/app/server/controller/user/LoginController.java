@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.zhuanquan.app.common.component.cache.redis.GracefulRedisTemplate;
 import com.zhuanquan.app.common.component.cache.redis.utils.RedisHelper;
+import com.zhuanquan.app.common.constants.user.LoginType;
+import com.zhuanquan.app.common.exception.BizErrorCode;
+import com.zhuanquan.app.common.exception.BizException;
 import com.zhuanquan.app.common.model.user.UserProfile;
 import com.zhuanquan.app.common.view.ApiResponse;
 import com.zhuanquan.app.common.view.vo.user.LoginByOpenIdRequestVo;
@@ -95,6 +98,26 @@ public class LoginController extends BaseController {
 		return ApiResponse.success(list);
 	}
 
+
+
+	
+	
+	/**
+	 * 获取第三方登录 授权的url地址
+	 * @param channelType 见 LoginType 定义， 1表示微博
+	 * @return
+	 */
+	@RequestMapping(value = "/getThirdLoginAuthUrl", produces = { "application/json" })
+	@ResponseBody
+	public ApiResponse getThirdLoginAuthUrl(int channelType) {
+
+
+		String url = loginService.getThirdLoginAuthUrl(channelType);
+		
+		
+		return ApiResponse.success(url);
+	}
+	
 	
 	
 	

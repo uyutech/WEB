@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.zhuanquan.app.common.constants.user.LoginType;
 import com.zhuanquan.app.common.exception.BizErrorCode;
 import com.zhuanquan.app.common.exception.BizException;
 import com.zhuanquan.app.common.view.ApiResponse;
@@ -238,4 +239,7 @@ public class RegisterController extends BaseController {
 		return ApiResponse.success();
 	}
 
+	
+
+	
 }

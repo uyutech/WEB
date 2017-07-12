@@ -22,7 +22,7 @@ import java.util.Properties;
 /**
  * 
  * 
- * 使用MyBatis 3.4.1或者其以上版本
+ * 使用MyBatis 3.4.1或者其以上版本,不建议使用，没经过充分测试
  * 
  * @Intercepts({ @Signature(type = StatementHandler. class, method = "prepare",
  *               args = {Connection. class, Integer.class})})
@@ -33,6 +33,7 @@ import java.util.Properties;
  * @author zhangjun
  *
  */
+@Deprecated
 @Intercepts({ @Signature(type = StatementHandler.class, method = "prepare", args = { Connection.class }) })
 public class PageInterceptor implements Interceptor {
 

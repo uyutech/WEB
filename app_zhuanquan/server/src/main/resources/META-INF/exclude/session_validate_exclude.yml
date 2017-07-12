@@ -4,7 +4,7 @@
       - /register/registerByMobile.json
       - /login/loginByMobile.json
       - /login/loginByOpenId.json
-
+      - /login/getThirdLoginAuthUrl.json
 
    rule_package_match:
       - /test/

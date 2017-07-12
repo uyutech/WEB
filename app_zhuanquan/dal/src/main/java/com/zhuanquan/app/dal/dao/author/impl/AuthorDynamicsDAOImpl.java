@@ -23,6 +23,8 @@ public class AuthorDynamicsDAOImpl extends BaseDao implements AuthorDynamicsDAO 
 		map.put("offset", offset);
 		map.put("limit", limit);
 
+		
+		
 		return this.sqlSessionTemplate.selectList(getSqlName("queryAuthorDynamicsByPage"), map);
 	}
 	

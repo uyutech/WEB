@@ -165,7 +165,7 @@ create table p_tag
    tag_type               int(4) not null,
    father_tag_id          bigint(20) not null,
    primary key (tag_id),
-   UNIQUE KEY idx_p_tag_name (tag_name)
+   UNIQUE KEY unq_p_tag_name (tag_name)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;
 
 

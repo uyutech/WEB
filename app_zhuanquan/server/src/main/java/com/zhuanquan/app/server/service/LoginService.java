@@ -35,4 +35,12 @@ public interface LoginService {
 	LoginResponseVo loginByOpenId(LoginByOpenIdRequestVo request);
 	
 	
+	/**
+	 * 第三方登录授权的url
+	 * @param channelType
+	 * @return
+	 */
+	String getThirdLoginAuthUrl(int channelType);
+	
+	
 }

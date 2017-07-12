@@ -45,7 +45,11 @@ public class GlobalDefaultExceptionHandler {
 			log.info("session expire at url:{}, params:{} exception is:{}", request.getRequestURI(),
 					HttpRequestUtils.getRequestParams(request), e);
 			response.setStatus(401);
-			return new ModelAndView();
+			
+			ModelAndView mv = getErrorJsonView(BizErrorCode.EX_SESSION_EXPIRE.getCode(), "session校验失败");
+
+			
+			return mv;
 		}
 
 		// 返回200

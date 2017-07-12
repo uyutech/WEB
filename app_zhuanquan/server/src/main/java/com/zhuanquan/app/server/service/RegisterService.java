@@ -2,6 +2,7 @@ package com.zhuanquan.app.server.service;
 
 import java.util.List;
 
+import com.zhuanquan.app.common.view.bo.openapi.AuthTokenBo;
 import com.zhuanquan.app.common.view.vo.user.MobileRegisterRequestVo;
 import com.zhuanquan.app.common.view.vo.user.RegisterResponseVo;
 
@@ -126,27 +127,8 @@ public interface RegisterService {
 	void sendRegisterSms(String mobile) ;
 	
 	
-//	/**
-//	 * 发送忘记密码验证短信
-//	 * @param mobile
-//	 */
-//	void sendForgetPwdSms(String mobile) ;
-//	
-//	
-//	/**
-//	 * 校验忘记密码的验证码是否正确
-//	 * 
-//	 * @param mobile
-//	 * @param verifyCode
-//	 */
-//	RegisterResponseVo verifyForgetPwdSms(String mobile,String verifyCode);
-//	
-//	
-//	
-//	
-//	/**
-//	 * 发送修改密码验证短信
-//	 * @param uid
-//	 */
-//	void sendChangePwdSms(long uid);
+
+	void registerAppointment(int channelType,AuthTokenBo bo);
+	
+	
 }

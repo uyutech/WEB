@@ -14,13 +14,11 @@ public class VipAuthorOpenAccountMappingDAOImpl extends BaseDao implements VipAu
 
 	@Override
 	public VipAuthorOpenAccountMapping queryRecordByOpenId(String openId, int channelType) {
-	
 		return null;
 	}
 
 	@Override
 	public List<VipAuthorOpenAccountMapping> queryRecordListByOpenIds(List<String> openIds, int channelType) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	

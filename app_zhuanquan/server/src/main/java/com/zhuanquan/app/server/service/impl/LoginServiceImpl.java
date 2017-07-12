@@ -15,6 +15,7 @@ import com.zhuanquan.app.common.component.cache.redis.utils.RedisHelper;
 
 import com.zhuanquan.app.common.component.sesssion.SessionHolder;
 import com.zhuanquan.app.common.component.sesssion.UserSession;
+import com.zhuanquan.app.common.constants.AuthorizeType;
 import com.zhuanquan.app.common.constants.user.LoginType;
 import com.zhuanquan.app.common.exception.BizErrorCode;
 import com.zhuanquan.app.common.exception.BizException;
@@ -325,5 +326,30 @@ public class LoginServiceImpl implements LoginService {
 
 		return response;
 	}
+
+	@Override
+	public String getThirdLoginAuthUrl(int channelType) {
+		
+		
+		if(channelType!=LoginType.CHANNEL_WEIBO) {
+
+			throw new BizException(BizErrorCode.EX_ILLEGLE_REQUEST_PARM.getCode());
+		}
+		
+
+		String key = RedisKeyBuilder.getRegisterAppointmentValidateKey(CommonUtil.getRandomString(9));
+			
+		//授权码，有效时间5分钟
+		redisHelper.valueSet(key, AuthorizeType.REG_APPOINTMENT, 5, TimeUnit.MINUTES);
+
+		
+		String url = openApiService.getOpenApiLoginUrl(channelType, key);
+
+		return url;
+	}
+	
+	
+	
+	
 
 }

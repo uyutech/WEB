@@ -73,10 +73,7 @@ public class AuthorGroupCacheImpl extends CacheChangedListener implements Author
 		return list;
 	}
 
-//	@Override
-//	public List<AuthorGroupExtendAttr> queryGroupExtendInfo(long groupId) {
-//		return null;
-//	}
+
 
 	@Override
 	public List<RedisCacheEnum> getMonitorRedisCache() {

@@ -2,6 +2,7 @@ package com.zhuanquan.app.server.service;
 
 import java.util.List;
 
+import com.zhuanquan.app.common.model.common.RegisterAppointment;
 import com.zhuanquan.app.common.model.user.UserProfile;
 import com.zhuanquan.app.common.view.vo.sync.ImportWorkInfoVo;
 import com.zhuanquan.app.common.view.vo.user.LoginByOpenIdRequestVo;
@@ -50,6 +51,14 @@ public interface TransactionService {
 	 * @param vo
 	 */
 	void doImportWork(ImportWorkInfoVo vo);
+	
+	
+    
+    /**
+     * 同步预约同步的数据
+     * @param record
+     */
+    void syncRegisterAppointmentUserData(RegisterAppointment record);
 	
 
 }

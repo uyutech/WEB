@@ -253,7 +253,7 @@ public final class HttpUtil
 	 * @param isEncoder
 	 *            用于指明请求数据是否需要UTF-8编码,true为需要
 	 */
-	public static Map<String, Object> sendPostRequest(String reqURL, String sendData, boolean isEncoder)
+	public static String sendPostRequest(String reqURL, String sendData, boolean isEncoder)
 	{
 		return sendPostRequest(reqURL, sendData, isEncoder, null, null);
 	}
@@ -277,7 +277,7 @@ public final class HttpUtil
 	 *            解码字符集,解析响应数据时用之,其为null时默认采用UTF-8解码
 	 * @return 远程主机响应正文
 	 */
-	public static Map<String, Object> sendPostRequest(String reqURL, String sendData, boolean isEncoder,
+	public static String sendPostRequest(String reqURL, String sendData, boolean isEncoder,
 			String encodeCharset, String decodeCharset)
 	{
 		Map<String, Object> rs = new HashMap<String, Object>();
@@ -315,12 +315,21 @@ public final class HttpUtil
 				responseContent = EntityUtils.toString(entity, decodeCharset == null ? "UTF-8" : decodeCharset);
 				EntityUtils.consume(entity);
 			}
-			rs.put(RS_STATUS, response.getStatusLine().getStatusCode());
-			rs.put(RS_LENGTH, responseLength);
-			rs.put(RS_CONTENT, responseContent);
-			LOGGER.debug("请求URL：{}", reqURL);
-			LOGGER.debug("请求响应：\n{}\n{}", response.getStatusLine(), responseContent);
-			return rs;
+			
+			
+			
+			if(response.getStatusLine().getStatusCode()== 200) {
+				return responseContent;
+			} else {
+				return null;
+			}
+			
+//			rs.put(RS_STATUS, response.getStatusLine().getStatusCode());
+//			rs.put(RS_LENGTH, responseLength);
+//			rs.put(RS_CONTENT, responseContent);
+//			LOGGER.debug("请求URL：{}", reqURL);
+//			LOGGER.debug("请求响应：\n{}\n{}", response.getStatusLine(), responseContent);
+//			return rs;
 		}
 		catch (Exception e)
 		{

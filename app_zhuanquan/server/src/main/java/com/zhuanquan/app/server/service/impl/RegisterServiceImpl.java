@@ -19,16 +19,19 @@ import com.zhuanquan.app.common.constants.user.RegisterFlowConstants;
 import com.zhuanquan.app.common.exception.BizErrorCode;
 import com.zhuanquan.app.common.exception.BizException;
 import com.zhuanquan.app.common.model.author.AuthorBase;
+import com.zhuanquan.app.common.model.common.RegisterAppointment;
 import com.zhuanquan.app.common.model.common.Tag;
 import com.zhuanquan.app.common.model.user.UserFollowTag;
 import com.zhuanquan.app.common.model.user.UserOpenAccount;
 import com.zhuanquan.app.common.model.user.UserProfile;
 import com.zhuanquan.app.common.utils.CommonUtil;
 import com.zhuanquan.app.common.utils.PhoneValidateUtils;
+import com.zhuanquan.app.common.view.bo.openapi.AuthTokenBo;
 import com.zhuanquan.app.common.view.vo.user.MobileRegisterRequestVo;
 import com.zhuanquan.app.common.view.vo.user.RegisterResponseVo;
 import com.zhuanquan.app.dal.dao.author.AuthorBaseDAO;
 import com.zhuanquan.app.dal.dao.author.TagDAO;
+import com.zhuanquan.app.dal.dao.common.RegisterAppointmentDAO;
 import com.zhuanquan.app.dal.dao.user.UserFollowTagsMappingDAO;
 import com.zhuanquan.app.dal.dao.user.UserOpenAccountDAO;
 import com.zhuanquan.app.dal.dao.user.UserProfileDAO;
@@ -75,6 +78,10 @@ public class RegisterServiceImpl implements RegisterService {
 	
 	@Resource
 	private TagCache tagCache;
+	
+	
+	@Resource
+	private RegisterAppointmentDAO registerAppointmentDAO;
 
 	@Override
 	public RegisterResponseVo mobileRegister(MobileRegisterRequestVo vo) {
@@ -485,9 +492,13 @@ public class RegisterServiceImpl implements RegisterService {
 		
 	}
 
-//	@Override
-//	public void sendForgetPwdSms(String mobile) {
-//		
-//	}
+	@Override
+	public void registerAppointment(int channelType, AuthTokenBo bo) {
+		
+		RegisterAppointment record = RegisterAppointment.createRecrod(channelType, bo.getAuthToken(), bo.getOpenId());
+		
+		registerAppointmentDAO.insertOrUpdateRecord(record);
+
+	}
 
 }

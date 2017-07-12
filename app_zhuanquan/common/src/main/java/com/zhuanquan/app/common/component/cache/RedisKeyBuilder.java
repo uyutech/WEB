@@ -699,6 +699,28 @@ public class RedisKeyBuilder {
 	}	
 	
 	
+	
+	/**
+	 * 获取预约注册授权的key
+	 * @param randmom
+	 * @return
+	 */
+	public static String getRegisterAppointmentValidateKey(String randmom){
+		
+		return "gw:reg:appointment:"+randmom;
+	}
+	
+	
+	/**
+	 * 执行定时任务的锁
+	 * @return
+	 */
+	public static String getRegisterAppointmentTaskLock(){
+		
+		
+		return "gw:lock:task:reg_appointment";
+	}
+	
 }
 
 

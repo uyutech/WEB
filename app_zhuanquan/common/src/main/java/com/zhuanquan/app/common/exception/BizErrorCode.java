@@ -136,6 +136,12 @@ public enum BizErrorCode implements ErrorCode {
 		 //微博获取关注列表异常
 		 EX_OPEN_ACCOUNT_WEIBO_GET_FOLLOW_UIDS_ERROR (110001002), 	  
 
+		 //微博获取authtoken失败
+		 EX_OPEN_ACCOUNT_WEIBO_GET_AUTH_TOKEN_ERROR (110001003), 	
+		 
+		 //获取用户基础信息
+		 EX_OPEN_ACCOUNT_WEIBO_GET_USER_BASE_INFO_ERROR (110001004), 	  
+
 	  
 	;
 
