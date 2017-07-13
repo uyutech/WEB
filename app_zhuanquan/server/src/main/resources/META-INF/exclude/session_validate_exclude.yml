@@ -1,10 +1,11 @@
 ﻿session_validate_exclude:
    rule_whole_path:
-      - /register/sendRegSms.json
-      - /register/registerByMobile.json
-      - /login/loginByMobile.json
-      - /login/loginByOpenId.json
-      - /login/getThirdLoginAuthUrl.json
+      - /register/sendRegSms.action
+      - /register/registerByMobile.action
+      - /login/loginByMobile.action
+      - /login/loginByOpenId.action
+      - /login/getThirdLoginAuthUrl.action
+      - /register/registerAppoinement.action     
 
    rule_package_match:
       - /test/

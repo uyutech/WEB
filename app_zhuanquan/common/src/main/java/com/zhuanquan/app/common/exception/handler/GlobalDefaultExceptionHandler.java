@@ -79,6 +79,8 @@ public class GlobalDefaultExceptionHandler {
 			return mv;
 		} else {
 	
+			e.printStackTrace();
+			
 			int code = BizErrorCode.EX_UNEXPECTED_ERROR.getCode();
 			String desc = "非预期异常";
 			

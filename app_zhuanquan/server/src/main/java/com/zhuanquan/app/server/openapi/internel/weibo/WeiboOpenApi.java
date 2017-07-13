@@ -59,7 +59,7 @@ public class WeiboOpenApi implements OpenApiConnector {
 	/**
 	 * 回掉
 	 */
-	private static final String redirctUrl = "http://rhymesland.com/openapi/weiboAuthCallback.json";
+	private static final String redirctUrl = "http://rhymesland.com/openapi/weiboAuthCallback.action";
 
 	private static final String grant_type_authorization_code = "authorization_code";
 

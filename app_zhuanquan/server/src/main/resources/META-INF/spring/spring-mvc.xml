@@ -95,7 +95,7 @@
 						html=text/html
 					</value>
 				</property>
-				<property name="defaultContentType" value="application/json" />
+				<property name="defaultContentType" value="text/html" />
 			</bean>
 		</property>
 		<property name="defaultViews">

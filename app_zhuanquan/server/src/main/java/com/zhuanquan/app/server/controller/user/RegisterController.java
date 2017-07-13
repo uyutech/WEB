@@ -3,9 +3,13 @@ package com.zhuanquan.app.server.controller.user;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.zhuanquan.app.common.constants.user.LoginType;
 import com.zhuanquan.app.common.exception.BizErrorCode;
@@ -17,6 +21,7 @@ import com.zhuanquan.app.common.view.vo.user.RegisterResponseVo;
 import com.zhuanquan.app.common.view.vo.user.SelectFollowAuthorRequestVo;
 import com.zhuanquan.app.common.view.vo.user.SelectFollowTagsRequestVo;
 import com.zhuanquan.app.server.controller.common.BaseController;
+import com.zhuanquan.app.server.service.LoginService;
 import com.zhuanquan.app.server.service.RegisterService;
 
 @Controller
@@ -25,6 +30,9 @@ public class RegisterController extends BaseController {
 
 	@Resource
 	private RegisterService registerService;
+	
+	@Resource
+	private LoginService loginService;
 
 	@RequestMapping(value = "/registerByMobile",produces = {"application/json"})
 	@ResponseBody
@@ -239,14 +247,31 @@ public class RegisterController extends BaseController {
 		return ApiResponse.success();
 	}
 
-	
-	@RequestMapping(value = "/registerAppoinement")
-	public String registerAppoinement(){
-		
-		return "/WEB-INF/registerappointment/welcome.html";
-		
-	}
+
+
+//	@RequestMapping(value = "/registerAppoinement")
+//	public String registerAppoinement(Model model){
+//		
+////		model.put("redirctUrl",loginService.getThirdLoginAuthUrl(LoginType.CHANNEL_WEIBO)); 
+//
+//		
+//		return "/registerappointment/welcome.html";
+////		return "/registerappointment/welcome.html";
+//	}
 	
 
+	
+	
+	
+	@RequestMapping(value = "/registerAppoinement",produces={"text/html;charset=utf-8"})
+	public ModelAndView registerAppoinement(Model model){
+		
+//		model.put("redirctUrl",loginService.getThirdLoginAuthUrl(LoginType.CHANNEL_WEIBO)); 
+	       ModelAndView mv = new ModelAndView();
+	       mv.setViewName("/registerappointment/welcome.html");
+		
+		return mv;
+//		return "/registerappointment/welcome.html";
+	}
 	
 }
