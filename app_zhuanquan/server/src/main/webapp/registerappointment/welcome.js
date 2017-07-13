@@ -72,5 +72,5 @@ if(hour >= 19 || hour < 6) {
 
 function loginSuccess() {
   $yuyue.parent().parent().hide();
-  $favor.parent().parent().show();
+  $favor.parent().parent().removeClass('fn-hide');
 }
