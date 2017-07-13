@@ -56,13 +56,13 @@ setInterval(function() {
 
 var $yuyue = $('#yuyue');
 $yuyue.on('click', function() {
-  console.log(1);
+  window.open(redirectUrl);
 });
 
 var now = new Date();
 var hour = now.getHours();
 if(hour >= 19 || hour < 6) {
-  $(document.body).css('background-image', 'url(bg_night.jpg)');
+  $(document.body).addClass('night');
   $bird1.addClass('bbird1');
   $bird2.addClass('bbird2');
   $bird3.addClass('bbird3');

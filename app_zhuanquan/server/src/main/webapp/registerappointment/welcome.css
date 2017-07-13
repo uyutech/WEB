@@ -138,6 +138,10 @@ body {
   background-size:cover;
   overflow: hidden;
 }
+.night{
+  background:url(bg_night.jpg) no-repeat center 0;
+  background-size:cover;
+}
 .cloud1 {
   position: absolute;
   left: 0;
