@@ -56,7 +56,8 @@ setInterval(function() {
 
 var $yuyue = $('#yuyue');
 var $favor = $('#favor');
-$yuyue.on('click', function() {
+$yuyue.on('click', function(e) {
+  e.preventDefault();
   window.open(redirectUrl);
 });
 
