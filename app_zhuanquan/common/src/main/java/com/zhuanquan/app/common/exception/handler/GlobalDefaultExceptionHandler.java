@@ -48,7 +48,6 @@ public class GlobalDefaultExceptionHandler {
 			
 			ModelAndView mv = getErrorJsonView(BizErrorCode.EX_SESSION_EXPIRE.getCode(), "session校验失败");
 
-			
 			return mv;
 		}
 
