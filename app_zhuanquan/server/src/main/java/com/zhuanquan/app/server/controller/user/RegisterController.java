@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -257,14 +259,26 @@ public class RegisterController extends BaseController {
 	// }
 
 	@RequestMapping(value = "/registerAppoinement", produces = { "text/html;charset=utf-8" })
-	public ModelAndView registerAppoinement(Model model) {
+	public ModelAndView registerAppoinement(HttpServletRequest request) {
 
+		String url = loginService.getThirdLoginAuthUrl(LoginType.CHANNEL_WEIBO);
 
+		System.out.println("url=" + url);
+		HttpSession session = request.getSession();
+		session.setAttribute("redirectUrl", url);
+
+		
+		
+		String ulr = (String) request.getSession().getAttribute("redirctUrl");
+		
+		System.out.println("ulr=" + ulr);
+
+		
 		Map<String, Object> map = new HashMap<String, Object>();
 
-		map.put("redirctUrl", loginService.getThirdLoginAuthUrl(LoginType.CHANNEL_WEIBO));
+		map.put("redirectUrl", url);
 
-		ModelAndView mv = new ModelAndView("/registerappointment/welcome.html", map);
+		ModelAndView mv = new ModelAndView("/registerappointment/welcome.jsp", map);
 
 		return mv;
 	}
