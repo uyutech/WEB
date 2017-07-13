@@ -55,6 +55,7 @@ setInterval(function() {
 }, 1000);
 
 var $yuyue = $('#yuyue');
+var $favor = $('#favor');
 $yuyue.on('click', function() {
   window.open(redirectUrl);
 });
@@ -66,8 +67,10 @@ if(hour >= 19 || hour < 6) {
   $bird1.addClass('bbird1');
   $bird2.addClass('bbird2');
   $bird3.addClass('bbird3');
+  $rainbow.remove();
 }
 
 function loginSuccess() {
-  alert('loginSuccess');
+  $yuyue.hide();
+  $favor.show();
 }
