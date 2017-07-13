@@ -71,6 +71,6 @@ if(hour >= 19 || hour < 6) {
 }
 
 function loginSuccess() {
-  $yuyue.hide();
-  $favor.show();
+  $yuyue.parent().parent().hide();
+  $favor.parent().parent().show();
 }
