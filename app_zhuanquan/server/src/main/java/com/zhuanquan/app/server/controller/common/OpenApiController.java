@@ -21,11 +21,11 @@ public class OpenApiController extends BaseController {
 	/**
 	 * 微博登录授权回掉
 	 */
-	@RequestMapping(value = "/weiboAuthCallback")
+	@RequestMapping(value = "/weiboAuthCallback", produces = { "text/html" })
+	@ResponseBody
 	public String weiboAuthCallback(String code,String state) {
 		
 		openApiService.parseWeiboAuthCallback(state, code);
-		
 
 		return getCloseCmd();
 	}
