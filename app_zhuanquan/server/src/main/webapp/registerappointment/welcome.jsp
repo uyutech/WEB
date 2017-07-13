@@ -42,7 +42,7 @@
   <source src="http://rhymesland.oss-cn-shanghai.aliyuncs.com/bgm/BGM.mp3" type="audio/mpeg"/>
 </audio>
 <script>
-  var redirectUrl = '$!redirectUrl';
+var redirectUrl='<%=session.getAttribute("redirectUrl")%>';
 </script>
 <script src="/registerappointment/jquery.js"></script>
 <script src="/registerappointment/welcome.js"></script>
