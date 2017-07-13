@@ -27,8 +27,21 @@ public class OpenApiController extends BaseController {
 		
 		openApiService.parseWeiboAuthCallback(state, code);
 		
-		return ApiResponse.success();
+
+		return ApiResponse.success(getCloseCmd());
 	}
+	
+	
+	private String  getCloseCmd(){
+		StringBuilder sb = new StringBuilder();
+		sb.append("<script>");
+		sb.append("window.opener.loginSuccess();");
+		sb.append("window.close();");
+		sb.append("</script>");
+		
+		return sb.toString();
+	}
+	
 	
 	
 }

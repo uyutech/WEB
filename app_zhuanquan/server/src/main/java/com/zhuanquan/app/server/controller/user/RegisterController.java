@@ -1,5 +1,8 @@
 package com.zhuanquan.app.server.controller.user;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
@@ -30,11 +33,11 @@ public class RegisterController extends BaseController {
 
 	@Resource
 	private RegisterService registerService;
-	
+
 	@Resource
 	private LoginService loginService;
 
-	@RequestMapping(value = "/registerByMobile",produces = {"application/json"})
+	@RequestMapping(value = "/registerByMobile", produces = { "application/json" })
 	@ResponseBody
 	public ApiResponse registerByMobile(MobileRegisterRequestVo vo) {
 
@@ -55,7 +58,7 @@ public class RegisterController extends BaseController {
 	 *            验证码
 	 * @return
 	 */
-	@RequestMapping(value = "/bindUnregisterMobile",produces = {"application/json"})
+	@RequestMapping(value = "/bindUnregisterMobile", produces = { "application/json" })
 	@ResponseBody
 	public ApiResponse bindUnregisterMobile(long uid, String mobile, String password, String verifycode) {
 
@@ -71,7 +74,7 @@ public class RegisterController extends BaseController {
 	 * 
 	 * @param vo
 	 */
-	@RequestMapping(value = "/bindMobileAndChoosePersistAccount",produces = {"application/json"})
+	@RequestMapping(value = "/bindMobileAndChoosePersistAccount", produces = { "application/json" })
 	@ResponseBody
 	public ApiResponse bindMobileAndChoosePersistAccount(BindAndChoosePersistRequestVo vo) {
 
@@ -89,7 +92,7 @@ public class RegisterController extends BaseController {
 	 * @param mobile
 	 * @return
 	 */
-	@RequestMapping(value = "/beforeBindCheck",produces = {"application/json"})
+	@RequestMapping(value = "/beforeBindCheck", produces = { "application/json" })
 	@ResponseBody
 	public ApiResponse beforeBindCheck(String mobile) {
 
@@ -111,7 +114,7 @@ public class RegisterController extends BaseController {
 	 *            是否保留手机账号的数据 1-保留 0-不保留
 	 */
 
-	@RequestMapping(value = "/mergeMobileAccount",produces = {"application/json"})
+	@RequestMapping(value = "/mergeMobileAccount", produces = { "application/json" })
 	@ResponseBody
 	public ApiResponse mergeMobileAccount(long uid, String mobile, String verifycode, int persistMobileAccount) {
 
@@ -139,7 +142,7 @@ public class RegisterController extends BaseController {
 	 * @param mobile
 	 * @return
 	 */
-	@RequestMapping(value = "/sendRegSms",produces = {"application/json"})
+	@RequestMapping(value = "/sendRegSms", produces = { "application/json" })
 	@ResponseBody
 	public ApiResponse sendRegSms(String mobile) {
 
@@ -147,55 +150,51 @@ public class RegisterController extends BaseController {
 
 		return ApiResponse.success();
 	}
-	
-	
-	
+
 	/**
 	 * 登录进来之后，发送修改密码的短信
 	 * 
 	 * @param uid
 	 * @return
 	 */
-	@RequestMapping(value = "/sendChangePwdSms",produces = {"application/json"})
+	@RequestMapping(value = "/sendChangePwdSms", produces = { "application/json" })
 	@ResponseBody
 	public ApiResponse sendChangePwdSms(long uid) {
 
-
 		return ApiResponse.success();
 	}
-	
-	
-//	/**
-//	 * 发送忘记密码的短信
-//	 */
-//	@RequestMapping(value = "/sendForgetPwdSms",produces = {"application/json"})
-//	@ResponseBody
-//	public ApiResponse sendForgetPwdSms(String mobile) {	
-//		
-//
-//		
-//	}
-//	
-	
 
-//	/**
-//	 * 注册设置性别
-//	 * 
-//	 * @param uid
-//	 * @param gender
-//	 *            0-男 1-女
-//	 * @return
-//	 */
-//	@RequestMapping(value = "/setGenderOnRegister")
-//	@ResponseBody
-//	public ApiResponse setGenderOnRegister(long uid, int gender) {
-//
-//		checkLoginUid(uid);
-//
-//		registerService.setGenderOnRegister(uid, gender);
-//
-//		return ApiResponse.success();
-//	}
+	// /**
+	// * 发送忘记密码的短信
+	// */
+	// @RequestMapping(value = "/sendForgetPwdSms",produces =
+	// {"application/json"})
+	// @ResponseBody
+	// public ApiResponse sendForgetPwdSms(String mobile) {
+	//
+	//
+	//
+	// }
+	//
+
+	// /**
+	// * 注册设置性别
+	// *
+	// * @param uid
+	// * @param gender
+	// * 0-男 1-女
+	// * @return
+	// */
+	// @RequestMapping(value = "/setGenderOnRegister")
+	// @ResponseBody
+	// public ApiResponse setGenderOnRegister(long uid, int gender) {
+	//
+	// checkLoginUid(uid);
+	//
+	// registerService.setGenderOnRegister(uid, gender);
+	//
+	// return ApiResponse.success();
+	// }
 
 	/**
 	 * 注册设置昵称
@@ -204,12 +203,12 @@ public class RegisterController extends BaseController {
 	 * @param nickName
 	 * @return
 	 */
-	@RequestMapping(value = "/setNickNameAndGenderOnRegister",produces = {"application/json"})
+	@RequestMapping(value = "/setNickNameAndGenderOnRegister", produces = { "application/json" })
 	@ResponseBody
-	public ApiResponse setNickNameOnRegister(long uid, String nickName,int gender) {
+	public ApiResponse setNickNameOnRegister(long uid, String nickName, int gender) {
 		checkLoginUid(uid);
 
-		registerService.setNickNameAndGenderOnRegister(uid, nickName,gender);
+		registerService.setNickNameAndGenderOnRegister(uid, nickName, gender);
 
 		return ApiResponse.success();
 	}
@@ -220,10 +219,10 @@ public class RegisterController extends BaseController {
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping(value = "/setFollowTagsOnRegister",produces = {"application/json"})
+	@RequestMapping(value = "/setFollowTagsOnRegister", produces = { "application/json" })
 	@ResponseBody
 	public ApiResponse setFollowTagsOnRegister(SelectFollowTagsRequestVo request) {
-		
+
 		checkLoginUid(request.getUid());
 
 		registerService.setFollowTagsOnRegister(request.getUid(), request.getTagIds());
@@ -237,7 +236,7 @@ public class RegisterController extends BaseController {
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping(value = "/setFollowAuthorsOnRegister",produces = {"application/json"})
+	@RequestMapping(value = "/setFollowAuthorsOnRegister", produces = { "application/json" })
 	@ResponseBody
 	public ApiResponse setFollowAuthorsOnRegister(SelectFollowAuthorRequestVo request) {
 		checkLoginUid(request.getUid());
@@ -247,31 +246,27 @@ public class RegisterController extends BaseController {
 		return ApiResponse.success();
 	}
 
+	// @RequestMapping(value = "/registerAppoinement")
+	// public String registerAppoinement(Model model){
+	//
+	//// model.put("redirctUrl",loginService.getThirdLoginAuthUrl(LoginType.CHANNEL_WEIBO));
+	//
+	//
+	// return "/registerappointment/welcome.html";
+	//// return "/registerappointment/welcome.html";
+	// }
+
+	@RequestMapping(value = "/registerAppoinement", produces = { "text/html;charset=utf-8" })
+	public ModelAndView registerAppoinement(Model model) {
 
 
-//	@RequestMapping(value = "/registerAppoinement")
-//	public String registerAppoinement(Model model){
-//		
-////		model.put("redirctUrl",loginService.getThirdLoginAuthUrl(LoginType.CHANNEL_WEIBO)); 
-//
-//		
-//		return "/registerappointment/welcome.html";
-////		return "/registerappointment/welcome.html";
-//	}
-	
+		Map<String, Object> map = new HashMap<String, Object>();
 
-	
-	
-	
-	@RequestMapping(value = "/registerAppoinement",produces={"text/html;charset=utf-8"})
-	public ModelAndView registerAppoinement(Model model){
-		
-//		model.put("redirctUrl",loginService.getThirdLoginAuthUrl(LoginType.CHANNEL_WEIBO)); 
-	       ModelAndView mv = new ModelAndView();
-	       mv.setViewName("/registerappointment/welcome.html");
-		
+		map.put("redirctUrl", loginService.getThirdLoginAuthUrl(LoginType.CHANNEL_WEIBO));
+
+		ModelAndView mv = new ModelAndView("/registerappointment/welcome.html", map);
+
 		return mv;
-//		return "/registerappointment/welcome.html";
 	}
-	
+
 }
