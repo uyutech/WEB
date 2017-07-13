@@ -9,17 +9,6 @@ var RATIO = WIDTH / HEIGHT;
 
 var $rainbow = $('#rainbow');
 
-
-
-function register() {
-
-
-}
-
-
-
-
-
 function resize() {
   var width = $window.width();
   var height = $window.height();
@@ -77,4 +66,8 @@ if(hour >= 19 || hour < 6) {
   $bird1.addClass('bbird1');
   $bird2.addClass('bbird2');
   $bird3.addClass('bbird3');
+}
+
+function loginSuccess() {
+  alert('loginSuccess');
 }
