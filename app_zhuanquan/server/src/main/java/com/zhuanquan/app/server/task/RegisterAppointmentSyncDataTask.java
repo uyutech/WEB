@@ -130,7 +130,6 @@ public class RegisterAppointmentSyncDataTask {
 
 		}
 		
-
 		executorService.shutdown();
 
 		while (true) {

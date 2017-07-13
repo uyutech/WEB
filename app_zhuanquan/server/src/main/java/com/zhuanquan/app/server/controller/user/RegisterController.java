@@ -240,6 +240,13 @@ public class RegisterController extends BaseController {
 	}
 
 	
+	@RequestMapping(value = "/registerAppoinement")
+	public String registerAppoinement(){
+		
+		return "/WEB-INF/registerappointment/welcome.html";
+		
+	}
+	
 
 	
 }
