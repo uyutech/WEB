@@ -263,21 +263,12 @@ public class RegisterController extends BaseController {
 
 		String url = loginService.getThirdLoginAuthUrl(LoginType.CHANNEL_WEIBO);
 
-		System.out.println("url=" + url);
 		HttpSession session = request.getSession();
 		session.setAttribute("redirectUrl", url);
 
-		
-		
-		String ulr = (String) request.getSession().getAttribute("redirctUrl");
-		
-		System.out.println("ulr=" + ulr);
 
-		
 		Map<String, Object> map = new HashMap<String, Object>();
-
 		map.put("redirectUrl", url);
-
 		ModelAndView mv = new ModelAndView("/registerappointment/welcome.jsp", map);
 
 		return mv;
