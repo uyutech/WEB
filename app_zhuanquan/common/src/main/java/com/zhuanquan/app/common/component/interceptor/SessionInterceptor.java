@@ -27,6 +27,7 @@ import java.util.concurrent.TimeUnit;
  *
  */
 
+
 public class SessionInterceptor implements HandlerInterceptor {
 
 	private final Logger logger = LoggerFactory.getLogger(SessionInterceptor.class);

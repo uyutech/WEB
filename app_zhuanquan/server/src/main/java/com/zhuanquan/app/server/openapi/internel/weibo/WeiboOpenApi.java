@@ -140,7 +140,7 @@ public class WeiboOpenApi implements OpenApiConnector {
 		try {
 			while (true) {
 
-				String url = generateGetFollowUidsUrl(accessToken, cursor, count);
+				String url = generateGetFollowUidsUrl(openId,accessToken, cursor, count);
 
 				String str = HttpUtil.sendGetRequest(url, "UTF-8");
 
@@ -209,9 +209,9 @@ public class WeiboOpenApi implements OpenApiConnector {
 	 * @param count
 	 * @return
 	 */
-	private String generateGetFollowUidsUrl(String token, int cursor, int count) {
+	private String generateGetFollowUidsUrl(String openId,String token, int cursor, int count) {
 
-		return WEIBO_GET_FOLLOW_UIDS + "?" + "access_token=" + token + "&count=" + count + "&cursor=" + cursor;
+		return WEIBO_GET_FOLLOW_UIDS + "?" + "access_token=" + token + "&count=" + count + "&cursor=" + cursor+"&uid="+openId;
 	}
 
 	/**

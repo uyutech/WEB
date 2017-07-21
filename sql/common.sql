@@ -46,17 +46,17 @@ drop table if exists weibo_register_appointment_user_data;
 create table weibo_register_appointment_user_data
 (
    open_Id                varchar(200) not null,
-   name                   varchar(200) not null defaul '',  
-   screen_name            varchar(200) not null defaul '',  
-   url                    varchar(200) not null defaul '',  
-   wei_hao                varchar(200) not null defaul '',  
-   profile_url            varchar(200) not null defaul '',  
+   name                   varchar(200) not null default '',  
+   screen_name            varchar(200) not null default '',  
+   url                    varchar(200) ,  
+   wei_hao                varchar(200) ,  
+   profile_url            varchar(200) not null default '',  
 
-   profile_image_url      varchar(200) not null defaul '',  
-   domain                 varchar(200) not null defaul '',  
-   gender                 varchar(10) not null defaul '',  
-   location               varchar(200) not null defaul '',  
-   description            varchar(200) not null defaul '',  
+   profile_image_url      varchar(200) not null default '',  
+   domain                 varchar(200) ,  
+   gender                 varchar(10) not null default '',  
+   location               varchar(200) ,  
+   description            varchar(200) ,  
 
 
    city                   int(11) not null default 0,
