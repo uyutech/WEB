@@ -60,6 +60,11 @@ $yuyue.on('click', function(e) {
   e.preventDefault();
   window.open(redirectUrl);
 });
+$favor.on('click', function(e) {
+  e.preventDefault();
+  $yuyue.parent().parent().show();
+  $favor.parent().parent().addClass('fn-hide');
+});
 
 var now = new Date();
 var hour = now.getHours();
