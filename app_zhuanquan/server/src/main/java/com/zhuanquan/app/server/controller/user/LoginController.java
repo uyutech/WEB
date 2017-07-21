@@ -91,7 +91,6 @@ public class LoginController extends BaseController {
 		redisHelper.rightPush("list123", "bb");
 		redisHelper.rightPush("list123", "cc");
 
-		
 
 		List<String> list= gracefulRedisTemplate.listBatchLeftPop("list123", 13);
 		System.out.println("obj:"+list.toString());

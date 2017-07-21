@@ -76,7 +76,6 @@ public class CommonUtil {
 
 	/**
 	 * 宽泛验证email
-<<<<<<< HEAD
      */
 	public static boolean checkMail(String mail){
 		return mail.contains("@");
