@@ -43,4 +43,11 @@ public class OpenApiController extends BaseController {
 	
 	
 	
+	@RequestMapping(value = "/weiboAuthCallback2", produces = { "text/html" })
+	public String weiboAuthCallback2(String code,String state) {
+
+		return "forward:/index.do";
+	}
+	
+	
 }
