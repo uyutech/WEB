@@ -33,10 +33,11 @@ public class OpenApiController extends BaseController {
 	
 	private String  getCloseCmd(){
 		StringBuilder sb = new StringBuilder();
+		sb.append("<!DOCTYPE html><html><head><meta charset="UTF-8"/><title>异世遥</title></head><body>");
 		sb.append("<script>");
 		sb.append("window.opener.loginSuccess();");
 		sb.append("window.close();");
-		sb.append("</script>");
+		sb.append("</script></body></html>");
 		
 		return sb.toString();
 	}
