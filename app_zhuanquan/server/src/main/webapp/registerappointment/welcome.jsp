@@ -23,10 +23,10 @@
 <div class="bird1" id="bird1"></div>
 <div class="bird2 bird-hide" id="bird2"></div>
 <div class="bird3 bird-hide" id="bird3"></div>
-<div class="logo">
+<div class="logo fn-hide">
   <div class="c">
     <img src="/registerappointment/logo.png"/>
-    <a href="#" id="yuyue">立即预约</a>
+    <a href="<%=session.getAttribute("redirectUrl")%>" id="yuyue">立即预约</a>
   </div>
 </div>
 <div class="favor fn-hide">

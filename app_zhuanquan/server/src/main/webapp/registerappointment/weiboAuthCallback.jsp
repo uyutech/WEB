@@ -7,7 +7,8 @@
 </head>
 <body>
 <script>
-  window.opener.loginSuccess();window.close();
+  location.href = 'http://rhymesland.com?finish=1';
+  //window.opener.loginSuccess();window.close();
 </script>
 </body>
 </html>
