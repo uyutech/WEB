@@ -22,12 +22,13 @@ public class OpenApiController extends BaseController {
 	 * 微博登录授权回掉
 	 */
 	@RequestMapping(value = "/weiboAuthCallback", produces = { "text/html" })
-	@ResponseBody
 	public String weiboAuthCallback(String code,String state) {
 		
 		openApiService.parseWeiboAuthCallback(state, code);
 
-		return getCloseCmd();
+		
+		return "forward:/registerappointment/close.jsp";
+//		return getCloseCmd();
 	}
 	
 	
@@ -44,11 +45,11 @@ public class OpenApiController extends BaseController {
 	
 	
 	
-	@RequestMapping(value = "/weiboAuthCallback2", produces = { "text/html" })
-	public String weiboAuthCallback2(String code,String state) {
-
-		return "forward:/index.do";
-	}
-	
+//	@RequestMapping(value = "/weiboAuthCallback2", produces = { "text/html" })
+//	public String weiboAuthCallback2(String code,String state) {
+//
+//		return "forward:/registerappointment/close.jsp";
+//	}
+//	
 	
 }
