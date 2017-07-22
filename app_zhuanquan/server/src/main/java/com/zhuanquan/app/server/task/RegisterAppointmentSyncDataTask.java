@@ -1,6 +1,5 @@
 package com.zhuanquan.app.server.task;
 
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -47,10 +46,7 @@ public class RegisterAppointmentSyncDataTask {
 
 	private AtomicInteger counter = new AtomicInteger(0);
 
-	/**
-	 * 执行的线程池
-	 */
-	private ExecutorService executorService = Executors.newFixedThreadPool(CONCURRENT_MAX_THREAD);
+
 
 	@Scheduled(cron = "0 0/5 * * * ?")
 	public void run() {
@@ -98,6 +94,12 @@ public class RegisterAppointmentSyncDataTask {
 	 */
 	private void executeJob() {
 
+		
+		/**
+		 * 执行的线程池
+		 */
+		ExecutorService executorService = Executors.newFixedThreadPool(CONCURRENT_MAX_THREAD);
+		
 		long fromIndex = 0;
 
 		while (true) {
