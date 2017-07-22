@@ -27,7 +27,7 @@ public class OpenApiController extends BaseController {
 		openApiService.parseWeiboAuthCallback(state, code);
 
 		
-		return "forward:/registerappointment/close.jsp";
+		return "forward:/registerappointment/weiboAuthCallback.jsp";
 //		return getCloseCmd();
 	}
 	
