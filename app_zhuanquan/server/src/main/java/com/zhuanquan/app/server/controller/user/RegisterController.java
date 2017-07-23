@@ -266,13 +266,15 @@ public class RegisterController extends BaseController {
 
 		HttpSession session = request.getSession();
 		session.setAttribute("redirectUrl", url);
+		
+		
+		int count = registerService.queryRegisterAppointmentCount();
+		session.setAttribute("reg_appoint_count", count);
 
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("redirectUrl", url);
-		
-		int count = registerService.queryRegisterAppointmentCount();
-		map.put("reg_appoint_count", count);		
+	
 		ModelAndView mv = new ModelAndView("/registerappointment/welcome.jsp", map);
 
 		return mv;
