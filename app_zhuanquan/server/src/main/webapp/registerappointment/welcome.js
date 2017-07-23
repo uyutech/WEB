@@ -56,15 +56,21 @@ setInterval(function() {
 
 var $yuyue = $('#yuyue');
 var $favor = $('#favor');
-$yuyue.on('click', function(e) {
-  e.preventDefault();
-  window.open(redirectUrl);
-});
+// $yuyue.on('click', function(e) {
+//   e.preventDefault();
+//   window.open(redirectUrl);
+// });
 $favor.on('click', function(e) {
   e.preventDefault();
-  $yuyue.parent().parent().show();
+  $yuyue.parent().parent().removeClass('fn-hide');
   $favor.parent().parent().addClass('fn-hide');
 });
+if(location.search.indexOf('finish=1') > -1) {
+  $favor.parent().parent().removeClass('fn-hide');
+}
+else {
+  $yuyue.parent().parent().removeClass('fn-hide');
+}
 
 var now = new Date();
 var hour = now.getHours();
