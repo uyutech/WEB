@@ -55,5 +55,11 @@ public class RegisterAppointmentDAOImpl extends BaseDao implements RegisterAppoi
 		
 		sqlSessionTemplate.update(getSqlName("updateToSynced"), map);
 	}
+
+	@Override
+	public int queryRegisterAppointmentCount() {
+		return sqlSessionTemplate.selectOne(getSqlName("queryRegisterAppointmentCount"));
+		
+	}
 	
 }

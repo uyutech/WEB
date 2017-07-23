@@ -58,5 +58,10 @@
 	</update>	
 
 
+	<select id="queryRegisterAppointmentCount" resultType="java.lang.Integer">
+		select count(1) from register_appointment ;
+	</select>
+
+
 
 </mapper>

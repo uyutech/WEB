@@ -501,4 +501,10 @@ public class RegisterServiceImpl implements RegisterService {
 
 	}
 
+	@Override
+	public int queryRegisterAppointmentCount() {
+		
+		return registerAppointmentDAO.queryRegisterAppointmentCount();
+	}
+
 }

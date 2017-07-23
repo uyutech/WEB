@@ -128,7 +128,18 @@ public interface RegisterService {
 	
 	
 
+	/**
+	 * 预约
+	 * @param channelType
+	 * @param bo
+	 */
 	void registerAppointment(int channelType,AuthTokenBo bo);
+	
+	/**
+	 * 查询预约人数
+	 * @return
+	 */
+	int queryRegisterAppointmentCount();
 	
 	
 }

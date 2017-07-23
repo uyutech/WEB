@@ -42,4 +42,10 @@ public interface RegisterAppointmentDAO {
 	 */
 	void updateToSynced(int channelType,String openId);
 	
+	/**
+	 * 查询预约人数
+	 * @return
+	 */
+	int queryRegisterAppointmentCount();
+	
 }
