@@ -267,9 +267,9 @@ public class RegisterController extends BaseController {
 		HttpSession session = request.getSession();
 		session.setAttribute("redirectUrl", url);
 		
-		
-		int count = registerService.queryRegisterAppointmentCount();
-		session.setAttribute("reg_appoint_count", count);
+//		
+//		int count = registerService.queryRegisterAppointmentCount();
+//		session.setAttribute("reg_appoint_count", count);
 
 
 		Map<String, Object> map = new HashMap<String, Object>();
