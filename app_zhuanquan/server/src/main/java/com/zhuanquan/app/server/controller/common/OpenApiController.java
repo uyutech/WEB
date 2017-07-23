@@ -31,10 +31,6 @@ public class OpenApiController extends BaseController {
 
 		openApiService.parseWeiboAuthCallback(state, code);
 
-		int count = registerService.queryRegisterAppointmentCount();
-		
-		SessionInterceptor.getRequest().setAttribute("reg_appoint_count", count);
-	
 		return "forward:/registerappointment/weiboAuthCallback.jsp";
 //		return getCloseCmd();
 	}

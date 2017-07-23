@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.zhuanquan.app.common.component.interceptor.SessionInterceptor;
 import com.zhuanquan.app.common.constants.user.LoginType;
 import com.zhuanquan.app.common.exception.BizErrorCode;
 import com.zhuanquan.app.common.exception.BizException;
@@ -269,6 +270,9 @@ public class RegisterController extends BaseController {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("redirectUrl", url);
+		
+		int count = registerService.queryRegisterAppointmentCount();
+		map.put("reg_appoint_count", count);		
 		ModelAndView mv = new ModelAndView("/registerappointment/welcome.jsp", map);
 
 		return mv;

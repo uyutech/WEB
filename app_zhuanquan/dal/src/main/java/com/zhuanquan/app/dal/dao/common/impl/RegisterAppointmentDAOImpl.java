@@ -58,7 +58,9 @@ public class RegisterAppointmentDAOImpl extends BaseDao implements RegisterAppoi
 
 	@Override
 	public int queryRegisterAppointmentCount() {
-		return sqlSessionTemplate.selectOne(getSqlName("queryRegisterAppointmentCount"));
+		Object obj =  sqlSessionTemplate.selectOne(getSqlName("queryRegisterAppointmentCount"));
+		
+		return (int) (obj == null?0:obj);
 		
 	}
 	
