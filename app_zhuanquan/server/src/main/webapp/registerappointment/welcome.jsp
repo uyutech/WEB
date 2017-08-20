@@ -26,7 +26,7 @@
 <div class="logo fn-hide">
   <div class="c">
     <img src="/registerappointment/logo.png"/>
-    <a href="<%=session.getAttribute("redirectUrl")%>" id="yuyue">立即预约</a>
+    <a href="javascript:alert('预约已结束')" id="yuyue">立即预约</a>
   </div>
 </div>
 <div class="favor fn-hide">
